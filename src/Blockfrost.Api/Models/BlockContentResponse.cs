@@ -3,7 +3,7 @@
 namespace Blockfrost.Api
 {
     // TODO: review (obsolete?)
-    public partial class BlockContentCollection : System.Collections.ObjectModel.Collection<BlockContent>
+    public partial class BlockContentCollection : System.Collections.ObjectModel.Collection<BlockContentResponse>
     {
     }
 
@@ -13,7 +13,7 @@ namespace Blockfrost.Api
     }
 
 
-    public partial class BlockContent
+    public partial class BlockContentResponse
     {
         /// <summary>Block creation time in UNIX time</summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Always)]
@@ -38,12 +38,12 @@ namespace Blockfrost.Api
 
         /// <summary>Slot within the epoch</summary>
         [Newtonsoft.Json.JsonProperty("epoch_slot", Required = Newtonsoft.Json.Required.AllowNull)]
-        public int? Epoch_slot { get; set; }
+        public int? EpochSlot { get; set; }
 
         /// <summary>Bech32 ID of the slot leader or specific block description in case there is no slot leader</summary>
         [Newtonsoft.Json.JsonProperty("slot_leader", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Slot_leader { get; set; }
+        public string SlotLeader { get; set; }
 
         /// <summary>Block size in Bytes</summary>
         [Newtonsoft.Json.JsonProperty("size", Required = Newtonsoft.Json.Required.Always)]
@@ -51,7 +51,7 @@ namespace Blockfrost.Api
 
         /// <summary>Number of transactions in the block</summary>
         [Newtonsoft.Json.JsonProperty("tx_count", Required = Newtonsoft.Json.Required.Always)]
-        public int Tx_count { get; set; }
+        public int TxCount { get; set; }
 
         /// <summary>Total output within the block in Lovelaces</summary>
         [Newtonsoft.Json.JsonProperty("output", Required = Newtonsoft.Json.Required.AllowNull)]
@@ -64,15 +64,15 @@ namespace Blockfrost.Api
         /// <summary>VRF key of the block</summary>
         [Newtonsoft.Json.JsonProperty("block_vrf", Required = Newtonsoft.Json.Required.AllowNull)]
         [System.ComponentModel.DataAnnotations.StringLength(65, MinimumLength = 65)]
-        public string Block_vrf { get; set; }
+        public string BlockVrf { get; set; }
 
         /// <summary>Hash of the previous block</summary>
         [Newtonsoft.Json.JsonProperty("previous_block", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string Previous_block { get; set; }
+        public string PreviousBlock { get; set; }
 
         /// <summary>Hash of the next block</summary>
         [Newtonsoft.Json.JsonProperty("next_block", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string Next_block { get; set; }
+        public string NextBlock { get; set; }
 
         /// <summary>Number of block confirmations</summary>
         [Newtonsoft.Json.JsonProperty("confirmations", Required = Newtonsoft.Json.Required.Always)]

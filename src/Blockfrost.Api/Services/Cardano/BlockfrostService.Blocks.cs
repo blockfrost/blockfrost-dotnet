@@ -23,7 +23,7 @@ namespace Blockfrost.Api
         /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<BlockContent> GetSlotAsync(int epoch_number, int slot_number)
+        public Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number)
         {
             return GetSlotAsync(epoch_number, slot_number, CancellationToken.None);
         }
@@ -34,7 +34,7 @@ namespace Blockfrost.Api
         /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<BlockContent> GetSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
+        public async Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
         {
             if (epoch_number == null)
                 throw new System.ArgumentNullException("epoch_number");
@@ -47,12 +47,12 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{epoch_number}", System.Uri.EscapeDataString(ConvertToString(epoch_number, System.Globalization.CultureInfo.InvariantCulture)));
             urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<BlockContent>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
         /// <summary>Latest block</summary>
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<BlockContent> GetLatestBlockAsync()
+        public Task<BlockContentResponse> GetLatestBlockAsync()
         {
             return GetLatestBlockAsync(CancellationToken.None);
         }
@@ -61,12 +61,12 @@ namespace Blockfrost.Api
         /// <summary>Latest block</summary>
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<BlockContent> GetLatestBlockAsync(CancellationToken cancellationToken)
+        public async Task<BlockContentResponse> GetLatestBlockAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest");
 
-            return await SendGetRequestAsync<BlockContent>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
 
         /// <summary>Latest block transactions</summary>
@@ -116,7 +116,7 @@ namespace Blockfrost.Api
         /// <param name="hash_or_number">Hash of the requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<BlockContent> GetBlocksAsync(string hash_or_number)
+        public Task<BlockContentResponse> GetBlocksAsync(string hash_or_number)
         {
             return GetBlocksAsync(hash_or_number, CancellationToken.None);
         }
@@ -126,7 +126,7 @@ namespace Blockfrost.Api
         /// <param name="hash_or_number">Hash of the requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<BlockContent> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
+        public async Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
                 throw new System.ArgumentNullException("hash_or_number");
@@ -135,14 +135,14 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}");
             urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<BlockContent>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
 
         /// <summary>Specific block in a slot</summary>
         /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<BlockContent> SlotAsync(int slot_number)
+        public Task<BlockContentResponse> SlotAsync(int slot_number)
         {
             return GetSlotAsync(slot_number, CancellationToken.None);
         }
@@ -152,7 +152,7 @@ namespace Blockfrost.Api
         /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<BlockContent> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
+        public async Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
         {
             if (slot_number == null)
                 throw new System.ArgumentNullException("slot_number");
@@ -161,7 +161,7 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/slot/{slot_number}");
             urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<BlockContent>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
 
 
@@ -172,7 +172,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<BlockContent>> GetNextBlockAsync(string hash_or_number, int? count, int? page)
+        public Task<ICollection<BlockContentResponse>> GetNextBlockAsync(string hash_or_number, int? count, int? page)
         {
             return GetNextBlockAsync(hash_or_number, count, page, CancellationToken.None);
         }
@@ -184,7 +184,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<BlockContent>> GetNextBlockAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<BlockContentResponse>> GetNextBlockAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
                 throw new System.ArgumentNullException("hash_or_number");
@@ -202,7 +202,7 @@ namespace Blockfrost.Api
             }
             urlBuilder_.Length--;
 
-            return await SendGetRequestAsync<ICollection<BlockContent>>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<ICollection<BlockContentResponse>>(urlBuilder_, cancellationToken);
         }
 
 
@@ -212,7 +212,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<BlockContent>> PreviousAsync(string hash_or_number, int? count, int? page)
+        public Task<ICollection<BlockContentResponse>> PreviousAsync(string hash_or_number, int? count, int? page)
         {
             return PreviousAsync(hash_or_number, count, page, CancellationToken.None);
         }
@@ -224,7 +224,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<BlockContent>> PreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<BlockContentResponse>> PreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
                 throw new System.ArgumentNullException("hash_or_number");
@@ -242,7 +242,7 @@ namespace Blockfrost.Api
             }
             urlBuilder_.Length--;
 
-            return await SendGetRequestAsync<ICollection<BlockContent>>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<ICollection<BlockContentResponse>>(urlBuilder_, cancellationToken);
         }
 
         /// <summary>Block transactions</summary>
@@ -254,7 +254,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, Order2? order)
+        public Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, SortOrder? order)
         {
             return TxsAll2Async(hash_or_number, count, page, order, CancellationToken.None);
         }
@@ -269,7 +269,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, Order2? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
                 throw new System.ArgumentNullException("hash_or_number");
