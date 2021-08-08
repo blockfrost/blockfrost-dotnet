@@ -151,8 +151,8 @@ namespace Blockfrost.Api
         Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order);
         Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
-        Task<ICollection<string>> TxsAllAsync(int? count, int? page, Order? order);
-        Task<ICollection<string>> TxsAllAsync(int? count, int? page, Order? order, CancellationToken cancellationToken);
+        Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order);
+        Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<TxContent> TxsAsync(string hash);
         Task<TxContent> TxsAsync(string hash, CancellationToken cancellationToken);
         Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, SortOrder? order);
