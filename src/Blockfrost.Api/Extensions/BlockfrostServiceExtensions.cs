@@ -10,14 +10,14 @@ using System.Net.Http;
 
 namespace Blockfrost.Api.Extensions
 {
-    public static class BlockfrostExtensions
+    public static class BlockfrostServiceExtensions
     {
 
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string network, string apiKey)
         {
             services.AddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));
             services
-                .AddHttpClient<BlockfrostService>(client => ConfigureHttpClient(network, client))
+                .AddHttpClient<IBlockfrostService, BlockfrostService>(client => ConfigureHttpClient(network, client))
                 .AddHttpMessageHandler<BlockfrostAuthorizationHandler>();
             
             return services;
@@ -33,7 +33,7 @@ namespace Blockfrost.Api.Extensions
             services.Configure<BlockfrostOptions>(configuration.GetSection("Blockfrost"));
                         
             services
-                .AddHttpClient<BlockfrostService>(projectName, (provider, client) =>
+                .AddHttpClient<IBlockfrostService, BlockfrostService>(projectName, (provider, client) =>
                 {
                     var options = provider.GetService<IOptions<BlockfrostOptions>>().Value;
                     ConfigureHttpClient(options[projectName].Network, client);
