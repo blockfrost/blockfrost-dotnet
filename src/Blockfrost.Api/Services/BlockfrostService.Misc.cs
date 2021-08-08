@@ -291,7 +291,7 @@ namespace Blockfrost.Api
         /// <summary>Backend health status</summary>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<Health> GetHealthAsync()
+        public Task<HealthResponse> GetHealthAsync()
         {
             return GetHealthAsync(CancellationToken.None);
         }
@@ -300,18 +300,18 @@ namespace Blockfrost.Api
         /// <summary>Backend health status</summary>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<Health> GetHealthAsync(CancellationToken cancellationToken)
+        public async Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health");
 
-            return await SendGetRequestAsync<Health>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<HealthResponse>(urlBuilder_, cancellationToken);
         }
 
         /// <summary>Current backend time</summary>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<Clock> GetClockAsync()
+        public Task<ClockResponse> GetClockAsync()
         {
             return GetClockAsync(CancellationToken.None);
         }
@@ -320,12 +320,12 @@ namespace Blockfrost.Api
         /// <summary>Current backend time</summary>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<Clock> GetClockAsync(CancellationToken cancellationToken)
+        public async Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health/clock");
 
-            return await SendGetRequestAsync<Clock>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<ClockResponse>(urlBuilder_, cancellationToken);
         }
         /// <summary>Root endpoint</summary>
         /// <returns>Information pointing to the documentation.</returns>

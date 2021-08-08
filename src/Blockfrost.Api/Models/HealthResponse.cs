@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Blockfrost.Api
 {
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Health
+    public partial class HealthResponse
     {
         [Newtonsoft.Json.JsonProperty("is_healthy", Required = Newtonsoft.Json.Required.Always)]
         public bool IsHealthy { get; set; }

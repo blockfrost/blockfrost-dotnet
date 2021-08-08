@@ -39,7 +39,7 @@ namespace Blockfrost.Api
         Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<TxMetadataCbor>> CborAsync(string hash);
         Task<ICollection<TxMetadataCbor>> CborAsync(string hash, CancellationToken cancellationToken);
-        Task<Clock> GetClockAsync();
+        Task<ClockResponse> GetClockAsync();
         Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, SortOrder? order);
         Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<TxDelegation>> DelegationsAsync(string hash);
@@ -56,8 +56,8 @@ namespace Blockfrost.Api
         Task<GenesisContentResponse> GenesisAsync(CancellationToken cancellationToken);
         Task<BlockContentResponse> GetBlocksAsync(string hash_or_number);
         Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken);
-        Task<Clock> GetClockAsync(CancellationToken cancellationToken);
-        Task<Health> GetHealthAsync(CancellationToken cancellationToken);
+        Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken);
+        Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken);
         Task<BlockContentResponse> GetLatestBlockAsync();
         Task<BlockContentResponse> GetLatestBlockAsync(CancellationToken cancellationToken);
         Task<ICollection<BlockContentResponse>> GetNextBlockAsync(string hash_or_number, int? count, int? page);
@@ -65,7 +65,7 @@ namespace Blockfrost.Api
         Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken);
         Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number);
         Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken);
-        Task<Health> GetHealthAsync();
+        Task<HealthResponse> GetHealthAsync();
         Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, SortOrder? order);
         Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, SortOrder? order);
@@ -151,8 +151,8 @@ namespace Blockfrost.Api
         Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order);
         Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
-        Task<ICollection<string>> TxsAllAsync(int? count, int? page, Order? order);
-        Task<ICollection<string>> TxsAllAsync(int? count, int? page, Order? order, CancellationToken cancellationToken);
+        Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order);
+        Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<TxContent> TxsAsync(string hash);
         Task<TxContent> TxsAsync(string hash, CancellationToken cancellationToken);
         Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, SortOrder? order);
