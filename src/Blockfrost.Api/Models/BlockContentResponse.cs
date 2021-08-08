@@ -3,7 +3,7 @@
 namespace Blockfrost.Api
 {
     // TODO: review (obsolete?)
-    public partial class BlockContentCollection : System.Collections.ObjectModel.Collection<BlockContent>
+    public partial class BlockContentCollection : System.Collections.ObjectModel.Collection<BlockContentResponse>
     {
     }
 
@@ -13,7 +13,7 @@ namespace Blockfrost.Api
     }
 
 
-    public partial class BlockContent
+    public partial class BlockContentResponse
     {
         /// <summary>Block creation time in UNIX time</summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Always)]

@@ -15,72 +15,16 @@ using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Genesis_content
-    {
-        /// <summary>The proportion of slots in which blocks should be issued</summary>
-        [Newtonsoft.Json.JsonProperty("active_slots_coefficient", Required = Newtonsoft.Json.Required.Always)]
-        public double Active_slots_coefficient { get; set; }
-
-        /// <summary>Determines the quorum needed for votes on the protocol parameter updates</summary>
-        [Newtonsoft.Json.JsonProperty("update_quorum", Required = Newtonsoft.Json.Required.Always)]
-        public int Update_quorum { get; set; }
-
-        /// <summary>The total number of lovelace in the system</summary>
-        [Newtonsoft.Json.JsonProperty("max_lovelace_supply", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Max_lovelace_supply { get; set; }
-
-        /// <summary>Network identifier</summary>
-        [Newtonsoft.Json.JsonProperty("network_magic", Required = Newtonsoft.Json.Required.Always)]
-        public int Network_magic { get; set; }
-
-        /// <summary>Number of slots in an epoch</summary>
-        [Newtonsoft.Json.JsonProperty("epoch_length", Required = Newtonsoft.Json.Required.Always)]
-        public int Epoch_length { get; set; }
-
-        /// <summary>Time of slot 0 in UNIX time</summary>
-        [Newtonsoft.Json.JsonProperty("system_start", Required = Newtonsoft.Json.Required.Always)]
-        public int System_start { get; set; }
-
-        /// <summary>Number of slots in an KES period</summary>
-        [Newtonsoft.Json.JsonProperty("slots_per_kes_period", Required = Newtonsoft.Json.Required.Always)]
-        public int Slots_per_kes_period { get; set; }
-
-        /// <summary>Duration of one slot in seconds</summary>
-        [Newtonsoft.Json.JsonProperty("slot_length", Required = Newtonsoft.Json.Required.Always)]
-        public int Slot_length { get; set; }
-
-        /// <summary>The maximum number of time a KES key can be evolved before a pool operator must create a new operational certificate</summary>
-        [Newtonsoft.Json.JsonProperty("max_kes_evolutions", Required = Newtonsoft.Json.Required.Always)]
-        public int Max_kes_evolutions { get; set; }
-
-        /// <summary>Security parameter k</summary>
-        [Newtonsoft.Json.JsonProperty("security_param", Required = Newtonsoft.Json.Required.Always)]
-        public int Security_param { get; set; }
-
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-
-
-    }
+    
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Epoch_content_array : System.Collections.ObjectModel.Collection<Epoch_content>
+    public partial class Epoch_content_array : System.Collections.ObjectModel.Collection<EpochContentResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Epoch_content
+    public partial class EpochContentResponse
     {
         /// <summary>Epoch number</summary>
         [Newtonsoft.Json.JsonProperty("epoch", Required = Newtonsoft.Json.Required.Always)]
@@ -155,7 +99,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Epoch_param_content
+    public partial class EpochParamContent
     {
         /// <summary>Epoch number</summary>
         [Newtonsoft.Json.JsonProperty("epoch", Required = Newtonsoft.Json.Required.Always)]
@@ -255,7 +199,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content
+    public partial class TxContent
     {
         /// <summary>Transaction hash</summary>
         [Newtonsoft.Json.JsonProperty("hash", Required = Newtonsoft.Json.Required.Always)]
@@ -350,7 +294,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_utxo
+    public partial class TxContentUtxo
     {
         /// <summary>Transaction hash</summary>
         [Newtonsoft.Json.JsonProperty("hash", Required = Newtonsoft.Json.Required.Always)]
@@ -378,55 +322,55 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_stake_addr : System.Collections.ObjectModel.Collection<Anonymous3>
+    public partial class Tx_content_stake_addr : System.Collections.ObjectModel.Collection<TxStakeAddress>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_delegations : System.Collections.ObjectModel.Collection<Anonymous4>
+    public partial class Tx_content_delegations : System.Collections.ObjectModel.Collection<TxDelegation>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_withdrawals : System.Collections.ObjectModel.Collection<Anonymous5>
+    public partial class Tx_content_withdrawals : System.Collections.ObjectModel.Collection<TxWithdawal>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_mirs : System.Collections.ObjectModel.Collection<Anonymous6>
+    public partial class Tx_content_mirs : System.Collections.ObjectModel.Collection<TxMir>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_pool_certs : System.Collections.ObjectModel.Collection<Anonymous38>
+    public partial class Tx_content_pool_certs : System.Collections.ObjectModel.Collection<TxPoolCert>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_pool_retires : System.Collections.ObjectModel.Collection<Anonymous39>
+    public partial class Tx_content_pool_retires : System.Collections.ObjectModel.Collection<TxPoolRetry>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_metadata : System.Collections.ObjectModel.Collection<Anonymous7>
+    public partial class Tx_content_metadata : System.Collections.ObjectModel.Collection<TxMetadata>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_content_metadata_cbor : System.Collections.ObjectModel.Collection<Anonymous8>
+    public partial class Tx_content_metadata_cbor : System.Collections.ObjectModel.Collection<TxMetadataCbor>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_content
+    public partial class AccountContent
     {
         /// <summary>Bech32 stake address</summary>
         [Newtonsoft.Json.JsonProperty("stake_address", Required = Newtonsoft.Json.Required.Always)]
@@ -488,13 +432,13 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_addresses_content : System.Collections.ObjectModel.Collection<Anonymous15>
+    public partial class Account_addresses_content : System.Collections.ObjectModel.Collection<StakeAddressesAddressesResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_addresses_assets : System.Collections.ObjectModel.Collection<Anonymous16>
+    public partial class Account_addresses_assets : System.Collections.ObjectModel.Collection<StakeAddressAddressesAssetsResponse>
     {
 
     }
@@ -506,37 +450,37 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_delegation_content : System.Collections.ObjectModel.Collection<Anonymous11>
+    public partial class Account_delegation_content : System.Collections.ObjectModel.Collection<StakeAddressDelegationsResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_history_content : System.Collections.ObjectModel.Collection<Anonymous10>
+    public partial class Account_history_content : System.Collections.ObjectModel.Collection<StakeAddressHistoryResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_registration_content : System.Collections.ObjectModel.Collection<Anonymous12>
+    public partial class Account_registration_content : System.Collections.ObjectModel.Collection<StakeAddressRegistrationsResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_withdrawal_content : System.Collections.ObjectModel.Collection<Anonymous13>
+    public partial class Account_withdrawal_content : System.Collections.ObjectModel.Collection<StakeAddressWithdrawalsResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Account_mir_content : System.Collections.ObjectModel.Collection<Anonymous14>
+    public partial class Account_mir_content : System.Collections.ObjectModel.Collection<StakeAddressMirsResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Address_content
+    public partial class AddressResponse
     {
         /// <summary>Bech32 encoded addresses</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -570,7 +514,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Address_content_total
+    public partial class AddressContentTotal
     {
         /// <summary>Bech32 encoded address</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -602,7 +546,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Address_utxo_content : System.Collections.ObjectModel.Collection<Anonymous20>
+    public partial class Address_utxo_content : System.Collections.ObjectModel.Collection<AddressUTxOResponse>
     {
 
     }
@@ -614,25 +558,25 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Address_transactions_content : System.Collections.ObjectModel.Collection<Anonymous21>
+    public partial class Address_transactions_content : System.Collections.ObjectModel.Collection<AddressTransactionResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_metadata_labels : System.Collections.ObjectModel.Collection<Anonymous17>
+    public partial class Tx_metadata_labels : System.Collections.ObjectModel.Collection<TxMetadataLabelResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_metadata_label_json : System.Collections.ObjectModel.Collection<Anonymous18>
+    public partial class Tx_metadata_label_json : System.Collections.ObjectModel.Collection<TxMetadataLabelJsonResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Tx_metadata_label_cbor : System.Collections.ObjectModel.Collection<Anonymous19>
+    public partial class Tx_metadata_label_cbor : System.Collections.ObjectModel.Collection<TxMetadataLabelCBORResponse>
     {
 
     }
@@ -644,13 +588,13 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_list_retire : System.Collections.ObjectModel.Collection<Anonymous22>
+    public partial class Pool_list_retire : System.Collections.ObjectModel.Collection<RetiredResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_history : System.Collections.ObjectModel.Collection<Anonymous23>
+    public partial class Pool_history : System.Collections.ObjectModel.Collection<PoolHistoryResponse>
     {
 
     }
@@ -795,13 +739,13 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_relays : System.Collections.ObjectModel.Collection<Anonymous24>
+    public partial class Pool_relays : System.Collections.ObjectModel.Collection<PoolRelayResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_delegations : System.Collections.ObjectModel.Collection<Anonymous40>
+    public partial class Pool_delegations : System.Collections.ObjectModel.Collection<PoolDelegationResponse>
     {
 
     }
@@ -813,25 +757,25 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_updates : System.Collections.ObjectModel.Collection<Anonymous26>
+    public partial class Pool_updates : System.Collections.ObjectModel.Collection<PoolUpdateResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Pool_delegators : System.Collections.ObjectModel.Collection<Anonymous25>
+    public partial class Pool_delegators : System.Collections.ObjectModel.Collection<PoolDelegatorResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Assets : System.Collections.ObjectModel.Collection<Anonymous27>
+    public partial class Assets : System.Collections.ObjectModel.Collection<AssetsResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Asset
+    public partial class AssetResponse
     {
         /// <summary>Hex-encoded asset full name</summary>
         [Newtonsoft.Json.JsonProperty("asset", Required = Newtonsoft.Json.Required.Always)]
@@ -888,7 +832,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Asset_history : System.Collections.ObjectModel.Collection<Anonymous28>
+    public partial class Asset_history : System.Collections.ObjectModel.Collection<AssetHistoryResponse>
     {
 
     }
@@ -900,37 +844,37 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Asset_transactions : System.Collections.ObjectModel.Collection<Anonymous29>
+    public partial class Asset_transactions : System.Collections.ObjectModel.Collection<AssetTransactionResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Asset_addresses : System.Collections.ObjectModel.Collection<Anonymous30>
+    public partial class Asset_addresses : System.Collections.ObjectModel.Collection<AssetAddressesResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Asset_policy : System.Collections.ObjectModel.Collection<Anonymous31>
+    public partial class Asset_policy : System.Collections.ObjectModel.Collection<AssetPolicyResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Metrics : System.Collections.ObjectModel.Collection<Anonymous33>
+    public partial class Metrics : System.Collections.ObjectModel.Collection<MetricResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Metrics_endpoints : System.Collections.ObjectModel.Collection<Anonymous34>
+    public partial class Metrics_endpoints : System.Collections.ObjectModel.Collection<MetricsEndpointResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Nutlink_address
+    public partial class NutlinkAddress
     {
         /// <summary>Bech32 encoded address</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -964,19 +908,19 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Nutlink_address_ticker : System.Collections.ObjectModel.Collection<Anonymous36>
+    public partial class Nutlink_address_ticker : System.Collections.ObjectModel.Collection<NutlinkAddressTickerResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Nutlink_address_tickers : System.Collections.ObjectModel.Collection<Anonymous35>
+    public partial class Nutlink_address_tickers : System.Collections.ObjectModel.Collection<NutlinkAddressTickersResponse>
     {
 
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Nutlink_tickers_ticker : System.Collections.ObjectModel.Collection<Anonymous37>
+    public partial class Nutlink_tickers_ticker : System.Collections.ObjectModel.Collection<NutlinkTickersTickerResponse>
     {
 
     }
@@ -1019,397 +963,15 @@ namespace Blockfrost.Api
 
     }
 
+
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order
+    public enum SortOrder
     {
         [System.Runtime.Serialization.EnumMember(Value = @"asc")]
         Asc = 0,
 
         [System.Runtime.Serialization.EnumMember(Value = @"desc")]
         Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order2
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order3
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order4
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum ContentType
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"application/cbor")]
-        Application_cbor = 0,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order5
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order6
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order7
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order8
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order9
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order10
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order11
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order12
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order13
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order14
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order15
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order16
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order17
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order18
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order19
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order20
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order21
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order22
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order23
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order24
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order25
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order26
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order27
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order28
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order29
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order30
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order31
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order32
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order33
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order34
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public enum Order35
-    {
-        [System.Runtime.Serialization.EnumMember(Value = @"asc")]
-        Asc = 0,
-
-        [System.Runtime.Serialization.EnumMember(Value = @"desc")]
-        Desc = 1,
-
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
@@ -1436,7 +998,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response2
+    public partial class BadRequestResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1462,7 +1024,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response3
+    public partial class ForbiddenResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1488,7 +1050,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response4
+    public partial class UnsupportedMediaTypeResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1514,7 +1076,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response5
+    public partial class TooManyRequestsResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1540,7 +1102,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response6
+    public partial class InternalServerErrorResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1570,7 +1132,7 @@ namespace Blockfrost.Api
     
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response9
+    public partial class NotFoundResponse
     {
         [Newtonsoft.Json.JsonProperty("status_code", Required = Newtonsoft.Json.Required.Always)]
         public int Status_code { get; set; }
@@ -1651,7 +1213,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous3
+    public partial class TxStakeAddress
     {
         /// <summary>Index of the certificate within the transaction</summary>
         [Newtonsoft.Json.JsonProperty("cert_index", Required = Newtonsoft.Json.Required.Always)]
@@ -1679,7 +1241,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous4
+    public partial class TxDelegation
     {
         /// <summary>Index of the certificate within the transaction</summary>
         [Newtonsoft.Json.JsonProperty("index", Required = Newtonsoft.Json.Required.Always)]
@@ -1717,7 +1279,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous5
+    public partial class TxWithdawal
     {
         /// <summary>Bech32 withdrawal address</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -1742,7 +1304,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous6
+    public partial class TxMir
     {
         /// <summary>Source of MIR funds</summary>
         [Newtonsoft.Json.JsonProperty("pot", Required = Newtonsoft.Json.Required.Always)]
@@ -1777,7 +1339,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous7
+    public partial class TxMetadata
     {
         /// <summary>Metadata label</summary>
         [Newtonsoft.Json.JsonProperty("label", Required = Newtonsoft.Json.Required.Always)]
@@ -1802,7 +1364,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous8
+    public partial class TxMetadataCbor
     {
         /// <summary>Metadata label</summary>
         [Newtonsoft.Json.JsonProperty("label", Required = Newtonsoft.Json.Required.Always)]
@@ -1855,7 +1417,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous10
+    public partial class StakeAddressHistoryResponse
     {
         /// <summary>Epoch in which the stake was active</summary>
         [Newtonsoft.Json.JsonProperty("active_epoch", Required = Newtonsoft.Json.Required.Always)]
@@ -1884,7 +1446,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous11
+    public partial class StakeAddressDelegationsResponse
     {
         /// <summary>Epoch in which the delegation becomes active</summary>
         [Newtonsoft.Json.JsonProperty("active_epoch", Required = Newtonsoft.Json.Required.Always)]
@@ -1918,7 +1480,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous12
+    public partial class StakeAddressRegistrationsResponse
     {
         /// <summary>Hash of the transaction containing the (de)registration certificate</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -1944,7 +1506,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous13
+    public partial class StakeAddressWithdrawalsResponse
     {
         /// <summary>Hash of the transaction containing the withdrawal</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -1969,7 +1531,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous14
+    public partial class StakeAddressMirsResponse
     {
         /// <summary>Hash of the transaction containing the MIR</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -1994,7 +1556,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous15
+    public partial class StakeAddressesAddressesResponse
     {
         /// <summary>Address associated with the stake key</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -2015,7 +1577,7 @@ namespace Blockfrost.Api
 
     /// <summary>The sum of all assets of all addresses associated with a given account</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous16
+    public partial class StakeAddressAddressesAssetsResponse
     {
         /// <summary>The unit of the value</summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
@@ -2040,7 +1602,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous17
+    public partial class TxMetadataLabelResponse
     {
         /// <summary>Metadata label</summary>
         [Newtonsoft.Json.JsonProperty("label", Required = Newtonsoft.Json.Required.Always)]
@@ -2069,7 +1631,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous18
+    public partial class TxMetadataLabelJsonResponse
     {
         /// <summary>Transaction hash that contains the specific metadata</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2093,7 +1655,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous19
+    public partial class TxMetadataLabelCBORResponse
     {
         /// <summary>Transaction hash that contains the specific metadata</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2117,7 +1679,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous20
+    public partial class AddressUTxOResponse
     {
         /// <summary>Transaction hash of the UTXO</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2155,7 +1717,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous21
+    public partial class AddressTransactionResponse
     {
         /// <summary>Hash of the transaction</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2183,7 +1745,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous22
+    public partial class RetiredResponse
     {
         /// <summary>Bech32 encoded pool ID</summary>
         [Newtonsoft.Json.JsonProperty("pool_id", Required = Newtonsoft.Json.Required.Always)]
@@ -2207,7 +1769,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous23
+    public partial class PoolHistoryResponse
     {
         /// <summary>Epoch number</summary>
         [Newtonsoft.Json.JsonProperty("epoch", Required = Newtonsoft.Json.Required.Always)]
@@ -2253,7 +1815,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response10
+    public partial class PoolMetadataResponse
     {
         private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
 
@@ -2268,7 +1830,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous24
+    public partial class PoolRelayResponse
     {
         /// <summary>IPv4 address of the relay</summary>
         [Newtonsoft.Json.JsonProperty("ipv4", Required = Newtonsoft.Json.Required.AllowNull)]
@@ -2303,7 +1865,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous25
+    public partial class PoolDelegatorResponse
     {
         /// <summary>Bech32 encoded stake addresses</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -2328,7 +1890,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous26
+    public partial class PoolUpdateResponse
     {
         /// <summary>Transaction ID</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2358,7 +1920,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous27
+    public partial class AssetsResponse
     {
         /// <summary>Asset identifier</summary>
         [Newtonsoft.Json.JsonProperty("asset", Required = Newtonsoft.Json.Required.Always)]
@@ -2383,7 +1945,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous28
+    public partial class AssetHistoryResponse
     {
         /// <summary>Hash of the transaction containing the asset action</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2414,7 +1976,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous29
+    public partial class AssetTransactionResponse
     {
         /// <summary>Hash of the transaction</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2442,7 +2004,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous30
+    public partial class AssetAddressesResponse
     {
         /// <summary>Address containing the specific asset</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -2467,7 +2029,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous31
+    public partial class AssetPolicyResponse
     {
         /// <summary>Concatenation of the policy_id and hex-encoded asset_name</summary>
         [Newtonsoft.Json.JsonProperty("asset", Required = Newtonsoft.Json.Required.Always)]
@@ -2492,7 +2054,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response11
+    public partial class IpfsAddResponse
     {
         /// <summary>Name of the file</summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -2521,7 +2083,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response12
+    public partial class IpfsPinAddResponse
     {
         /// <summary>IPFS hash of the pinned object</summary>
         [Newtonsoft.Json.JsonProperty("ipfs_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2590,7 +2152,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response13
+    public partial class IpfsPinListResponse
     {
         /// <summary>Time of the creation of the IPFS object on our backends</summary>
         [Newtonsoft.Json.JsonProperty("time_created", Required = Newtonsoft.Json.Required.Always)]
@@ -2634,7 +2196,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Response14
+    public partial class IpfsPinRemoveResponse
     {
         /// <summary>IPFS hash of the pinned object</summary>
         [Newtonsoft.Json.JsonProperty("ipfs_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2660,7 +2222,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous33
+    public partial class MetricResponse
     {
         /// <summary>Starting time of the call count interval (ends midnight UTC) in UNIX time</summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Always)]
@@ -2683,7 +2245,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous34
+    public partial class MetricsEndpointResponse
     {
         /// <summary>Starting time of the call count interval (ends midnight UTC) in UNIX time</summary>
         [Newtonsoft.Json.JsonProperty("time", Required = Newtonsoft.Json.Required.Always)]
@@ -2711,7 +2273,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous35
+    public partial class NutlinkAddressTickersResponse
     {
         /// <summary>Name of the ticker</summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
@@ -2739,7 +2301,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous36
+    public partial class NutlinkAddressTickerResponse
     {
         /// <summary>Hash of the transaction</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
@@ -2771,7 +2333,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous37
+    public partial class NutlinkTickersTickerResponse
     {
         /// <summary>Address of a metadata oracle</summary>
         [Newtonsoft.Json.JsonProperty("address", Required = Newtonsoft.Json.Required.Always)]
@@ -2808,7 +2370,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous38
+    public partial class TxPoolCert
     {
         /// <summary>Index of the certificate within the transaction</summary>
         [Newtonsoft.Json.JsonProperty("cert_index", Required = Newtonsoft.Json.Required.Always)]
@@ -2871,7 +2433,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous39
+    public partial class TxPoolRetry
     {
         /// <summary>Index of the certificate within the transaction</summary>
         [Newtonsoft.Json.JsonProperty("cert_index", Required = Newtonsoft.Json.Required.Always)]
@@ -3071,7 +2633,7 @@ namespace Blockfrost.Api
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
-    public partial class Anonymous40
+    public partial class PoolDelegationResponse
     {
         /// <summary>Transaction ID</summary>
         [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]

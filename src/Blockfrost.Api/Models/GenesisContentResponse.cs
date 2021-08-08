@@ -2,7 +2,7 @@
 
 namespace Blockfrost.Api
 {
-    public partial class GenesisContent
+    public partial class GenesisContentResponse
     {
         /// <summary>The proportion of slots in which blocks should be issued</summary>
         [Newtonsoft.Json.JsonProperty("active_slots_coefficient", Required = Newtonsoft.Json.Required.Always)]
