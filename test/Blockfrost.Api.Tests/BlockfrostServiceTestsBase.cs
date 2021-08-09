@@ -54,6 +54,26 @@ namespace Blockfrost.Api.Tests
             Assert.IsNotNull(response);
         }
 
+        [TestMethod]
+        [TestCategory(Cardano_Addresses)]
+        [TestProperty("method", nameof(IBlockfrostService.AddressesAsync))]
+        public virtual async Task GetStakeAddressTest(string address, string stake)
+        {
+            var response = await Test.AddressesAsync(address);
+            Assert.IsNotNull(response);
+            Assert.AreEqual(stake, response.StakeAddress);
+        }
+
+        [TestMethod]
+        [TestCategory(Cardano_Addresses)]
+        [TestProperty("method", nameof(IBlockfrostService.AddressesAsync))]
+        public virtual async Task GetAddressEraTest(string address, EAddressType era)
+        {
+            var response = await Test.AddressesAsync(address);
+            Assert.IsNotNull(response);
+            Assert.AreEqual(era, response.Type);
+        }
+
         Task<AddressResponse> IBlockfrostService.AddressesAsync(string address)
         {
             return Test.AddressesAsync(address, EmptyToken);

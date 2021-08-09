@@ -19,12 +19,21 @@ namespace Blockfrost.Api
     public partial class BlockfrostService : IBlockfrostService
     {
         private HttpClient _httpClient;
+        private System.Lazy<System.Text.Json.JsonSerializerOptions> _options;
         private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
 
         public BlockfrostService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);
             _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+        }
+
+        private System.Text.Json.JsonSerializerOptions CreateSerializerOptions()
+        {
+            var options = new System.Text.Json.JsonSerializerOptions();
+            UpdateJsonSerializerOptions(options);
+            return options;
         }
 
         private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
@@ -40,10 +49,11 @@ namespace Blockfrost.Api
             set { _httpClient.BaseAddress = new Uri(value); }
         }
 
+        private System.Text.Json.JsonSerializerOptions TextJsonSerializerSettings { get { return _options.Value; } }
         protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
 
         partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
-
+        partial void UpdateJsonSerializerOptions(System.Text.Json.JsonSerializerOptions options);
 
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, System.Text.StringBuilder urlBuilder);
@@ -183,8 +193,13 @@ namespace Blockfrost.Api
                 var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
-                    var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);
+                    var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, TextJsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
+                }
+                catch (System.Text.Json.JsonException exception) 
+                {
+                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
                 }
                 catch (Newtonsoft.Json.JsonException exception)
                 {
@@ -196,14 +211,13 @@ namespace Blockfrost.Api
             {
                 try
                 {
-                    using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                    using (var streamReader = new System.IO.StreamReader(responseStream))
-                    using (var jsonTextReader = new Newtonsoft.Json.JsonTextReader(streamReader))
-                    {
-                        var serializer = Newtonsoft.Json.JsonSerializer.Create(JsonSerializerSettings);
-                        var typedBody = serializer.Deserialize<T>(jsonTextReader);
-                        return new ObjectResponseResult<T>(typedBody, string.Empty);
-                    }
+                    var typedBody = await response.Content.ReadFromJsonAsync<T>(TextJsonSerializerSettings, cancellationToken);
+                    return new ObjectResponseResult<T>(typedBody, string.Empty);
+                }
+                catch (System.Text.Json.JsonException exception)
+                {
+                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
+                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
                 }
                 catch (Newtonsoft.Json.JsonException exception)
                 {
