@@ -35,9 +35,9 @@ namespace Blockfrost.Api
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/gateway/{IPFS_path}");
             urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
-
-            var client_ = _httpClient;
+            
             var disposeClient_ = false;
+            var client_ = _httpClient;
             try
             {
                 using (var request_ = new HttpRequestMessage())
