@@ -9,6 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
 
@@ -154,7 +155,7 @@ namespace Blockfrost.Api
                     response_.Dispose();
             }
         }
-
+        
         protected struct ObjectResponseResult<T>
         {
             public ObjectResponseResult(T responseObject, string responseText)
@@ -179,7 +180,7 @@ namespace Blockfrost.Api
 
             if (ReadResponseAsString)
             {
-                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
                     var typedBody = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(responseText, JsonSerializerSettings);

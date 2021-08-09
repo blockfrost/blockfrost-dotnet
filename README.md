@@ -24,11 +24,12 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ## Installation
 
-The SDK is hosted on [npmjs.com](https://www.npmjs.com/package/@blockfrost/blockfrost-js), so you can directly import it using your favorite package manager.
+The SDK is hosted on [nuget.com](https://www.nuget.com/package/@blockfrost/blockfrost-dotnet), so you can directly import it using your favorite package manager.
 
 ```console
 $ dotnet new console blockfrost-client
-$ dotnet add blockfrost-client package blockfrost-dotnet
+$ cd blockfrost-client
+$ dotnet add package blockfrost-dotnet
 ```
 
 <br/>
@@ -59,6 +60,7 @@ System.Console.WriteLine(health.IsHealthy);
 ```
 
 ```sh
+$ dotnet run
 True
 ```
 
