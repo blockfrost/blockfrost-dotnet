@@ -2,7 +2,7 @@
 
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.13.2.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
+    
     public partial class ApiException : System.Exception
     {
         public int StatusCode { get; private set; }
@@ -25,7 +25,7 @@ namespace Blockfrost.Api
         }
     }
 
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.13.2.0 (NJsonSchema v10.5.2.0 (Newtonsoft.Json v11.0.0.0))")]
+    
     public partial class ApiException<TResult> : ApiException
     {
         public TResult Result { get; private set; }

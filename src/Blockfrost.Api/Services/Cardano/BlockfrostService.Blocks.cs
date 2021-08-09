@@ -1,15 +1,12 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using Blockfrost.Api.Extensions;
 using System.Collections.Generic;
-using Blockfrost.Api.Extensions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
     public partial class BlockfrostService : IBlockfrostService
     {
-
         /// <summary>Specific block in a slot in an epoch</summary>
         /// <param name="epoch_number">Epoch for specific epoch slot.</param>
         /// <param name="slot_number">Slot position for requested block.</param>
@@ -41,6 +38,7 @@ namespace Blockfrost.Api
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
+
         /// <summary>Latest block</summary>
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -156,8 +154,6 @@ namespace Blockfrost.Api
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
 
-
-
         /// <summary>Listing of next blocks</summary>
         /// <param name="hash_or_number">Hash of the requested block.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -196,7 +192,6 @@ namespace Blockfrost.Api
 
             return await SendGetRequestAsync<ICollection<BlockContentResponse>>(urlBuilder_, cancellationToken);
         }
-
 
         /// <summary>Listing of previous blocks</summary>
         /// <param name="hash_or_number">Hash of the requested block</param>

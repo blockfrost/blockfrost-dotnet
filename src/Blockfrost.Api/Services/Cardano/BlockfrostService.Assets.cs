@@ -1,9 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using Blockfrost.Api.Extensions;
 using System.Collections.Generic;
-using Blockfrost.Api.Extensions;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
@@ -47,7 +45,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetsResponse>>(urlBuilder_, cancellationToken);
-
         }
 
         /// <summary>Specific asset</summary>
@@ -75,6 +72,7 @@ namespace Blockfrost.Api
 
             return await SendGetRequestAsync<AssetResponse>(urlBuilder_, cancellationToken);
         }
+
         /// <summary>Asset history</summary>
         /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -120,7 +118,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetHistoryResponse>>(urlBuilder_, cancellationToken);
-
         }
 
         /// <summary>Asset transactions</summary>
@@ -170,8 +167,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);
-
         }/// <summary>Asset transactions</summary>
+
          /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
          /// <param name="count">The number of results displayed on one page.</param>
          /// <param name="page">The page number for listing the results.</param>
@@ -216,7 +213,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetTransactionResponse>>(urlBuilder_, cancellationToken);
-
         }
 
         /// <summary>Asset addresses</summary>
@@ -264,7 +260,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetAddressesResponse>>(urlBuilder_, cancellationToken);
-
         }
 
         /// <summary>Assets of a specific policy</summary>
@@ -312,8 +307,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetPolicyResponse>>(urlBuilder_, cancellationToken);
-
         }
-
     }
 }

@@ -1,29 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 //namespace Blockfrost.Api.Models.Cardano.Accounts
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class StakeAddressRegistrationsResponse
     {
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
         /// <summary>Action in the certificate</summary>
-        [Newtonsoft.Json.JsonProperty("action", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonPropertyName("action")]
+        [Required(AllowEmptyStrings = true)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public EAction Action { get; set; }
 
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-
         /// <summary>Hash of the transaction containing the (de)registration certificate</summary>
-        [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("tx_hash")]
+        [Required(AllowEmptyStrings = true)]
         public string Tx_hash { get; set; }
     }
 }

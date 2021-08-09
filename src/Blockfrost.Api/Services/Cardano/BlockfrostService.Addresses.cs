@@ -1,10 +1,7 @@
-﻿using System;
+﻿using Blockfrost.Api.Extensions;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Collections.Generic;
-using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -34,9 +31,7 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxStakeAddress>>(urlBuilder_, cancellationToken);
-          
         }
-
 
         /// <summary>Specific address</summary>
         /// <param name="address">Bech32 address.</param>
@@ -88,8 +83,8 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{address}", System.Uri.EscapeDataString(ConvertToString(address, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<AddressContentTotal>(urlBuilder_, cancellationToken);
-         
         } /// <summary>Address UTXOs</summary>
+
           /// <param name="address">Bech32 address.</param>
           /// <param name="count">The number of results displayed on one page.</param>
           /// <param name="page">The page number for listing the results.</param>
@@ -136,8 +131,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AddressUTxOResponse>>(urlBuilder_, cancellationToken);
-        
         } /// <summary>Address transactions</summary>
+
           /// <param name="address">Bech32 address.</param>
           /// <param name="count">The number of transactions per page.</param>
           /// <param name="page">The page number for listing the results.</param>
@@ -184,20 +179,20 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);
-            
         }
+
         /// <summary>Address transactions</summary>
-         /// <param name="address">Bech32 address.</param>
-         /// <param name="count">The numbers of pools per page.</param>
-         /// <param name="page">The page number for listing the results.</param>
-         /// <param name="order">The ordering of items from the point of view of the blockchain,
-         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
-         /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.
-         /// <br/>Has to be lower than or equal to `to` parameter.</param>
-         /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.
-         /// <br/>Has to be higher than or equal to `from` parameter.</param>
-         /// <returns>Return the address content</returns>
-         /// <exception cref="ApiException">A server side error occurred.</exception>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,
+        /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.
+        /// <br/>Has to be lower than or equal to `to` parameter.</param>
+        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.
+        /// <br/>Has to be higher than or equal to `from` parameter.</param>
+        /// <returns>Return the address content</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             return TransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
@@ -247,7 +242,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AddressTransactionResponse>>(urlBuilder_, cancellationToken);
-           
         }
     }
 }

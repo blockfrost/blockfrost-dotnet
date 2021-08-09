@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Collections.Generic;
+using System.Collections.Generic;using System.ComponentModel.DataAnnotations;using System.Text.Json.Serialization;
 using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api

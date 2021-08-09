@@ -1,20 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class HealthResponse
     {
-        [Newtonsoft.Json.JsonProperty("is_healthy", Required = Newtonsoft.Json.Required.Always)]
+        [JsonPropertyName("is_healthy")]
         public bool IsHealthy { get; set; }
-
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
     }
 }

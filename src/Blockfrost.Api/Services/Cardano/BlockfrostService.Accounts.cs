@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Blockfrost.Api.Extensions;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Collections.Generic;
-using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
-    public partial class BlockfrostService : IBlockfrostService 
+    public partial class BlockfrostService : IBlockfrostService
     {
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account history</summary>
@@ -42,8 +39,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressHistoryResponse>>(urlBuilder_, cancellationToken);
-           
         }
+
         /// <summary>Account delegation history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -56,6 +53,7 @@ namespace Blockfrost.Api
         {
             return Delegations2Async(stake_address, count, page, order, CancellationToken.None);
         }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account delegation history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
@@ -88,8 +86,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressDelegationsResponse>>(urlBuilder_, cancellationToken);
-          
         }
+
         /// <summary>Account registration history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -102,6 +100,7 @@ namespace Blockfrost.Api
         {
             return RegistrationsAsync(stake_address, count, page, order, CancellationToken.None);
         }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account registration history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
@@ -134,8 +133,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressRegistrationsResponse>>(urlBuilder_, cancellationToken);
-            
         }
+
         /// <summary>Account withdrawal history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -148,6 +147,7 @@ namespace Blockfrost.Api
         {
             return Withdrawals2Async(stake_address, count, page, order, CancellationToken.None);
         }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account withdrawal history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
@@ -180,8 +180,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressWithdrawalsResponse>>(urlBuilder_, cancellationToken);
-           
         }
+
         /// <summary>Account MIR history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -194,6 +194,7 @@ namespace Blockfrost.Api
         {
             return Mirs2Async(stake_address, count, page, order, CancellationToken.None);
         }
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account MIR history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
@@ -226,8 +227,8 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressMirsResponse>>(urlBuilder_, cancellationToken);
-            
         }/// <summary>Account associated addresses</summary>
+
          /// <param name="stake_address">Bech32 stake address.</param>
          /// <param name="count">The number of results displayed on one page.</param>
          /// <param name="page">The page number for listing the results.</param>
@@ -272,7 +273,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressesAddressesResponse>>(urlBuilder_, cancellationToken);
-           
         }
 
         /// <summary>Assets associated with the account addresses</summary>
@@ -320,7 +320,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressAddressesAssetsResponse>>(urlBuilder_, cancellationToken);
-
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -355,7 +354,6 @@ namespace Blockfrost.Api
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<Anonymous9>>(urlBuilder_, cancellationToken);
-            
         }
 
         /// <summary>Account history</summary>

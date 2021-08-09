@@ -1,28 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 //namespace Blockfrost.Api.Models.Cardano.Accounts
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Anonymous2
     {
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
-
         /// <summary>Amount of active delegated stake in Lovelaces</summary>
-        [Newtonsoft.Json.JsonProperty("amount", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("amount")]
+        [Required(AllowEmptyStrings = true)]
         public string Amount { get; set; }
 
         /// <summary>Stake address</summary>
-        [Newtonsoft.Json.JsonProperty("stake_address", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("stake_address")]
+        [Required(AllowEmptyStrings = true)]
         public string Stake_address { get; set; }
     }
 }
