@@ -693,9 +693,9 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetAddressesResponse>> AddressesAll2Async(string asset, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order)
         {
-            return AddressesAll2Async(asset, count, page, order, CancellationToken.None);
+            return GetAssetAddressesAsync(asset, count, page, order, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -707,7 +707,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetAddressesResponse>> AddressesAll2Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
                 throw new System.ArgumentNullException("asset");

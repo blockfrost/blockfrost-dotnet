@@ -20,7 +20,7 @@ namespace Blockfrost.Api
         /// <summary>Pin an object</summary>
         /// <returns>Returns pinned object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<IpfsPinAddResponse> PostAddPinAsync(string iPFS_path)
+        public Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path)
         {
             return PostPinAsync(iPFS_path, CancellationToken.None);
         }

@@ -22,14 +22,14 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<MetricResponse>> GetMetricsAsync()
         {
-            return MetricsAsync(CancellationToken.None);
+            return GetMetricsAsync(CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Blockfrost usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<MetricResponse>> MetricsAsync(CancellationToken cancellationToken)
+        public async Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metrics/");
@@ -330,16 +330,16 @@ namespace Blockfrost.Api
         /// <summary>Root endpoint</summary>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<AnonymousResponse> AnonymousAsync()
+        public Task<AnonymousResponse> GetInfoAsync()
         {
-            return AnonymousAsync(CancellationToken.None);
+            return GetInfoAsync(CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Root endpoint</summary>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AnonymousResponse> AnonymousAsync(CancellationToken cancellationToken)
+        public async Task<AnonymousResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/");

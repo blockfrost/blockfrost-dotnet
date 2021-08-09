@@ -11,18 +11,18 @@ namespace Blockfrost.Api
 
         Task<AccountContent> GetAccountsAsync(string stake_address);
         Task<AccountContent> GetAccountsAsync(string stake_address, CancellationToken cancellationToken);
-        Task<IpfsPinAddResponse> PostAddPinAsync(string iPFS_path);
+        Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path);
         Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken);
-        Task<IpfsAddResponse> AddAsync();
-        Task<IpfsAddResponse> AddAsync(CancellationToken cancellationToken);
-        Task<ICollection<AssetAddressesResponse>> AddressesAll2Async(string asset, int? count, int? page, SortOrder? order);
-        Task<ICollection<AssetAddressesResponse>> AddressesAll2Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
+        Task<IpfsAddResponse> AddIpfsAsync();
+        Task<IpfsAddResponse> AddIpfsAsync(CancellationToken cancellationToken);
+        Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order);
+        Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, SortOrder? order);
         Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<AddressResponse> AddressesAsync(string address);
         Task<AddressResponse> AddressesAsync(string address, CancellationToken cancellationToken);
-        Task<AnonymousResponse> AnonymousAsync();
-        Task<AnonymousResponse> AnonymousAsync(CancellationToken cancellationToken);
+        Task<AnonymousResponse> GetInfoAsync();
+        Task<AnonymousResponse> GetInfoAsync(CancellationToken cancellationToken);
         Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, SortOrder? order);
         Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, SortOrder? order);
@@ -87,7 +87,7 @@ namespace Blockfrost.Api
         Task<PoolMetadataResponse> MetadataAsync(string pool_id);
         Task<PoolMetadataResponse> MetadataAsync(string pool_id, CancellationToken cancellationToken);
         Task<ICollection<MetricResponse>> GetMetricsAsync();
-        Task<ICollection<MetricResponse>> MetricsAsync(CancellationToken cancellationToken);
+        Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken);
         Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, SortOrder? order);
         Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<TxMir>> MirsAsync(string hash);
@@ -124,7 +124,7 @@ namespace Blockfrost.Api
         Task<ICollection<RetiredResponse>> RetiringAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
         Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, SortOrder? order);
         Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken);
-        Task<BlockContentResponse> SlotAsync(int slot_number);
+        Task<BlockContentResponse> GetSlotAsync(int slot_number);
         Task<ICollection<Anonymous2>> Stakes2Async(int number, string pool_id, int? count, int? page);
         Task<ICollection<Anonymous2>> Stakes2Async(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken);
         Task<ICollection<TxStakeAddress>> Stakes3Async(string hash);

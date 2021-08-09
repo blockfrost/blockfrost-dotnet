@@ -19,9 +19,9 @@ namespace Blockfrost.Api.Tests
 
         [TestMethod]
         [DataRow("addr_test1qzxug2wcch4gqu6squcx4ffuhsppvrsk7edxv0y0uwqn0xvtcm6l3yfqa9j7swygrgh2k2g7kd7jgvkwxkew2uclhssqgp9f83")]
-        public override async Task GetAddress(string address)
+        public override async Task GetAddressTest(string address)
         {
-            await base.GetAddress(address);
+            await base.GetAddressTest(address);
         }
     }
 }

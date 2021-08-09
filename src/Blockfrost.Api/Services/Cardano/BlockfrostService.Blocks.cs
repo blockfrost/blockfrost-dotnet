@@ -142,7 +142,7 @@ namespace Blockfrost.Api
         /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<BlockContentResponse> SlotAsync(int slot_number)
+        public Task<BlockContentResponse> GetSlotAsync(int slot_number)
         {
             return GetSlotAsync(slot_number, CancellationToken.None);
         }
