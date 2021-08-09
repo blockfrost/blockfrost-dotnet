@@ -23,5 +23,6 @@ namespace Blockfrost.Api.Tests
         {
             await base.GetAddressTest(address);
         }
+
     }
 }

@@ -1,18 +1,10 @@
-﻿#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
-#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
-#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
-#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
-#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
-#pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
-#pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
-
-
-using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using Blockfrost.Api.Extensions;
+
 namespace Blockfrost.Api
 {
     public partial class BlockfrostService : IBlockfrostService
@@ -42,20 +34,20 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets?");
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetsResponse>>(urlBuilder_, cancellationToken);
-          
+
         }
 
         /// <summary>Specific asset</summary>
@@ -84,13 +76,13 @@ namespace Blockfrost.Api
             return await SendGetRequestAsync<AssetResponse>(urlBuilder_, cancellationToken);
         }
         /// <summary>Asset history</summary>
-         /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
-         /// <param name="count">The number of results displayed on one page.</param>
-         /// <param name="page">The page number for listing the results.</param>
-         /// <param name="order">The ordering of items from the point of view of the blockchain,
-         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
-         /// <returns>Return the information about the history of a specific asset</returns>
-         /// <exception cref="ApiException">A server side error occurred.</exception>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,
+        /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <returns>Return the information about the history of a specific asset</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, ESortOrder? order)
         {
             return History3Async(asset, count, page, order, CancellationToken.None);
@@ -115,30 +107,30 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetHistoryResponse>>(urlBuilder_, cancellationToken);
-            
+
         }
-        
+
         /// <summary>Asset transactions</summary>
-         /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
-         /// <param name="count">The number of results displayed on one page.</param>
-         /// <param name="page">The page number for listing the results.</param>
-         /// <param name="order">The ordering of items from the point of view of the blockchain,
-         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
-         /// <returns>Return the information about the history of a specific asset</returns>
-         /// <exception cref="ApiException">A server side error occurred.</exception>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,
+        /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <returns>Return the information about the history of a specific asset</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
         public Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order)
         {
@@ -165,20 +157,20 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);
-          
+
         }/// <summary>Asset transactions</summary>
          /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
          /// <param name="count">The number of results displayed on one page.</param>
@@ -211,15 +203,15 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
@@ -259,20 +251,20 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetAddressesResponse>>(urlBuilder_, cancellationToken);
-         
+
         }
 
         /// <summary>Assets of a specific policy</summary>
@@ -307,29 +299,21 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{policy_id}", System.Uri.EscapeDataString(ConvertToString(policy_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetPolicyResponse>>(urlBuilder_, cancellationToken);
-           
+
         }
 
     }
 }
-
-
-#pragma warning restore 1591
-#pragma warning restore 1573
-#pragma warning restore 472
-#pragma warning restore 114
-#pragma warning restore 108
-#pragma warning restore 3016

@@ -46,6 +46,13 @@ namespace Blockfrost.Api.Tests
         bool IBlockfrostService.ReadResponseAsString { get; set; }
 
         [TestMethod]
+        public async Task AssetsAll2AsyncTest()
+        {
+            var response = await Test.AssetsAll2Async(10, 0, ESortOrder.Desc);
+            Assert.AreEqual(10, response.Count);
+        }
+
+        [TestMethod]
         [TestCategory(Cardano_Addresses)]
         [TestProperty("method", nameof(IBlockfrostService.AddressesAsync))]
         public virtual async Task GetAddressTest(string address)
@@ -54,14 +61,27 @@ namespace Blockfrost.Api.Tests
             Assert.IsNotNull(response);
         }
 
-        Task<AddressResponse> IBlockfrostService.AddressesAsync(string address)
+        [TestMethod]
+        public async Task PoolsAllAsyncTest()
         {
-            return Test.AddressesAsync(address, EmptyToken);
+            var response = await _service.PoolsAllAsync(10, 0, ESortOrder.Asc);
+            Assert.AreEqual(response.Count, 10);
         }
 
-        Task<AddressResponse> IBlockfrostService.AddressesAsync(string address, CancellationToken cancellationToken)
+        [TestCategory("Move to base (network parameter)")]
+        [TestMethod]
+        [DataRow("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w")]
+        public async Task PoolsAsyncTest(string poolId)
         {
-            return _service.AddressesAsync(address, cancellationToken);
+            var response = await _service.PoolsAsync("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w");
+            Assert.AreEqual(poolId, response.Pool_id);
+        }
+
+        [TestMethod]
+        public async Task GetClockAsyncTest()
+        {
+            var response = await _service.GetClockAsync();
+            Assert.AreNotEqual(0, response.ServerTime);
         }
 
         [TestMethod]
@@ -73,6 +93,21 @@ namespace Blockfrost.Api.Tests
             Assert.AreEqual(_version, response.Version);
         }
 
+        [TestMethod]
+        [TestCategory(Misc)]
+        public async Task GetHealthAsyncTest()
+        {
+            await Test.GetHealthAsync();
+        }
+        Task<AddressResponse> IBlockfrostService.AddressesAsync(string address)
+        {
+            return Test.AddressesAsync(address, EmptyToken);
+        }
+
+        Task<AddressResponse> IBlockfrostService.AddressesAsync(string address, CancellationToken cancellationToken)
+        {
+            return _service.AddressesAsync(address, cancellationToken);
+        }
         Task<InfoResponse> IBlockfrostService.GetInfoAsync()
         {
             return Test.GetInfoAsync(EmptyToken);
@@ -83,12 +118,6 @@ namespace Blockfrost.Api.Tests
             return _service.GetInfoAsync(cancellationToken);
         }
 
-        [TestMethod]
-        [TestCategory(Misc)]
-        public async Task GetHealthAsyncTest()
-        {
-            await Test.GetHealthAsync();
-        }
 
         Task<HealthResponse> IBlockfrostService.GetHealthAsync()
         {
@@ -100,12 +129,6 @@ namespace Blockfrost.Api.Tests
             return _service.GetHealthAsync(cancellationToken);
         }
 
-        [TestMethod]
-        public async Task GetClockAsyncTest()
-        {
-            var response = await _service.GetClockAsync();
-            Assert.AreNotEqual(0, response.ServerTime);
-        }
 
         Task<AccountContentResponse> IBlockfrostService.GetAccountsAsync(string stake_address)
         {
@@ -166,7 +189,7 @@ namespace Blockfrost.Api.Tests
 
         Task<ICollection<AssetsResponse>> IBlockfrostService.AssetsAll2Async(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _service.AssetsAll2Async(count, page, order, cancellationToken);
         }
 
         Task<ICollection<StakeAddressAddressesAssetsResponse>> IBlockfrostService.AssetsAllAsync(string stake_address, int? count, int? page, ESortOrder? order)

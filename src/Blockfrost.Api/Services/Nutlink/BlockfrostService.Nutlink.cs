@@ -30,7 +30,7 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}");
             urlBuilder_.Replace("{address}", System.Uri.EscapeDataString(ConvertToString(address, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<ICollection<Task>>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<NutlinkAddress>(urlBuilder_, cancellationToken);
            
         }
 
@@ -121,8 +121,7 @@ namespace Blockfrost.Api
             }
             urlBuilder_.Length--;
 
-            return await SendGetRequestAsync<ICollection<Task>>(urlBuilder_, cancellationToken);
-            
+            return await SendGetRequestAsync<ICollection<NutlinkAddressTickerResponse>>(urlBuilder_, cancellationToken);
         }
 
         /// <param name="count">The number of results displayed on one page.</param>

@@ -1,18 +1,10 @@
-﻿#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
-#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
-#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
-#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
-#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
-#pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
-#pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
-
-
-using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using Blockfrost.Api.Extensions;
+
 namespace Blockfrost.Api
 {
     public partial class BlockfrostService : IBlockfrostService
@@ -36,10 +28,10 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
         {
-            if (epoch_number == null)
+            if (epoch_number < 0)
                 throw new System.ArgumentNullException("epoch_number");
 
-            if (slot_number == null)
+            if (slot_number < 0)
                 throw new System.ArgumentNullException("slot_number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -97,15 +89,15 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
@@ -154,7 +146,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
         {
-            if (slot_number == null)
+            if (slot_number < 0)
                 throw new System.ArgumentNullException("slot_number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -194,11 +186,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -234,11 +226,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -279,15 +271,15 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
@@ -295,11 +287,3 @@ namespace Blockfrost.Api
         }
     }
 }
-
-
-#pragma warning restore 1591
-#pragma warning restore 1573
-#pragma warning restore 472
-#pragma warning restore 114
-#pragma warning restore 108
-#pragma warning restore 3016

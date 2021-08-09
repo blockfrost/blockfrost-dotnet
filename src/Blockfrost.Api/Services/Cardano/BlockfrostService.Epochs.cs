@@ -1,16 +1,10 @@
-﻿#pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
-#pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
-#pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
-#pragma warning disable 1573 // Disable "CS1573 Parameter '...' has no matching param tag in the XML comment for ...
-#pragma warning disable 1591 // Disable "CS1591 Missing XML comment for publicly visible type or member ..."
-#pragma warning disable 8073 // Disable "CS8073 The result of the expression is always 'false' since a value of type 'T' is never equal to 'null' of type 'T?'"
-#pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Collections.Generic;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -74,7 +68,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<EpochContentResponse> EpochsAsync(int number, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -105,7 +99,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<EpochContentResponse>> Next2Async(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -113,11 +107,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -145,7 +139,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<EpochContentResponse>> Previous2Async(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -153,11 +147,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -185,7 +179,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -193,11 +187,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -227,7 +221,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<Anonymous2>> Stakes2Async(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             if (pool_id == null)
@@ -239,11 +233,11 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             urlBuilder_.Length--;
 
@@ -275,23 +269,24 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks?");
             urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
-            if (count != null)
-            {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
-            }
+
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
+            }
+            if (count != null)
+            {
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
@@ -325,7 +320,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             if (pool_id == null)
@@ -337,15 +332,15 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("count") + "=").Append(System.Uri.EscapeDataString(ConvertToString(count, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
             if (page != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("page") + "=").Append(System.Uri.EscapeDataString(ConvertToString(page, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
             if (order != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("order") + "=").Append(System.Uri.EscapeDataString(ConvertToString(order, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
             urlBuilder_.Length--;
 
@@ -369,7 +364,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<EpochParamContent> Parameters2Async(int number, CancellationToken cancellationToken)
         {
-            if (number == null)
+            if (number < 0)
                 throw new System.ArgumentNullException("number");
 
             var urlBuilder_ = new System.Text.StringBuilder();
@@ -381,11 +376,3 @@ namespace Blockfrost.Api
         }
     }
 }
-
-
-#pragma warning restore 1591
-#pragma warning restore 1573
-#pragma warning restore 472
-#pragma warning restore 114
-#pragma warning restore 108
-#pragma warning restore 3016
