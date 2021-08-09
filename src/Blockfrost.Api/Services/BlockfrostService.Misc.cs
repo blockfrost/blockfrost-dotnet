@@ -330,7 +330,7 @@ namespace Blockfrost.Api
         /// <summary>Root endpoint</summary>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<AnonymousResponse> GetInfoAsync()
+        public Task<InfoResponse> GetInfoAsync()
         {
             return GetInfoAsync(CancellationToken.None);
         }
@@ -339,14 +339,13 @@ namespace Blockfrost.Api
         /// <summary>Root endpoint</summary>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AnonymousResponse> GetInfoAsync(CancellationToken cancellationToken)
+        public async Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/");
 
-            return await SendGetRequestAsync<AnonymousResponse>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<InfoResponse>(urlBuilder_, cancellationToken);
         }
-
     }
 }
 

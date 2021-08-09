@@ -25,7 +25,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the list of pools.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> PoolsAllAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> PoolsAllAsync(int? count, int? page, ESortOrder? order)
         {
             return PoolsAllAsync(count, page, order, CancellationToken.None);
         }
@@ -38,7 +38,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the list of pools.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> PoolsAllAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> PoolsAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools?");
@@ -66,7 +66,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<RetiredResponse>> RetiredAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<RetiredResponse>> RetiredAsync(int? count, int? page, ESortOrder? order)
         {
             return RetiredAsync(count, page, order, CancellationToken.None);
         }
@@ -79,7 +79,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<RetiredResponse>> RetiredAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<RetiredResponse>> RetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/retired?");
@@ -107,7 +107,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<RetiredResponse>> RetiringAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<RetiredResponse>> RetiringAsync(int? count, int? page, ESortOrder? order)
         {
             return RetiringAsync(count, page, order, CancellationToken.None);
         }
@@ -120,7 +120,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<RetiredResponse>> RetiringAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<RetiredResponse>> RetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/retiring?");
@@ -261,7 +261,7 @@ namespace Blockfrost.Api
         /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<Pool> PoolsAsync(string pool_id)
+        public Task<PoolResponse> PoolsAsync(string pool_id)
         {
             return PoolsAsync(pool_id, CancellationToken.None);
         }
@@ -271,7 +271,7 @@ namespace Blockfrost.Api
         /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<Pool> PoolsAsync(string pool_id, CancellationToken cancellationToken)
+        public async Task<PoolResponse> PoolsAsync(string pool_id, CancellationToken cancellationToken)
         {
             if (pool_id == null)
                 throw new System.ArgumentNullException("pool_id");
@@ -312,7 +312,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Pool>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<PoolResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -407,7 +407,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return History2Async(pool_id, count, page, order, CancellationToken.None);
         }
@@ -421,7 +421,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
                 throw new System.ArgumentNullException("pool_id");
@@ -713,7 +713,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool delegations.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<PoolDelegatorResponse>> DelegatorsAsync(string pool_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<PoolDelegatorResponse>> DelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return DelegatorsAsync(pool_id, count, page, order, CancellationToken.None);
         }
@@ -727,7 +727,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool delegations.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<PoolDelegatorResponse>> DelegatorsAsync(string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<PoolDelegatorResponse>> DelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
                 throw new System.ArgumentNullException("pool_id");
@@ -876,7 +876,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool block list</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return BlocksAll3Async(pool_id, count, page, order, CancellationToken.None);
         }
@@ -890,7 +890,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool block list</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
                 throw new System.ArgumentNullException("pool_id");
@@ -1039,7 +1039,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool updates history</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return UpdatesAsync(pool_id, count, page, order, CancellationToken.None);
         }
@@ -1053,7 +1053,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool updates history</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
                 throw new System.ArgumentNullException("pool_id");
@@ -1193,7 +1193,6 @@ namespace Blockfrost.Api
                     client_.Dispose();
             }
         }
-
     }
 }
 

@@ -19,7 +19,7 @@ namespace Blockfrost.Api
         /// <summary>Network information</summary>
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<Network> NetworkAsync()
+        public Task<NetworkResponse> NetworkAsync()
         {
             return NetworkAsync(CancellationToken.None);
         }
@@ -28,7 +28,7 @@ namespace Blockfrost.Api
         /// <summary>Network information</summary>
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<Network> NetworkAsync(CancellationToken cancellationToken)
+        public async Task<NetworkResponse> NetworkAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/network");
@@ -65,7 +65,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<Network>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<NetworkResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

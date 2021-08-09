@@ -22,7 +22,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<TxContent> TxsAsync(string hash)
+        public Task<TxContentResponse> TxsAsync(string hash)
         {
             return TxsAsync(hash, CancellationToken.None);
         }
@@ -32,7 +32,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<TxContent> TxsAsync(string hash, CancellationToken cancellationToken)
+        public async Task<TxContentResponse> TxsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
                 throw new System.ArgumentNullException("hash");
@@ -73,7 +73,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TxContent>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TxContentResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -164,7 +164,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<TxContentUtxo> UtxosAsync(string hash)
+        public Task<TxContentUTxOResponse> UtxosAsync(string hash)
         {
             return UtxosAsync(hash, CancellationToken.None);
         }
@@ -174,7 +174,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<TxContentUtxo> UtxosAsync(string hash, CancellationToken cancellationToken)
+        public async Task<TxContentUTxOResponse> UtxosAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
                 throw new System.ArgumentNullException("hash");
@@ -215,7 +215,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<TxContentUtxo>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<TxContentUTxOResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -734,7 +734,7 @@ namespace Blockfrost.Api
         /// <summary>Submit a transaction</summary>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<string> SubmitAsync(ContentType content_Type)
+        public Task<string> SubmitAsync(EContentType content_Type)
         {
             return SubmitAsync(content_Type, CancellationToken.None);
         }
@@ -744,7 +744,7 @@ namespace Blockfrost.Api
         /// <summary>Submit a transaction</summary>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<string> SubmitAsync(ContentType content_Type, CancellationToken cancellationToken)
+        public async Task<string> SubmitAsync(EContentType content_Type, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");

@@ -1,18 +1,8 @@
 ﻿using System.Collections.Generic;
 
+//namespace Blockfrost.Api.Models.Cardano.Accounts
 namespace Blockfrost.Api
 {
-    // TODO: review (obsolete?)
-    public partial class BlockContentCollection : System.Collections.ObjectModel.Collection<BlockContentResponse>
-    {
-    }
-
-    // TODO: review (obsolete?)
-    public partial class BlockContentTransactionIds : System.Collections.ObjectModel.Collection<string>
-    {
-    }
-
-
     public partial class BlockContentResponse
     {
         /// <summary>Block creation time in UNIX time</summary>

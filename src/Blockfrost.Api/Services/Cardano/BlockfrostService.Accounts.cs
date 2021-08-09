@@ -18,7 +18,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressHistoryResponse>> HistoryAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressHistoryResponse>> HistoryAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -166,7 +166,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return Delegations2Async(stake_address, count, page, order, CancellationToken.None);
         }
@@ -179,7 +179,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -327,7 +327,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account registration content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressRegistrationsResponse>> RegistrationsAsync(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressRegistrationsResponse>> RegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return RegistrationsAsync(stake_address, count, page, order, CancellationToken.None);
         }
@@ -340,7 +340,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account registration content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressRegistrationsResponse>> RegistrationsAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressRegistrationsResponse>> RegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -488,7 +488,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account withdrawal content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressWithdrawalsResponse>> Withdrawals2Async(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressWithdrawalsResponse>> Withdrawals2Async(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return Withdrawals2Async(stake_address, count, page, order, CancellationToken.None);
         }
@@ -501,7 +501,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account withdrawal content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressWithdrawalsResponse>> Withdrawals2Async(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressWithdrawalsResponse>> Withdrawals2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -649,7 +649,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account MIR content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return Mirs2Async(stake_address, count, page, order, CancellationToken.None);
         }
@@ -662,7 +662,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account MIR content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -809,7 +809,7 @@ namespace Blockfrost.Api
          /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
          /// <returns>Return the account addresses content</returns>
          /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return AddressesAllAsync(stake_address, count, page, order, CancellationToken.None);
         }
@@ -823,7 +823,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -972,7 +972,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return AssetsAllAsync(stake_address, count, page, order, CancellationToken.None);
         }
@@ -986,7 +986,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -1127,7 +1127,6 @@ namespace Blockfrost.Api
             }
         }
 
-        
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account reward history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
@@ -1137,7 +1136,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -1278,14 +1277,6 @@ namespace Blockfrost.Api
             }
         }
 
-
-
-
-
-
-
-
-
         /// <summary>Account history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <param name="count">The number of results displayed on one page.</param>
@@ -1294,7 +1285,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<StakeAddressHistoryResponse>> HistoryAsync(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<StakeAddressHistoryResponse>> HistoryAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return HistoryAsync(stake_address, count, page, order, CancellationToken.None);
         }
@@ -1307,7 +1298,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return RewardsAsync(stake_address, count, page, order, CancellationToken.None);
         }
@@ -1316,7 +1307,7 @@ namespace Blockfrost.Api
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<AccountContent> GetAccountsAsync(string stake_address)
+        public Task<AccountContentResponse> GetAccountsAsync(string stake_address)
         {
             return GetAccountsAsync(stake_address, CancellationToken.None);
         }
@@ -1326,7 +1317,7 @@ namespace Blockfrost.Api
         /// <param name="stake_address">Bech32 stake address.</param>
         /// <returns>Return the account content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AccountContent> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
+        public async Task<AccountContentResponse> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
         {
             if (stake_address == null)
                 throw new System.ArgumentNullException("stake_address");
@@ -1335,7 +1326,7 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}");
             urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<AccountContent>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<AccountContentResponse>(urlBuilder_, cancellationToken);
         }
     }
 }

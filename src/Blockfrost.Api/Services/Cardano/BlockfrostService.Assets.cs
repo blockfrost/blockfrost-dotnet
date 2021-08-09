@@ -23,7 +23,7 @@ namespace Blockfrost.Api
       /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
       /// <returns>Return list of assets</returns>
       /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, ESortOrder? order)
         {
             return AssetsAll2Async(count, page, order, CancellationToken.None);
         }
@@ -36,7 +36,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return list of assets</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets?");
@@ -206,7 +206,7 @@ namespace Blockfrost.Api
          /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
          /// <returns>Return the information about the history of a specific asset</returns>
          /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, ESortOrder? order)
         {
             return History3Async(asset, count, page, order, CancellationToken.None);
         }
@@ -220,7 +220,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
                 throw new System.ArgumentNullException("asset");
@@ -368,7 +368,7 @@ namespace Blockfrost.Api
          /// <returns>Return the information about the history of a specific asset</returns>
          /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order)
         {
             return TxsAll4Async(asset, count, page, order, CancellationToken.None);
         }
@@ -383,7 +383,7 @@ namespace Blockfrost.Api
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public async Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
                 throw new System.ArgumentNullException("asset");
@@ -530,7 +530,7 @@ namespace Blockfrost.Api
          /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
          /// <returns>Return the information about the history of a specific asset</returns>
          /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetTransactionResponse>> Transactions2Async(string asset, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetTransactionResponse>> Transactions2Async(string asset, int? count, int? page, ESortOrder? order)
         {
             return Transactions2Async(asset, count, page, order, CancellationToken.None);
         }
@@ -544,7 +544,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetTransactionResponse>> Transactions2Async(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetTransactionResponse>> Transactions2Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
                 throw new System.ArgumentNullException("asset");
@@ -693,7 +693,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetAssetAddressesAsync(asset, count, page, order, CancellationToken.None);
         }
@@ -707,7 +707,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
                 throw new System.ArgumentNullException("asset");
@@ -856,7 +856,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AssetPolicyResponse>> PolicyAsync(string policy_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AssetPolicyResponse>> PolicyAsync(string policy_id, int? count, int? page, ESortOrder? order)
         {
             return PolicyAsync(policy_id, count, page, order, CancellationToken.None);
         }
@@ -870,7 +870,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AssetPolicyResponse>> PolicyAsync(string policy_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AssetPolicyResponse>> PolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (policy_id == null)
                 throw new System.ArgumentNullException("policy_id");

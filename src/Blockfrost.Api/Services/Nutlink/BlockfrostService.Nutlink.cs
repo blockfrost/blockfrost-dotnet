@@ -162,7 +162,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return TickersAsync(address, count, page, order, CancellationToken.None);
         }
@@ -174,7 +174,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -321,7 +321,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, SortOrder? order)
+        public Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, ESortOrder? order)
         {
             return Tickers2Async(address, ticker, count, page, order, CancellationToken.None);
         }
@@ -333,7 +333,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -484,7 +484,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, SortOrder? order)
+        public Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, ESortOrder? order)
         {
             return Tickers3Async(ticker, count, page, order, CancellationToken.None);
         }
@@ -496,7 +496,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the tickers provided by the metadata oracle</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (ticker == null)
                 throw new System.ArgumentNullException("ticker");

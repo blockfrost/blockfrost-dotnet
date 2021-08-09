@@ -22,7 +22,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<TxMetadataLabelResponse>> LabelsAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<TxMetadataLabelResponse>> LabelsAsync(int? count, int? page, ESortOrder? order)
         {
             return LabelsAsync(count, page, order, CancellationToken.None);
         }
@@ -35,7 +35,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<TxMetadataLabelResponse>> LabelsAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<TxMetadataLabelResponse>> LabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metadata/txs/labels?");
@@ -180,7 +180,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<TxMetadataLabelJsonResponse>> Labels2Async(string label, int? count, int? page, SortOrder? order)
+        public Task<ICollection<TxMetadataLabelJsonResponse>> Labels2Async(string label, int? count, int? page, ESortOrder? order)
         {
             return Labels2Async(label, count, page, order, CancellationToken.None);
         }
@@ -194,7 +194,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<TxMetadataLabelJsonResponse>> Labels2Async(string label, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<TxMetadataLabelJsonResponse>> Labels2Async(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
                 throw new System.ArgumentNullException("label");
@@ -344,7 +344,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, SortOrder? order)
+        public Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, ESortOrder? order)
         {
             return Cbor2Async(label, count, page, order, CancellationToken.None);
         }
@@ -358,7 +358,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
                 throw new System.ArgumentNullException("label");
@@ -643,7 +643,7 @@ namespace Blockfrost.Api
           /// <param name="hash">Hash of the requested transaction</param>
           /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
           /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<TxMetadata>> MetadataAllAsync(string hash)
+        public Task<ICollection<TxMetadataResponse>> MetadataAllAsync(string hash)
         {
             return MetadataAllAsync(hash, CancellationToken.None);
         }
@@ -653,7 +653,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<TxMetadata>> MetadataAllAsync(string hash, CancellationToken cancellationToken)
+        public async Task<ICollection<TxMetadataResponse>> MetadataAllAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
                 throw new System.ArgumentNullException("hash");
@@ -694,7 +694,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<TxMetadata>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<TxMetadataResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -783,7 +783,7 @@ namespace Blockfrost.Api
           /// <param name="hash">Hash of the requested transaction</param>
           /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
           /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<TxMetadataCbor>> CborAsync(string hash)
+        public Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash)
         {
             return CborAsync(hash, CancellationToken.None);
         }
@@ -793,7 +793,7 @@ namespace Blockfrost.Api
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<TxMetadataCbor>> CborAsync(string hash, CancellationToken cancellationToken)
+        public async Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
                 throw new System.ArgumentNullException("hash");
@@ -834,7 +834,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<TxMetadataCbor>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<TxMetadataCborResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);

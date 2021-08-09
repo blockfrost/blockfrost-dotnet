@@ -165,7 +165,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<Anonymous32>> ListAllAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<Anonymous32>> ListAllAsync(int? count, int? page, ESortOrder? order)
         {
             return ListAllAsync(count, page, order, CancellationToken.None);
         }
@@ -177,7 +177,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<Anonymous32>> ListAllAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<Anonymous32>> ListAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/?");

@@ -77,7 +77,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> TxsAllAsync(int? count, int? page, ESortOrder? order)
         {
             return TxsAllAsync(count, page, order, CancellationToken.None);
         }
@@ -91,7 +91,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> TxsAllAsync(int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> TxsAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
@@ -254,7 +254,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, ESortOrder? order)
         {
             return TxsAll2Async(hash_or_number, count, page, order, CancellationToken.None);
         }
@@ -269,7 +269,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
                 throw new System.ArgumentNullException("hash_or_number");

@@ -449,7 +449,7 @@ namespace Blockfrost.Api
           /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
           /// <returns>Return the address content</returns>
           /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return UtxosAllAsync(address, count, page, order, CancellationToken.None);
         }
@@ -464,7 +464,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -612,7 +612,7 @@ namespace Blockfrost.Api
           /// <returns>Return the address content</returns>
           /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order)
         {
             return TxsAll3Async(address, count, page, order, CancellationToken.None);
         }
@@ -627,7 +627,7 @@ namespace Blockfrost.Api
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public async Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -778,7 +778,7 @@ namespace Blockfrost.Api
          /// <br/>Has to be higher than or equal to `from` parameter.</param>
          /// <returns>Return the address content</returns>
          /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, SortOrder? order, string from, string to)
+        public Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             return TransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
         }
@@ -796,7 +796,7 @@ namespace Blockfrost.Api
         /// <br/>Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, SortOrder? order, string from, string to, CancellationToken cancellationToken)
+        public async Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");

@@ -746,7 +746,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<Anonymous>> StakesAsync(int number, int? count, int? page)
+        public Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page)
         {
             return StakesAsync(number, count, page, CancellationToken.None);
         }
@@ -758,7 +758,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<Anonymous>> StakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number == null)
                 throw new System.ArgumentNullException("number");
@@ -808,7 +808,7 @@ namespace Blockfrost.Api
                         var status_ = (int)response_.StatusCode;
                         if (status_ == 200)
                         {
-                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<Anonymous>>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            var objectResponse_ = await ReadObjectResponseAsync<ICollection<EpochStakesResponse>>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -1064,7 +1064,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, ESortOrder? order)
         {
             return BlocksAllAsync(number, count, page, order, CancellationToken.None);
         }
@@ -1078,7 +1078,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number == null)
                 throw new System.ArgumentNullException("number");
@@ -1228,7 +1228,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, SortOrder? order)
+        public Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order)
         {
             return BlocksAll2Async(number, pool_id, count, page, order, CancellationToken.None);
         }
@@ -1243,7 +1243,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, SortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number == null)
                 throw new System.ArgumentNullException("number");
