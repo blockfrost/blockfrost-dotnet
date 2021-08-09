@@ -1,26 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class PoolDelegationResponse
     {
         /// <summary>Transaction ID</summary>
-        [Newtonsoft.Json.JsonProperty("tx_hash", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("tx_hash")]
+        [Required(AllowEmptyStrings = true)]
         public string Tx_hash { get; set; }
 
         /// <summary>Certificate within the transaction</summary>
-        [Newtonsoft.Json.JsonProperty("cert_index", Required = Newtonsoft.Json.Required.Always)]
+        [JsonPropertyName("cert_index")]
         public int Cert_index { get; set; }
-
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
     }
 }

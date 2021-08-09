@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Http.Headers;
-using System.Collections.Generic;
-
+using System.Collections.Generic;using System.ComponentModel.DataAnnotations;using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Blockfrost.Api
 {
@@ -20,13 +20,13 @@ namespace Blockfrost.Api
     {
         private HttpClient _httpClient;
         private System.Lazy<System.Text.Json.JsonSerializerOptions> _options;
-        private System.Lazy<Newtonsoft.Json.JsonSerializerSettings> _settings;
+        
 
         public BlockfrostService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);
-            _settings = new System.Lazy<Newtonsoft.Json.JsonSerializerSettings>(CreateSerializerSettings);
+            
         }
 
         private System.Text.Json.JsonSerializerOptions CreateSerializerOptions()
@@ -36,13 +36,7 @@ namespace Blockfrost.Api
             return options;
         }
 
-        private Newtonsoft.Json.JsonSerializerSettings CreateSerializerSettings()
-        {
-            var settings = new Newtonsoft.Json.JsonSerializerSettings();
-            UpdateJsonSerializerSettings(settings);
-            return settings;
-        }
-
+        
         public string BaseUrl
         {
             get { return _httpClient.BaseAddress.AbsoluteUri; }
@@ -50,9 +44,9 @@ namespace Blockfrost.Api
         }
 
         private System.Text.Json.JsonSerializerOptions TextJsonSerializerSettings { get { return _options.Value; } }
-        protected Newtonsoft.Json.JsonSerializerSettings JsonSerializerSettings { get { return _settings.Value; } }
+       
 
-        partial void UpdateJsonSerializerSettings(Newtonsoft.Json.JsonSerializerSettings settings);
+        
         partial void UpdateJsonSerializerOptions(System.Text.Json.JsonSerializerOptions options);
 
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);
@@ -196,12 +190,7 @@ namespace Blockfrost.Api
                     var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, TextJsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
                 }
-                catch (System.Text.Json.JsonException exception) 
-                {
-                    var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
-                }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception) 
                 {
                     var message = "Could not deserialize the response body string as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, responseText, headers, exception);
@@ -214,12 +203,7 @@ namespace Blockfrost.Api
                     var typedBody = await response.Content.ReadFromJsonAsync<T>(TextJsonSerializerSettings, cancellationToken);
                     return new ObjectResponseResult<T>(typedBody, string.Empty);
                 }
-                catch (System.Text.Json.JsonException exception)
-                {
-                    var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
-                    throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);
-                }
-                catch (Newtonsoft.Json.JsonException exception)
+                catch (JsonException exception)
                 {
                     var message = "Could not deserialize the response body stream as " + typeof(T).FullName + ".";
                     throw new ApiException(message, (int)response.StatusCode, string.Empty, headers, exception);

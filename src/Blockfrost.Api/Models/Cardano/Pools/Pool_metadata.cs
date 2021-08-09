@@ -1,51 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class Pool_metadata
     {
         /// <summary>Bech32 pool ID</summary>
-        [Newtonsoft.Json.JsonProperty("pool_id", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("pool_id")]
+        [Required(AllowEmptyStrings = true)]
         public string Pool_id { get; set; }
 
         /// <summary>Hexadecimal pool ID</summary>
-        [Newtonsoft.Json.JsonProperty("hex", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("hex")]
+        [Required(AllowEmptyStrings = true)]
         public string Hex { get; set; }
 
         /// <summary>URL to the stake pool metadata</summary>
-        [Newtonsoft.Json.JsonProperty("url", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
         /// <summary>Hash of the metadata file</summary>
-        [Newtonsoft.Json.JsonProperty("hash", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("hash")]
         public string Hash { get; set; }
 
         /// <summary>Ticker of the stake pool</summary>
-        [Newtonsoft.Json.JsonProperty("ticker", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("ticker")]
         public string Ticker { get; set; }
 
         /// <summary>Name of the stake pool</summary>
-        [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>Description of the stake pool</summary>
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>Home page of the stake pool</summary>
-        [Newtonsoft.Json.JsonProperty("homepage", Required = Newtonsoft.Json.Required.AllowNull)]
+        [JsonPropertyName("homepage")]
         public string Homepage { get; set; }
-
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
     }
 }

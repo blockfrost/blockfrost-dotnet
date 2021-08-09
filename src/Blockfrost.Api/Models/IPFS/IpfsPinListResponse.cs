@@ -1,26 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.5.2.0 (Newtonsoft.Json v11.0.0.0)")]
     public partial class IpfsPinListResponse
     {
         /// <summary>Time of the creation of the IPFS object on our backends</summary>
-        [Newtonsoft.Json.JsonProperty("time_created", Required = Newtonsoft.Json.Required.Always)]
+        [JsonPropertyName("time_created")]
         public int Time_created { get; set; }
 
         /// <summary>Time of the pin of the IPFS object on our backends</summary>
-        [Newtonsoft.Json.JsonProperty("time_pinned", Required = Newtonsoft.Json.Required.Always)]
+        [JsonPropertyName("time_pinned")]
         public int Time_pinned { get; set; }
 
         /// <summary>IPFS hash of the pinned object</summary>
-        [Newtonsoft.Json.JsonProperty("ipfs_hash", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("ipfs_hash")]
+        [Required(AllowEmptyStrings = true)]
         public string Ipfs_hash { get; set; }
 
         /// <summary>Size of the object in Bytes</summary>
-        [Newtonsoft.Json.JsonProperty("size", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [JsonPropertyName("size")]
+        [Required(AllowEmptyStrings = true)]
         public string Size { get; set; }
 
         /// <summary>State of the pinned object. We define 5 states: `queued`, `pinned`, `unpinned`, `failed`, `gc`.
@@ -29,18 +29,9 @@ namespace Blockfrost.Api
         /// <br/>When object is unpinned (i.e. after `/ipfs/pin/remove/{IPFS_path}`) it is marked for garbage collection.
         /// <br/>State `gc` means that a previously `unpinned` item has been garbage collected due to account being over storage quota.
         /// <br/></summary>
-        [Newtonsoft.Json.JsonProperty("state", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+        [JsonPropertyName("state")]
+        [Required(AllowEmptyStrings = true)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public EResponse13State State { get; set; }
-
-        private IDictionary<string, object> _additionalProperties = new Dictionary<string, object>();
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties; }
-            set { _additionalProperties = value; }
-        }
     }
 }

@@ -7,7 +7,7 @@
 #pragma warning disable 3016 // Disable "CS3016 Arrays as attribute arguments is not CLS-compliant"
 
 
-using System.Collections.Generic;
+using System.Collections.Generic;using System.ComponentModel.DataAnnotations;using System.Text.Json.Serialization;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
