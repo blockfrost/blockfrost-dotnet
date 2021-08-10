@@ -1,4 +1,4 @@
-[![master build ci](https://github.com/blockfrost/blockfrost-dotnet/actions/workflows/dotnet.yml/badge.svg)](https://github.com/blockfrost/blockfrost-dotnet/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/blockfrost/blockfrost-dotnet/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/blockfrost/blockfrost-dotnet/actions/workflows/dotnet.yml)
 <br/>
 
 <img src="https://blockfrost.io/images/logo.svg" width="250" align="right" height="90">
