@@ -9,14 +9,11 @@ namespace Blockfrost.ConsoleTool
     {
         public ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
         {
-            var cardanoSharpVersion = "";
-            var version = Assembly.GetAssembly(typeof(Blockfrost.Api.Version))?.GetName().Version;
-            if (version is not null)
-                version.ToString();
+            var blockfrostVersionString = Assembly.GetAssembly(typeof(Api.BlockfrostService))?.GetName().Version?.ToString();
             var cscliVersionString = (Assembly.GetEntryAssembly() ?? throw new InvalidOperationException())
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 ?.InformationalVersion;
-            var versionText = $"blockfrost {cscliVersionString} | Blockfrost.Api {cardanoSharpVersion}";
+            var versionText = $"blockfrost {cscliVersionString} | Blockfrost.Api {blockfrostVersionString}";
             return ValueTask.FromResult(CommandResult.Success(versionText));
         }
     }
