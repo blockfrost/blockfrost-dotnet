@@ -26,7 +26,7 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ### 🏗️ Add package (coming soon) 🚧
 
-The SDK will be hosted on [nuget.org].
+The SDK will be hosted on [nuget.org](https://www.nuget.org/).
 
 <!-- 
 The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
@@ -61,10 +61,10 @@ using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-string network = "YOUR_PROJECT_NETWORK"; // testnet, mainnet
-string apiKey = "YOUR_API_KEY";
+var network = "YOUR_PROJECT_NETWORK"; // testnet, mainnet
+var apiKey = "YOUR_API_KEY";
 
-IServiceCollection services = new ServiceCollection()
+var services = new ServiceCollection()
     .AddBlockfrost(network, apiKey);
 
 var service = services.BuildServiceProvider()
