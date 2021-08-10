@@ -12,7 +12,7 @@
   </PropertyGroup>
   
   <PropertyGroup>
-    <NrtRevisionFormat>{semvertag:main}+{chash}{!:-mod}</NrtRevisionFormat>
+    <NrtRevisionFormat>{semvertag:master}+{chash}{!:-mod}</NrtRevisionFormat>
     <NrtResolveSimpleAttributes>true</NrtResolveSimpleAttributes>
     <NrtResolveInformationalAttribute>true</NrtResolveInformationalAttribute>
     <NrtResolveCopyright>true</NrtResolveCopyright>
@@ -43,5 +43,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="nupkg\" />
   </ItemGroup>
 </Project>
