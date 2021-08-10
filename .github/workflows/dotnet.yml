@@ -8,8 +8,7 @@ on:
 
 jobs:
   build:
-
-    runs-on: [ ubuntu-latest, windows-latest ]
+    runs-on: ubuntu-latest
     env:
       BFCLI_NETWORK: testnet
       BFCLI_API_KEY: ${{ secrets.BFCLI_API_KEY }}
