@@ -25,9 +25,9 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ## Installation
 
-### 🏗️ Add package (coming soon) 🚧
+###  Add package (coming soon)
 
-The SDK will be hosted on [nuget.org](https://www.nuget.org/).
+The SDK will be hosted on [nuget.org](https://www.nuget.org/) when it is ready for use in production environments.
 
 <!-- 
 The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
@@ -43,6 +43,8 @@ $ dotnet add package Blockfrost.Api --prerelease
 
 ### Add as reference
 
+You can add `blockfrost-dotnet` as reference to your project and use it before the package is ready. 
+
 ```console
 git clone https://github.com/blockfrost/blockfrost-dotnet
 dotnet new console -n blockfrost-client
@@ -50,6 +52,8 @@ cd blockfrost-client
 dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add reference ../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.csproj
 ```
+
+🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
 
 ## Usage
 
