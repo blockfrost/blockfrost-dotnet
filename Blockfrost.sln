@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{11189388-1C21-49B7-B232-A35714953484}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{86F79F6F-A241-4878-B7B1-0855AB3A1787}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api", "src\Blockfrost.Api\Blockfrost.Api.csproj", "{2A568A67-4911-4BFD-B112-1B09253B42F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api.Tests", "test\Blockfrost.Api.Tests\Blockfrost.Api.Tests.csproj", "{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7715B8ED-C263-4F2C-B7E7-BFBA48AD693C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		openapi.0.1.25.json = openapi.0.1.25.json
+		README.md = README.md
+		SwaggerClient.Generated.txt = SwaggerClient.Generated.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|x64.Build.0 = Release|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A568A67-4911-4BFD-B112-1B09253B42F1}.Release|x86.Build.0 = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|x64.Build.0 = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Debug|x86.Build.0 = Debug|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|x64.ActiveCfg = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|x64.Build.0 = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|x86.ActiveCfg = Release|Any CPU
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2A568A67-4911-4BFD-B112-1B09253B42F1} = {11189388-1C21-49B7-B232-A35714953484}
+		{80E9918A-8CF7-4B47-8F05-72CE7E97A80C} = {86F79F6F-A241-4878-B7B1-0855AB3A1787}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7CC50D9-3792-4107-BA7C-098AC6757297}
+	EndGlobalSection
+EndGlobal

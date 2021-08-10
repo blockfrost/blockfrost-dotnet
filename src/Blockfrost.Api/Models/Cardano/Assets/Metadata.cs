@@ -1,0 +1,35 @@
+﻿//namespace Blockfrost.Api.Models.Cardano.Assets
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace Blockfrost.Api
+{
+    public partial class Metadata
+    {
+        /// <summary>Asset name</summary>
+        [JsonPropertyName("name")]
+        [Required(AllowEmptyStrings = true)]
+        public string Name { get; set; }
+
+        /// <summary>Asset description</summary>
+        [JsonPropertyName("description")]
+        [Required(AllowEmptyStrings = true)]
+        public string Description { get; set; }
+
+        [JsonPropertyName("ticker")]
+        public string Ticker { get; set; }
+
+        /// <summary>Asset website</summary>
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+
+        /// <summary>Base64 encoded logo of the asset</summary>
+        [JsonPropertyName("logo")]
+        public string Logo { get; set; }
+
+        /// <summary>Number of decimal places of the asset unit</summary>
+        [JsonPropertyName("decimals")]
+        [System.ComponentModel.DataAnnotations.Range(int.MinValue, 255)]
+        public int? Decimals { get; set; }
+    }
+}
