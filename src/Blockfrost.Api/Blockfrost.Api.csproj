@@ -6,7 +6,7 @@
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>nupkg</PackageOutputPath>
-    <Authors>Alex</Authors>
+    <Authors>blockfrost-io</Authors>
     <Company>blockfrost-io</Company>
     <Description>Services for interacting with the blockfrost api</Description>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
