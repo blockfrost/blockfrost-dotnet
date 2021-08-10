@@ -1,0 +1,22 @@
+﻿using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Blockfrost.Api.Extensions
+{
+    public class BlockfrostAuthorizationHandler : DelegatingHandler
+    {
+        private readonly string _apiKey;
+
+        public BlockfrostAuthorizationHandler(string apiKey)
+        {
+            _apiKey = apiKey;
+        }
+
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            request.Headers.Add("projectId",_apiKey);
+            return base.SendAsync(request, cancellationToken);
+        }
+    }
+}
