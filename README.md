@@ -8,8 +8,8 @@
 
 <p align="center">.NET SDK for Blockfrost.io API.</p>
 <p align="center">
-  <a href="#getting-started">Getting started</a> •
-  <a href="#installation">Installation</a> •
+  <a href="#getting-started">Getting started</a> â€¢
+  <a href="#installation">Installation</a> â€¢
   <a href="#usage">Usage</a>
 </p>
 <br>
@@ -24,7 +24,7 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ## Installation
 
-The SDK is hosted on [nuget.com](https://www.nuget.com/package/@blockfrost/blockfrost-dotnet), so you can directly import it using your favorite package manager.
+The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
 
 ```console
 $ dotnet new console blockfrost-client
