@@ -26,6 +26,8 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ### 🏗️ Add package (coming soon) 🚧
 
+The SDK will be hosted on [nuget.org].
+
 <!-- 
 The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
 
@@ -38,18 +40,19 @@ $ dotnet add package Blockfrost.Api --prerelease
 <br/>
 -->
 
-### Add as reference 
+### Add as reference
 
 ```console
 git clone https://github.com/blockfrost/blockfrost-dotnet
 dotnet new console -n blockfrost-client
 cd blockfrost-client
+dotnet add package Microsoft.Extensions.DependencyInjection
 dotnet add reference ../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.csproj
 ```
 
 ## Usage
 
-Using the SDK is pretty straight-forward as you can see from the following examples.
+Using the SDK is pretty straight-forward as you can see from the following example.
 
 ### Cardano
 
@@ -58,16 +61,16 @@ using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
-string network = "YOUR_PROJECT_NETWORK"; // testnet, mainnet or ipfs
+string network = "YOUR_PROJECT_NETWORK"; // testnet, mainnet
 string apiKey = "YOUR_API_KEY";
 
 IServiceCollection services = new ServiceCollection()
     .AddBlockfrost(network, apiKey);
 
 var service = services.BuildServiceProvider()
-    .GetRequiredService<BlockfrostService>();
+    .GetRequiredService<IBlockfrostService>();
 
-var health = await service.HealthAsync();
+var health = await service.GetHealthAsync();
 
 System.Console.WriteLine(health.IsHealthy);
 ```
@@ -77,6 +80,8 @@ $ dotnet run
 True
 ```
 
+<!--
+
 ### IPFS
 
 ```cs
@@ -85,3 +90,4 @@ True
 
 For a more detailed list of possibilities, [check out the wiki](https://github.com/blockfrost/blockfrost-dotnet/wiki).
 
+-->
