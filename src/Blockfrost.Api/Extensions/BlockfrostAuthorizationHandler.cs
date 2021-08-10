@@ -15,7 +15,7 @@ namespace Blockfrost.Api.Extensions
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            request.Headers.Add("projectId",_apiKey);
+            request.Headers.Add("project_id",_apiKey);
             return base.SendAsync(request, cancellationToken);
         }
     }

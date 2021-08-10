@@ -15,34 +15,29 @@ namespace Blockfrost.Api
     public partial class BlockfrostService
     {
         private HttpClient _httpClient;
-        private System.Lazy<System.Text.Json.JsonSerializerOptions> _options;
+        private Lazy<JsonSerializerOptions> _options;
         
-
         public BlockfrostService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);
-            
+            _options = new Lazy<JsonSerializerOptions>(CreateSerializerOptions);    
         }
 
-        private System.Text.Json.JsonSerializerOptions CreateSerializerOptions()
+        private JsonSerializerOptions CreateSerializerOptions()
         {
-            var options = new System.Text.Json.JsonSerializerOptions();
+            var options = new JsonSerializerOptions();
             UpdateJsonSerializerOptions(options);
             return options;
         }
 
-        
         public string BaseUrl
         {
             get { return _httpClient.BaseAddress.AbsoluteUri; }
             set { _httpClient.BaseAddress = new Uri(value); }
         }
 
-        private System.Text.Json.JsonSerializerOptions TextJsonSerializerSettings { get { return _options.Value; } }
-       
+        private JsonSerializerOptions TextJsonSerializerSettings { get { return _options.Value; } }
 
-        
         partial void UpdateJsonSerializerOptions(System.Text.Json.JsonSerializerOptions options);
 
         partial void PrepareRequest(HttpClient client, HttpRequestMessage request, string url);

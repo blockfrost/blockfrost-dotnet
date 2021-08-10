@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.ConsoleTool
 {
+    /// <summary>
+    /// Based on https://github.com/CardanoSharp/cscli
+    /// </summary>
     class Program
     {
         static async Task<int> Main(string[] args)

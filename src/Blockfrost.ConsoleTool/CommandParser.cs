@@ -1,7 +1,14 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Blockfrost.Api;
+using Blockfrost.Api.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Blockfrost.ConsoleTool
 {
+
     public static class CommandParser
     {
         public static ICommand ParseArgsToCommand(string[] args)
@@ -17,12 +24,12 @@ namespace Blockfrost.ConsoleTool
             }
 
             var flattenedArgs = string.Join(' ', args);
-            if (flattenedArgs.StartsWith("blockfrost address"))
+            if (flattenedArgs.StartsWith("address"))
             {
                 return BuildCommand<AddressCommand>(args);
             }
             
-            if (flattenedArgs.StartsWith("blockfrost health"))
+            if (flattenedArgs.StartsWith("health"))
             {
                 return BuildCommand<HealthCommand>(args);
             }
@@ -31,15 +38,37 @@ namespace Blockfrost.ConsoleTool
         }
 
         private static ICommand BuildCommand<T>(string[] args)
-            where T : ICommand
+            where T : class, ICommand 
         {
-            var command = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
-                .AddCommandLine(args)
-                .Build()
-                .Get<T>();
+            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
 
-            return command;
+            var builder = new ConfigurationBuilder();
+            builder.AddEnvironmentVariables().AddCommandLine(args);
+
+            //only add secrets in development
+            if (isDevelopment)
+            {
+                builder.AddUserSecrets<CliSettings>();
+            }
+
+            var network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
+            var apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
+
+            var config = builder.Build();
+
+            if (isDevelopment)
+            {
+                apikey ??= config["CliSettings:ApiKey"];
+            }
+
+            var provider = new ServiceCollection()
+                .AddSingleton(_ => new JsonSerializerOptions() { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
+                .AddSingleton<T>()
+                .AddBlockfrost(network, apikey)
+                .BuildServiceProvider();
+
+            return provider.GetRequiredService<T>();
         }
 
         private static bool IsHelpOption(string arg)
