@@ -2,6 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <Version>0.0.2-alpha</Version>
+
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageOutputPath>nupkg</PackageOutputPath>
+    <Authors>Alex</Authors>
+    <Company>blockfrost io</Company>
+    <Description>Services for interacting with the blockfrost api</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>Blockfrost.Api</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NrtRevisionFormat>{semvertag:main}+{chash}{!:-mod}</NrtRevisionFormat>
+    <NrtResolveSimpleAttributes>true</NrtResolveSimpleAttributes>
+    <NrtResolveInformationalAttribute>true</NrtResolveInformationalAttribute>
+    <NrtResolveCopyright>true</NrtResolveCopyright>
+    <NrtTagMatch>v[0-9]*</NrtTagMatch>
+    <NrtRemoveTagV>true</NrtRemoveTagV>
+    <NrtRequiredVcs>git</NrtRequiredVcs>
+    <NrtShowRevision>true</NrtShowRevision>
+    <AssemblyName>Blockfrost.Api</AssemblyName>
+    <RootNamespace>Blockfrost.Api</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +38,10 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
     <PackageReference Include="NSwag.ApiDescription.Client" Version="13.13.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Unclassified.NetRevisionTask" Version="0.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
