@@ -1,10 +1,7 @@
 {
   "profiles": {
     "Blockfrost.Api.Tests": {
-      "commandName": "Project",
-      "environmentVariables": {
-        "NETCORE_ENVIRONMENT": "development"
-      }
+      "commandName": "Project"
     }
   }
 }
