@@ -7,9 +7,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageOutputPath>nupkg</PackageOutputPath>
     <Authors>Alex</Authors>
-    <Company>blockfrost io</Company>
+    <Company>blockfrost-io</Company>
     <Description>Services for interacting with the blockfrost api</Description>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageId>Blockfrost.Api</PackageId>
   </PropertyGroup>
 
@@ -24,6 +24,7 @@
     <NrtShowRevision>true</NrtShowRevision>
     <AssemblyName>Blockfrost.Api</AssemblyName>
     <RootNamespace>Blockfrost.Api</RootNamespace>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,6 +46,17 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="nupkg\" />
   </ItemGroup>
 
 </Project>
