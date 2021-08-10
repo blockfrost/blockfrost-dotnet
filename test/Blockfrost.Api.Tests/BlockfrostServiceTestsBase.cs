@@ -905,8 +905,7 @@ namespace Blockfrost.Api.Tests
         }
 
         protected static void SetupEnvironment(string projectName)
-        {
-            
+        {            
             //Determines the working environment as IHostingEnvironment is unavailable in a console app
 
             var builder = new ConfigurationBuilder();
@@ -925,6 +924,7 @@ namespace Blockfrost.Api.Tests
             }
 
             configuration = builder.Build();
+
             //_service = GetService(projectName);
 
             var apiKey = configuration["BFCLI_API_KEY"];
@@ -946,5 +946,6 @@ namespace Blockfrost.Api.Tests
         //    _service = provider.GetRequiredService<IBlockfrostService>();
         //    return _service;
         //}
+
     }
 }
