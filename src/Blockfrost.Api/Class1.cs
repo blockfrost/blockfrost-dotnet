@@ -2,7 +2,14 @@
 
 namespace Blockfrost.Api
 {
-    public class Class1
+    public enum EAddressType
     {
+        Byron,
+        Shelley
+    }
+
+    public class Version
+    {
+
     }
 }
