@@ -905,44 +905,47 @@ namespace Blockfrost.Api.Tests
         }
 
         protected static void SetupEnvironment(string projectName)
-        {
-
-            var devEnvironmentVariable = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
-
-            var isDevelopment = string.IsNullOrEmpty(devEnvironmentVariable) ||
-                                devEnvironmentVariable.ToLower() == "development";
+        {            
             //Determines the working environment as IHostingEnvironment is unavailable in a console app
 
             var builder = new ConfigurationBuilder();
             // tell the builder to look for the appsettings.json file
             builder
+                .AddEnvironmentVariables()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             //only add secrets in development
+            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+
+            var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
             if (isDevelopment)
             {
                 builder.AddUserSecrets<TestnetServiceTests>();
             }
 
             configuration = builder.Build();
-            _service = GetService(projectName);
 
+            //_service = GetService(projectName);
+
+            var apiKey = configuration["BFCLI_API_KEY"];
+            var network = configuration["BFCLI_NETWORK"];
             IServiceCollection services = new ServiceCollection();
-
-            services.AddBlockfrost(projectName, configuration);
+            services.AddBlockfrost(network, apiKey);
 
             var provider = services.BuildServiceProvider();
             _service = provider.GetRequiredService<IBlockfrostService>();
         }
-        private static IBlockfrostService GetService(string projectName)
-        {
-            IServiceCollection services = new ServiceCollection();
 
-            services.AddBlockfrost(projectName, configuration);
+        //private static IBlockfrostService GetService(string projectName)
+        //{
+        //    IServiceCollection services = new ServiceCollection();
 
-            var provider = services.BuildServiceProvider();
-            _service = provider.GetRequiredService<IBlockfrostService>();
-            return _service;
-        }
+        //    services.AddBlockfrost(projectName, configuration);
+
+        //    var provider = services.BuildServiceProvider();
+        //    _service = provider.GetRequiredService<IBlockfrostService>();
+        //    return _service;
+        //}
+
     }
 }
