@@ -26,7 +26,7 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ### 🏗️ Add package (coming soon) 🚧
 
-The SDK will be hosted on [nuget.org].
+The SDK will be hosted on [nuget.org](https://www.nuget.org/).
 
 <!-- 
 The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
