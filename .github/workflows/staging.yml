@@ -1,16 +1,16 @@
-name: ci build
+name: staging build
 
 on:
   push:
-    branches: [ main ]
+    branches: [ staging ]
   pull_request:
-    branches: [ main ]
+    branches: [ staging ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NETCORE_ENVIRONMENT: production
+      NETCORE_ENVIRONMENT: staging
       BFCLI_NETWORK: testnet
       BFCLI_API_KEY: ${{ secrets.BFCLI_API_KEY }}
 
@@ -25,5 +25,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --filter ${{ env.FILTER }}
+      env:
+        FILTER: "FullyQualifiedName!~Integration"
       

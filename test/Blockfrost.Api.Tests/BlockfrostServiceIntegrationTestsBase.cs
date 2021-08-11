@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;using System.ComponentModel.DataAnnotations;using System.Text.Json.Serialization;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,7 +13,7 @@ namespace Blockfrost.Api.Tests
     /// We need to be aware of versioning
     /// </summary>
     [TestClass]
-    public abstract class BlockfrostServiceTestsBase : IBlockfrostService
+    public abstract class BlockfrostServiceIntegrationTestsBase : IBlockfrostService
     {
         private const string DerivingClassesMustImplementErrorMessage = "Deriving classes must implement this test explicitly";
         
@@ -44,6 +44,14 @@ namespace Blockfrost.Api.Tests
         public bool ReadResponseAsString { get; set; }
         string IBlockfrostService.BaseUrl { get; set; }
         bool IBlockfrostService.ReadResponseAsString { get; set; }
+        
+        [TestInitialize]
+        public void PassInStaging()
+        {
+            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            var isStaging = string.IsNullOrEmpty(env) || env.ToLower() == "staging";
+            
+        }
 
         [TestMethod]
         public async Task AssetsAll2AsyncTest()
@@ -918,11 +926,12 @@ namespace Blockfrost.Api.Tests
             var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
 
             var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
+
             if (isDevelopment)
             {
-                builder.AddUserSecrets<TestnetServiceTests>();
+                builder.AddUserSecrets<TestnetServiceIntegrationTests>();
             }
-
+            
             configuration = builder.Build();
 
             //_service = GetService(projectName);
