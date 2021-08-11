@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests
@@ -18,32 +19,6 @@ namespace Blockfrost.Api.Tests
         public static void Setup(TestContext context)
         {
             SetupEnvironment("Blockfrost.Net.Sdk-testnet");
-        }
-
-        [TestInitialize]
-        public void PassInStagingEnvironment()
-        {
-        }
-
-        [TestMethod]
-        [DataRow(addr_test)]
-        public override async Task GetAddressTest(string address)
-        {
-            await base.GetAddressTest(address);
-        }
-
-        [TestMethod]
-        [DataRow(addr_test, stake_test)]
-        public override async Task GetStakeAddressTest(string paymentAddress, string stakeAddress)
-        {
-            await base.GetStakeAddressTest(paymentAddress, stakeAddress);
-        }
-
-        [TestMethod]
-        [DataRow(addr_test, EAddressType.Shelley)]
-        public override async Task GetAddressEraTest(string paymentAddress, EAddressType era)
-        {
-            await base.GetAddressEraTest(paymentAddress, era);
         }
     }
 }

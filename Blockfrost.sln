@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7715B8ED-C263-4F2C-B7E7-BFBA48AD693C}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		openapi.0.1.25.json = openapi.0.1.25.json
 		README.md = README.md
 	EndProjectSection
 EndProject

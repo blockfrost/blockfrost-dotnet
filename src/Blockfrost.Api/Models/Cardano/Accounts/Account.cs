@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 //namespace Blockfrost.Api.Models.Cardano.Accounts
 namespace Blockfrost.Api
 {
-    public partial class AccountContentResponse
+    public partial class Account
     {
         /// <summary>Registration state of an account</summary>
         [JsonPropertyName("active")]

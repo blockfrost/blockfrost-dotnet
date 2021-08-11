@@ -84,7 +84,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<EpochContentResponse>> Next2Async(int number, int? count, int? page)
         {
-            return Next2Async(number, count, page, CancellationToken.None);
+            return NextEpochAsync(number, count, page, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -94,7 +94,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<EpochContentResponse>> Next2Async(int number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<EpochContentResponse>> NextEpochAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -124,7 +124,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<EpochContentResponse>> Previous2Async(int number, int? count, int? page)
         {
-            return Previous2Async(number, count, page, CancellationToken.None);
+            return PreviousEpochAsync(number, count, page, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -134,7 +134,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results</param>
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<EpochContentResponse>> Previous2Async(int number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<EpochContentResponse>> PreviousEpochAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -164,7 +164,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page)
         {
-            return StakesAsync(number, count, page, CancellationToken.None);
+            return EpochStakesAsync(number, count, page, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -174,7 +174,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<EpochStakesResponse>> EpochStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -203,9 +203,9 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<ICollection<Anonymous2>> Stakes2Async(int number, string pool_id, int? count, int? page)
+        public Task<ICollection<Anonymous2>> EpochStakesByPool(int number, string pool_id, int? count, int? page)
         {
-            return Stakes2Async(number, pool_id, count, page, CancellationToken.None);
+            return EpochStakesByPool(number, pool_id, count, page, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -216,7 +216,7 @@ namespace Blockfrost.Api
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<Anonymous2>> Stakes2Async(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
+        public async Task<ICollection<Anonymous2>> EpochStakesByPool(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -252,7 +252,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, ESortOrder? order)
         {
-            return BlocksAllAsync(number, count, page, order, CancellationToken.None);
+            return EpochBlocks(number, count, page, order, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -264,7 +264,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> BlocksAllAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> EpochBlocks(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -302,7 +302,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order)
         {
-            return BlocksAll2Async(number, pool_id, count, page, order, CancellationToken.None);
+            return EpochBlocksByPool(number, pool_id, count, page, order, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -315,7 +315,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> EpochBlocksByPool(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");
@@ -351,7 +351,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<EpochParamContent> Parameters2Async(int number)
         {
-            return Parameters2Async(number, CancellationToken.None);
+            return EpochParameters(number, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -359,7 +359,7 @@ namespace Blockfrost.Api
         /// <param name="number">Number of the epoch</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<EpochParamContent> Parameters2Async(int number, CancellationToken cancellationToken)
+        public async Task<EpochParamContent> EpochParameters(int number, CancellationToken cancellationToken)
         {
             if (number < 0)
                 throw new System.ArgumentNullException("number");

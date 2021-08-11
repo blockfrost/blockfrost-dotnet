@@ -9,12 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using System.Net.Http;
+using System.Threading;
 
 namespace Blockfrost.Api.Extensions
 {
     public static class BlockfrostServiceExtensions
     {
-
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string network, string apiKey)
         {
             services.AddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));

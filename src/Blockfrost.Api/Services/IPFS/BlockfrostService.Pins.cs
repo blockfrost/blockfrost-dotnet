@@ -136,7 +136,7 @@ namespace Blockfrost.Api
                 var url_ = urlBuilder_.ToString();
                 request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
 
-                PrepareRequest(_httpClient, request_, url_);
+                PrepareRequest(_httpClient, request_, urlBuilder_);
 
                 var response_ = await _httpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 var disposeResponse_ = true;

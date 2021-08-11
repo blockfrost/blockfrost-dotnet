@@ -39,7 +39,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<AddressResponse> AddressesAsync(string address)
         {
-            return AddressesAsync(address, CancellationToken.None);
+            return AddressAsync(address, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -47,7 +47,7 @@ namespace Blockfrost.Api
         /// <param name="address">Bech32 address.</param>
         /// <returns>Return the address content.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AddressResponse> AddressesAsync(string address, CancellationToken cancellationToken)
+        public async Task<AddressResponse> AddressAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -65,7 +65,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<AddressContentTotal> TotalAsync(string address)
         {
-            return TotalAsync(address, CancellationToken.None);
+            return AddressTotalAsync(address, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -73,7 +73,7 @@ namespace Blockfrost.Api
         /// <param name="address">Bech32 address.</param>
         /// <returns>Return the Address details.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AddressContentTotal> TotalAsync(string address, CancellationToken cancellationToken)
+        public async Task<AddressContentTotal> AddressTotalAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -95,7 +95,7 @@ namespace Blockfrost.Api
           /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, ESortOrder? order)
         {
-            return UtxosAllAsync(address, count, page, order, CancellationToken.None);
+            return AddressUtxoAsync(address, count, page, order, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -108,7 +108,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AddressUTxOResponse>> UtxosAllAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<AddressUTxOResponse>> AddressUtxoAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -143,7 +143,7 @@ namespace Blockfrost.Api
         [System.Obsolete]
         public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order)
         {
-            return TxsAll3Async(address, count, page, order, CancellationToken.None);
+            return AddressTxsAsync(address, count, page, order, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -156,7 +156,7 @@ namespace Blockfrost.Api
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [System.Obsolete]
-        public async Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<ICollection<string>> AddressTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
@@ -195,7 +195,7 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
-            return TransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
+            return AddressTransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -211,7 +211,7 @@ namespace Blockfrost.Api
         /// <br/>Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<ICollection<AddressTransactionResponse>> TransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
+        public async Task<ICollection<AddressTransactionResponse>> AddressTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             if (address == null)
                 throw new System.ArgumentNullException("address");
