@@ -5,14 +5,6 @@ namespace Blockfrost.Api
 {
     public partial class IpfsPinListResponse
     {
-        /// <summary>Time of the creation of the IPFS object on our backends</summary>
-        [JsonPropertyName("time_created")]
-        public int Time_created { get; set; }
-
-        /// <summary>Time of the pin of the IPFS object on our backends</summary>
-        [JsonPropertyName("time_pinned")]
-        public int Time_pinned { get; set; }
-
         /// <summary>IPFS hash of the pinned object</summary>
         [JsonPropertyName("ipfs_hash")]
         [Required(AllowEmptyStrings = true)]
@@ -33,5 +25,13 @@ namespace Blockfrost.Api
         [Required(AllowEmptyStrings = true)]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public EResponse13State State { get; set; }
+
+        /// <summary>Time of the creation of the IPFS object on our backends</summary>
+        [JsonPropertyName("time_created")]
+        public int Time_created { get; set; }
+
+        /// <summary>Time of the pin of the IPFS object on our backends</summary>
+        [JsonPropertyName("time_pinned")]
+        public int Time_pinned { get; set; }
     }
 }

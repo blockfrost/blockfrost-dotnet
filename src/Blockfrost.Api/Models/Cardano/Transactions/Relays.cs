@@ -4,14 +4,6 @@ namespace Blockfrost.Api
 {
     public partial class Relays
     {
-        /// <summary>IPv4 address of the relay</summary>
-        [JsonPropertyName("ipv4")]
-        public string Ipv4 { get; set; }
-
-        /// <summary>IPv6 address of the relay</summary>
-        [JsonPropertyName("ipv6")]
-        public string Ipv6 { get; set; }
-
         /// <summary>DNS name of the relay</summary>
         [JsonPropertyName("dns")]
         public string Dns { get; set; }
@@ -19,6 +11,14 @@ namespace Blockfrost.Api
         /// <summary>DNS SRV entry of the relay</summary>
         [JsonPropertyName("dns_srv")]
         public string Dns_srv { get; set; }
+
+        /// <summary>IPv4 address of the relay</summary>
+        [JsonPropertyName("ipv4")]
+        public string Ipv4 { get; set; }
+
+        /// <summary>IPv6 address of the relay</summary>
+        [JsonPropertyName("ipv6")]
+        public string Ipv6 { get; set; }
 
         /// <summary>Network port of the relay</summary>
         [JsonPropertyName("port")]

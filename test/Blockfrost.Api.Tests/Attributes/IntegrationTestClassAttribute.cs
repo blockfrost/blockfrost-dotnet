@@ -6,22 +6,22 @@ namespace Blockfrost.Api.Tests
     /// An extension of the [TestClass] attribute. If applied to a class, any [TestMethod] attributes
     /// are automatically upgraded to [TestMethodWithIgnoreIfSupport].
     /// </summary>
-    public class IgnoreAllIfAttribute : TestClassAttribute
+    public class IntegrationTestClassAttribute : TestClassAttribute
     {
-        public string IgnoreEnvironment { get; }
-
-        public IgnoreAllIfAttribute(string ignoreEnvironment)
+        public IntegrationTestClassAttribute(string ignoreEnvironment)
         {
             IgnoreEnvironment = ignoreEnvironment;
         }
-        
+
+        public string IgnoreEnvironment { get; }
+
         public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
         {
-            if (testMethodAttribute is TestMethodWithIgnoreIfSupportAttribute)
+            if (testMethodAttribute is IntegrationTestMethodAttribute)
             {
                 return testMethodAttribute;
             }
-            return new TestMethodWithIgnoreIfSupportAttribute(IgnoreEnvironment);
+            return new IntegrationTestMethodAttribute(IgnoreEnvironment);
         }
     }
 }

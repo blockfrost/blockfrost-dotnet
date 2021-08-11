@@ -3,20 +3,6 @@ using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    public abstract class HttpErrorResponse
-    {
-        [JsonPropertyName("status_code")]
-        public int Status_code { get; set; }
-
-        [JsonPropertyName("error")]
-        [Required(AllowEmptyStrings = true)]
-        public string Error { get; set; }
-
-        [JsonPropertyName("message")]
-        [Required(AllowEmptyStrings = true)]
-        public string Message { get; set; }
-    }
-
     public partial class BadRequestResponse : HttpErrorResponse
     {
     }
@@ -25,12 +11,18 @@ namespace Blockfrost.Api
     {
     }
 
-    public partial class UnsupportedMediaTypeResponse : HttpErrorResponse
+    public abstract class HttpErrorResponse
     {
-    }
+        [JsonPropertyName("error")]
+        [Required(AllowEmptyStrings = true)]
+        public string Error { get; set; }
 
-    public partial class TooManyRequestsResponse : HttpErrorResponse
-    {
+        [JsonPropertyName("message")]
+        [Required(AllowEmptyStrings = true)]
+        public string Message { get; set; }
+
+        [JsonPropertyName("status_code")]
+        public int Status_code { get; set; }
     }
 
     public partial class InternalServerErrorResponse : HttpErrorResponse
@@ -38,6 +30,14 @@ namespace Blockfrost.Api
     }
 
     public partial class NotFoundResponse : HttpErrorResponse
+    {
+    }
+
+    public partial class TooManyRequestsResponse : HttpErrorResponse
+    {
+    }
+
+    public partial class UnsupportedMediaTypeResponse : HttpErrorResponse
     {
     }
 }

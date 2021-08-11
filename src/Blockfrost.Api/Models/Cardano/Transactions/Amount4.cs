@@ -7,14 +7,14 @@ namespace Blockfrost.Api
 
     public partial class Amount4
     {
-        /// <summary>The unit of the value</summary>
-        [JsonPropertyName("unit")]
-        [Required(AllowEmptyStrings = true)]
-        public string Unit { get; set; }
-
         /// <summary>The quantity of the unit</summary>
         [JsonPropertyName("quantity")]
         [Required(AllowEmptyStrings = true)]
         public string Quantity { get; set; }
+
+        /// <summary>The unit of the value</summary>
+        [JsonPropertyName("unit")]
+        [Required(AllowEmptyStrings = true)]
+        public string Unit { get; set; }
     }
 }

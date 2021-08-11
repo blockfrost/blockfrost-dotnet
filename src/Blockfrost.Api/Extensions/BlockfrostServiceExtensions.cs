@@ -1,15 +1,8 @@
-﻿using System;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using System;
 using System.Net.Http;
-using System.Threading;
 
 namespace Blockfrost.Api.Extensions
 {
@@ -21,19 +14,20 @@ namespace Blockfrost.Api.Extensions
             services
                 .AddHttpClient<IBlockfrostService, BlockfrostService>(client => ConfigureHttpClient(network, client))
                 .AddHttpMessageHandler<BlockfrostAuthorizationHandler>();
-            
+
             return services;
         }
 
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
-            services.AddScoped(provider => {
+            services.AddScoped(provider =>
+            {
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             });
 
             services.Configure<BlockfrostOptions>(configuration.GetSection("Blockfrost"));
-                        
+
             services
                 .AddHttpClient<IBlockfrostService, BlockfrostService>(projectName, (provider, client) =>
                 {
@@ -41,10 +35,10 @@ namespace Blockfrost.Api.Extensions
                     ConfigureHttpClient(options[projectName].Network, client);
                 })
                 .AddHttpMessageHandler<BlockfrostAuthorizationHandler>();
-            
+
             return services;
         }
-        
+
         private static void ConfigureHttpClient(string network, HttpClient client)
         {
             switch (network)
@@ -52,12 +46,15 @@ namespace Blockfrost.Api.Extensions
                 case "testnet":
                     client.BaseAddress = new Uri("https://cardano-testnet.blockfrost.io/api/v0/");
                     break;
+
                 case "mainnet":
                     client.BaseAddress = new Uri("https://cardano-mainnet.blockfrost.io/api/v0/");
                     break;
+
                 case "ipfs":
                     client.BaseAddress = new Uri("https://ipfs.blockfrost.io/api/v0/");
                     break;
+
                 default:
                     throw new NotSupportedException($"The specified network '{network}' is not supported");
             }

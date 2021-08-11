@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests
 {
@@ -15,7 +9,6 @@ namespace Blockfrost.Api.Tests
         //public async Task Test()
         //{
         //    using var http = new HttpClient();
-
 
         //    var s = new Service(http);
         //    var p = new BlockfrostService.RouteParam<Account>();
@@ -54,12 +47,7 @@ namespace Blockfrost.Api.Tests
         //            throw;
         //        }
 
-
         //    }
         //}
-    }
-
-    public interface IRouteParam<T>
-    {
     }
 }

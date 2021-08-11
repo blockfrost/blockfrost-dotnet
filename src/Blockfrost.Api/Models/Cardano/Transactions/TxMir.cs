@@ -5,16 +5,6 @@ namespace Blockfrost.Api
 {
     public partial class TxMir
     {
-        /// <summary>Source of MIR funds</summary>
-        [JsonPropertyName("pot")]
-        [Required(AllowEmptyStrings = true)]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public EPot Pot { get; set; }
-
-        /// <summary>Index of the certificate within the transaction</summary>
-        [JsonPropertyName("cert_index")]
-        public int Cert_index { get; set; }
-
         /// <summary>Bech32 stake address</summary>
         [JsonPropertyName("address")]
         [Required(AllowEmptyStrings = true)]
@@ -24,5 +14,15 @@ namespace Blockfrost.Api
         [JsonPropertyName("amount")]
         [Required(AllowEmptyStrings = true)]
         public string Amount { get; set; }
+
+        /// <summary>Index of the certificate within the transaction</summary>
+        [JsonPropertyName("cert_index")]
+        public int Cert_index { get; set; }
+
+        /// <summary>Source of MIR funds</summary>
+        [JsonPropertyName("pot")]
+        [Required(AllowEmptyStrings = true)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public EPot Pot { get; set; }
     }
 }

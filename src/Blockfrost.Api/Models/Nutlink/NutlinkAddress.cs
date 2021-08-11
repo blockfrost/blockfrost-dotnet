@@ -10,18 +10,18 @@ namespace Blockfrost.Api
         [Required(AllowEmptyStrings = true)]
         public string Address { get; set; }
 
-        /// <summary>URL do specific metadata file</summary>
-        [JsonPropertyName("metadata_url")]
-        [Required(AllowEmptyStrings = true)]
-        public string Metadata_url { get; set; }
+        /// <summary>The cached metadata of the `metadata_url` file.</summary>
+        [JsonPropertyName("metadata")]
+        public object Metadata { get; set; }
 
         /// <summary>Hash of the metadata file</summary>
         [JsonPropertyName("metadata_hash")]
         [Required(AllowEmptyStrings = true)]
         public string Metadata_hash { get; set; }
 
-        /// <summary>The cached metadata of the `metadata_url` file.</summary>
-        [JsonPropertyName("metadata")]
-        public object Metadata { get; set; }
+        /// <summary>URL do specific metadata file</summary>
+        [JsonPropertyName("metadata_url")]
+        [Required(AllowEmptyStrings = true)]
+        public string Metadata_url { get; set; }
     }
 }

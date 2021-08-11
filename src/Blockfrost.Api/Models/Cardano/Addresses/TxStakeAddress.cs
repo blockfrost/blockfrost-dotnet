@@ -6,14 +6,14 @@ namespace Blockfrost.Api
 {
     public partial class TxStakeAddress
     {
-        /// <summary>Index of the certificate within the transaction</summary>
-        [JsonPropertyName("cert_index")]
-        public int Cert_index { get; set; }
-
         /// <summary>Delegation stake address</summary>
         [JsonPropertyName("address")]
         [Required(AllowEmptyStrings = true)]
         public string Address { get; set; }
+
+        /// <summary>Index of the certificate within the transaction</summary>
+        [JsonPropertyName("cert_index")]
+        public int Cert_index { get; set; }
 
         /// <summary>Registration boolean, false if deregistration</summary>
         [JsonPropertyName("registration")]

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Collections.Generic;using System.ComponentModel.DataAnnotations;using System.Text.Json.Serialization;
+
 namespace Blockfrost.Api
 {
-    public partial class BlockfrostService : IBlockfrostService
+    public partial class LedgerService : ABlockfrostService, ILedgerService
     {
+        public LedgerService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
         /// <summary>Blockchain genesis</summary>
         /// <returns>Return the genesis parameters.</returns>
@@ -27,7 +28,6 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/genesis");
 
             return await SendGetRequestAsync<GenesisContentResponse>(urlBuilder_, cancellationToken);
-           
         }
     }
 }
