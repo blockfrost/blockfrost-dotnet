@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "0.1.25",
+    "version": "0.1.26",
     "title": "Blockfrost.io ~ API Documentation",
     "x-logo": {
       "url": "https://staging.blockfrost.io/images/logo.svg",
@@ -17,7 +17,7 @@
       "url": "https://opensource.org/licenses/MIT"
     },
     "termsOfService": "https://blockfrost.io/terms",
-    "description": "Blockfrost is an API as a service that allows users to interact with the Cardano blockchain and parts of its ecosystem.\n\n## Tokens\n\nAfter signing up on https://blockfrost.io, a `project_id` token is automatically generated for each project.\nHTTP header of your request MUST include this `project_id` in order to authenticate against Blockfrost servers.\n\n## Available networks\n\nAt the moment, you can use the following networks. Please, note that each network has its own `project_id`.\n\n<table>\n  <tr><td><b>Network</b></td><td><b>Endpoint</b></td></tr>\n  <tr><td>Cardano mainnet</td><td><tt>https://cardano-mainnet.blockfrost.io/api/v0</td></tt></tr>\n  <tr><td>Cardano testnet</td><td><tt>https://cardano-testnet.blockfrost.io/api/v0</tt></td></tr>\n  <tr><td>InterPlanetary File System</td><td><tt>https://ipfs.blockfrost.io/api/v0</tt></td></tr>\n</table>\n\n## Concepts\n\n* All endpoints return either a JSON object or an array.\n* Data is returned in *ascending* (oldest first, newest last) order.\n  * You might use the `?order=desc` query parameter to reverse this order.\n* By default, we return 100 results at a time. You have to use `?page=2` to list through the results.\n* All time and timestamp related fields are in milliseconds of UNIX time.\n* All amounts are returned in Lovelaces, where 1 ADA = 1 000 000 Lovelaces.\n* Addresses, accounts and pool IDs are in Bech32 format.\n* All values are case sensitive.\n* All hex encoded values are lower case.\n* Examples are not based on real data. Any resemblance to actual events is purely coincidental.\n* We allow to upload files up to 100MB of size to IPFS. This might increase in the future.\n\n## Errors\n\n### HTTP Status codes\n\nThe following are HTTP status code your application might receive when reaching Blockfrost endpoints and\nit should handle all of these cases.\n\n* HTTP `400` return code is used when the request is not valid.\n* HTTP `402` return code is used when the projects exceed their daily request limit.\n* HTTP `403` return code is used when the request is not authenticated.\n* HTTP `404` return code is used when the resource doesn't exist.\n* HTTP `418` return code is used when the user has been auto-banned for flooding too much after previously receiving error code `402` or `429`.\n* HTTP `429` return code is used when the user has sent too many requests in a given amount of time and therefore has been rate-limited.\n* HTTP `500` return code is used when our endpoints are having a problem.\n\n### Error codes\n\nAn internal error code number is used for better indication of the error in question. It is passed using the following payload.\n\n```json\n{\n  \"status_code\": 403,\n  \"error\": \"Forbidden\",\n  \"message\": \"Invalid project token.\"\n}\n```\n## Limits\n\n There are two types of limits we are enforcing:\n\n The first depends on your plan and is the number of request we allow per day. We defined the day from midnight to midnight of UTC time.\n\n The second is rate limiting. We limit an end user, distinguished by IP address, to 10 requests per second. On top of that, we allow\n each user to send burst of 500 requests, which cools off at rate of 10 requests per second. In essence, a user is allowed to make another\n whole burst after (currently) 500/10 = 50 seconds. E.g. if a user attemtps to make a call 3 seconds after whole burst, 30 requests will be processed.\n We believe this should be sufficient for most of the use cases. If it is not and you have a specific use case, please get in touch with us, and\n we will make sure to take it into account as much as we can.\n \n## SDKs\n\nWe support a number of SDKs that will help you in developing your application on top of Blockfrost.\n\n<table>\n  <tr><td><b>Programming language</b></td><td><b>SDK</b></td></tr>\n  <tr><td>JavaScript</td><td><a href=\"https://github.com/blockfrost/blockfrost-js\">blockfrost-js</a></tr>\n</table>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+    "description": "Blockfrost is an API as a service that allows users to interact with the Cardano blockchain and parts of its ecosystem.\n\n## Tokens\n\nAfter signing up on https://blockfrost.io, a `project_id` token is automatically generated for each project.\nHTTP header of your request MUST include this `project_id` in order to authenticate against Blockfrost servers.\n\n## Available networks\n\nAt the moment, you can use the following networks. Please, note that each network has its own `project_id`.\n\n<table>\n  <tr><td><b>Network</b></td><td><b>Endpoint</b></td></tr>\n  <tr><td>Cardano mainnet</td><td><tt>https://cardano-mainnet.blockfrost.io/api/v0</td></tt></tr>\n  <tr><td>Cardano testnet</td><td><tt>https://cardano-testnet.blockfrost.io/api/v0</tt></td></tr>\n  <tr><td>InterPlanetary File System</td><td><tt>https://ipfs.blockfrost.io/api/v0</tt></td></tr>\n</table>\n\n## Concepts\n\n* All endpoints return either a JSON object or an array.\n* Data is returned in *ascending* (oldest first, newest last) order.\n  * You might use the `?order=desc` query parameter to reverse this order.\n* By default, we return 100 results at a time. You have to use `?page=2` to list through the results.\n* All time and timestamp related fields (except `server_time`) are in seconds of UNIX time.\n* All amounts are returned in Lovelaces, where 1 ADA = 1 000 000 Lovelaces.\n* Addresses, accounts and pool IDs are in Bech32 format.\n* All values are case sensitive.\n* All hex encoded values are lower case.\n* Examples are not based on real data. Any resemblance to actual events is purely coincidental.\n* We allow to upload files up to 100MB of size to IPFS. This might increase in the future.\n\n## Errors\n\n### HTTP Status codes\n\nThe following are HTTP status code your application might receive when reaching Blockfrost endpoints and\nit should handle all of these cases.\n\n* HTTP `400` return code is used when the request is not valid.\n* HTTP `402` return code is used when the projects exceed their daily request limit.\n* HTTP `403` return code is used when the request is not authenticated.\n* HTTP `404` return code is used when the resource doesn't exist.\n* HTTP `418` return code is used when the user has been auto-banned for flooding too much after previously receiving error code `402` or `429`.\n* HTTP `429` return code is used when the user has sent too many requests in a given amount of time and therefore has been rate-limited.\n* HTTP `500` return code is used when our endpoints are having a problem.\n\n### Error codes\n\nAn internal error code number is used for better indication of the error in question. It is passed using the following payload.\n\n```json\n{\n  \"status_code\": 403,\n  \"error\": \"Forbidden\",\n  \"message\": \"Invalid project token.\"\n}\n```\n## Limits\n\n There are two types of limits we are enforcing:\n\n The first depends on your plan and is the number of request we allow per day. We defined the day from midnight to midnight of UTC time.\n\n The second is rate limiting. We limit an end user, distinguished by IP address, to 10 requests per second. On top of that, we allow\n each user to send burst of 500 requests, which cools off at rate of 10 requests per second. In essence, a user is allowed to make another\n whole burst after (currently) 500/10 = 50 seconds. E.g. if a user attemtps to make a call 3 seconds after whole burst, 30 requests will be processed.\n We believe this should be sufficient for most of the use cases. If it is not and you have a specific use case, please get in touch with us, and\n we will make sure to take it into account as much as we can.\n \n## SDKs\n\nWe support a number of SDKs that will help you in developing your application on top of Blockfrost.\n\n<table>\n  <tr><td><b>Programming language</b></td><td><b>SDK</b></td></tr>\n  <tr><td>JavaScript</td><td><a href=\"https://github.com/blockfrost/blockfrost-js\">blockfrost-js</a></tr>\n</table>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
   },
   "servers": [
     {
@@ -46,43 +46,43 @@
       "name": "Metrics"
     },
     {
-      "name": "Cardano » Accounts"
+      "name": "Cardano Â» Accounts"
     },
     {
-      "name": "Cardano » Addresses"
+      "name": "Cardano Â» Addresses"
     },
     {
-      "name": "Cardano » Assets"
+      "name": "Cardano Â» Assets"
     },
     {
-      "name": "Cardano » Blocks"
+      "name": "Cardano Â» Blocks"
     },
     {
-      "name": "Cardano » Epochs"
+      "name": "Cardano Â» Epochs"
     },
     {
-      "name": "Cardano » Ledger"
+      "name": "Cardano Â» Ledger"
     },
     {
-      "name": "Cardano » Metadata"
+      "name": "Cardano Â» Metadata"
     },
     {
-      "name": "Cardano » Network"
+      "name": "Cardano Â» Network"
     },
     {
-      "name": "Cardano » Pools"
+      "name": "Cardano Â» Pools"
     },
     {
-      "name": "Cardano » Transactions"
+      "name": "Cardano Â» Transactions"
     },
     {
-      "name": "IPFS » Add"
+      "name": "IPFS Â» Add"
     },
     {
-      "name": "IPFS » Gateway"
+      "name": "IPFS Â» Gateway"
     },
     {
-      "name": "IPFS » Pins"
+      "name": "IPFS Â» Pins"
     }
   ],
   "paths": {
@@ -91,7 +91,6 @@
         "tags": [
           "Health"
         ],
-        "security": [],
         "summary": "Root endpoint",
         "description": "Root endpoint has no other function than to point end users to documentation.\n",
         "responses": {
@@ -142,7 +141,6 @@
         "tags": [
           "Health"
         ],
-        "security": [],
         "summary": "Backend health status",
         "description": "Return backend status as a boolean. Your application\n    should handle situations when backend for the given chain is unavailable.\n",
         "responses": {
@@ -188,7 +186,6 @@
         "tags": [
           "Health"
         ],
-        "security": [],
         "summary": "Current backend time",
         "description": "This endpoint provides the current UNIX time. Your application might\nuse this to verify if the client clock is not out of sync.\n",
         "responses": {
@@ -232,7 +229,7 @@
     "/blocks/latest": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Latest block",
         "description": "Return the latest block available to the backends, also known as the\ntip of the blockchain.\n",
@@ -271,7 +268,7 @@
     "/blocks/latest/txs": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Latest block transactions",
         "description": "Return the transactions within the latest block.",
@@ -347,7 +344,7 @@
     "/blocks/{hash_or_number}": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Specific block",
         "description": "Return the content of a requested block.\n",
@@ -360,7 +357,7 @@
               "type": "string",
               "format": "64-character case-sensitive hexadecimal string or block number."
             },
-            "description": "Hash of the requested block.",
+            "description": "Hash or number of the requested block.",
             "example": "4ea1ba291e8eef538635a53e59fddba7810d1679631cc3aed7c8e6c4091a516a"
           }
         ],
@@ -399,7 +396,7 @@
     "/blocks/slot/{slot_number}": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Specific block in a slot",
         "description": "Return the content of a requested block for a specific slot.\n",
@@ -451,10 +448,10 @@
     "/blocks/epoch/{epoch_number}/slot/{slot_number}": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Specific block in a slot in an epoch",
-        "description": "Return the content of a requested block for a specific slot in an epoch\n",
+        "description": "Return the content of a requested block for a specific slot in an epoch.\n",
         "parameters": [
           {
             "in": "path",
@@ -514,7 +511,7 @@
     "/blocks/{hash_or_number}/next": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Listing of next blocks",
         "description": "Return the list of blocks following a specific block.\n",
@@ -587,7 +584,7 @@
     "/blocks/{hash_or_number}/previous": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Listing of previous blocks",
         "description": "Return the list of blocks preceding a specific block.\n",
@@ -660,7 +657,7 @@
     "/blocks/{hash_or_number}/txs": {
       "get": {
         "tags": [
-          "Cardano » Blocks"
+          "Cardano Â» Blocks"
         ],
         "summary": "Block transactions",
         "description": "Return the transactions within the block.",
@@ -747,7 +744,7 @@
     "/genesis": {
       "get": {
         "tags": [
-          "Cardano » Ledger"
+          "Cardano Â» Ledger"
         ],
         "summary": "Blockchain genesis",
         "description": "Return the information about blockchain genesis.",
@@ -783,7 +780,7 @@
     "/epochs/latest": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Latest epoch",
         "description": "Return the information about the latest, therefore current, epoch.",
@@ -822,7 +819,7 @@
     "/epochs/latest/parameters": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Latest epoch protocol parameters",
         "description": "Return the protocol parameters for the latest epoch.",
@@ -861,7 +858,7 @@
     "/epochs/{number}": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Specific epoch",
         "description": "Return the content of the requested epoch.",
@@ -912,7 +909,7 @@
     "/epochs/{number}/next": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Listing of next epochs",
         "description": "Return the list of epochs following a specific epoch.",
@@ -984,7 +981,7 @@
     "/epochs/{number}/previous": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Listing of previous epochs",
         "description": "Return the list of epochs preceding a specific epoch.",
@@ -1056,10 +1053,10 @@
     "/epochs/{number}/stakes": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Stake distribution",
-        "description": "Return the active stake distribution for the epoch specified.",
+        "description": "Return the active stake distribution for the specified epoch.",
         "parameters": [
           {
             "in": "path",
@@ -1128,7 +1125,7 @@
     "/epochs/{number}/stakes/{pool_id}": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Stake distribution by pool",
         "description": "Return the active stake distribution for the epoch specified by stake pool.",
@@ -1210,7 +1207,7 @@
     "/epochs/{number}/blocks": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Block distribution",
         "description": "Return the blocks minted for the epoch specified.",
@@ -1296,7 +1293,7 @@
     "/epochs/{number}/blocks/{pool_id}": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Block distribution",
         "description": "Return the block minted for the epoch specified by stake pool.",
@@ -1392,7 +1389,7 @@
     "/epochs/{number}/parameters": {
       "get": {
         "tags": [
-          "Cardano » Epochs"
+          "Cardano Â» Epochs"
         ],
         "summary": "Protocol parameters",
         "description": "Return the protocol parameters for the epoch specified.",
@@ -1443,7 +1440,7 @@
     "/txs/{hash}": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Specific transaction",
         "description": "Return content of the requested transaction.",
@@ -1495,7 +1492,7 @@
     "/txs/{hash}/utxos": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction UTXOs",
         "description": "Return the inputs and UTXOs of the specific transaction.",
@@ -1547,7 +1544,7 @@
     "/txs/{hash}/stakes": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction stake addresses certificates",
         "description": "Obtain information about (de)registration of stake addresses within a transaction.\n",
@@ -1599,7 +1596,7 @@
     "/txs/{hash}/delegations": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction delegation certificates",
         "description": "Obtain information about delegation certificates of a specific transaction.\n",
@@ -1651,7 +1648,7 @@
     "/txs/{hash}/withdrawals": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction withdrawal",
         "description": "Obtain information about withdrawals of a specific transaction.",
@@ -1703,7 +1700,7 @@
     "/txs/{hash}/mirs": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction MIRs",
         "description": "Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.",
@@ -1755,7 +1752,7 @@
     "/txs/{hash}/pool_updates": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction stake pool registration and update certificates",
         "description": "Obtain information about stake pool registration and update certificates of a specific transaction.\n",
@@ -1807,7 +1804,7 @@
     "/txs/{hash}/pool_retires": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction stake pool retirement certificates",
         "description": "Obtain information about stake pool retirements within a specific transaction.\n",
@@ -1859,7 +1856,7 @@
     "/txs/{hash}/metadata": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction metadata",
         "description": "Obtain the transaction metadata.",
@@ -1911,7 +1908,7 @@
     "/txs/{hash}/metadata/cbor": {
       "get": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Transaction metadata in CBOR",
         "description": "Obtain the transaction metadata in CBOR.",
@@ -1963,7 +1960,7 @@
     "/tx/submit": {
       "post": {
         "tags": [
-          "Cardano » Transactions"
+          "Cardano Â» Transactions"
         ],
         "summary": "Submit a transaction",
         "description": "Submit an already serialized transaction to the network.",
@@ -2031,7 +2028,7 @@
     "/accounts/{stake_address}": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Specific account address",
         "description": "Obtain information about a specific stake account.\n",
@@ -2082,10 +2079,10 @@
     "/accounts/{stake_address}/rewards": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account reward history",
-        "description": "Obtain information about the history of a specific account.\n",
+        "description": "Obtain information about the reward history of a specific account.\n",
         "parameters": [
           {
             "in": "path",
@@ -2168,7 +2165,7 @@
     "/accounts/{stake_address}/history": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account history",
         "description": "Obtain information about the history of a specific account.\n",
@@ -2254,7 +2251,7 @@
     "/accounts/{stake_address}/delegations": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account delegation history",
         "description": "Obtain information about the delegation of a specific account.",
@@ -2340,7 +2337,7 @@
     "/accounts/{stake_address}/registrations": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account registration history",
         "description": "Obtain information about the registrations and deregistrations of a specific account.\n",
@@ -2426,7 +2423,7 @@
     "/accounts/{stake_address}/withdrawals": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account withdrawal history",
         "description": "Obtain information about the withdrawals of a specific account.\n",
@@ -2512,7 +2509,7 @@
     "/accounts/{stake_address}/mirs": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account MIR history",
         "description": "Obtain information about the MIRs of a specific account.\n",
@@ -2598,7 +2595,7 @@
     "/accounts/{stake_address}/addresses": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Account associated addresses",
         "description": "Obtain information about the addresses of a specific account.",
@@ -2684,7 +2681,7 @@
     "/accounts/{stake_address}/addresses/assets": {
       "get": {
         "tags": [
-          "Cardano » Accounts"
+          "Cardano Â» Accounts"
         ],
         "summary": "Assets associated with the account addresses",
         "description": "Obtain information about assets associated with addresses of a specific account.\n\n<b>Be careful</b>, as an account could be part of a mangled address and does not necessarily mean the addresses are owned by user as the account.\n",
@@ -2770,7 +2767,7 @@
     "/metadata/txs/labels": {
       "get": {
         "tags": [
-          "Cardano » Metadata"
+          "Cardano Â» Metadata"
         ],
         "summary": "Transaction metadata labels",
         "description": "List of all used transaction metadata labels.\n",
@@ -2846,7 +2843,7 @@
     "/metadata/txs/labels/{label}": {
       "get": {
         "tags": [
-          "Cardano » Metadata"
+          "Cardano Â» Metadata"
         ],
         "summary": "Transaction metadata content in JSON",
         "description": "Transaction metadata per label.",
@@ -2932,7 +2929,7 @@
     "/metadata/txs/labels/{label}/cbor": {
       "get": {
         "tags": [
-          "Cardano » Metadata"
+          "Cardano Â» Metadata"
         ],
         "summary": "Transaction metadata content in CBOR",
         "description": "Transaction metadata per label.",
@@ -3018,7 +3015,7 @@
     "/addresses/{address}": {
       "get": {
         "tags": [
-          "Cardano » Addresses"
+          "Cardano Â» Addresses"
         ],
         "summary": "Specific address",
         "description": "Obtain information about a specific address.",
@@ -3069,7 +3066,7 @@
     "/addresses/{address}/total": {
       "get": {
         "tags": [
-          "Cardano » Addresses"
+          "Cardano Â» Addresses"
         ],
         "summary": "Address details",
         "description": "Obtain details about an address.",
@@ -3120,7 +3117,7 @@
     "/addresses/{address}/utxos": {
       "get": {
         "tags": [
-          "Cardano » Addresses"
+          "Cardano Â» Addresses"
         ],
         "summary": "Address UTXOs",
         "description": "UTXOs of the address.",
@@ -3207,7 +3204,7 @@
       "get": {
         "deprecated": true,
         "tags": [
-          "Cardano » Addresses"
+          "Cardano Â» Addresses"
         ],
         "summary": "Address transactions",
         "description": "Transactions on the address.",
@@ -3293,7 +3290,7 @@
     "/addresses/{address}/transactions": {
       "get": {
         "tags": [
-          "Cardano » Addresses"
+          "Cardano Â» Addresses"
         ],
         "summary": "Address transactions",
         "description": "Transactions on the address.",
@@ -3399,7 +3396,7 @@
     "/pools": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "List of stake pools",
         "description": "List of registered stake pools.",
@@ -3475,7 +3472,7 @@
     "/pools/retired": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "List of retired stake pools",
         "description": "List of already retired pools.",
@@ -3551,7 +3548,7 @@
     "/pools/retiring": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "List of retiring stake pools",
         "description": "List of stake pools retiring in the upcoming epochs",
@@ -3627,7 +3624,7 @@
     "/pools/{pool_id}": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Specific stake pool",
         "description": "Pool information.",
@@ -3678,7 +3675,7 @@
     "/pools/{pool_id}/history": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool history",
         "description": "History of stake pool parameters over epochs.\n",
@@ -3764,7 +3761,7 @@
     "/pools/{pool_id}/metadata": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool metadata",
         "description": "Stake pool registration metadata.\n",
@@ -3822,7 +3819,7 @@
     "/pools/{pool_id}/relays": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool relays",
         "description": "Relays of a stake pool.",
@@ -3873,7 +3870,7 @@
     "/pools/{pool_id}/delegators": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool delegators",
         "description": "List of current stake pools delegators.",
@@ -3959,7 +3956,7 @@
     "/pools/{pool_id}/blocks": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool blocks",
         "description": "List of stake pools blocks.",
@@ -4045,7 +4042,7 @@
     "/pools/{pool_id}/updates": {
       "get": {
         "tags": [
-          "Cardano » Pools"
+          "Cardano Â» Pools"
         ],
         "summary": "Stake pool updates",
         "description": "List of certificate updates to the stake pool.",
@@ -4131,7 +4128,7 @@
     "/assets": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Assets",
         "description": "List of assets.",
@@ -4207,7 +4204,7 @@
     "/assets/{asset}": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Specific asset",
         "description": "Information about a specific asset",
@@ -4258,7 +4255,7 @@
     "/assets/{asset}/history": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Asset history",
         "description": "History of a specific asset",
@@ -4345,7 +4342,7 @@
       "get": {
         "deprecated": true,
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Asset transactions",
         "description": "List of a specific asset transactions",
@@ -4431,7 +4428,7 @@
     "/assets/{asset}/transactions": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Asset transactions",
         "description": "List of a specific asset transactions",
@@ -4517,7 +4514,7 @@
     "/assets/{asset}/addresses": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Asset addresses",
         "description": "List of a addresses containing a specific asset",
@@ -4603,7 +4600,7 @@
     "/assets/policy/{policy_id}": {
       "get": {
         "tags": [
-          "Cardano » Assets"
+          "Cardano Â» Assets"
         ],
         "summary": "Assets of a specific policy",
         "description": "List of asset minted under a specific policy",
@@ -4694,7 +4691,7 @@
       ],
       "post": {
         "tags": [
-          "IPFS » Add"
+          "IPFS Â» Add"
         ],
         "summary": "Add a file or directory to IPFS",
         "description": "You need to `/ipfs/pin/add` an object to avoid it being garbage collected. This usage\nis being counted in your user account quota.\n",
@@ -4766,7 +4763,7 @@
       ],
       "get": {
         "tags": [
-          "IPFS » Gateway"
+          "IPFS Â» Gateway"
         ],
         "summary": "Relay to an IPFS gateway",
         "description": "Retrieve an object from the IFPS gateway (useful if you do not want to rely on a public gateway, such as `ipfs.blockfrost.dev`).",
@@ -4814,7 +4811,7 @@
       ],
       "post": {
         "tags": [
-          "IPFS » Pins"
+          "IPFS Â» Pins"
         ],
         "summary": "Pin an object",
         "description": "Pinned objects are counted in your user storage quota.",
@@ -4888,7 +4885,7 @@
       ],
       "get": {
         "tags": [
-          "IPFS » Pins"
+          "IPFS Â» Pins"
         ],
         "description": "List objects pinned to local storage",
         "parameters": [
@@ -5008,7 +5005,7 @@
       ],
       "get": {
         "tags": [
-          "IPFS » Pins"
+          "IPFS Â» Pins"
         ],
         "description": "List objects pinned to local storage",
         "parameters": [
@@ -5099,7 +5096,7 @@
       ],
       "post": {
         "tags": [
-          "IPFS » Pins"
+          "IPFS Â» Pins"
         ],
         "description": "Remove pinned objects from local storage",
         "parameters": [
@@ -5245,7 +5242,7 @@
     "/network": {
       "get": {
         "tags": [
-          "Cardano » Network"
+          "Cardano Â» Network"
         ],
         "summary": "Network information",
         "description": "Return detailed network information.",
@@ -5690,7 +5687,7 @@
               "properties": {
                 "status_code": {
                   "type": "integer",
-                  "example": 505
+                  "example": 500
                 },
                 "error": {
                   "type": "string",
@@ -8496,11 +8493,11 @@
         "example": [
           [
             {
-              "date": 1612543884,
+              "time": 1612543884,
               "calls": 42
             },
             {
-              "date": 1614523884,
+              "time": 1614523884,
               "calls": 6942
             }
           ]
@@ -8533,27 +8530,27 @@
         "example": [
           [
             {
-              "date": 1612543814,
+              "time": 1612543814,
               "calls": 182,
               "endpoint": "block"
             },
             {
-              "date": 1612543814,
+              "time": 1612543814,
               "calls": 42,
               "endpoint": "epoch"
             },
             {
-              "date": 1612543812,
+              "time": 1612543812,
               "calls": 775,
               "endpoint": "block"
             },
             {
-              "date": 1612523884,
+              "time": 1612523884,
               "calls": 4,
               "endpoint": "epoch"
             },
             {
-              "date": 1612553884,
+              "time": 1612553884,
               "calls": 89794,
               "endpoint": "block"
             }
