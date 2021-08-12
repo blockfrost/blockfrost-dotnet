@@ -1,4 +1,4 @@
-﻿namespace Blockfrost.Api
+﻿namespace Blockfrost.Api.Options
 {
     public class BlockfrostProject
     {

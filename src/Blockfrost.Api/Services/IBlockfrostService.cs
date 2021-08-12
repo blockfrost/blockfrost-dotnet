@@ -4,8 +4,13 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
+    /// <summary>
+    /// Specifies basic functionality for services interacting with the Blockfrost API
+    /// </summary>
     public interface IBlockfrostService
     {
+        string Network { get; }
+
         /// <summary>Blockfrost endpoint usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>

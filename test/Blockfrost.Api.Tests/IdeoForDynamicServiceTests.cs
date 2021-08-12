@@ -3,7 +3,7 @@
 namespace Blockfrost.Api.Tests
 {
     [TestClass]
-    public class DynamicServiceTests
+    public class IdeoForDynamicServiceTests
     {
         //[TestMethod]
         //public async Task Test()

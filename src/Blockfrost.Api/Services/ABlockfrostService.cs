@@ -12,6 +12,8 @@ namespace Blockfrost.Api
 {
     public abstract class ABlockfrostService : IBlockfrostService
     {
+        public string Network { get; set; }
+
         public string BaseUrl
         {
             get => _httpClient.BaseAddress?.AbsoluteUri;
@@ -122,7 +124,7 @@ namespace Blockfrost.Api
 
         protected HttpClient _httpClient;
 
-        protected ABlockfrostService(HttpClient httpClient)
+        public ABlockfrostService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);

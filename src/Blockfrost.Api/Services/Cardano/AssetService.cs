@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public partial class AssetServuce : ABlockfrostService, IAssetService
+    public partial class AssetService : ABlockfrostService, IAssetService
     {
-        public AssetServuce(HttpClient httpClient) : base(httpClient)
+        public AssetService(HttpClient httpClient) : base(httpClient)
         {
         }
 

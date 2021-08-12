@@ -10,6 +10,13 @@ namespace Blockfrost.Api.Tests
     /// </summary>
     public class IntegrationTestMethodAttribute : TestMethodAttribute
     {
+        private static readonly IConfiguration __cfg = new ConfigurationBuilder()
+                            .AddJsonFile(Constants.APPSETTINGS_FILENAME)
+            .AddEnvironmentVariables()
+            .Build();
+
+        private readonly string _ignoreEnvironment;
+
         public IntegrationTestMethodAttribute(string env)
         {
             _ignoreEnvironment = env.Trim().ToLower();
@@ -17,7 +24,7 @@ namespace Blockfrost.Api.Tests
 
         public override TestResult[] Execute(ITestMethod testMethod)
         {
-            if (_ignoreEnvironment != __cfg["NETCORE_ENVIRONMENT"])
+            if (_ignoreEnvironment != __cfg[Constants.NETCORE_ENVIRONMENT])
                 return base.Execute(testMethod);
 
             var message = $"Test not executed due to environment restriction.";
@@ -30,12 +37,5 @@ namespace Blockfrost.Api.Tests
                 }
             };
         }
-
-        private static readonly IConfiguration __cfg = new ConfigurationBuilder()
-                            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
-
-        private readonly string _ignoreEnvironment;
     }
 }

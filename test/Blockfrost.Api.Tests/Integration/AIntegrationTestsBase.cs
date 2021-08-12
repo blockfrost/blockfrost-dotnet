@@ -1,8 +1,5 @@
-﻿using Blockfrost.Api.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,12 +10,7 @@ namespace Blockfrost.Api.Tests
     /// We need to be aware of versioning
     /// </summary>
     [TestClass]
-    public abstract class IntegrationTestsBase :
-        //IIpfsService,
-        //
-        //INutlinkService,
-        //
-        //ICardanoService,
+    public abstract class AIntegrationTestsBase : AServiceTestBase,
         IAccountService,
         IAddressService,
         IAssetService,
@@ -28,18 +20,118 @@ namespace Blockfrost.Api.Tests
         ILedgerService,
         IMetadataService,
         ITransactionService
+    //,IIpfsService
+    //,INutlinkService
+    //,ICardanoService
     {
+        protected string ApiVersion;
+
+        public AIntegrationTestsBase(string apiVersion)
+        {
+            ApiVersion = apiVersion;
+        }
+
         public IAccountService Accounts => _provider.GetRequiredService<IAccountService>();
         public IAddressService Addresses => _provider.GetRequiredService<IAddressService>();
         public IAssetService Assets => _provider.GetRequiredService<IAssetService>();
-        public string BaseUrl { get; protected set; }
         public IBlockService Blocks => _provider.GetRequiredService<IBlockService>();
         public IEpochService Epochs => _provider.GetRequiredService<IEpochService>();
         public ILedgerService Ledger => _provider.GetRequiredService<ILedgerService>();
         public IMetadataService Metadata => _provider.GetRequiredService<IMetadataService>();
         public IPoolService Pools => _provider.GetRequiredService<IPoolService>();
-        public bool ReadResponseAsString { get; set; }
         public ITransactionService Transactions => _provider.GetRequiredService<ITransactionService>();
+        //private static IBlockfrostService GetService(string projectName)
+        //{
+        //    IServiceCollection services = new ServiceCollection();
+
+        //    services.AddBlockfrost(projectName, configuration);
+
+        //    var provider = services.BuildServiceProvider();
+        //    _service = provider.GetRequiredService<IBlockfrostService>();
+        //    return _service;
+        //}
+
+        //[TestMethod]
+        //public async Task AssetsAll2AsyncTest()
+        //{
+        //    var response = await Test.AssetsAll2Async(10, 0, ESortOrder.Desc);
+        //    Assert.AreEqual(10, response.Count);
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Cardano_Addresses)]
+        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
+        //public virtual async Task GetAddressTest(string address)
+        //{
+        //    var response = await Test.AddressesAsync(address);
+        //    Assert.IsNotNull(response);
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Cardano_Addresses)]
+        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
+        //public virtual async Task GetStakeAddressTest(string address, string stake)
+        //{
+        //    var response = await Test.AddressesAsync(address);
+        //    Assert.IsNotNull(response);
+        //    Assert.AreEqual(stake, response.StakeAddress);
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Cardano_Addresses)]
+        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
+        //public virtual async Task GetAddressEraTest(string address, EAddressType era)
+        //{
+        //    var response = await Test.AddressesAsync(address);
+        //    Assert.IsNotNull(response);
+        //    Assert.AreEqual(era, response.Type);
+        //}
+
+        //[TestMethod]
+        //public async Task PoolsAllAsyncTest()
+        //{
+        //    var response = await _service.PoolsAllAsync(10, 0, ESortOrder.Asc);
+        //    Assert.AreEqual(response.Count, 10);
+        //}
+
+        //[TestCategory("Move to base (network parameter)")]
+        //[TestMethod]
+        //[DataRow("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w")]
+        //public async Task PoolsAsyncTest(string poolId)
+        //{
+        //    var response = await _service.PoolsAsync("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w");
+        //    Assert.AreEqual(poolId, response.Pool_id);
+        //}
+
+        //[TestMethod]
+        //public async Task GetClockAsyncTest()
+        //{
+        //    var response = await _service.GetClockAsync();
+        //    Assert.AreNotEqual(0, response.ServerTime);
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Misc)]
+        ////[TestProperty("method", nameof(IBlockfrostService.GetInfoAsync))]
+        //public async Task GetInfoAsyncTest()
+        //{
+        //    var response = await _service.GetInfoAsync();
+        //    Assert.AreEqual(_version, response.Version);
+        //}
+
+        //[TestMethod]
+        //[TestCategory(Misc)]
+        //public async Task GetHealthAsyncTest()
+        //{
+        //    //await Test.GetHealthAsync();
+        //}
+
+        #region Service Methods
+
+        /*
+        * This region is for utility purposes only!
+        * Don't add or remove any methods to it
+        */
 
         public Task<AddressResponse> AddressAsync(string address, CancellationToken cancellationToken)
         {
@@ -701,138 +793,6 @@ namespace Blockfrost.Api.Tests
             return Transactions.WithdrawalsAsync(hash, cancellationToken);
         }
 
-        protected static IConfiguration configuration;
-        protected static CancellationToken EmptyToken => CancellationToken.None;
-
-        protected static void SetupEnvironment(string projectName)
-        {
-            //Determines the working environment as IHostingEnvironment is unavailable in a console app
-
-            var builder = new ConfigurationBuilder();
-            // tell the builder to look for the appsettings.json file
-            builder
-                .AddEnvironmentVariables()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            //only add secrets in development
-            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
-
-            var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
-
-            if (isDevelopment)
-            {
-                builder.AddUserSecrets<TestnetServiceIntegrationTests>();
-            }
-
-            configuration = builder.Build();
-
-            var apiKey = configuration["BFCLI_API_KEY"];
-            var network = configuration["BFCLI_NETWORK"];
-            _provider = new ServiceCollection()
-                .AddBlockfrost(network, apiKey)
-                .BuildServiceProvider();
-        }
-
-        private const string _version = "0.8.4";
-
-        private const string Cardano_Accounts = "Cardano.Accounts";
-        private const string Cardano_Addresses = "Cardano.Addresses";
-        private const string Cardano_Blocks = "Cardano.Blocks";
-        private const string Cardano_Epochs = "Cardano.Epochs";
-        private const string Cardano_Ledger = "Cardano.Ledger";
-        private const string Cardano_Metadata = "Cardano.Metadata";
-        private const string Cardano_Network = "Cardano.Network";
-        private const string Cardano_Pools = "Cardano.Pools";
-        private const string Cardano_Transactions = "Cardano.Transactions";
-        private const string IPFS_Add = "IPFS";
-        private const string Misc = "Misc";
-
-        private const string Nutlink = "Nutlink";
-        private static IServiceProvider _provider;
-        //private static IBlockfrostService GetService(string projectName)
-        //{
-        //    IServiceCollection services = new ServiceCollection();
-
-        //    services.AddBlockfrost(projectName, configuration);
-
-        //    var provider = services.BuildServiceProvider();
-        //    _service = provider.GetRequiredService<IBlockfrostService>();
-        //    return _service;
-        //}
-
-        //[TestMethod]
-        //public async Task AssetsAll2AsyncTest()
-        //{
-        //    var response = await Test.AssetsAll2Async(10, 0, ESortOrder.Desc);
-        //    Assert.AreEqual(10, response.Count);
-        //}
-
-        //[TestMethod]
-        //[TestCategory(Cardano_Addresses)]
-        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
-        //public virtual async Task GetAddressTest(string address)
-        //{
-        //    var response = await Test.AddressesAsync(address);
-        //    Assert.IsNotNull(response);
-        //}
-
-        //[TestMethod]
-        //[TestCategory(Cardano_Addresses)]
-        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
-        //public virtual async Task GetStakeAddressTest(string address, string stake)
-        //{
-        //    var response = await Test.AddressesAsync(address);
-        //    Assert.IsNotNull(response);
-        //    Assert.AreEqual(stake, response.StakeAddress);
-        //}
-
-        //[TestMethod]
-        //[TestCategory(Cardano_Addresses)]
-        //[TestProperty("method", nameof(IAddressService.AddressesAsync))]
-        //public virtual async Task GetAddressEraTest(string address, EAddressType era)
-        //{
-        //    var response = await Test.AddressesAsync(address);
-        //    Assert.IsNotNull(response);
-        //    Assert.AreEqual(era, response.Type);
-        //}
-
-        //[TestMethod]
-        //public async Task PoolsAllAsyncTest()
-        //{
-        //    var response = await _service.PoolsAllAsync(10, 0, ESortOrder.Asc);
-        //    Assert.AreEqual(response.Count, 10);
-        //}
-
-        //[TestCategory("Move to base (network parameter)")]
-        //[TestMethod]
-        //[DataRow("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w")]
-        //public async Task PoolsAsyncTest(string poolId)
-        //{
-        //    var response = await _service.PoolsAsync("pool1adur9jcn0dkjpm3v8ayf94yn3fe5xfk2rqfz7rfpuh6cw6evd7w");
-        //    Assert.AreEqual(poolId, response.Pool_id);
-        //}
-
-        //[TestMethod]
-        //public async Task GetClockAsyncTest()
-        //{
-        //    var response = await _service.GetClockAsync();
-        //    Assert.AreNotEqual(0, response.ServerTime);
-        //}
-
-        //[TestMethod]
-        //[TestCategory(Misc)]
-        ////[TestProperty("method", nameof(IBlockfrostService.GetInfoAsync))]
-        //public async Task GetInfoAsyncTest()
-        //{
-        //    var response = await _service.GetInfoAsync();
-        //    Assert.AreEqual(_version, response.Version);
-        //}
-
-        //[TestMethod]
-        //[TestCategory(Misc)]
-        //public async Task GetHealthAsyncTest()
-        //{
-        //    //await Test.GetHealthAsync();
-        //}
+        #endregion Service Methods
     }
 }
