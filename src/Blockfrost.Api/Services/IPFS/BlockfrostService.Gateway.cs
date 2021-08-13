@@ -108,7 +108,11 @@ namespace Blockfrost.Api
                             }
                         default:
                             {
+#if NET
                                 var responseData = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+#else
+                                var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+#endif
                                 throw new ApiException("The HTTP status code of the response was not expected (" + status + ").", status, responseData, headers, null);
                             }
                     }
