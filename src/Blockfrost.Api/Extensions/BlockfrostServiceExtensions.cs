@@ -108,7 +108,11 @@ namespace Blockfrost.Api.Extensions
         /// <param name="name">The logical name of the HttpClient to configure.</param>
         /// <param name="configureClient">A delegate that is used to configure an HttpClient.</param>
         /// <returns></returns>
+#if NET
         public static IHttpClientBuilder AddBlockfrostService<TClient, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services, string name, Action<IServiceProvider, HttpClient> configureClient)
+#else
+        public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name, Action<IServiceProvider, HttpClient> configureClient)
+#endif
             where TClient : class
             where TImplementation : class, TClient
         {
@@ -123,7 +127,12 @@ namespace Blockfrost.Api.Extensions
         /// <typeparam name="TImplementation">The implementation type of the typed blockfrost service. They type specified will be instantiated by the ITypedHttpClientFactory<TClient>.</typeparam>
         /// <param name="services">The IServiceCollection.</param>
         /// <param name="name">The logical name of the HttpClient to configure.</param>
+
+#if NET
         public static IHttpClientBuilder AddBlockfrostService<TClient, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services, string name)
+#else
+        public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name)
+#endif
             where TClient : class
             where TImplementation : ABlockfrostService, TClient
         {

@@ -192,7 +192,11 @@ namespace Blockfrost.Api
 
             if (ReadResponseAsString)
             {
+#if NET
                 var responseText = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+#else
+                var responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+#endif
                 try
                 {
                     var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, TextJsonSerializerSettings);
@@ -232,7 +236,7 @@ namespace Blockfrost.Api
         /// <returns></returns>
         protected async Task<TResponse> SendGetRequestAsync<TResponse>(System.Text.StringBuilder urlBuilder_, CancellationToken cancellationToken)
         {
-            using HttpRequestMessage request_ = new();
+            using HttpRequestMessage request_ = new HttpRequestMessage();
 
             request_.Method = new HttpMethod("GET");
             request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
