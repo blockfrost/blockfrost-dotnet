@@ -55,6 +55,47 @@ dotnet add reference ../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.cspr
 
 🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
 
+### Command line tool
+
+Before you install the command line tool, make sure the environment variables `BFCLI_API_KEY` and `BFCLI_NETWORK` exist.
+
+```ps
+$> $env:BFCLI_NETWORK
+testnet
+
+$> $env:BFCLI_API_KEY
+yourawesomeapikeyforblockfrostio
+```
+
+#### Install the command line tool
+
+```ps
+$> pwd
+{$SolutionDir}\src\Blockfrost.Cli
+
+$> dotnet tool install bfcli -add-source nupkg --version 0.0.xyz
+Tool 'bfcli' (version '0.0.xyz') was successfully installed.
+
+$> dotnet bfcli -v
+bfcli v0.0.xyz
+A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
+
+USAGE: bfcli (OPTION | COMMAND)
+
+Available options:
+    -v, --version   Show the bfcli version
+    -h, --help      Show this help text
+
+Available commands:
+    health
+
+$> dotnet bfcli health | ConvertFrom-Json
+
+is_healthy
+----------
+      True
+```
+
 ## Usage
 
 Using the SDK is pretty straight-forward as you can see from the following example.
