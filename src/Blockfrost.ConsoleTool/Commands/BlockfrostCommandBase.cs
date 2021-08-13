@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Blockfrost.Api;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.ConsoleTool.Commands
 {
     public abstract class BlockfrostCommandBase : ICommand
     {

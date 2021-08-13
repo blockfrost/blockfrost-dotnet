@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.ConsoleTool.Commands
 {
     public class CommandResult
     {

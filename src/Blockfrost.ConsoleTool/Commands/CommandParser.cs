@@ -1,12 +1,11 @@
-﻿using Blockfrost.Api;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.ConsoleTool.Commands
 {
 
     public static class CommandParser

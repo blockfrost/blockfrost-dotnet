@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.ConsoleTool.Commands
 {
     public interface ICommand
     {

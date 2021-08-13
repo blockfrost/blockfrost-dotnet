@@ -1,4 +1,4 @@
-﻿namespace Blockfrost.ConsoleTool
+﻿namespace Blockfrost.ConsoleTool.Commands
 {
     public enum CommandOutcome
     {

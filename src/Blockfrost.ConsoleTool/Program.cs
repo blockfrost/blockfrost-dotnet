@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.ConsoleTool.Commands;
 
 namespace Blockfrost.ConsoleTool
 {

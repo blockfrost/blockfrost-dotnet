@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.ConsoleTool.Commands
 {
     public class ShowBaseHelpCommand : ICommand
     {
@@ -18,7 +18,7 @@ A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
 USAGE: bfcli (OPTION | COMMAND)
 
 Available options:
-    -v, --version   Show the cscli version
+    -v, --version   Show the bfcli version
     -h, --help      Show this help text
 
 Available commands:
