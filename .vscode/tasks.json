@@ -7,36 +7,25 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/test/Blockfrost.Api.Tests/Blockfrost.Api.Tests.csproj",
+                "${workspaceFolder}/Blockfrost.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
+            "label": "test",
             "command": "dotnet",
             "type": "process",
             "args": [
-                "publish",
-                "${workspaceFolder}/test/Blockfrost.Api.Tests/Blockfrost.Api.Tests.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "test",
+                "${workspaceFolder}/Blockfrost.sln"
             ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/test/Blockfrost.Api.Tests/Blockfrost.Api.Tests.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }
