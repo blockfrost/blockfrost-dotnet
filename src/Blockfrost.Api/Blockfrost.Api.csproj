@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net5.0</TargetFrameworks>
     <Version>0.0.2-alpha</Version>
 
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -48,7 +48,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="nupkg\" />
   </ItemGroup>
