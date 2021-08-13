@@ -2,7 +2,7 @@
 {
     internal static class Constants
     {
-        public const string API_URL = "https://blockfrost.io";
+        public const string API_URL = "https://blockfrost.io/";
         public const string API_VERSION = "0.8.4";
 
         public const string APPSETTINGS_FILENAME = "appsettings.test.json";

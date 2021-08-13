@@ -3,8 +3,6 @@ using System.Text;
 using Blockfrost.Api.Extensions;
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Text;
 
 namespace Blockfrost.Api.Tests
 {

@@ -3,7 +3,7 @@
 namespace Blockfrost.Api.Tests
 {
     [IntegrationTestClass("staging")]
-    internal class MainnetServiceTests : AIntegrationTestsBase
+    public class MainnetServiceTests : AIntegrationTestsBase
     {
         public MainnetServiceTests() : base(Constants.API_VERSION)
         {

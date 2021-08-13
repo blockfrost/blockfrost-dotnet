@@ -25,52 +25,52 @@ namespace Blockfrost.Api.Tests
 
         protected IBlockfrostService Service => _provider.GetRequiredService<IBlockfrostService>();
 
-        public Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
+        public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
         {
             return Service.EndpointsAsync();
         }
 
-        public Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
+        public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
         {
             return Service.EndpointsAsync(cancellationToken);
         }
 
-        public Task<ClockResponse> GetClockAsync()
+        public virtual Task<ClockResponse> GetClockAsync()
         {
             return Service.GetClockAsync();
         }
 
-        public Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
+        public virtual Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
             return Service.GetClockAsync(cancellationToken);
         }
 
-        public Task<HealthResponse> GetHealthAsync()
+        public virtual Task<HealthResponse> GetHealthAsync()
         {
             return Service.GetHealthAsync();
         }
 
-        public Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
+        public virtual Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
             return Service.GetHealthAsync(cancellationToken);
         }
 
-        public Task<InfoResponse> GetInfoAsync()
+        public virtual Task<InfoResponse> GetInfoAsync()
         {
             return Service.GetInfoAsync();
         }
 
-        public Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
+        public virtual Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
             return Service.GetInfoAsync(cancellationToken);
         }
 
-        public Task<ICollection<MetricResponse>> GetMetricsAsync()
+        public virtual Task<ICollection<MetricResponse>> GetMetricsAsync()
         {
             return Service.GetMetricsAsync();
         }
 
-        public Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
+        public virtual Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
         {
             return Service.GetMetricsAsync(cancellationToken);
         }

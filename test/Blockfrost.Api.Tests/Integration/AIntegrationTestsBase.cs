@@ -273,12 +273,12 @@ namespace Blockfrost.Api.Tests
             return Pools.DelegatorsAsync(pool_id, count, page, order, cancellationToken);
         }
 
-        public Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
+        public override Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
         {
             return Blocks.EndpointsAsync();
         }
 
-        public Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
+        public override Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
         {
             return Blocks.EndpointsAsync(cancellationToken);
         }
@@ -363,32 +363,32 @@ namespace Blockfrost.Api.Tests
             return Blocks.GetBlocksAsync(hash_or_number, cancellationToken);
         }
 
-        public Task<ClockResponse> GetClockAsync()
+        public override Task<ClockResponse> GetClockAsync()
         {
             return Blocks.GetClockAsync();
         }
 
-        public Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
+        public override Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
             return Blocks.GetClockAsync(cancellationToken);
         }
 
-        public Task<HealthResponse> GetHealthAsync()
+        public override Task<HealthResponse> GetHealthAsync()
         {
             return Blocks.GetHealthAsync();
         }
 
-        public Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
+        public override Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
             return Blocks.GetHealthAsync(cancellationToken);
         }
 
-        public Task<InfoResponse> GetInfoAsync()
+        public override Task<InfoResponse> GetInfoAsync()
         {
             return Blocks.GetInfoAsync();
         }
 
-        public Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
+        public override Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
             return Blocks.GetInfoAsync(cancellationToken);
         }
@@ -401,16 +401,6 @@ namespace Blockfrost.Api.Tests
         public Task<BlockContentResponse> GetLatestBlockAsync(CancellationToken cancellationToken)
         {
             return Blocks.GetLatestBlockAsync(cancellationToken);
-        }
-
-        public Task<ICollection<MetricResponse>> GetMetricsAsync()
-        {
-            return Blocks.GetMetricsAsync();
-        }
-
-        public Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
-        {
-            return Blocks.GetMetricsAsync(cancellationToken);
         }
 
         public Task<ICollection<BlockContentResponse>> GetNextBlockAsync(string hash_or_number, int? count, int? page)
