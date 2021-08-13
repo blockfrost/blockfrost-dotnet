@@ -5,7 +5,7 @@ using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blockfrost.ConsoleTool.Commands
+namespace Blockfrost.Cli.Commands
 {
 
     public static class CommandParser

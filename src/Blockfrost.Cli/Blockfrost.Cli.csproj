@@ -24,7 +24,7 @@
     <NrtRequiredVcs>git</NrtRequiredVcs>
     <NrtShowRevision>true</NrtShowRevision>
     <AssemblyName>Blockfrost.Cli</AssemblyName>
-    <RootNamespace>Blockfrost.ConsoleTool</RootNamespace>
+    <RootNamespace>Blockfrost.Cli</RootNamespace>
     <UserSecretsId>a7eb06d1-f643-4add-bc36-37eab11e9c8b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>

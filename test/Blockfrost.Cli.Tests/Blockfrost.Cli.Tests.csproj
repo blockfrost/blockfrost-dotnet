@@ -14,6 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Blockfrost.ConsoleTool\Blockfrost.ConsoleTool.csproj" />
+    <ProjectReference Include="..\..\src\Blockfrost.Cli\Blockfrost.Cli.csproj" />
   </ItemGroup>
 </Project>

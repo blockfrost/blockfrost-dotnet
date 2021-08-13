@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Blockfrost.ConsoleTool.Commands;
+using Blockfrost.Cli.Commands;
 
 namespace Blockfrost.Cli.Tests
 {

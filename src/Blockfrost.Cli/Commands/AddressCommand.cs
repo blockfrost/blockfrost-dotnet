@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api;
 
-namespace Blockfrost.ConsoleTool.Commands
+namespace Blockfrost.Cli.Commands
 {
     public class AddressCommand : ICommand
     {

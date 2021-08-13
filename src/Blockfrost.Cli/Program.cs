@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Blockfrost.ConsoleTool.Commands;
+using Blockfrost.Cli.Commands;
 
-namespace Blockfrost.ConsoleTool
+namespace Blockfrost.Cli
 {
     /// <summary>
     /// Based on https://github.com/CardanoSharp/cscli

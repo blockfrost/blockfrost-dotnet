@@ -1,4 +1,4 @@
-﻿namespace Blockfrost.ConsoleTool
+﻿namespace Blockfrost.Cli
 {
     public class CliSettings
     {

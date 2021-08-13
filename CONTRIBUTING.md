@@ -19,7 +19,7 @@ This project and everyone participating in it is governed by the [blockfrost Cod
 ### Packages
 
 * Blockfrost.Api
-* Blockfrost.ConsoleTool
+* Blockfrost.Cli
 
 ## How Can I Contribute?
 

@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blockfrost.ConsoleTool.Commands
+namespace Blockfrost.Cli.Commands
 {
     public class ShowVersionCommand : ICommand
     {
