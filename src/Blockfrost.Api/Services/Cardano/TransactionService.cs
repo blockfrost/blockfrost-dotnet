@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -217,6 +218,46 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxWithdawal>>(urlBuilder_, cancellationToken);
+        }
+
+        /// <summary>Submit a transaction</summary>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public Task<string> SubmitAsync(string content)
+        {
+            return SubmitAsync(content, CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Submit a transaction</summary>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+
+            return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
+        }
+
+                /// <summary>Submit a transaction</summary>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public Task<string> SubmitAsync(Stream content)
+        {
+            return SubmitAsync(content, CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>Submit a transaction</summary>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async Task<string> SubmitAsync(Stream content, CancellationToken cancellationToken)
+        {
+            var urlBuilder_ = new System.Text.StringBuilder();
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+
+            return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
         }
     }
 }

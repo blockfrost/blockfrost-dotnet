@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.IO;
+
 
 namespace Blockfrost.Api
 {
@@ -37,5 +39,13 @@ namespace Blockfrost.Api
         Task<ICollection<TxWithdawal>> WithdrawalsAsync(string hash);
 
         Task<ICollection<TxWithdawal>> WithdrawalsAsync(string hash, CancellationToken cancellationToken);
+
+        Task<string> SubmitAsync(string content);
+
+        Task<string> SubmitAsync(string content, CancellationToken cancellationToken);
+
+        Task<string> SubmitAsync(Stream stream);
+
+        Task<string> SubmitAsync(Stream stream, CancellationToken cancellationToken);
     }
 }

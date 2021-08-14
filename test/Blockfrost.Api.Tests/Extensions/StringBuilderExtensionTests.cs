@@ -4,9 +4,11 @@ using Blockfrost.Api.Extensions;
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blockfrost.Api.Tests
+namespace Blockfrost.Api.Tests.Extensions
 {
     [TestClass]
+    [TestCategory(nameof(Blockfrost.Api))]
+    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
     public class StringBuilderExtensionTests
     {
         [TestMethod]

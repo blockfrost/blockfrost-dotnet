@@ -1,15 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blockfrost.Api.Tests
+namespace Blockfrost.Api.Tests.Integration
 {
     /// <summary>
     /// We need to be aware of versioning
     /// </summary>
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Blockfrost.Api))]
+    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
     public abstract class AIntegrationTestsBase : AServiceTestBase,
         IAccountService,
         IAddressService,
@@ -31,15 +35,15 @@ namespace Blockfrost.Api.Tests
             ApiVersion = apiVersion;
         }
 
-        public IAccountService Accounts => _provider.GetRequiredService<IAccountService>();
-        public IAddressService Addresses => _provider.GetRequiredService<IAddressService>();
-        public IAssetService Assets => _provider.GetRequiredService<IAssetService>();
-        public IBlockService Blocks => _provider.GetRequiredService<IBlockService>();
-        public IEpochService Epochs => _provider.GetRequiredService<IEpochService>();
-        public ILedgerService Ledger => _provider.GetRequiredService<ILedgerService>();
-        public IMetadataService Metadata => _provider.GetRequiredService<IMetadataService>();
-        public IPoolService Pools => _provider.GetRequiredService<IPoolService>();
-        public ITransactionService Transactions => _provider.GetRequiredService<ITransactionService>();
+        public IAccountService Accounts => __provider.GetRequiredService<IAccountService>();
+        public IAddressService Addresses => __provider.GetRequiredService<IAddressService>();
+        public IAssetService Assets => __provider.GetRequiredService<IAssetService>();
+        public IBlockService Blocks => __provider.GetRequiredService<IBlockService>();
+        public IEpochService Epochs => __provider.GetRequiredService<IEpochService>();
+        public ILedgerService Ledger => __provider.GetRequiredService<ILedgerService>();
+        public IMetadataService Metadata => __provider.GetRequiredService<IMetadataService>();
+        public IPoolService Pools => __provider.GetRequiredService<IPoolService>();
+        public ITransactionService Transactions => __provider.GetRequiredService<ITransactionService>();
         //private static IBlockfrostService GetService(string projectName)
         //{
         //    IServiceCollection services = new ServiceCollection();
@@ -671,6 +675,26 @@ namespace Blockfrost.Api.Tests
         public Task<ICollection<EpochStakesResponse>> StakesAsync(int number, int? count, int? page)
         {
             return Epochs.StakesAsync(number, count, page);
+        }
+
+        public Task<string> SubmitAsync(string content)
+        {
+            return Transactions.SubmitAsync(content);
+        }
+
+        public Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
+        {
+            return Transactions.SubmitAsync(content, cancellationToken);
+        }
+
+        public Task<string> SubmitAsync(Stream stream)
+        {
+            return Transactions.SubmitAsync(stream);
+        }
+
+        public Task<string> SubmitAsync(Stream stream, CancellationToken cancellationToken)
+        {
+            return Transactions.SubmitAsync(stream, cancellationToken);
         }
 
         public Task<AddressContentTotal> TotalAsync(string address)

@@ -1,4 +1,5 @@
 ﻿using Blockfrost.Api.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -85,7 +86,7 @@ namespace Blockfrost.Api
         /// <summary>Pin an object</summary>
         /// <returns>Returns pinned object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
+        public  Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
                 throw new System.ArgumentNullException("iPFS_path");
@@ -94,9 +95,11 @@ namespace Blockfrost.Api
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/add/{IPFS_path}");
             urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
             //POST
-
-            return await SendPostRequestAsync<IpfsPinAddResponse>(urlBuilder_, cancellationToken);
+            throw new NotImplementedException();
+            //return await SendPostRequestAsync<IpfsPinAddResponse>(urlBuilder_, cancellationToken);
         }
+
+        
 
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -108,7 +111,7 @@ namespace Blockfrost.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
+        public  Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
                 throw new System.ArgumentNullException("iPFS_path");
@@ -118,7 +121,8 @@ namespace Blockfrost.Api
             urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
             //POST
 
-            return await SendPostRequestAsync<IpfsPinRemoveResponse>(urlBuilder_, cancellationToken);
+            throw new NotImplementedException();
+            //return await SendPostRequestAsync<IpfsPinRemoveResponse>(urlBuilder_, cancellationToken);
         }
     }
 }

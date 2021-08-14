@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,10 +7,8 @@ namespace Blockfrost.Api
 {
     public interface IIpfsService : IBlockfrostService
     {
-        Task<IpfsAddResponse> AddIpfsAsync();
-
-        Task<IpfsAddResponse> AddIpfsAsync(CancellationToken cancellationToken);
-
+        Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken);
+        Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory);
         Task GatewayAsync(string iPFS_path);
 
         Task GatewayAsync(string iPFS_path, CancellationToken cancellationToken);
@@ -30,9 +29,5 @@ namespace Blockfrost.Api
         Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path);
 
         Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken);
-
-        Task<string> SubmitAsync(EContentType content_Type);
-
-        Task<string> SubmitAsync(EContentType content_Type, CancellationToken cancellationToken);
     }
 }

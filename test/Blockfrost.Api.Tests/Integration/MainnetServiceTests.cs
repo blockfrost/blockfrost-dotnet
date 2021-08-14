@@ -1,24 +1,34 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blockfrost.Api.Tests
+namespace Blockfrost.Api.Tests.Integration
 {
-    [IntegrationTestClass("staging")]
+
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Blockfrost.Api))]
+    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
     public class MainnetServiceTests : AIntegrationTestsBase
     {
-        public MainnetServiceTests() : base(Constants.API_VERSION)
-        {
-        }
-
-        [ClassInitialize()]
+        [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            SetupEnvironment("Blockfrost.Net.Sdk-mainnet");
+            InitializeEnvironment();
+        }
+
+        protected override void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            ConfigureServicesFromConfig(serviceCollection, Constants.PROJECT_NAME_MAINNET);
+        }
+
+        public MainnetServiceTests() : base(Constants.API_VERSION)
+        {
         }
 
         [TestMethod]
         public void TestNetwork()
         {
-            Assert.AreEqual(Constants.NETWORK_MAINNET, Service.Network);
+            Assert.AreEqual(Constants.NETWORK_MAINNET, __service.Network);
         }
     }
 }

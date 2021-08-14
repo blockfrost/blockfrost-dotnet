@@ -1,8 +1,10 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Blockfrost.Api.Extensions
+namespace Blockfrost.Api.Http
 {
     public class BlockfrostAuthorizationHandler : DelegatingHandler
     {

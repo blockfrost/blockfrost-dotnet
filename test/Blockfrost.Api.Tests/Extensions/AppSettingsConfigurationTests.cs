@@ -4,15 +4,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace Blockfrost.Api.Tests.Samples
+namespace Blockfrost.Api.Tests.Extensions
 {
     [TestClass]
+    [TestCategory(nameof(Blockfrost.Api))]
+    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
     public class AppSettingsConfigurationTests : AServiceTestBase
     {
-        [ClassInitialize()]
+
+        [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            SetupEnvironment("Blockfrost.Net.Sdk-mainnet");
+            InitializeEnvironment();
+        }
+
+        protected override void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            ConfigureServicesFromConfig(serviceCollection, Constants.PROJECT_NAME_MAINNET);
         }
 
         [TestMethod]
@@ -24,7 +32,7 @@ namespace Blockfrost.Api.Tests.Samples
             // Arrange
             IServiceCollection services = new ServiceCollection();
             IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_FILENAME).Build();
+                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME).Build();
 
             // Act
             services.AddAddressService(projectName, config);
@@ -47,7 +55,7 @@ namespace Blockfrost.Api.Tests.Samples
             // Arrange
             IServiceCollection services = new ServiceCollection();
             IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_FILENAME).Build();
+                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME).Build();
 
             // Act
             services.AddBlockfrost(projectName, config);
