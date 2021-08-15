@@ -146,26 +146,8 @@ namespace Blockfrost.Api.Extensions
         {
             var projectName = $"blockfrost-{network}-project";
 
-            services.ConfigureBlockdrost(network, apiKey, connectionLimit, projectName);
+            services.ConfigureBlockdrost(network, apiKey, projectName, connectionLimit);
             services.AddCardanoServices(projectName);
-
-            //services.TryAddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));
-            //services.TryAddScoped(_ => new RateLimitHandler());
-
-            //services
-            //    .AddHttpClient<IBlockfrostService, RootService>(client => ServiceFactory<RootService>(client, network, connectionLimit))
-            //    .AddBlockfrostMessageHandlers();
-
-            return services;
-        }
-
-        public static void ConfigureBlockdrost(this IServiceCollection services, string network, string apiKey, int connectionLimit, string projectName)
-        {
-            if (connectionLimit > Constants.CONNECTION_LIMIT)
-            {
-                throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
-            }
-
             services
                 .AddOptions<BlockfrostOptions>()
                 .Configure(projects =>
@@ -178,18 +160,18 @@ namespace Blockfrost.Api.Extensions
                         Network = network
                     });
                 });
+            return services;
+        }
 
-            services.TryAddTransient(provider =>
+        public static void ConfigureBlockdrost(this IServiceCollection services, string network, string apiKey, string projectName, int connectionLimit = Constants.CONNECTION_LIMIT)
+        {
+            if (connectionLimit > Constants.CONNECTION_LIMIT)
             {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new BlockfrostAuthorizationHandler(apiKey);
-            });
+                throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
+            }
 
-            services.TryAddTransient(provider =>
-            {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new RateLimitHandler();
-            });
+            services.TryAddSingleton(_ => new BlockfrostAuthorizationHandler(apiKey));
+            services.TryAddSingleton(_ => new RequestThrottler());
         }
 
         /// <summary>
@@ -224,31 +206,9 @@ namespace Blockfrost.Api.Extensions
             where TClient : class
             where TImplementation : class, TClient
         {
-            return services.AddHttpClient<TClient, TImplementation>(name, configureClient)
-                .AddBlockfrostMessageHandlers();
-        }
 
-        /// <summary>
-        /// Adds the IHttpClientFactory and related services to the IServiceCollection and configures a binding between the TClient type and a named HttpClient.
-        /// </summary>
-        /// <typeparam name="TClient">The type of the typed blockfrost service. They type specified will be registered in the service collection as a transient service. See ITypedHttpClientFactory<TClient> for more details about authoring typed clients.</typeparam>
-        /// <typeparam name="TImplementation">The implementation type of the typed blockfrost service. They type specified will be instantiated by the ITypedHttpClientFactory<TClient>.</typeparam>
-        /// <param name="services">The IServiceCollection.</param>
-        /// <param name="name">The logical name of the HttpClient to configure.</param>
-#if NET
-        public static IHttpClientBuilder AddBlockfrostService<TClient, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services, string name)
-#else
-        public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name)
-#endif
-            where TClient : class
-            where TImplementation : ABlockfrostService, TClient
-        {
-            return services.AddHttpClient<TClient, TImplementation>(name, (client, provider) =>
-            {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                var service = ServiceFactory<TImplementation>(client, options.Value[name].Network);
-                return service;
-            }).AddBlockfrostMessageHandlers();
+            return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", configureClient)
+                .AddBlockfrostMessageHandlers();
         }
 
         /// <summary>
@@ -266,7 +226,7 @@ namespace Blockfrost.Api.Extensions
             where TClient : class
             where TImplementation : ABlockfrostService, TClient
         {
-            return services.AddHttpClient<TClient, TImplementation>(name, (client, provider) =>
+            return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", (client, provider) =>
             {
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 var service = ServiceFactory<TImplementation>(client, options.Value[name].Network, connectionLimit);
@@ -277,8 +237,8 @@ namespace Blockfrost.Api.Extensions
         public static IHttpClientBuilder AddBlockfrostMessageHandlers(this IHttpClientBuilder builder)
         {
             return builder
-                .AddHttpMessageHandler<RateLimitHandler>().SetHandlerLifetime(Timeout.InfiniteTimeSpan)
-                .AddHttpMessageHandler<BlockfrostAuthorizationHandler>(); 
+                .AddHttpMessageHandler<RequestThrottler>().SetHandlerLifetime(Timeout.InfiniteTimeSpan)
+                .AddHttpMessageHandler<BlockfrostAuthorizationHandler>();
         }
 
         /// <summary>
@@ -301,11 +261,11 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName)
         {
-            services.TryAddTransient(provider =>
-            {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
-            });
+            //services.TryAddSingleton(provider =>
+            //{
+            //    var options = provider.GetService<IOptions<BlockfrostOptions>>();
+            //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
+            //});
 
             services.AddAccountService(projectName); 
             
@@ -344,17 +304,15 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-
             services.TryAddTransient(provider =>
             {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 return new BlockfrostAuthorizationHandler(apiKey);
             });
-            var clientName = $"blockfrost-{network}-client"; 
 
-            services.AddBasicBlockfrostService(clientName, connectionLimit);
-            services.AddAddressService(clientName, connectionLimit);
-            services.AddTransactionService(clientName, connectionLimit);
+            var projectName = $"Anonymous.Blockfrost.{network}.Project"; 
+            services.AddBasicBlockfrostService(projectName, connectionLimit);
+            services.AddAddressService(projectName, connectionLimit);
+            services.AddTransactionService(projectName, connectionLimit);
 
             return services;
         }
@@ -432,18 +390,13 @@ namespace Blockfrost.Api.Extensions
                 services.Configure<BlockfrostOptions>(configuration.GetSection("Blockfrost"));
             }
 
-            services.TryAddTransient(provider =>
+            services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
+                return new BlockfrostAuthorizationHandler(options.Value[projectName]);
             });
 
-            services.TryAddTransient(provider =>
-            {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new RateLimitHandler();
-            });
-
+            services.TryAddSingleton(_ => new RequestThrottler());
             return services;
         }
 
@@ -455,7 +408,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="network"></param>
         private static void ConfigureHttpClient(HttpClient client, string network, int sockets)
         {
-            client.DefaultRequestHeaders.Add("User-Agent", $"blockfrost-dotnet-{network}");
+            client.DefaultRequestHeaders.Add("User-Agent", $"blockfrost-dotnet / v0.0.3 {network}");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
             if (sockets > Constants.CONNECTION_LIMIT)
