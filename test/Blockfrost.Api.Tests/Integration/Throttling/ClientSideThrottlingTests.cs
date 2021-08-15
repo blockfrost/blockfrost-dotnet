@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
                     await __service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     results.Add(requestNr, false);
                 }

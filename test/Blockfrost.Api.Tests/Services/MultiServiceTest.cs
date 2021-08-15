@@ -41,7 +41,7 @@ namespace Blockfrost.Api.Tests.Services
                 Assert.ThrowsException<InvalidOperationException>(() => Provider.GetRequiredService<ITransactionService>());
                 Assert.Fail("The Provider could not get the required service");
             }
-            catch (AssertFailedException ex)
+            catch (AssertFailedException)
             {
                 // worked as expected
             }
