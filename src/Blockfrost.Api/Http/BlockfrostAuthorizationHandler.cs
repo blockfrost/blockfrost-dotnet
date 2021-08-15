@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,18 +6,12 @@ namespace Blockfrost.Api.Http
 {
     public class BlockfrostAuthorizationHandler : DelegatingHandler
     {
-        private string _apiKey;
-
-        public BlockfrostAuthorizationHandler()
-        {
-        }
+        private readonly string _apiKey;
 
         public BlockfrostAuthorizationHandler(string apiKey) : base()
         {
             _apiKey = apiKey;
         }
-
-        public string ApiKey { get => _apiKey; set => _apiKey = value; }
 
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
