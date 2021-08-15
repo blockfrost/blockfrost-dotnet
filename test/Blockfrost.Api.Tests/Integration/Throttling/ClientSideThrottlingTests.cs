@@ -16,7 +16,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            InitializeEnvironment();
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
         }
 
         [TestMethod]
@@ -44,9 +44,5 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
             Assert.IsTrue(results.All(r => r.Value));
         }
 
-        protected override void ConfigureServices(IServiceCollection serviceCollection)
-        {
-            ConfigureServicesFromConfig(serviceCollection, Constants.PROJECT_NAME_TESTNET);
-        }
     }
 }
