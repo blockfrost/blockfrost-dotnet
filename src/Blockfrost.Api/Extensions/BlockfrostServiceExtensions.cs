@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
@@ -21,7 +22,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
-        public static IHttpClientBuilder AddAAccountService(this IServiceCollection services, string projectName)
+        public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName)
         {
             return services.AddBlockfrostService<IAccountService, AccountService>(projectName);
         }
@@ -32,9 +33,9 @@ namespace Blockfrost.Api.Extensions
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
-        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName)
+        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-            return services.AddBlockfrostService<IAddressService, AddressService>(projectName);
+            return services.AddBlockfrostService<IAddressService, AddressService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -47,6 +48,30 @@ namespace Blockfrost.Api.Extensions
         {
             services.ConfigureBlockfrost(projectName, config);
             services.AddBlockfrostService<IAddressService, AddressService>(projectName);
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName, int connectionLimit = Constants.CONNECTION_LIMIT)
+        {
+            return services.AddBlockfrostService<ITransactionService, TransactionService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IServiceCollection AddTransactionService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            services.ConfigureBlockfrost(projectName, config);
+            services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
             return services;
         }
 
@@ -67,9 +92,9 @@ namespace Blockfrost.Api.Extensions
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
-        public static IHttpClientBuilder AddBasicBlockfrostService(this IServiceCollection services, string projectName)
+        public static IHttpClientBuilder AddRootService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<IBlockfrostService, BasicBlockfrostService>(projectName);
+            return services.AddBlockfrostService<IBlockfrostService, RootService>(projectName);
         }
 
         /// <summary>
@@ -81,7 +106,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBasicBlockfrostService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<IBlockfrostService, BasicBlockfrostService>(projectName);
+            return services.AddBlockfrostService<IBlockfrostService, RootService>(projectName);
         }
 
 
@@ -94,7 +119,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBlockfrostService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<IBlockfrostService, BasicBlockfrostService>(projectName);
+            return services.AddBlockfrostService<IBlockfrostService, RootService>(projectName);
         }
 
         /// <summary>
@@ -119,17 +144,52 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-            if (connectionLimit > Constants.CONNECTION_LIMIT){
-                throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
-            }
-            services.TryAddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));
-            services.TryAddScoped(_ => new RateLimitHandler());
+            var projectName = $"blockfrost-{network}-project";
 
-            services
-                .AddHttpClient<IBlockfrostService, BasicBlockfrostService>(client => ServiceFactory<BasicBlockfrostService>(client, network, connectionLimit))
-                .AddBlockfrostMessageHandlers();
+            services.ConfigureBlockdrost(network, apiKey, connectionLimit, projectName);
+            services.AddCardanoServices(projectName);
+
+            //services.TryAddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));
+            //services.TryAddScoped(_ => new RateLimitHandler());
+
+            //services
+            //    .AddHttpClient<IBlockfrostService, RootService>(client => ServiceFactory<RootService>(client, network, connectionLimit))
+            //    .AddBlockfrostMessageHandlers();
 
             return services;
+        }
+
+        public static void ConfigureBlockdrost(this IServiceCollection services, string network, string apiKey, int connectionLimit, string projectName)
+        {
+            if (connectionLimit > Constants.CONNECTION_LIMIT)
+            {
+                throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
+            }
+
+            services
+                .AddOptions<BlockfrostOptions>()
+                .Configure(projects =>
+                {
+                    projects.Add(projectName, new BlockfrostProject()
+                    {
+                        ApiKey = apiKey,
+                        ConnectionLimit = $"{connectionLimit}",
+                        Name = projectName,
+                        Network = network
+                    });
+                });
+
+            services.TryAddTransient(provider =>
+            {
+                var options = provider.GetService<IOptions<BlockfrostOptions>>();
+                return new BlockfrostAuthorizationHandler(apiKey);
+            });
+
+            services.TryAddTransient(provider =>
+            {
+                var options = provider.GetService<IOptions<BlockfrostOptions>>();
+                return new RateLimitHandler();
+            });
         }
 
         /// <summary>
@@ -141,8 +201,9 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
+
             services.ConfigureBlockfrost(projectName, configuration);
-            services.AddCardanoServices(projectName, configuration);
+            services.AddCardanoServices(projectName);
             return services;
         }
 
@@ -189,7 +250,6 @@ namespace Blockfrost.Api.Extensions
                 return service;
             }).AddBlockfrostMessageHandlers();
         }
-
 
         /// <summary>
         /// Adds the IHttpClientFactory and related services to the IServiceCollection and configures a binding between the TClient type and a named HttpClient.
@@ -239,7 +299,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="network">The network the services will use</param>
         /// <param name="apiKey">The ApiKey used to authenticate</param>
         /// <returns></returns>
-        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName, IConfiguration configuration)
+        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName)
         {
             services.TryAddTransient(provider =>
             {
@@ -247,8 +307,54 @@ namespace Blockfrost.Api.Extensions
                 return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             });
 
-            services.AddBasicBlockfrostService(projectName);
+            services.AddAccountService(projectName); 
+            
             services.AddAddressService(projectName);
+            
+            services.AddAssetService(projectName);
+            
+            services.AddAssetService(projectName);
+            
+            services.AddBlockService(projectName);
+            
+            services.AddEpochService(projectName);
+            
+            services.AddLedgerService(projectName);
+            
+            services.AddMetadataService(projectName);
+            
+            services.AddNetworkService(projectName);
+            
+            services.AddPoolService(projectName);
+            
+            services.AddRootService(projectName);
+            
+            services.AddTransactionService(projectName);
+
+            return services;
+        }
+
+
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="network">The network the services will use</param>
+        /// <param name="apiKey">The ApiKey used to authenticate</param>
+        /// <returns></returns>
+        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
+        {
+
+            services.TryAddTransient(provider =>
+            {
+                var options = provider.GetService<IOptions<BlockfrostOptions>>();
+                return new BlockfrostAuthorizationHandler(apiKey);
+            });
+            var clientName = $"blockfrost-{network}-client"; 
+
+            services.AddBasicBlockfrostService(clientName, connectionLimit);
+            services.AddAddressService(clientName, connectionLimit);
+            services.AddTransactionService(clientName, connectionLimit);
 
             return services;
         }
@@ -337,6 +443,7 @@ namespace Blockfrost.Api.Extensions
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 return new RateLimitHandler();
             });
+
             return services;
         }
 

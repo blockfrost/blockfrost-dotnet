@@ -109,7 +109,6 @@ namespace Blockfrost.Api.Tests.Throttling
         {
             var serviceDescriptor = serviceCollection.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(RateLimitHandler));
             serviceCollection.Remove(serviceDescriptor);
-
             serviceCollection.AddSingleton(new RateLimitHandler(_limitCount, _limitTime));
         }
     }

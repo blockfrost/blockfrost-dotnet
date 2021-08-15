@@ -16,17 +16,29 @@ namespace Blockfrost.Api.Tests
     [TestClass]
     public abstract class AServiceTestBase : IBlockfrostService
     {
+        private static string __providerNotConfiguredErrorMessage = $"The {nameof(Provider)}` has not been configured. Call '{nameof(ConfigureServicesFromConfig)}' inside '{nameof(ConfigureServices)}' or configure the backing field '{nameof(__provider)}' yourself.";
+        private static string __configureProjectName = "";
+
         protected static IServiceProvider __provider;
         protected static IConfiguration __configuration;
 
-        protected static IBlockfrostService __service => __provider.GetRequiredService<IBlockfrostService>();
+        protected static IBlockfrostService __service => Provider.GetRequiredService<IBlockfrostService>();
 
         public static IEnumerable<Type> AvailableServiceTypes => Assembly.GetAssembly(typeof(IBlockfrostService)).GetTypes().Where(t => t == typeof(IBlockfrostService));
         public string BaseUrl => Constants.API_URL;
         public string Network { get; private set; }
         public bool ReadResponseAsString { get; set; }
+        protected static IServiceProvider Provider { 
+            get { 
+                if (__provider == null) { 
+                    throw new InvalidOperationException(__providerNotConfiguredErrorMessage);  
+                } 
+                else return __provider; 
+            } 
+            set => __provider = value; 
+        }
 
-        public static void InitializeEnvironment() 
+        public static void InitializeEnvironment()
         {
             //Determines the working environment as IHostingEnvironment is unavailable in a console app
 
@@ -42,7 +54,7 @@ namespace Blockfrost.Api.Tests
                 IConfigurationRoot configurationRoot = config.Build();
                 environmentName = configurationRoot[Constants.ENV_ENVIRONMENT] ?? "test";
             }
-            
+
             // tell the builder to look for the appsettings.json file
             config
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -57,12 +69,27 @@ namespace Blockfrost.Api.Tests
             __configuration = config.Build();
         }
 
+        public static void ConfigureEnvironment(string projectName)
+        {
+            __configureProjectName = projectName;
+            InitializeEnvironment();
+        }
+
+        /// <summary>
+        /// Initializes the service collection.
+        /// <para>
+        /// If <see cref="InitializeEnvironment"/> was used to setup the environment, <see cref="ConfigureServices(IServiceCollection)"/> gets called and the implementing class gets to configure the services. 
+        /// </para>
+        /// <para>
+        /// If <see cref="ConfigureEnvironment(string)"/> was used to setup the environment, <see cref="ConfigureServicesFromConfig(IServiceCollection, string)"/> gets called and the app settings determine the service configuration
+        /// </para>
+        /// </summary>
         [TestInitialize]
         public void TestInitialize()
         {
             var services = new ServiceCollection();
-
-            ConfigureServices(services);
+            if (string.IsNullOrEmpty(__configureProjectName)) ConfigureServices(services);
+            else ConfigureServicesFromConfig(services, __configureProjectName);
         }
 
         public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
@@ -142,7 +169,10 @@ namespace Blockfrost.Api.Tests
         }
 
 
-        protected abstract void ConfigureServices(IServiceCollection serviceCollection);
+        protected virtual void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            throw new NotImplementedException($"Override in implementing class and don't call base.{nameof(ConfigureServices)}(IServiceCollection).");
+        }
         
         protected virtual void ConfigureServicesFromConfig(IServiceCollection serviceCollection, string projectName)
         {
@@ -166,8 +196,10 @@ namespace Blockfrost.Api.Tests
             }
             Network = network;
 
-            OnBuildServiceProvider(serviceCollection.AddBlockfrost(network, apiKey, int.Parse(connectionLimit)));
-            __provider = serviceCollection.BuildServiceProvider();
+
+            OnBuildServiceProvider(serviceCollection.AddBlockfrost(projectName, __configuration));
+
+            Provider = serviceCollection.BuildServiceProvider();
         }
 
         protected virtual void OnBuildServiceProvider(IServiceCollection serviceCollection) { }
