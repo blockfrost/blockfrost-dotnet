@@ -38,7 +38,15 @@ namespace ConsoleApp2
             while (!cancellationToken.IsCancellationRequested)
             {
                 var latest = await _blocks.GetLatestBlockAsync(cancellationToken);
-                if (slot == latest.Slot)
+                if (slot != latest.Slot)
+                {
+                    if(waitCount > Math.Pow(patience, 1.61803)) _logger.LogDebug("Finally!!");
+
+                    waitCount = 0;
+
+                    _logger.LogInformation(JsonSerializer.Serialize(latest, __options));
+                }
+                else
                 {
                     waitCount++;
                     if (waitCount < patience)
@@ -50,12 +58,12 @@ namespace ConsoleApp2
                         if (waitCount == patience)
                         {
                             _logger.LogDebug("While we wait, enjoy some transactionIds from the TIP:");
-                        } 
-                        else 
+                        }
+                        else
                         {
                             var txs = await _blocks.TxsAll2Async(latest.Hash, 1, waitCount - patience, ESortOrder.Asc, cancellationToken);
                             string txid = txs.FirstOrDefault();
-                            if(txid != null)
+                            if (txid != null)
                             {
                                 _logger.LogInformation(txid);
                             }
@@ -66,10 +74,6 @@ namespace ConsoleApp2
                         }
                     }
                     await Task.Delay(TimeSpan.FromSeconds(patience));
-                }
-                else {
-                    waitCount = 0;
-                    _logger.LogInformation(JsonSerializer.Serialize(latest, __options)); 
                 }
                 slot = latest.Slot;
             }
