@@ -122,8 +122,8 @@ namespace Blockfrost.Api.Extensions
             if (connectionLimit > Constants.CONNECTION_LIMIT){
                 throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
             }
-            services.TryAddScoped(_ => new BlockfrostAuthorizationHandler(apiKey));
-            services.TryAddScoped(_ => new RateLimitHandler());
+            services.TryAddSingleton(_ => new BlockfrostAuthorizationHandler(apiKey));
+            services.TryAddSingleton(_ => new RequestThrottler());
 
             services
                 .AddHttpClient<IBlockfrostService, BasicBlockfrostService>(client => ServiceFactory<BasicBlockfrostService>(client, network, connectionLimit))
@@ -217,8 +217,8 @@ namespace Blockfrost.Api.Extensions
         public static IHttpClientBuilder AddBlockfrostMessageHandlers(this IHttpClientBuilder builder)
         {
             return builder
-                .AddHttpMessageHandler<RateLimitHandler>().SetHandlerLifetime(Timeout.InfiniteTimeSpan)
-                .AddHttpMessageHandler<BlockfrostAuthorizationHandler>(); 
+                .AddHttpMessageHandler<RequestThrottler>().SetHandlerLifetime(Timeout.InfiniteTimeSpan)
+                .AddHttpMessageHandler<BlockfrostAuthorizationHandler>();
         }
 
         /// <summary>
@@ -326,17 +326,13 @@ namespace Blockfrost.Api.Extensions
                 services.Configure<BlockfrostOptions>(configuration.GetSection("Blockfrost"));
             }
 
-            services.TryAddTransient(provider =>
+            services.TryAddSingleton(provider =>
             {
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             });
 
-            services.TryAddTransient(provider =>
-            {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                return new RateLimitHandler();
-            });
+            services.TryAddSingleton(new RequestThrottler());
             return services;
         }
 
