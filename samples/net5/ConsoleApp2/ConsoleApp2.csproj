@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blockfrost.Api" Version="0.0.3-alpha-feat-services.45" />
+    <PackageReference Include="Blockfrost.Api" Version="0.0.3-alpha-feat-services-singleton-handlers.48" />
     <PackageReference Include="CardanoSharp.CBOR" Version="0.1.0" />
     <PackageReference Include="CardanoSharp.Wallet" Version="0.2.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
