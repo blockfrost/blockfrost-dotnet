@@ -16,6 +16,7 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>bfcli</PackageId>
   </PropertyGroup>
+
   <PropertyGroup>
     <NrtRevisionFormat>{semvertag:main}+{chash}{!:-mod}</NrtRevisionFormat>
     <NrtResolveSimpleAttributes>true</NrtResolveSimpleAttributes>
@@ -44,5 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Blockfrost.Api\Blockfrost.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="nupkg\" />
   </ItemGroup>
 </Project>

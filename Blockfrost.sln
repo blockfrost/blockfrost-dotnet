@@ -34,7 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.1.26", "0.1.26", "{73EDDA
 		oas\0.1.26\swagger.json = oas\0.1.26\swagger.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Console.Test", "test\Blockfrost.Console.Test\Blockfrost.Console.Test.csproj", "{0F342CA9-A191-47F7-BF64-A0EB14D4E746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Console.Test", "test\Blockfrost.Console.Test\Blockfrost.Console.Test.csproj", "{0F342CA9-A191-47F7-BF64-A0EB14D4E746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using Blockfrost.Api.Extensions;
-using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Extensions
