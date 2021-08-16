@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>net5.0</TargetFrameworks>
-    <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
     <UserSecretsId>2dc6b8f8-602f-420e-972d-2bc956fe8147</UserSecretsId>
   </PropertyGroup>
