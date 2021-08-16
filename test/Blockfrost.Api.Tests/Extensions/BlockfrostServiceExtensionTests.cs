@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests.Extensions
 {
+    [TestClass]
     public class BlockfrostServiceExtensionTests : AServiceTestBase
     {
 

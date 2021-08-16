@@ -46,7 +46,7 @@ jobs:
           # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
           # INCLUDE_SYMBOLS: false
 
-publish-cli:
+  publish-cli:
     name: build, pack & publish
     runs-on: ubuntu-latest
     steps:
