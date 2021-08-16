@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,6 +38,8 @@ namespace Blockfrost.Api.Tests
             } 
             set => __provider = value; 
         }
+
+        private IServiceCollection __services;
 
         public static void InitializeEnvironment()
         {
@@ -171,9 +174,21 @@ namespace Blockfrost.Api.Tests
 
         protected virtual void ConfigureServices(IServiceCollection serviceCollection)
         {
-            throw new NotImplementedException($"Override in implementing class and don't call base.{nameof(ConfigureServices)}(IServiceCollection).");
+            if (!string.IsNullOrEmpty(__configureProjectName))
+            {
+                throw new NotImplementedException(
+                    $"{nameof(ConfigureServices)} must not be called explicitly!  " +
+                    $"Override {nameof(ConfigureServices)} in the TestClas and do not call " +
+                    $"base.{nameof(ConfigureServices)}(IServiceCollection)");
+            }
+
+            throw new InvalidOperationException(
+                "The test environment has not been configured! " +
+                "Make sure your TestClass defines a [ClassInitialize] method " +
+                "with the method signature 'public static void Setup(TestContext)' " +
+                "that calls ConfigureEnvironment(projectName)");
         }
-        
+
         protected virtual void ConfigureServicesFromConfig(IServiceCollection serviceCollection, string projectName)
         {
             if(__configuration == null)
@@ -187,19 +202,26 @@ namespace Blockfrost.Api.Tests
 
             if (string.IsNullOrEmpty(apiKey))
             {
-                throw new InvalidOperationException($"Could not read '{nameof(apiKey)}' from config. This usually happens if the implemnting TestClass does not explicitly calls {nameof(AServiceTestBase.InitializeEnvironment)}().");
+                throw new InvalidOperationException(
+                    $"Could not read '{nameof(apiKey)}' from config. " +
+                    $"This usually happens if the implemnting TestClass does not call {nameof(AServiceTestBase.ConfigureEnvironment)}(projectName) explicitly" +
+                    $"or the '{Constants.ENV_BFCLI_API_KEY}' environment variable is not configured on the host.");
             }
 
             if (string.IsNullOrEmpty(network))
             {
-                throw new InvalidOperationException($"Could not read '{nameof(network)}' from config. This usually happens if the implemnting TestClass does not explicitly calls {nameof(AServiceTestBase.InitializeEnvironment)}().");
+                throw new InvalidOperationException(
+                    $"Could not read '{nameof(apiKey)}' from config. " +
+                    $"This usually happens if the implemnting TestClass does not call {nameof(AServiceTestBase.ConfigureEnvironment)}(projectName) explicitly" +
+                    $"or the '{Constants.ENV_BFCLI_NETWORK}' environment variable is not configured on the host.");
             }
-            Network = network;
 
+            Network = network;
 
             OnBuildServiceProvider(serviceCollection.AddBlockfrost(projectName, __configuration));
 
             Provider = serviceCollection.BuildServiceProvider();
+            __services = serviceCollection;
         }
 
         protected virtual void OnBuildServiceProvider(IServiceCollection serviceCollection) { }
@@ -222,6 +244,17 @@ namespace Blockfrost.Api.Tests
             }
 
             throw new NotSupportedException(nameof(Network));
+        }
+
+        protected async IAsyncEnumerable<ServiceDescriptor> GetClientsAsync()
+        {
+            foreach(var descriptor in __services)
+            {
+                await Task.CompletedTask;
+                if (descriptor.ServiceType == typeof(IBlockfrostService) 
+                    || descriptor.ServiceType.GetInterface(nameof(IBlockfrostService)) != null)
+                    yield return descriptor;
+            }
         }
     }
 }

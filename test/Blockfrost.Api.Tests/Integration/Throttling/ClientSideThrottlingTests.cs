@@ -10,6 +10,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
     [TestCategory(nameof(Blockfrost.Api))]
+    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
     [TestCategory(nameof(Blockfrost.Api.Tests.Integration.Throttling))]
     public class ClientSideThrottlingTests : AServiceTestBase
     {
