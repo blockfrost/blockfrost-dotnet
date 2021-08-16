@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests.Extensions
 {
-    [TestClass]
     public class BlockfrostServiceExtensionTests : AServiceTestBase
     {
 
@@ -23,8 +22,8 @@ namespace Blockfrost.Api.Tests.Extensions
         public async Task AddBlockfrost_With_NetworkAndApiKey()
         {
             IServiceCollection services = new ServiceCollection();
-            var apiKey = __configuration["ApiKey"];
-            var network = __configuration["Network"];
+            var apiKey = __configuration["ApiKey"] ?? __configuration[Constants.ENV_BFCLI_API_KEY];
+            var network = __configuration["Network"] ?? __configuration[Constants.ENV_BFCLI_NETWORK];
 
             services.AddBlockfrost(network, apiKey);
             var provider = services.BuildServiceProvider();
