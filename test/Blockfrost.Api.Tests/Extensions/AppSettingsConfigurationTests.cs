@@ -15,12 +15,7 @@ namespace Blockfrost.Api.Tests.Extensions
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            InitializeEnvironment();
-        }
-
-        protected override void ConfigureServices(IServiceCollection serviceCollection)
-        {
-            ConfigureServicesFromConfig(serviceCollection, Constants.PROJECT_NAME_MAINNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_MAINNET);
         }
 
         [TestMethod]

@@ -38,5 +38,9 @@ namespace Blockfrost.Api
         public const string API_URL_TESTNET = "https://cardano-testnet.blockfrost.io/api/v0/";
         public const string API_URL_MAINNET = "https://cardano-mainnet.blockfrost.io/api/v0/";
         public const string API_URL_IPFS = "https://ipfs.blockfrost.io/api/v0/";
+
+        // RETRIES
+        public const int RETRIES = 3;
+        public const int RETRY_TIMEOUT = 600;
     }
 }

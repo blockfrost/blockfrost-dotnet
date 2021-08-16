@@ -17,6 +17,10 @@ namespace Blockfrost.Api.Http
         int requestCount = 0;
         DateTimeOffset lastRequestTime = DateTimeOffset.UtcNow;
 
+        public RequestThrottler(BlockfrostAuthorizationHandler innerHandler) : base(innerHandler)
+        {
+        }
+
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             await mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
