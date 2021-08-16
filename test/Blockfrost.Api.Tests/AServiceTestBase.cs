@@ -55,16 +55,16 @@ namespace Blockfrost.Api.Tests
             if (string.IsNullOrWhiteSpace(environmentName))
             {
                 IConfigurationRoot configurationRoot = config.Build();
-                environmentName = configurationRoot[Constants.ENV_ENVIRONMENT] ?? "test";
+                environmentName = configurationRoot[Constants.ENV_ENVIRONMENT] ?? "development";
             }
 
             // tell the builder to look for the appsettings.json file
             config
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true);
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             //only add secrets in development
-            if (string.IsNullOrEmpty(environmentName) || Environments.Development.Equals(environmentName, StringComparison.InvariantCultureIgnoreCase))
+            if (Environments.Development.Equals(environmentName, StringComparison.InvariantCultureIgnoreCase))
             {
                 config.AddUserSecrets<TestnetServiceIntegrationTests>();
             }

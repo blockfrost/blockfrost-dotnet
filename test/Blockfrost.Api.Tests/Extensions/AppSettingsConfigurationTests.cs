@@ -15,26 +15,23 @@ namespace Blockfrost.Api.Tests.Extensions
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_MAINNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
         }
 
         [TestMethod]
         [DataRow(Constants.PROJECT_NAME_TESTNET)]
-        //[DataRow(Constants.PROJECT_NAME_MAINNET)]
-        //[DataRow(Constants.PROJECT_NAME_IPFS)]
+        [DataRow(Constants.PROJECT_NAME_MAINNET)]
+        [DataRow(Constants.PROJECT_NAME_IPFS)]
         public void AddAddressService_Configures_Only_AddressService(string projectName)
         {
             // Arrange
             IServiceCollection services = new ServiceCollection();
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME).Build();
 
             // Act
-            services.AddAddressService(projectName, config);
+            services.AddAddressService(projectName, CreateTestSpecificConfiguration());
 
             // Assert
-            AssertServiceNetworkConfigured<IAddressService>(projectName, config, services);
-
+            AssertServiceNetworkConfigured<IAddressService>(projectName, CreateTestSpecificConfiguration(), services);
             foreach (var serviceType in AvailableServiceTypes.Except(new[] { typeof(IAddressService) }))
             {
                 AssertServiceNotConfigured(services, serviceType);
@@ -43,14 +40,13 @@ namespace Blockfrost.Api.Tests.Extensions
 
         [TestMethod]
         [DataRow(Constants.PROJECT_NAME_TESTNET)]
-        //[DataRow(Constants.PROJECT_NAME_MAINNET)]
-        //[DataRow(Constants.PROJECT_NAME_IPFS)]
+        [DataRow(Constants.PROJECT_NAME_MAINNET)]
+        [DataRow(Constants.PROJECT_NAME_IPFS)]
         public void AddBlockfrost_Configures_All(string projectName)
         {
             // Arrange
             IServiceCollection services = new ServiceCollection();
-            IConfiguration config = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME).Build();
+            IConfiguration config = CreateTestSpecificConfiguration();
 
             // Act
             services.AddBlockfrost(projectName, config);
@@ -60,6 +56,19 @@ namespace Blockfrost.Api.Tests.Extensions
             {
                 AssertServiceNetworkConfigured(projectName, serviceType, config, services);
             }
+        }
+
+        private static IConfiguration CreateTestSpecificConfiguration()
+        {
+            var env = new ConfigurationBuilder()
+                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
+                .Build()[Constants.ENV_ENVIRONMENT];
+
+            var config = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+            return config;
         }
     }
 }

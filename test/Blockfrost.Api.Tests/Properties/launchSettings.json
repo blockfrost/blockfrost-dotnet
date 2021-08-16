@@ -3,7 +3,7 @@
     "Blockfrost.Api.Tests": {
       "commandName": "Project",
       "environmentVariables": {
-        "NETCORE_ENVIRONMENT": "test"
+        "NETCORE_ENVIRONMENT": "development"
       }
     }
   }
