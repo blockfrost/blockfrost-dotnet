@@ -398,6 +398,21 @@ namespace Blockfrost.Api.Extensions
             {
                 services.Configure<BlockfrostOptions>(configuration.GetSection($"Blockfrost"));
                 BlockfrostProject project = configuration.GetSection($"Blockfrost:{projectName}").Get<BlockfrostProject>();
+                if(project == null)
+                {
+                    throw new InvalidOperationException($"The specified project '{projectName}' is not configured in the 'Blockfrost' section of the appsettings");
+                }
+
+                if (string.IsNullOrEmpty(project.ApiKey))
+                {
+                    project.ApiKey = Environment.GetEnvironmentVariable(Constants.ENV_BFCLI_API_KEY);
+                }
+
+                if (string.IsNullOrEmpty(project.Network))
+                {
+                    project.Network = Environment.GetEnvironmentVariable(Constants.ENV_BFCLI_NETWORK);
+                }
+
                 services.TryAddSingleton(project);
             }
 
