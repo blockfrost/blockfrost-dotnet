@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Blockfrost.Console.Test": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "development"
+      }
+    }
+  }
+}
