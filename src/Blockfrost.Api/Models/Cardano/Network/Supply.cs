@@ -5,6 +5,11 @@ namespace Blockfrost.Api
 {
     public partial class Supply
     {
+        /// <summary>Current circulating (UTXOs + withdrawables) supply in Lovelaces</summary>
+        [JsonPropertyName("circulating")]
+        [Required(AllowEmptyStrings = true)]
+        public string Circulating { get; set; }
+
         /// <summary>Maximum supply in Lovelaces</summary>
         [JsonPropertyName("max")]
         [Required(AllowEmptyStrings = true)]
@@ -14,10 +19,5 @@ namespace Blockfrost.Api
         [JsonPropertyName("total")]
         [Required(AllowEmptyStrings = true)]
         public string Total { get; set; }
-
-        /// <summary>Current circulating (UTXOs + withdrawables) supply in Lovelaces</summary>
-        [JsonPropertyName("circulating")]
-        [Required(AllowEmptyStrings = true)]
-        public string Circulating { get; set; }
     }
 }

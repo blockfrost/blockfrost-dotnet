@@ -25,35 +25,59 @@ To use this SDK, you first need login into to [blockfrost.io](https://blockfrost
 
 ## Installation
 
-###  Add package (coming soon)
+###  Add package
 
-The SDK will be hosted on [nuget.org](https://www.nuget.org/) when it is ready for use in production environments.
-
-<!-- 
-The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api), so you can directly import it using your favorite package manager.
+The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api/latest), so you can directly import it using your favorite package manager.
 
 ```console
 $ dotnet new console -n blockfrost-client
 $ cd blockfrost-client
-$ dotnet add package Blockfrost.Api --prerelease
-```
-
-<br/>
--->
-
-### Add as reference
-
-You can add `blockfrost-dotnet` as reference to your project and use it before the package is ready. 
-
-```console
-git clone https://github.com/blockfrost/blockfrost-dotnet
-dotnet new console -n blockfrost-client
-cd blockfrost-client
-dotnet add package Microsoft.Extensions.DependencyInjection
-dotnet add reference ../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.csproj
+$ dotnet add package Blockfrost.Api --version 0.0.4
 ```
 
 🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
+
+### Command line tool
+
+Before you install the command line tool, make sure the environment variables `BFCLI_API_KEY` and `BFCLI_NETWORK` exist.
+
+```ps
+$> $env:BFCLI_NETWORK
+testnet
+
+$> $env:BFCLI_API_KEY
+yourawesomeapikeyforblockfrostio
+```
+
+#### Install the command line tool
+
+```ps
+$> pwd
+{$SolutionDir}\src\Blockfrost.Cli
+
+$> dotnet tool install bfcli --add-source nupkg --version 0.0.xyz
+<!-- $> dotnet tool install bfcli --version 0.0.4 -->
+Tool 'bfcli' (version '0.0.xyz') was successfully installed.
+
+$> dotnet bfcli -v
+bfcli v0.0.xyz
+A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
+
+USAGE: bfcli (OPTION | COMMAND)
+
+Available options:
+    -v, --version   Show the bfcli version
+    -h, --help      Show this help text
+
+Available commands:
+    health
+
+$> dotnet bfcli health | ConvertFrom-Json
+
+is_healthy
+----------
+      True
+```
 
 ## Usage
 

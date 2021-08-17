@@ -15,13 +15,13 @@ namespace Blockfrost.Api
         [Required]
         public ICollection<Amount3> Amount { get; set; } = new System.Collections.ObjectModel.Collection<Amount3>();
 
+        /// <summary>UTXO index in the transaction</summary>
+        [JsonPropertyName("output_index")]
+        public double Output_index { get; set; }
+
         /// <summary>Hash of the UTXO transaction</summary>
         [JsonPropertyName("tx_hash")]
         [Required(AllowEmptyStrings = true)]
         public string Tx_hash { get; set; }
-
-        /// <summary>UTXO index in the transaction</summary>
-        [JsonPropertyName("output_index")]
-        public double Output_index { get; set; }
     }
 }

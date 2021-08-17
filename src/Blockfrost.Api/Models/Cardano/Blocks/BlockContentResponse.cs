@@ -6,22 +6,14 @@ namespace Blockfrost.Api
 {
     public partial class BlockContentResponse
     {
-        /// <summary>Block creation time in UNIX time</summary>
-        [JsonPropertyName("time")]
-        public int Time { get; set; }
+        /// <summary>VRF key of the block</summary>
+        [JsonPropertyName("block_vrf")]
+        [System.ComponentModel.DataAnnotations.StringLength(65, MinimumLength = 65)]
+        public string BlockVrf { get; set; }
 
-        /// <summary>Block number</summary>
-        [JsonPropertyName("height")]
-        public int? Height { get; set; }
-
-        /// <summary>Hash of the block</summary>
-        [JsonPropertyName("hash")]
-        [Required(AllowEmptyStrings = true)]
-        public string Hash { get; set; }
-
-        /// <summary>Slot number</summary>
-        [JsonPropertyName("slot")]
-        public int? Slot { get; set; }
+        /// <summary>Number of block confirmations</summary>
+        [JsonPropertyName("confirmations")]
+        public int Confirmations { get; set; }
 
         /// <summary>Epoch number</summary>
         [JsonPropertyName("epoch")]
@@ -31,42 +23,50 @@ namespace Blockfrost.Api
         [JsonPropertyName("epoch_slot")]
         public int? EpochSlot { get; set; }
 
-        /// <summary>Bech32 ID of the slot leader or specific block description in case there is no slot leader</summary>
-        [JsonPropertyName("slot_leader")]
-        [Required(AllowEmptyStrings = true)]
-        public string SlotLeader { get; set; }
-
-        /// <summary>Block size in Bytes</summary>
-        [JsonPropertyName("size")]
-        public int Size { get; set; }
-
-        /// <summary>Number of transactions in the block</summary>
-        [JsonPropertyName("tx_count")]
-        public int TxCount { get; set; }
-
-        /// <summary>Total output within the block in Lovelaces</summary>
-        [JsonPropertyName("output")]
-        public string Output { get; set; }
-
         /// <summary>Total fees within the block in Lovelaces</summary>
         [JsonPropertyName("fees")]
         public string Fees { get; set; }
 
-        /// <summary>VRF key of the block</summary>
-        [JsonPropertyName("block_vrf")]
-        [System.ComponentModel.DataAnnotations.StringLength(65, MinimumLength = 65)]
-        public string BlockVrf { get; set; }
+        /// <summary>Hash of the block</summary>
+        [JsonPropertyName("hash")]
+        [Required(AllowEmptyStrings = true)]
+        public string Hash { get; set; }
 
-        /// <summary>Hash of the previous block</summary>
-        [JsonPropertyName("previous_block")]
-        public string PreviousBlock { get; set; }
+        /// <summary>Block number</summary>
+        [JsonPropertyName("height")]
+        public int? Height { get; set; }
 
         /// <summary>Hash of the next block</summary>
         [JsonPropertyName("next_block")]
         public string NextBlock { get; set; }
 
-        /// <summary>Number of block confirmations</summary>
-        [JsonPropertyName("confirmations")]
-        public int Confirmations { get; set; }
+        /// <summary>Total output within the block in Lovelaces</summary>
+        [JsonPropertyName("output")]
+        public string Output { get; set; }
+
+        /// <summary>Hash of the previous block</summary>
+        [JsonPropertyName("previous_block")]
+        public string PreviousBlock { get; set; }
+
+        /// <summary>Block size in Bytes</summary>
+        [JsonPropertyName("size")]
+        public int Size { get; set; }
+
+        /// <summary>Slot number</summary>
+        [JsonPropertyName("slot")]
+        public int? Slot { get; set; }
+
+        /// <summary>Bech32 ID of the slot leader or specific block description in case there is no slot leader</summary>
+        [JsonPropertyName("slot_leader")]
+        [Required(AllowEmptyStrings = true)]
+        public string SlotLeader { get; set; }
+
+        /// <summary>Block creation time in UNIX time</summary>
+        [JsonPropertyName("time")]
+        public int Time { get; set; }
+
+        /// <summary>Number of transactions in the block</summary>
+        [JsonPropertyName("tx_count")]
+        public int TxCount { get; set; }
     }
 }
