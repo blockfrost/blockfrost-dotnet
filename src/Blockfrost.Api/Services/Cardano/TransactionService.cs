@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Blockfrost.Api.Extensions;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -234,13 +238,28 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+            // we expect cbor in hex
+            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase)) 
+            {
+                //   we can assume it is either CBOR or JSON
+                try
+                {
+                    throw new NotImplementedException("I know its not cbor!");
+                }
+                catch
+                {
+                    // Assume its a cardano cli transaction
+                    content = JsonDocument.Parse(content).RootElement.GetProperty("cborHex").GetString();
+                    return await SubmitAsync(content, cancellationToken);
+                }
+            }
 
-            return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
+            // Send as stream
+            var stream = new MemoryStream(content.HexToByteArray());
+            return await SubmitAsync(stream, cancellationToken);
         }
 
-                /// <summary>Submit a transaction</summary>
+        /// <summary>Submit a transaction</summary>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<string> SubmitAsync(Stream content)

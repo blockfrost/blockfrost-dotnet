@@ -13,6 +13,8 @@ using CardanoSharp.Wallet.Extensions.Models.Transactions;
 using CardanoSharp.Wallet.Models.Keys;
 using CardanoSharp.Wallet.Extensions.Models;
 using CardanoSharp.Wallet.Enums;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api.Tests.Services
 {
@@ -42,7 +44,7 @@ namespace Blockfrost.Api.Tests.Services
             var signedTxSerialized = File.ReadAllBytes(file);
 
             var hex = signedTxSerialized.ToStringHex();
-            var raw = hex.HexToByteArray();
+            var raw = ByteArrayExtensions.HexToByteArray(hex);
 
             // Act
             using MemoryStream stream = new MemoryStream(raw);
@@ -53,9 +55,67 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         [TestMethod]
-        public async Task TestSubmitAsyncString()
+        public async Task TestSubmitCborHexAsyncString()
         {
-            Assert.Fail();
+            // Arrange
+            var transactionService = Provider.GetRequiredService<ITransactionService>();
+            // Act
+            var txId = await transactionService.SubmitAsync("");
+            // Assert
+            Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
+        }
+
+        [TestMethod]
+        public async Task TestSubmitCborAsyncString()
+        {
+            // Arrange
+            var transactionService = Provider.GetRequiredService<ITransactionService>();
+            // Act
+            var txId = await transactionService.SubmitAsync("");
+            // Assert
+            Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
+        }
+        class CardanoCliTransaction
+        {
+            [JsonPropertyName("type")]
+            string Type { get; set; }
+
+            [JsonPropertyName("description")]
+            string Description { get; set; }
+
+            [JsonPropertyName("cborHex")]
+            string CBORHex { get; set; }
+        }
+
+        [TestMethod]
+        public async Task TestSubmitCardanoCliTransactionAsyncString()
+        {
+            // Arrange
+            string json = TestVector.Load("01").GetFileText("tx.draft");
+
+            var transactionService = Provider.GetRequiredService<ITransactionService>();
+
+            // Act
+            var txId = await transactionService.SubmitAsync(json);
+
+            // Assert
+            Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
+        }
+
+        private static string GetSampleTestVectorById(string vectorId, string filename)
+        {
+            
+            var obj = new
+            {
+                type = "TxBodyMary",
+                description = "",
+                cborHex = "83a3008182582098035740ab68cad12cb4d8281d10ce1112ef0933dc84920b8937c3e80d78d12000018282581d60d0c43926a989c88d5049e61bdebf2a887aca10fa284b9067373ea28f0082581d603b75186909c120a97f6f0ee6822701f075e5136f3b9a08604a63dce700020080f6"
+            };
+            var json = JsonSerializer.Serialize(obj);
+            var tx = JsonSerializer.Deserialize<CardanoCliTransaction>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+
+            json = JsonSerializer.Serialize(tx);
+            return json;
         }
 
         /// <summary>
@@ -126,17 +186,6 @@ namespace Blockfrost.Api.Tests.Services
                 }
                 }
             };
-        }
-    }
-}
-
-namespace Blockfrost.Api.Tests
-{
-    class TestVector
-    {
-        internal static TestVector Load(string vectorId)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
