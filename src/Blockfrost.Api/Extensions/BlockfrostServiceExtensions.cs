@@ -15,6 +15,7 @@ using System.Threading;
 
 namespace Blockfrost.Api.Extensions
 {
+
     public static class BlockfrostServiceExtensions
     {
         /// <summary>
