@@ -4,8 +4,15 @@
 SCRIPT=$(readlink -f "$0")
 VDIR=$(dirname $SCRIPT)
 DDIR=$(dirname $VDIR)
-AMOUNT=5000
+AMOUNT=1000000
 MAGIC=1097911063
+
+_minUtxo=$(jq .minUTxOValue $DDIR/protocol.json)
+
+if [ $_minUtxo -gt $AMOUNT ]; then
+  echo "failed! (utxo amount: minUTxOValue $_minUtxo lovelace, you spend $AMOUNT lovelace)"
+  exit -1
+fi
 
 echo "Creating Test Vector 01..."
 
