@@ -2,13 +2,11 @@
 
 ## Overview
 
-This file defines the Blockfrost.Api Test Vectors. 
+This file defines the Blockfrost.Api Test Vectors.
 
-### Requirements 
+### Contributing
 
-* Vectors are numbered from 01 to XX.
-* Each vector MUST define the means of how it was generated in the [table](#test-vectors) below.
-* Each vector MUST provide one or many `reference` files.
+[see Appendix C]
 
 ### Structure
 
@@ -20,10 +18,18 @@ This file defines the Blockfrost.Api Test Vectors.
   │
   ├╌┬╌╌ dat/
   │ ├╌┬ 01/
-  │ │ ├╌╌ reference.cddl
-  │ │ ├╌╌ reference.draft
-  │ │ ├╌╌ tx.cddl
-  │ │ └╌╌ tx.draft
+  │ │ ├╌╌ reference.draft       
+  │ │ ├╌╌ reference.draft.cddl  
+  │ │ ├╌╌ reference.draft.raw   
+  │ │ ├╌╌ reference.signed
+  │ │ ├╌╌ reference.signed.cddl
+  │ │ ├╌╌ reference.signed.raw
+  │ │ ├╌╌ tx.draft              
+  │ │ ├╌╌ tx.draft.cddl         
+  │ │ ├╌╌ tx.draft.raw          
+  │ │ ├╌╌ tx.signed
+  │ │ ├╌╌ tx.signed.cddl
+  │ │ └╌╌ tx.signed.raw
   │ ├╌┬ 02/
   │ │ ├╌╌ ...
   │ │ └╌╌ ...
@@ -68,6 +74,7 @@ In order to ensure consitant test results we define the following keys and addre
 |-----------|:---------------:|:--------------------------------|-|
 | [01](#01) | Transactions    | Serialize `Transaction` to CBOR | |
 | [02](#02) | ...             | ...                             | |
+
 
 ### 01
 
@@ -150,3 +157,42 @@ git rev e99393d10bb8f01ad43065627c21a33aa2a024c9
 ```cddl
 
 ```
+
+## Appendix C
+
+Thank you for taking the time to contribute to this document.
+
+### Prerequisites
+
+#### cardano-cli
+
+Make sure `cardano-cli` is in version `1.27` or above.
+
+```sh
+$ cardano-cli --version
+cardano-cli 1.28.0 - linux-x86_64 - ghc-8.10
+git rev e99393d10bb8f01ad43065627c21a33aa2a024c9
+```
+
+#### cardano-node
+
+Make sure you have `cardano-node` running and synced on the `testnet`
+
+```sh
+$ cardano-cli query tip --testnet-magic 1097911063
+{
+    "epoch": 151,
+    "hash": "6cd9f629c5a6873247495fecd2f809dbdfa7edcad20378eab55d34f038ffe047",
+    "slot": 35261594,
+    "block": 2851214,
+    "era": "Mary"
+}
+```
+
+### Requirements
+
+To add a test vector to this document, make sure it adheres to the following requirements.
+
+* Vectors are numbered from 01 to XX.
+* Each vector MUST define the means of how it was generated in the [table](#test-vectors) below.
+* Each vector MUST provide one or many `reference` files.
