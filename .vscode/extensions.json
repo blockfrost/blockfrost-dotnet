@@ -1,5 +1,9 @@
 {
     "recommendations": [
-        "42crunch.vscode-openapi"
+        "42crunch.vscode-openapi",
+        "ms-vscode.hexeditor",
+        "ms-dotnettools.csharp",
+        "davidanson.vscode-markdownlint",
+        "slevesque.vscode-hexdump"
     ]
 }

@@ -5,6 +5,19 @@ namespace Blockfrost.Api.Extensions
     // from https://github.com/CardanoSharp/cardanosharp-wallet/blob/49d63543541f2a2e4797061bd5bff9e454bd11c6/CardanoSharp.Wallet/Extensions/ByteArrayExtension.cs
     public static class ByteArrayExtensions
     {
+        /// <summary>
+        /// Returns the last n bits of the byte
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static int LastBits(this byte b, int n)
+        {
+            if (n > 8) throw new InvalidOperationException($"{nameof(n)} must be <= 8");
+            int mask = ~(0xff >> n << n);
+            return b & mask;
+        }
+
         public static int GetHexVal(char hex)
         {
             int val = (int)hex;

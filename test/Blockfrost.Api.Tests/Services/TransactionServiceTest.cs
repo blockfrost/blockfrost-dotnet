@@ -34,14 +34,24 @@ namespace Blockfrost.Api.Tests.Services
             Assert.IsNotNull(nameof(service.SubmitAsync));
         }
 
+        /// <summary>
+        /// Tracker https://github.com/blockfrost/blockfrost-dotnet/issues/36 
+        /// </summary>
+        /// <param name="vectorId"></param>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         [TestMethod]
-        public async Task TestSubmitAsyncStream()
+        [DataRow("01", "tx.raw")]
+        //[DataRow("01", "tx.draft")]
+        //[DataRow("01", "tx.cddl")]  
+        public async Task TestSubmitAsyncStream(string vectorId, string filename)
         {
             // Arrange
             var transactionService = Provider.GetRequiredService<ITransactionService>();
 
-            var file = "/path/to/test/vector/with/cborHex/for/testing";
-            var signedTxSerialized = File.ReadAllBytes(file);
+            var v = TestVector.Load(vectorId);
+            
+            var signedTxSerialized = v.GetFileBytes(filename);
 
             var hex = signedTxSerialized.ToStringHex();
             var raw = ByteArrayExtensions.HexToByteArray(hex);
@@ -88,10 +98,11 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         [TestMethod]
-        public async Task TestSubmitCardanoCliTransactionAsyncString()
+        [DataRow("01","tx.draft")]
+        public async Task TestSubmitCardanoCliTransactionAsyncString(string vectorId, string filename)
         {
             // Arrange
-            string json = TestVector.Load("01").GetFileText("tx.draft");
+            string json = TestVector.Load(vectorId).GetFileText(filename);
 
             var transactionService = Provider.GetRequiredService<ITransactionService>();
 

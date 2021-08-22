@@ -10,5 +10,6 @@
     ],
     "openapi.approvedHostnames": [
         "https://json-schema.org"
-    ]
+    ],
+    "hexdump.littleEndian": true
 }

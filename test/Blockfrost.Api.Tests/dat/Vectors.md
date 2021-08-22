@@ -4,6 +4,12 @@
 
 This file defines the Blockfrost.Api Test Vectors. 
 
+### Requirements 
+
+* Vectors are numbered from 01 to XX.
+* Each vector MUST define the means of how it was generated in the [table](#test-vectors) below.
+* Each vector MUST provide one or many `reference` files.
+
 ### Structure
 
 ```bash
@@ -47,25 +53,21 @@ This file defines the Blockfrost.Api Test Vectors.
 
 In order to ensure consitant test results we define the following keys and addresses to be used within tests.
 
-|Key|Value|
-|-|-|
-|payment1.addr|`addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu`|
-|payment1.skey|`5820e260af648b5710bfabd978816b8e73720698926cec799ef9c0a5671b396b9202`|
-|payment1.vkey|`58200bc7720123b3fd7bc8c0573bbd7df6577cef1a3385ab79959d1319d373f5ebe1`|
-|payment2.addr|`addr_test1vqah2xrfp8qjp2tldu8wdq38q8c8tegnduae5zrqff3aeec7g467q`|
-|payment2.skey|`5820b1c3ffe27415ed97870a0a399e62f2396185925700c7e8058f775bf63ba9caf4`|
-|payment2.vkey|`58200b41b2f0cd92448ead8fe43e8a0b2b10e1ce6aceffcc6d5543479a5ffa52d149`|
+|Key|Value|Comment|
+|-|-|-|
+|payment1.addr|`addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu`|Address of Wallet A|
+|payment1.skey|`5820e260af648b5710bfabd978816b8e73720698926cec799ef9c0a5671b396b9202`|Private Key of Wallet A|
+|payment1.vkey|`58200bc7720123b3fd7bc8c0573bbd7df6577cef1a3385ab79959d1319d373f5ebe1`|Public Key of Wallet A|
+|payment2.addr|`addr_test1vqah2xrfp8qjp2tldu8wdq38q8c8tegnduae5zrqff3aeec7g467q`|Address of Wallet B|
+|payment2.skey|`5820b1c3ffe27415ed97870a0a399e62f2396185925700c7e8058f775bf63ba9caf4`|Private Key of Wallet B|
+|payment2.vkey|`58200b41b2f0cd92448ead8fe43e8a0b2b10e1ce6aceffcc6d5543479a5ffa52d149`|Public Key of Wallet B|
 
 ## Test Vectors
 
-* Vectors are numbered from 01 to XX.
-* Each vector MUST define the means of how it was generated.
-* Each vector MUST provide one or many `reference` files.
-
 | Id        | Category        | Description                     | Reference(s) |
 |-----------|:---------------:|:--------------------------------|-|
-| [01](#01) | Transactions    | Serialize `Transaction` to CBOR ||
-| [02](#02) | ...             | ...                             ||
+| [01](#01) | Transactions    | Serialize `Transaction` to CBOR | |
+| [02](#02) | ...             | ...                             | |
 
 ### 01
 

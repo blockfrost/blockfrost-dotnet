@@ -1,12 +1,13 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Blockfrost.Api.Tests
 {
     public class TestVector
     {
         private string _vectorId;
-
         public TestVector(string vectorId1)
         {
             _vectorId = vectorId1;
@@ -24,14 +25,34 @@ namespace Blockfrost.Api.Tests
 
         public string GetFileText(string filename)
         {
-            var projectDir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory) // output directory
-                .Parent  // Debug / Release
-                .Parent  // bin
-                .Parent; // Blockfrost.Api.Tests
-            var vectorFile = new FileInfo(Path.Combine(projectDir.FullName, "dat", _vectorId, filename));
+            FileInfo vectorFile = GetFileInfo(filename);
             if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
             return File.ReadAllText(vectorFile.FullName);
         }
 
+        public FileInfo GetFileInfo(string filename)
+        {
+            var vectorFile = new FileInfo(Path.Combine(ProjectDir.FullName, "dat", _vectorId, filename));
+            return vectorFile;
+        }
+
+        private static DirectoryInfo ProjectDir
+        {
+            get
+            {
+                var projectDir = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory) // output directory
+                                .Parent  // Debug / Release
+                                .Parent  // bin
+                                .Parent; // Blockfrost.Api.Tests
+                return projectDir;
+            }
+        }
+
+        public byte[] GetFileBytes(string filename)
+        {
+            FileInfo vectorFile = GetFileInfo(filename);
+            if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
+            return File.ReadAllBytes(vectorFile.FullName);
+        }
     }
 }
