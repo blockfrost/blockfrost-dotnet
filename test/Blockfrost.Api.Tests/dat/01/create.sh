@@ -57,8 +57,8 @@ min_fee=$(cardano-cli transaction calculate-min-fee \
 min_fee_cells=($(echo $min_fee | tr " " "\n"))
 _total=${utxo_table_cells[-2]}
 _fee=${min_fee_cells[-2]}
-_change=$((_total-(_out+_fee)))
 _out=$AMOUNT
+_change=$((_total-(_out+_fee)))
 
 if [ $_total -lt $AMOUNT ]; then
   echo "failed! (insufficent funds: you have $_total lovelace, you spend $AMOUNT lovelace)"
@@ -84,6 +84,12 @@ cardano-cli transaction sign \
             --out-file $VDIR/tx.signed
 
 xxd -r -p <<< $(jq .cborHex $VDIR/tx.signed) > $VDIR/tx.signed.raw
+
+echo "tot:$_total"
+echo "out:$_out"
+echo "fee:$_fee"
+echo "chg:$_change"
+echo "chg+fee:$(($_change+$_fee))"
 
 echo "done."
 exit 0
