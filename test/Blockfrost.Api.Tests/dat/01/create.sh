@@ -29,6 +29,16 @@ cardano-cli transaction build-raw \
             --fee 0 \
             --out-file $VDIR/reference.draft
 
+xxd -r -p <<< $(jq .cborHex $VDIR/reference.draft) > $VDIR/reference.draft.raw
+
+cardano-cli transaction sign \
+            --tx-body-file $VDIR/reference.draft \
+            --signing-key-file $DDIR/keys/payment1.skey \
+            --testnet-magic $MAGIC \
+            --out-file $VDIR/reference.signed
+
+xxd -r -p <<< $(jq .cborHex $VDIR/reference.signed) > $VDIR/reference.signed.raw
+
 min_fee=$(cardano-cli transaction calculate-min-fee \
 --tx-body-file $VDIR/reference.draft \
 --tx-in-count 1 \
@@ -58,13 +68,15 @@ cardano-cli transaction build-raw \
             --fee $_fee \
             --out-file $VDIR/tx.draft
 
+xxd -r -p <<< $(jq .cborHex $VDIR/tx.draft) > $VDIR/tx.draft.raw
+
 cardano-cli transaction sign \
             --tx-body-file $VDIR/tx.draft \
             --signing-key-file $DDIR/keys/payment1.skey \
             --testnet-magic $MAGIC \
             --out-file $VDIR/tx.signed
 
-xxd -r -p <<< $(jq .cborHex $VDIR/tx.signed) > $VDIR/tx.raw
+xxd -r -p <<< $(jq .cborHex $VDIR/tx.signed) > $VDIR/tx.signed.raw
 
 echo "done."
 exit 0
