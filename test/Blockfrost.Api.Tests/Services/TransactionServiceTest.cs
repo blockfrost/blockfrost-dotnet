@@ -41,7 +41,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <param name="filename"></param>
         /// <returns></returns>
         [TestMethod]
-        [DataRow("01", "tx.raw")]
+        [DataRow("01", "tx.signed.raw")]
         //[DataRow("01", "tx.draft")]
         //[DataRow("01", "tx.cddl")]  
         public async Task TestSubmitAsyncStream(string vectorId, string filename)
@@ -98,7 +98,7 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         [TestMethod]
-        [DataRow("01","tx.draft")]
+        [DataRow("01","tx.signed")]
         public async Task TestSubmitCardanoCliTransactionAsyncString(string vectorId, string filename)
         {
             // Arrange
