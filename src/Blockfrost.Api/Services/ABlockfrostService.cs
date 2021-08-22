@@ -480,7 +480,7 @@ namespace Blockfrost.Api
                     ProcessResponse(_httpClient, response_);
 
                     var status_ = (int)response_.StatusCode;
-                    if (status_ == 200)
+                    if (status_ == 200) // ok
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -490,7 +490,17 @@ namespace Blockfrost.Api
                         return objectResponse_.Object;
                     }
                     else
-                    if (status_ == 400)
+                    if(status_ == 202) // accepted
+                    {
+                        var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                        if (objectResponse_.Object == null)
+                        {
+                            throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                        }
+                        return objectResponse_.Object;
+                    }
+                    else
+                    if (status_ == 400) // bad request
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<BadRequestResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -500,7 +510,7 @@ namespace Blockfrost.Api
                         throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 403)
+                    if (status_ == 403) // forbidden
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<ForbiddenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -510,7 +520,7 @@ namespace Blockfrost.Api
                         throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 404)
+                    if (status_ == 404) // unauthorized
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<NotFoundResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -520,7 +530,7 @@ namespace Blockfrost.Api
                         throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 418)
+                    if (status_ == 418) // i am a teapot 
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -530,7 +540,7 @@ namespace Blockfrost.Api
                         throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 429)
+                    if (status_ == 429) // enhance your calm (twitter rate limiting)
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<TooManyRequestsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
@@ -540,7 +550,7 @@ namespace Blockfrost.Api
                         throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 500)
+                    if (status_ == 500) // internal server error
                     {
                         var objectResponse_ = await ReadObjectResponseAsync<InternalServerErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)
