@@ -4,22 +4,68 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-
 using System.Security.Cryptography;
-
 using CardanoSharp.Wallet.Extensions;
 using CardanoSharp.Wallet.Models.Transactions;
-using CardanoSharp.Wallet.Extensions.Models.Transactions;
 using CardanoSharp.Wallet.Models.Keys;
 using CardanoSharp.Wallet.Extensions.Models;
 using CardanoSharp.Wallet.Enums;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
     [TestClass]
-    public class TransactionServiceTest : AServiceTestBase
+    public class UtxosAllTests : AServiceTestBase
+    {
+        [ClassInitialize]
+        public static void Setup(TestContext context)
+        {
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+        }
+
+        [TestMethod]
+        public void UtxosAsync_Exists()
+        {
+            var service = Provider.GetRequiredService<IAddressService>();
+            Assert.IsNotNull(nameof(service.UtxosAllAsync));
+        }
+
+        // TODO: [PermutePaginationTestMethod(1,-1,0,1,typeof(ESortOrder))]
+        [PaginationTestMethod(-1,-1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(-1, 0, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(-1, 1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(0, -1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(0,  0, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(0,  1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(1, -1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(1,  0, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(1,  1, ESortOrder.Asc, expected: 1)]
+        [PaginationTestMethod(-1,-1, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(-1, 0, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(-1, 1, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(0, -1, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(0,  0, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(0,  1, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(1, -1, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(1,  0, ESortOrder.Desc, expected: 1)]
+        [PaginationTestMethod(1,  1, ESortOrder.Desc, expected: 1)]
+        public async Task PaginationTests(int count, int page, ESortOrder order, int expected)
+        {
+            var addressService = Provider.GetRequiredService<IAddressService>();
+            var addr = "addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu";
+
+            // Act
+            var utxos = await addressService.UtxosAllAsync(addr, count, page, order);
+
+            // Assert
+            Assert.AreEqual(expected, utxos.Count);
+        }
+    }
+
+    [TestClass]
+    public class SubmitTxTests : AServiceTestBase
     {
         [ClassInitialize]
         public static void Setup(TestContext context)
@@ -40,32 +86,39 @@ namespace Blockfrost.Api.Tests.Services
         /// <param name="vectorId"></param>
         /// <param name="filename"></param>
         /// <returns></returns>
-        [TestMethod]
-        [DataRow("01", "tx.signed.raw")]
         //[DataRow("01", "tx.draft")]
         //[DataRow("01", "tx.cddl")]  
-        public async Task TestSubmitAsyncStream(string vectorId, string filename)
+        [VectorTestMethod("01", "tx.signed.raw")]
+        public async Task TestSubmitAsyncStream(byte[] bytes)
         {
             // Arrange
             var transactionService = Provider.GetRequiredService<ITransactionService>();
-
-            var v = TestVector.Load(vectorId);
-            
-            var signedTxSerialized = v.GetFileBytes(filename);
-
-            var hex = signedTxSerialized.ToStringHex();
-            var raw = ByteArrayExtensions.HexToByteArray(hex);
+            using var stream = new MemoryStream(bytes);
 
             // Act
-            using MemoryStream stream = new MemoryStream(raw);
             var txId = await transactionService.SubmitAsync(stream);
 
             // Assert
-            Assert.AreEqual(SHA256.HashData(raw).ToStringHex().Length, txId.Length);
+            Assert.AreEqual(Blake2Fast.Blake2b.ComputeHash(32, bytes), txId);
         }
 
-        [TestMethod]
-        public async Task TestSubmitCborHexAsyncString()
+        [VectorTestMethod("01", "tx.signed")]
+        [VectorTestMethod("02", "tx.signed")]
+        public async Task TestSubmitCborHexAsyncString(string content)
+        {
+            // Arrange
+            var transactionService = Provider.GetRequiredService<ITransactionService>();
+            ((TransactionService)transactionService).ReadResponseAsString = true;
+
+            // Act
+            var txId = await transactionService.SubmitAsync(content);
+
+            // Assert
+            Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
+        }
+
+        [VectorTestMethod("01", "tx.signed.raw")]
+        public async Task TestSubmitCborAsyncString(TestVector v, string filename)
         {
             // Arrange
             var transactionService = Provider.GetRequiredService<ITransactionService>();
@@ -75,16 +128,6 @@ namespace Blockfrost.Api.Tests.Services
             Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
         }
 
-        [TestMethod]
-        public async Task TestSubmitCborAsyncString()
-        {
-            // Arrange
-            var transactionService = Provider.GetRequiredService<ITransactionService>();
-            // Act
-            var txId = await transactionService.SubmitAsync("");
-            // Assert
-            Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
-        }
         class CardanoCliTransaction
         {
             [JsonPropertyName("type")]
@@ -97,8 +140,7 @@ namespace Blockfrost.Api.Tests.Services
             string CBORHex { get; set; }
         }
 
-        [TestMethod]
-        [DataRow("01","tx.signed")]
+        [VectorTestMethod("01", "tx.signed.raw")]
         public async Task TestSubmitCardanoCliTransactionAsyncString(string vectorId, string filename)
         {
             // Arrange
@@ -156,9 +198,7 @@ namespace Blockfrost.Api.Tests.Services
             var stakePub = stakePrv.GetPublicKey(false);
 
             var addr = cswAddressService.GetAddress(paymentPub, stakePub, NetworkType.Testnet, AddressType.Base);
-
-
-
+            
             return new Transaction()
             {
                 TransactionBody = new TransactionBody()

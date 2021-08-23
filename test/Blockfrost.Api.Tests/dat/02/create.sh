@@ -4,13 +4,8 @@
 SCRIPT=$(readlink -f "$0")
 VDIR=$(dirname $SCRIPT)
 DDIR=$(dirname $VDIR)
-
-VID=$(jq .id $VDIR/vector.json)
-VDESC=$(jq .description $VDIR/vector.json)
-SENDR=$(jq .sender $VDIR/vector.json)
-RECVR=$(jq .receiver $VDIR/vector.json)
-AMOUNT=$(jq .amount $VDIR/vector.json)
-MAGIC=$(jq .magic $VDIR/vector.json)
+AMOUNT=1000000
+MAGIC=1097911063
 
 _minUtxo=$(jq .minUTxOValue $DDIR/protocol.json)
 
@@ -19,15 +14,14 @@ if [ $_minUtxo -gt $AMOUNT ]; then
   exit -1
 fi
 
-echo "Creating Test Vector $VID..."
-echo $VDESC
+echo "Creating Test Vector 01..."
 
 ##
 ## calculate fees for reference tx
 ##
 utxo_table=$(cardano-cli query utxo \
 --testnet-magic $MAGIC \
---address $(cat $DDIR/keys/$SENDR.addr)
+--address $(cat $DDIR/keys/payment1.addr)
 )
 utxo_table_cells=($(echo $utxo_table | tr " " "\n"))
 _txIn=${utxo_table_cells[-4]}
@@ -37,8 +31,8 @@ _txIn=${utxo_table_cells[-4]}
 ##
 cardano-cli transaction build-raw \
             --tx-in $_txIn#0 \
-            --tx-out $(cat $DDIR/keys/$SENDR.addr)+0 \
-            --tx-out $(cat $DDIR/keys/$RECVR.addr)+0 \
+            --tx-out $(cat $DDIR/keys/payment1.addr)+0 \
+            --tx-out $(cat $DDIR/keys/payment2.addr)+0 \
             --fee 0 \
             --out-file $VDIR/reference.draft
 
@@ -46,7 +40,7 @@ xxd -r -p <<< $(jq .cborHex $VDIR/reference.draft) > $VDIR/reference.draft.raw
 
 cardano-cli transaction sign \
             --tx-body-file $VDIR/reference.draft \
-            --signing-key-file $DDIR/keys/$SENDR.skey \
+            --signing-key-file $DDIR/keys/payment1.skey \
             --testnet-magic $MAGIC \
             --out-file $VDIR/reference.signed
 
@@ -76,8 +70,8 @@ fi
 ##
 cardano-cli transaction build-raw \
             --tx-in $_txIn#0 \
-            --tx-out $(cat $DDIR/keys/$SENDR.addr)+$_change \
-            --tx-out $(cat $DDIR/keys/$RECVR.addr)+$_out \
+            --tx-out $(cat $DDIR/keys/payment1.addr)+$_change \
+            --tx-out $(cat $DDIR/keys/payment2.addr)+$_out \
             --fee $_fee \
             --out-file $VDIR/tx.draft
 
@@ -85,7 +79,7 @@ xxd -r -p <<< $(jq .cborHex $VDIR/tx.draft) > $VDIR/tx.draft.raw
 
 cardano-cli transaction sign \
             --tx-body-file $VDIR/tx.draft \
-            --signing-key-file $DDIR/keys/$SENDR.skey \
+            --signing-key-file $DDIR/keys/payment1.skey \
             --testnet-magic $MAGIC \
             --out-file $VDIR/tx.signed
 
