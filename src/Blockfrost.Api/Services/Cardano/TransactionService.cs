@@ -244,7 +244,7 @@ namespace Blockfrost.Api
                 //   we can assume it is either CBOR or JSON
                 try
                 {
-                    throw new NotImplementedException("I know its not cbor!");
+                    throw new NotImplementedException("I know it's not cbor");
                 }
                 catch
                 {
