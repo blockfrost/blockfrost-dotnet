@@ -458,3 +458,4 @@ $RECYCLE.BIN/
 ##
 blockfrost-client/
 *.StyleCop
+/samples/client/client.sln
