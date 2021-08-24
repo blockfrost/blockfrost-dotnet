@@ -90,7 +90,6 @@ using System.IO;
 using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 
 var apiKey = "YOUR_BLOCKFROST_PROJECT_ID";
 var network = "NETWORK_OF_THE_PROJECT_ID"; 
@@ -116,9 +115,12 @@ int? slot = tip.Slot;
 
 Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
 Console.WriteLine(signedTx);
+
 var txid = await transactionService.SubmitAsync(signedTx);
+
 Console.WriteLine($"Your Transaction was transmitted to the {network}");
 Console.WriteLine($"https://explorer.cardano-{network}.iohkdev.io/en/transaction?id={txid}");
+
 while(slot == tip.Slot)
 {
     Console.WriteLine("Waiting for next block...");
