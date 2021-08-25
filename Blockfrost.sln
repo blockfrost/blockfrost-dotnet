@@ -36,7 +36,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.1.26", "0.1.26", "{73EDDA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Console.Test", "test\Blockfrost.Console.Test\Blockfrost.Console.Test.csproj", "{0F342CA9-A191-47F7-BF64-A0EB14D4E746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Extensions", "src\Blockfrost.Extensions\Blockfrost.Extensions.csproj", "{9934D327-24BC-4133-8E40-2D3B79D2F8A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Extensions", "src\Blockfrost.Extensions\Blockfrost.Extensions.csproj", "{9934D327-24BC-4133-8E40-2D3B79D2F8A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Extensions.CardanoSharp", "test\Blockfrost.Extensions.CardanoSharp\Blockfrost.Extensions.CardanoSharp.csproj", "{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +122,18 @@ Global
 		{9934D327-24BC-4133-8E40-2D3B79D2F8A8}.Release|x64.Build.0 = Release|Any CPU
 		{9934D327-24BC-4133-8E40-2D3B79D2F8A8}.Release|x86.ActiveCfg = Release|Any CPU
 		{9934D327-24BC-4133-8E40-2D3B79D2F8A8}.Release|x86.Build.0 = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|x64.Build.0 = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|x64.ActiveCfg = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|x64.Build.0 = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +147,7 @@ Global
 		{73EDDACC-3254-4E15-8EC3-508385E8F6CF} = {3938A33D-C902-48DD-BDF0-8DCD9BC39F54}
 		{0F342CA9-A191-47F7-BF64-A0EB14D4E746} = {11189388-1C21-49B7-B232-A35714953484}
 		{9934D327-24BC-4133-8E40-2D3B79D2F8A8} = {11189388-1C21-49B7-B232-A35714953484}
+		{B1B40FA8-5B4E-4D17-B952-3DC0B0D6C014} = {86F79F6F-A241-4878-B7B1-0855AB3A1787}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CC50D9-3792-4107-BA7C-098AC6757297}
