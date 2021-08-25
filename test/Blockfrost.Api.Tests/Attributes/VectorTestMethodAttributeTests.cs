@@ -4,22 +4,10 @@ using System.IO;
 
 namespace Blockfrost.Api.Tests.Attributes
 {
+
     [TestClass]
-    public class VectorTestMethodAttributeTests
+    public class VectorTestMethodAttributeTests : AVectorTestMethodAttributeTest
     {
-        private const string V_01 = "01";
-        private const string DOES_NOT_EXIST = "DOES_NOT_EXIST";
-
-        private const string REFERENCE_DRAFT = "reference.draft";
-        private const string REFERENCE_DRAFT_RAW = "reference.draft.raw";
-        private const string REFERENCE_SIGNED = "reference.signed";
-        private const string REFERENCE_SIGNED_RAW = "reference.signed.raw";
-
-        private const string TX_DRAFT = "tx.draft";
-        private const string TX_DRAFT_RAW = "tx.draft.raw";
-        private const string TX_SIGNED = "tx.signed";
-        private const string TX_SIGNED_RAW = "tx.signed.raw";
-
         [VectorTestMethod(V_01, TX_DRAFT)]
         [VectorTestMethod(V_01, TX_DRAFT_RAW)]
         [VectorTestMethod(V_01, TX_SIGNED)]

@@ -1,11 +1,14 @@
 ﻿using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Tests.Http;
 using Blockfrost.Api.Tests.Integration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -256,5 +259,6 @@ namespace Blockfrost.Api.Tests
                     yield return descriptor;
             }
         }
+
     }
 }

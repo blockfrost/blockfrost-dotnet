@@ -24,9 +24,9 @@ namespace Blockfrost.Api.Tests.Attributes
         }
         public IEnumerable<object[]> GetData(MethodInfo info)
         {
-            Type[] parameters = info.GetParameters().Select(p => p.ParameterType).ToArray();
+            int parameters = info.GetParameters().Length;
 
-            if(parameters.Length == 4)
+            if(parameters == 4)
             {
                 return new[] { new object[] { _count, _page, _sort, _expected } };
             }

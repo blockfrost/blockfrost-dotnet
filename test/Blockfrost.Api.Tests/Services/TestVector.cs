@@ -2,11 +2,47 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blockfrost.Api.Utils;
+using System.Text.Json;
 
 namespace Blockfrost.Api.Tests
 {
     public class TestVector : ITestVector
     {
+        public const string V_01 = "01";
+        public const string TX_DRAFT = "tx.draft";
+        public const string TX_DRAFT_RAW = "tx.draft.raw";
+        public const string TX_SIGNED = "tx.signed";
+        public const string TX_SIGNED_RAW = "tx.signed.raw";
+        public const string SUPPORTED_FILENAMES = TX_DRAFT + "," + TX_DRAFT_RAW + "," + TX_SIGNED + "," + TX_SIGNED_RAW;
+
+        /// <summary>
+        /// Valid Tx (1 Ada)
+        /// </summary>
+        public const string V01 = "01";
+
+        /// <summary>
+        /// Valid Tx (minFee)
+        /// </summary>
+        public const string V02 = "02";
+
+        /// <summary>
+        /// Invalid CBOR (Blake2b512 digest)
+        /// </summary>
+        public const string V81 = "81";
+
+        /// <summary>
+        /// Invalid CBOR (Array Length > Map Length)
+        /// </summary>
+        public const string V82 = "82";
+
+        /// <summary>
+        /// Invalid Tx (Spent UTxO)
+        /// </summary>
+        public const string V91 = "93";
+
+        private static ProtocolParameters __protocol { get; set; } = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
+
         private DirectoryInfo _vectorDir;
         private string _vectorId;
         public TestVector(string vectorId1)
@@ -31,6 +67,9 @@ namespace Blockfrost.Api.Tests
                 return projectDir.FullName;
             }
         }
+
+        public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-","").ToLower();
+
 
         public static FileInfo GetFileInfo(params string[] segments)
         {
@@ -72,6 +111,16 @@ namespace Blockfrost.Api.Tests
         private static DirectoryInfo GetDirectoryInfo(params string[] segments)
         {
             return new DirectoryInfo(Path.Combine(segments));
+        }
+
+        /// <summary>
+        /// Calculates the fee for a given transaction
+        /// </summary>
+        /// <param name="cborHex"></param>
+        /// <returns></returns>
+        public uint CalculateMinFee(byte[] cborRaw)
+        {            
+            return (uint)(__protocol.TxFeeFixed + cborRaw.Length * __protocol.TxFeePerByte);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Blockfrost.Api.Tests.Attributes
                             .AddEnvironmentVariables()
                             .Build();
 
-        public string EnvironmentName => __cfg[Constants.ENV_ENVIRONMENT];
+        public static string EnvironmentName => __cfg[Constants.ENV_ENVIRONMENT];
 
         protected static TestResult[] CreateInconclusiveResult(string message)
         {
@@ -25,7 +25,7 @@ namespace Blockfrost.Api.Tests.Attributes
 
         public bool IsEnvironment(string name)
         {
-            return EnvironmentName.Trim().Equals(name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(EnvironmentName.Trim(),name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsNotEnvironment(string name)

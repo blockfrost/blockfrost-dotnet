@@ -45,5 +45,7 @@ namespace Blockfrost.Api
 
         // TESTS
         public const string TEST_VECTOR_ROOT_DIRNAME = "dat";
+
+        public const string PROTOCOL_PARAMETERS_FILENAME = "protocol.json";
     }
 }

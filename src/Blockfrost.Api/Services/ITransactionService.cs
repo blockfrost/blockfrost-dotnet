@@ -44,6 +44,9 @@ namespace Blockfrost.Api
 
         Task<string> SubmitAsync(string content, CancellationToken cancellationToken);
 
+        Task<string> SubmitAsync(byte[] rawCbor);
+        Task<string> SubmitAsync(byte[] rawCbor, CancellationToken cancellationToken);
+
         Task<string> SubmitAsync(Stream stream);
 
         Task<string> SubmitAsync(Stream stream, CancellationToken cancellationToken);

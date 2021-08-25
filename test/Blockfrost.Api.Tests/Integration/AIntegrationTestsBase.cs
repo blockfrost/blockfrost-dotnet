@@ -688,6 +688,16 @@ namespace Blockfrost.Api.Tests.Integration
             return Transactions.SubmitAsync(content, cancellationToken);
         }
 
+        public Task<string> SubmitAsync(byte[] content)
+        {
+            return Transactions.SubmitAsync(content);
+        }
+
+        public Task<string> SubmitAsync(byte[] content, CancellationToken cancellationToken)
+        {
+            return Transactions.SubmitAsync(content, cancellationToken);
+        }
+
         public Task<string> SubmitAsync(Stream stream)
         {
             return Transactions.SubmitAsync(stream);
