@@ -241,10 +241,10 @@ namespace Blockfrost.Api
             // we expect cbor in hex
             if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase)) 
             {
-                //   we can assume it is either CBOR or JSON
+                //   we can assume it is either CDDL or JSON
                 try
                 {
-                    throw new NotImplementedException("I know it's not cbor");
+                    throw new NotSupportedException("We don't support CDDL for now");
                 }
                 catch
                 {
@@ -254,9 +254,68 @@ namespace Blockfrost.Api
                 }
             }
 
-            // Send as stream
-            var stream = new MemoryStream(content.HexToByteArray());
-            return await SubmitAsync(stream, cancellationToken);
+            // Send as byte
+            return await SubmitAsync(content.HexToByteArray(), cancellationToken);
+        }
+
+        public Task<string> SubmitAsync(byte[] rawCbor)
+        {
+            return SubmitAsync(rawCbor, CancellationToken.None);
+        }
+
+        public async Task<string> SubmitAsync(byte[] rawCbor, CancellationToken cancellationToken)
+        {
+
+#if NET5_0_OR_GREATER
+            var cborHex = rawCbor;
+            var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
+
+            var arrLength = reader.ReadStartArray();
+            
+            for (uint i = 0; i < arrLength; i++)
+            {
+                switch (reader.PeekState())
+                {
+                    case System.Formats.Cbor.CborReaderState.Null:
+                        reader.SkipValue();
+                        break;
+                    default:
+                        {
+                            var mapLength = reader.ReadStartMap();
+                            for (uint j = 0; j < mapLength; j++)
+                            {
+                                var value = reader.ReadUInt32();
+                                if (value != j)
+                                {
+                                    throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+                                }
+                                // we will not validate the individual values
+                                reader.SkipValue();
+                            }
+                            reader.ReadEndMap();
+                            break;
+                        }
+                }
+            }
+
+            reader.ReadEndArray();
+            if (reader.BytesRemaining != 0)
+            {
+                throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+            }
+#else
+            bool notArray = rawCbor[0] >> 4 != 4; // CBOR MajorType 4 = array 
+            bool notMap = rawCbor[1] >> 4 != 5;   // CBOR MajorType 5 = map (txbody is a map)
+            if (notArray || notMap || (rawCbor[0] & 0xf0) != 3) // '3' because we expect 'three' sections (txbody, scripts and metadata)
+            {
+                throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+            }
+            // this is really all we can do without parsing it
+#endif
+            using (var stream = new MemoryStream(rawCbor))
+            {
+                return await SubmitAsync(stream, cancellationToken);
+            }
         }
 
         /// <summary>Submit a transaction</summary>
