@@ -203,7 +203,7 @@ namespace Blockfrost.Api.Extensions
             var environment = Environment.GetEnvironmentVariable(Constants.ENV_ENVIRONMENT) ?? "development";
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{environment}.json")
+                .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .Build();
 
             services.ConfigureBlockfrost(projectName, configuration);
