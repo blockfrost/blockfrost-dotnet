@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Blockfrost.Extensions
 {
@@ -7,7 +6,7 @@ namespace Blockfrost.Extensions
     {
         public static IServiceCollection AddSundaeSharp(this IServiceCollection services)
         {
-            // configure SundaeSwap services            
+            // configure SundaeSwap services
 
             return services;
         }

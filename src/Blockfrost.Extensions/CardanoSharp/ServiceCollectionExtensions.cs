@@ -1,7 +1,5 @@
-﻿using CardanoSharp.Wallet;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Blockfrost.Extensions.CardanoSharp
 {
@@ -11,12 +9,13 @@ namespace Blockfrost.Extensions.CardanoSharp
         {
             return services.AddCardanoSharp("appsettings.json");
         }
+
         public static IServiceCollection AddCardanoSharp(this IServiceCollection services, string configPath)
         {
             var configBuilder = new ConfigurationBuilder()
                 .AddJsonFile(configPath);
-            
-            services.AddTransient<IWalletService, WalletService>();
+
+            services.AddTransient<ICardanoSharpService, CardanoSharpService>();
             return services;
         }
     }
