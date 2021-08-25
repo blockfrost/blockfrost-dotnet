@@ -111,7 +111,6 @@ namespace Blockfrost.Api.Extensions
             return services.AddBlockfrostService<IBlockfrostService, RootService>(projectName);
         }
 
-
         /// <summary>
         /// Adds a new <see cref="IBlockfrostService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
         /// </summary>
@@ -192,6 +191,26 @@ namespace Blockfrost.Api.Extensions
             services.AddCardanoServices(projectName);
             return services;
         }
+
+        /// <summary>
+        /// Adds a new <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName)
+        {
+            var environment = Environment.GetEnvironmentVariable(Constants.ENV_ENVIRONMENT) ?? "development";
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{environment}.json")
+                .Build();
+
+            services.ConfigureBlockfrost(projectName, configuration);
+            services.AddCardanoServices(projectName);
+            return services;
+        }
+
 
         /// <summary>
         /// Adds the IHttpClientFactory and related services to the IServiceCollection and configures a binding between the TClient type and a named HttpClient.
