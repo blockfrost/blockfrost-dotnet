@@ -2,10 +2,16 @@ name: staging build
 
 on:
   push:
-    branches: [ staging ]
+    branches: 
+      - staging
+      - feat/**
+      - bug/**
   pull_request:
-    branches: [ staging ]
-
+    branches:
+      - staging
+      - feat/**
+      - bug/**
+      
 jobs:
   build:
     runs-on: ubuntu-latest
