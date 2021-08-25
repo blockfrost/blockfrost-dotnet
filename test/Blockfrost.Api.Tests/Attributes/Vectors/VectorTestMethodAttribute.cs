@@ -23,8 +23,8 @@ namespace Blockfrost.Api.Tests.Attributes
     public class VectorTestMethodAttribute : DevelopmentOnlyTestMethodAttribute, ITestDataSource, ITestVector
     {
         private readonly string _vectorId;
-        private readonly string _fileName;
         private readonly TestVector _testVector;
+        protected string _fileName;
 
         /// <summary>
         /// Initializes the TestVector
@@ -100,20 +100,20 @@ namespace Blockfrost.Api.Tests.Attributes
             return ((ITestVector)_testVector).GetFileText(filename);
         }
 
-        public override TestResult[] Execute(ITestMethod testMethod)
-        {
-            if (Environments.Development != __cfg[Constants.ENV_ENVIRONMENT])
-                return base.Execute(testMethod);
+        //public override TestResult[] Execute(ITestMethod testMethod)
+        //{
+        //    if (Environments.Development != __cfg[Constants.ENV_ENVIRONMENT])
+        //        return base.Execute(testMethod);
 
-            var message = $"Test not executed due to environment restriction.";
-            return new[]
-            {
-                new TestResult
-                {
-                    Outcome = UnitTestOutcome.Inconclusive,
-                    TestFailureException = new AssertInconclusiveException(message)
-                }
-            };
-        }
+        //    var message = $"Test not executed due to environment restriction.";
+        //    return new[]
+        //    {
+        //        new TestResult
+        //        {
+        //            Outcome = UnitTestOutcome.Inconclusive,
+        //            TestFailureException = new AssertInconclusiveException(message)
+        //        }
+        //    };
+        //}
     }
 }
