@@ -206,6 +206,7 @@ namespace Blockfrost.Api.Extensions
                 .AddJsonFile($"appsettings.{environment}.json", optional: true)
                 .Build();
 
+            services.AddSingleton(configuration);
             services.ConfigureBlockfrost(projectName, configuration);
             services.AddCardanoServices(projectName);
             return services;
