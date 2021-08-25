@@ -460,3 +460,4 @@ blockfrost-client/
 *.StyleCop
 /samples/client/client.sln
 /samples/client/src/Blockfrost.Api/Blockfrost.Api.csproj
+/src/Blockfrost.Client
