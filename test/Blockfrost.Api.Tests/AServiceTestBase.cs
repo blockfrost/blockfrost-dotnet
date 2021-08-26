@@ -29,14 +29,17 @@ namespace Blockfrost.Api.Tests
         public string BaseUrl => Constants.API_URL;
         public string Network { get; private set; }
         public bool ReadResponseAsString { get; set; }
-        protected static IServiceProvider Provider { 
-            get { 
-                if (__provider == null) { 
-                    throw new InvalidOperationException(__providerNotConfiguredErrorMessage);  
-                } 
-                else return __provider; 
-            } 
-            set => __provider = value; 
+        protected static IServiceProvider Provider
+        {
+            get
+            {
+                if (__provider == null)
+                {
+                    throw new InvalidOperationException(__providerNotConfiguredErrorMessage);
+                }
+                else return __provider;
+            }
+            set => __provider = value;
         }
 
         private IServiceCollection __services;
@@ -191,14 +194,14 @@ namespace Blockfrost.Api.Tests
 
         protected virtual void ConfigureServicesFromConfig(IServiceCollection serviceCollection, string projectName)
         {
-            if(__configuration == null)
+            if (__configuration == null)
             {
                 throw new InvalidOperationException($"The implemnting TestClass did not explicitly call {nameof(AServiceTestBase.InitializeEnvironment)}().");
             }
 
             var apiKey = __configuration[$"Blockfrost:{projectName}:ApiKey"] ?? __configuration[Constants.ENV_BFCLI_API_KEY];
             var network = __configuration[$"Blockfrost:{projectName}:Network"] ?? __configuration[Constants.ENV_BFCLI_NETWORK];
-            var connectionLimit = __configuration[$"Blockfrost:{projectName}:ConnectionLimit"] ?? __configuration[Constants.ENV_BF_RATE_LIMIT]; 
+            var connectionLimit = __configuration[$"Blockfrost:{projectName}:ConnectionLimit"] ?? __configuration[Constants.ENV_BF_RATE_LIMIT];
 
             if (string.IsNullOrEmpty(apiKey))
             {
@@ -230,7 +233,7 @@ namespace Blockfrost.Api.Tests
         {
             if (Network.Equals(Constants.NETWORK_TESTNET))
             {
-                return new  Uri(Constants.API_URL_TESTNET);
+                return new Uri(Constants.API_URL_TESTNET);
             }
 
             if (Network.Equals(Constants.NETWORK_MAINNET))
@@ -248,10 +251,10 @@ namespace Blockfrost.Api.Tests
 
         protected async IAsyncEnumerable<ServiceDescriptor> GetClientsAsync()
         {
-            foreach(var descriptor in __services)
+            foreach (var descriptor in __services)
             {
                 await Task.CompletedTask;
-                if (descriptor.ServiceType == typeof(IBlockfrostService) 
+                if (descriptor.ServiceType == typeof(IBlockfrostService)
                     || descriptor.ServiceType.GetInterface(nameof(IBlockfrostService)) != null)
                     yield return descriptor;
             }
