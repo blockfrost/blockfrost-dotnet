@@ -19,10 +19,9 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         [ClassInitialize]
-        [System.Obsolete]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         public override string Content => TestVector.DummyHash;

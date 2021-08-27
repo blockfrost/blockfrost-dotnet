@@ -48,8 +48,8 @@ namespace Blockfrost.Api.Tests.Services
             var methods = typeof(TService).GetMethods().Where(m => m.Name.Equals(ServiceMethodName));
             var withCancellationSupport = methods.Where(m => m.GetParameters().Any(p => p.ParameterType == typeof(CancellationToken))).ToArray();
             var withoutCancellationSupport = methods.Except(withCancellationSupport).ToArray();
-            int withCount = withoutCancellationSupport.Count();
-            int withoutCount = withoutCancellationSupport.Count();
+            int withCount = withoutCancellationSupport.Length;
+            int withoutCount = withoutCancellationSupport.Length;
             Assert.AreEqual(withCount, withoutCount);
         }
     }

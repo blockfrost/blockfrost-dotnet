@@ -14,10 +14,9 @@ namespace Blockfrost.Api.Tests.Integration
     public class MainnetServiceTests : AIntegrationTestsBase
     {
         [ClassInitialize]
-        [System.Obsolete]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_MAINNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_MAINNET, context);
         }
 
         public MainnetServiceTests() : base(Constants.API_VERSION)
@@ -27,7 +26,7 @@ namespace Blockfrost.Api.Tests.Integration
         [TestMethod]
         public void Network_Is_Mainnet()
         {
-            Assert.AreEqual(Constants.NETWORK_MAINNET, __service.Network);
+            Assert.AreEqual(Constants.NETWORK_MAINNET, Service.Network);
         }
     }
 }

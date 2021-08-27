@@ -17,10 +17,9 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
     public class ClientSideThrottlingTests : AServiceTestBase
     {
         [ClassInitialize]
-        [Obsolete]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
@@ -36,7 +35,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    await __service.EndpointsAsync();
+                    await Service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)

@@ -21,24 +21,23 @@ namespace Blockfrost.Api.Tests.Integration
         }
 
         [ClassInitialize]
-        [System.Obsolete]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
         public async Task Service_ApiVersion_Matches_Server_ApiVersion()
         {
-            var info = await __service.GetInfoAsync();
-            Assert.AreEqual(ApiVersion, info.Version);
+            var info = await Service.GetInfoAsync();
+            Assert.AreEqual(_apiVersion, info.Version);
             Assert.AreEqual(BaseUrl, info.Url);
         }
 
         [TestMethod]
         public void Network_Is_Testnet()
         {
-            Assert.AreEqual(Constants.NETWORK_TESTNET, __service.Network);
+            Assert.AreEqual(Constants.NETWORK_TESTNET, Service.Network);
         }
     }
 }

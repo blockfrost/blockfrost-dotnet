@@ -7,12 +7,12 @@ namespace Blockfrost.Api.Tests.Attributes
 {
     public abstract class EnvironmentAwareTestMethodAttribute : TestMethodAttribute
     {
-        protected static readonly IConfiguration __cfg = new ConfigurationBuilder()
+        protected static readonly IConfiguration TestConfiguration = new ConfigurationBuilder()
                             .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME)
                             .AddEnvironmentVariables()
                             .Build();
 
-        public static string EnvironmentName => __cfg[Constants.ENV_ENVIRONMENT];
+        public static string EnvironmentName => TestConfiguration[Constants.ENV_ENVIRONMENT];
 
         protected static TestResult[] CreateInconclusiveResult(string message)
         {

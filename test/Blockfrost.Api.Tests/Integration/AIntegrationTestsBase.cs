@@ -31,11 +31,11 @@ namespace Blockfrost.Api.Tests.Integration
     //,INutlinkService
     //,ICardanoService
     {
-        protected string ApiVersion;
+        protected string _apiVersion;
 
         protected AIntegrationTestsBase(string apiVersion)
         {
-            ApiVersion = apiVersion;
+            _apiVersion = apiVersion;
         }
 
         public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();

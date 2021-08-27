@@ -41,14 +41,14 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         public const string V91 = "93";
 
-        private static ProtocolParameters __protocol { get; set; } = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
+        private static readonly ProtocolParameters s_protocol = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(TestProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
 
         private readonly DirectoryInfo _vectorDir;
         private readonly string _vectorId;
         public TestVector(string vectorId1)
         {
             _vectorId = vectorId1;
-            _vectorDir = GetDirectoryInfo(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, _vectorId);
+            _vectorDir = GetDirectoryInfo(TestProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, _vectorId);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         public bool Exists => _vectorDir.Exists;
 
-        private static string __testProjectRootDir
+        private static string TestProjectRootDir
         {
             get
             {
@@ -68,7 +68,7 @@ namespace Blockfrost.Api.Tests
             }
         }
 
-        public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
+        public static string DummyHash => BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
 
         public static FileInfo GetFileInfo(params string[] segments)
         {
@@ -131,7 +131,7 @@ namespace Blockfrost.Api.Tests
         /// <returns></returns>
         public static uint CalculateMinFee(byte[] cborRaw)
         {
-            return (uint)(__protocol.TxFeeFixed + cborRaw.Length * __protocol.TxFeePerByte);
+            return (uint)(s_protocol.TxFeeFixed + cborRaw.Length * s_protocol.TxFeePerByte);
         }
     }
 }
