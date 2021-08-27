@@ -18,7 +18,7 @@ namespace Blockfrost.Cli.Commands
         public const string DefaultAddressType = "Shelley";
 
         public string Address { get; set; } = "";
-        
+
         public int Count { get; init; } = DefaultCount;
 
         public string AddressType { get; init; } = DefaultAddressType;

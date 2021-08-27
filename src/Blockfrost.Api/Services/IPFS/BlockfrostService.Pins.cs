@@ -86,7 +86,7 @@ namespace Blockfrost.Api
         /// <summary>Pin an object</summary>
         /// <returns>Returns pinned object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public  Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
+        public Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
                 throw new System.ArgumentNullException(nameof(iPFS_path));
@@ -99,7 +99,7 @@ namespace Blockfrost.Api
             //return await SendPostRequestAsync<IpfsPinAddResponse>(urlBuilder_, cancellationToken);
         }
 
-        
+
 
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
@@ -111,7 +111,7 @@ namespace Blockfrost.Api
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public  Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
+        public Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
                 throw new System.ArgumentNullException(nameof(iPFS_path));

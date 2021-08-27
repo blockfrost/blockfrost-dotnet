@@ -29,7 +29,7 @@ namespace Blockfrost.Api.Tests.Extensions
             services.AddBlockfrost(network, apiKey);
             var provider = services.BuildServiceProvider();
             var service = provider.GetRequiredService<IBlockfrostService>();
-            
+
             Assert.IsNotNull(await service.EndpointsAsync());
         }
     }

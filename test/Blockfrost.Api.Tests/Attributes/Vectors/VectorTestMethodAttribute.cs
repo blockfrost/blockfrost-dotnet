@@ -51,7 +51,7 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <param name="vectorId"></param>
         /// <param name="fileName"></param>
         public VectorTestMethodAttribute(string vectorId, bool allowNullVector = false) : this(vectorId, string.Empty, allowNullVector)
-        {            
+        {
         }
 
         public IEnumerable<object[]> GetData(MethodInfo info)

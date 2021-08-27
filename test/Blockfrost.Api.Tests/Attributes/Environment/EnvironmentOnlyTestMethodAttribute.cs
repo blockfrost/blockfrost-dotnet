@@ -26,7 +26,7 @@ namespace Blockfrost.Api.Tests.Attributes
         {
             int parameters = info.GetParameters().Length;
 
-            if(parameters == 4)
+            if (parameters == 4)
             {
                 return new[] { new object[] { _count, _page, _sort, _expected } };
             }

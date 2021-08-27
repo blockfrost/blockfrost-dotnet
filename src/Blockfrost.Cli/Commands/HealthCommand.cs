@@ -31,7 +31,7 @@ namespace Blockfrost.Cli.Commands
         }
 
         public override async ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
-        { 
+        {
             try
             {
                 HealthResponse response = await Service.GetHealthAsync(ct);

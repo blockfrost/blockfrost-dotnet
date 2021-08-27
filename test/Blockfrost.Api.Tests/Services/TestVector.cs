@@ -68,7 +68,7 @@ namespace Blockfrost.Api.Tests
             }
         }
 
-        public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-","").ToLower();
+        public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
 
 
         public static FileInfo GetFileInfo(params string[] segments)
@@ -119,7 +119,7 @@ namespace Blockfrost.Api.Tests
         /// <param name="cborHex"></param>
         /// <returns></returns>
         public uint CalculateMinFee(byte[] cborRaw)
-        {            
+        {
             return (uint)(__protocol.TxFeeFixed + cborRaw.Length * __protocol.TxFeePerByte);
         }
     }

@@ -25,7 +25,7 @@ namespace Blockfrost.Api.Tests
         protected static IBlockfrostService __service => Provider.GetRequiredService<IBlockfrostService>();
 
         public static IEnumerable<Type> AvailableServiceTypes => Assembly.GetAssembly(typeof(IBlockfrostService)).GetTypes().Where(t => t == typeof(IBlockfrostService));
-        public string BaseUrl => Constants.API_URL;
+        public static string BaseUrl => Constants.API_URL;
         public string Network { get; private set; }
         public bool ReadResponseAsString { get; set; }
         protected static IServiceProvider Provider

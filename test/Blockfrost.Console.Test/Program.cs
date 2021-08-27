@@ -32,7 +32,7 @@ namespace Blockfrost.Console.Test
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("1. StartAsync has been called.");
-            
+
             return Task.Run(async () =>
             {
                 int? slot = 0;
@@ -43,7 +43,8 @@ namespace Blockfrost.Console.Test
                     {
                         slot = latest.Slot;
                         _logger.LogInformation(JsonSerializer.Serialize(latest, s_options));
-                    } else
+                    }
+                    else
                     {
                         _logger.LogDebug("No new block...");
                     }
@@ -60,7 +61,7 @@ namespace Blockfrost.Console.Test
             return Task.CompletedTask;
         }
 
-        
+
 
         private void OnStarted()
         {

@@ -12,9 +12,9 @@ namespace Blockfrost.Api.Tests.Integration
     [TestCategory(Constants.NETWORK_TESTNET)]
     public class TestnetServiceIntegrationTests : AIntegrationTestsBase
     {
-        private const string addr_test = "addr_test1qzxug2wcch4gqu6squcx4ffuhsppvrsk7edxv0y0uwqn0xvtcm6l3yfqa9j7swygrgh2k2g7kd7jgvkwxkew2uclhssqgp9f83";
+        const string AddrTestAddress = "addr_test1qzxug2wcch4gqu6squcx4ffuhsppvrsk7edxv0y0uwqn0xvtcm6l3yfqa9j7swygrgh2k2g7kd7jgvkwxkew2uclhssqgp9f83";
 
-        private const string stake_test = "stake_test1uz9uda0cjyswje0g8zyp5t4t9y0txlfyxt8rtvh9wv0mcgqphtf6d";
+        const string StakeTestAddress = "stake_test1uz9uda0cjyswje0g8zyp5t4t9y0txlfyxt8rtvh9wv0mcgqphtf6d";
 
         public TestnetServiceIntegrationTests() : base(Constants.API_VERSION)
         {

@@ -27,7 +27,7 @@ namespace Blockfrost.Cli.Commands
             {
                 return BuildCommand<AddressCommand>(args);
             }
-            
+
             if (flattenedArgs.StartsWith("health"))
             {
                 return BuildCommand<HealthCommand>(args);
@@ -37,7 +37,7 @@ namespace Blockfrost.Cli.Commands
         }
 
         private static ICommand BuildCommand<T>(string[] args)
-            where T : class, ICommand 
+            where T : class, ICommand
         {
             var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
             var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";

@@ -15,7 +15,7 @@ namespace Blockfrost.Api.Tests.Attributes
         public PermuteVetorTestMethodAttribute(string vectorId, string fileNames, char separator = '\'')
         {
             _vectorId = vectorId;
-            testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename =>  new VectorTestMethodAttribute(_vectorId, filename));
+            testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename => new VectorTestMethodAttribute(_vectorId, filename));
         }
 
         public override TestResult[] Execute(ITestMethod testMethod)

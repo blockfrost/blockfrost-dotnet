@@ -159,7 +159,7 @@ namespace Blockfrost.Api.Extensions
             {
                 throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
             }
-            
+
             services.TryAddSingleton<BlockfrostAuthorizationHandler>();
             services.TryAddSingleton<RequestThrottler>();
             services.TryAddSingleton(new BlockfrostProject()
@@ -172,7 +172,7 @@ namespace Blockfrost.Api.Extensions
 
             services
                 .AddOptions<BlockfrostOptions>()
-                .Configure<BlockfrostProject>((projects,project) =>
+                .Configure<BlockfrostProject>((projects, project) =>
                 {
                     projects.Add(projectName, project);
                 });
@@ -272,28 +272,28 @@ namespace Blockfrost.Api.Extensions
             //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             //});
 
-            services.AddAccountService(projectName); 
-            
+            services.AddAccountService(projectName);
+
             services.AddAddressService(projectName);
-            
+
             services.AddAssetService(projectName);
-            
+
             services.AddAssetService(projectName);
-            
+
             services.AddBlockService(projectName);
-            
+
             services.AddEpochService(projectName);
-            
+
             services.AddLedgerService(projectName);
-            
+
             services.AddMetadataService(projectName);
-            
+
             services.AddNetworkService(projectName);
-            
+
             services.AddPoolService(projectName);
-            
+
             services.AddRootService(projectName);
-            
+
             services.AddTransactionService(projectName);
 
             return services;
@@ -309,10 +309,10 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-            string projectName = $"Anonymous.Blockfrost.{network}.Project"; 
-            
+            string projectName = $"Anonymous.Blockfrost.{network}.Project";
+
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
-            
+
             services.AddBasicBlockfrostService(projectName, connectionLimit);
             services.AddAddressService(projectName, connectionLimit);
             services.AddTransactionService(projectName, connectionLimit);
@@ -399,7 +399,7 @@ namespace Blockfrost.Api.Extensions
             {
                 services.Configure<BlockfrostOptions>(configuration.GetSection($"Blockfrost"));
                 BlockfrostProject project = configuration.GetSection($"Blockfrost:{projectName}").Get<BlockfrostProject>();
-                if(project == null)
+                if (project == null)
                 {
                     throw new InvalidOperationException($"The specified project '{projectName}' is not configured in the 'Blockfrost' section of the appsettings");
                 }

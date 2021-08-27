@@ -239,7 +239,7 @@ namespace Blockfrost.Api
         public async Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
         {
             // we expect cbor in hex
-            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase)) 
+            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase))
             {
                 //   we can assume it is either CDDL or JSON
                 try
@@ -271,7 +271,7 @@ namespace Blockfrost.Api
             var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
 
             int? arrLength = reader.ReadStartArray();
-            
+
             for (uint i = 0; i < arrLength; i++)
             {
                 switch (reader.PeekState())

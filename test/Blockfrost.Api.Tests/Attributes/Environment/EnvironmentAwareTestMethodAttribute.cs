@@ -25,7 +25,7 @@ namespace Blockfrost.Api.Tests.Attributes
 
         public bool IsEnvironment(string name)
         {
-            return string.Equals(EnvironmentName.Trim(),name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(EnvironmentName.Trim(), name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
         }
 
         public bool IsNotEnvironment(string name)

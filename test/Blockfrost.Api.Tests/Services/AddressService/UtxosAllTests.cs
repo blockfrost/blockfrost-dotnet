@@ -43,7 +43,7 @@ namespace Blockfrost.Api.Tests.Services
         [PaginationTestMethod(1, 1, ESortOrder.Desc, expected: 1)]
         public async Task PaginationTests(int count, int page, ESortOrder order, int expected)
         {
-            
+
             var addr = "addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu";
 
             // Act

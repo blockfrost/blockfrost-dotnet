@@ -36,15 +36,15 @@ namespace Blockfrost.Api.Tests.Integration
             ApiVersion = apiVersion;
         }
 
-        public IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
-        public IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
-        public IAssetService Assets => Provider.GetRequiredService<IAssetService>();
-        public IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
-        public IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
-        public ILedgerService Ledger => Provider.GetRequiredService<ILedgerService>();
-        public IMetadataService Metadata => Provider.GetRequiredService<IMetadataService>();
-        public IPoolService Pools => Provider.GetRequiredService<IPoolService>();
-        public ITransactionService Transactions => Provider.GetRequiredService<ITransactionService>();
+        public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
+        public static IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
+        public static IAssetService Assets => Provider.GetRequiredService<IAssetService>();
+        public static IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
+        public static IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
+        public static ILedgerService Ledger => Provider.GetRequiredService<ILedgerService>();
+        public static IMetadataService Metadata => Provider.GetRequiredService<IMetadataService>();
+        public static IPoolService Pools => Provider.GetRequiredService<IPoolService>();
+        public static ITransactionService Transactions => Provider.GetRequiredService<ITransactionService>();
         //private static IBlockfrostService GetService(string projectName)
         //{
         //    IServiceCollection services = new ServiceCollection();

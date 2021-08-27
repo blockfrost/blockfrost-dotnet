@@ -500,7 +500,7 @@ namespace Blockfrost.Api
                         return objectResponse_.Object;
                     }
                     else
-                    if(status_ == 202) // accepted
+                    if (status_ == 202) // accepted
                     {
                         ObjectResponseResult<TResponse> objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)

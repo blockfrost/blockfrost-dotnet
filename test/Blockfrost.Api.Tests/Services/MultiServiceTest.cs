@@ -19,7 +19,7 @@ namespace Blockfrost.Api.Tests.Services
         [TestMethod]
         public async Task TestNamedClients()
         {
-            await foreach(var httpClient in GetClientsAsync())
+            await foreach (var httpClient in GetClientsAsync())
             {
                 Assert.AreEqual(ServiceLifetime.Transient, httpClient.Lifetime);
             }

@@ -10,8 +10,8 @@ using System.Threading;
 namespace Blockfrost.Api.Tests.Services
 {
     [TestClass]
-    public abstract class AServiceMethodTestBase<TService, TContent> : AServiceTestBase, IServiceMethodTest<TService, TContent> 
-        where TService : IBlockfrostService 
+    public abstract class AServiceMethodTestBase<TService, TContent> : AServiceTestBase, IServiceMethodTest<TService, TContent>
+        where TService : IBlockfrostService
         where TContent : class
     {
         public AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
@@ -50,7 +50,7 @@ namespace Blockfrost.Api.Tests.Services
             Assert.AreEqual(withCount, withoutCount);
         }
 
-        protected TContent CollectionContent(int v) 
+        protected TContent CollectionContent(int v)
         {
             return default(TContent);
         }
