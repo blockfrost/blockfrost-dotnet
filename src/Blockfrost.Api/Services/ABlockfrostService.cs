@@ -571,8 +571,8 @@ namespace Blockfrost.Api
         {
             public ObjectResponseResult(T responseObject, string responseText)
             {
-                this.Object = responseObject;
-                this.Text = responseText;
+                Object = responseObject;
+                Text = responseText;
             }
 
             public T Object { get; }

@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "42crunch.vscode-openapi"
+        "42crunch.vscode-openapi",
+        "editorconfig.editorconfig"
     ]
 }
