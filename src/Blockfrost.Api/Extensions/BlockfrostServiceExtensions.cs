@@ -111,7 +111,6 @@ namespace Blockfrost.Api.Extensions
             return services.AddBlockfrostService<IBlockfrostService, RootService>(projectName);
         }
 
-
         /// <summary>
         /// Adds a new <see cref="IBlockfrostService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
         /// </summary>
@@ -298,7 +297,6 @@ namespace Blockfrost.Api.Extensions
 
             return services;
         }
-
 
         /// <summary>
         /// Adds Blockfrost Services to the service collection

@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Http
             _apiKey = apiKey;
         }
 
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             if (!request.Headers.Contains("project_id"))

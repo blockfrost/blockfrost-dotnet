@@ -13,9 +13,9 @@ namespace Blockfrost.Api.Http
     /// </summary>
     public class RequestThrottler : DelegatingHandler
     {
-        readonly SemaphoreSlim _mutex = new(1, 1);
-        int _requestCount = 0;
-        DateTimeOffset _lastRequestTime = DateTimeOffset.UtcNow;
+        private readonly SemaphoreSlim _mutex = new(1, 1);
+        private int _requestCount = 0;
+        private DateTimeOffset _lastRequestTime = DateTimeOffset.UtcNow;
 
         public RequestThrottler(BlockfrostAuthorizationHandler innerHandler) : base(innerHandler)
         {
@@ -27,13 +27,13 @@ namespace Blockfrost.Api.Http
             try
             {
                 TimeSpan timeSinceLastCall = DateTimeOffset.UtcNow - _lastRequestTime;
-                int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN_10;
+                int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN;
                 _requestCount = _requestCount > cooledOffRequests ? _requestCount - cooledOffRequests : 0;
 
-                while (_requestCount >= Constants.BURST_LIMIT_500)
+                while (_requestCount >= Constants.BURST_LIMIT)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(Constants.BURST_COOLDOWN_INTERVAL_1000), cancellationToken).ConfigureAwait(false);
-                    _requestCount -= Constants.BURST_COOLDOWN_10;
+                    await Task.Delay(TimeSpan.FromMilliseconds(Constants.BURST_COOLDOWN_INTERVAL), cancellationToken).ConfigureAwait(false);
+                    _requestCount -= Constants.BURST_COOLDOWN;
                 }
 
                 _lastRequestTime = DateTimeOffset.UtcNow;

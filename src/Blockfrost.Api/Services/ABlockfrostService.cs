@@ -247,7 +247,6 @@ namespace Blockfrost.Api
 
                 PrepareRequest(_httpClient, request_, urlBuilder_);
 
-
                 HttpResponseMessage response_ = await _httpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
                 bool disposeResponse_ = true;
