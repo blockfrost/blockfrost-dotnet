@@ -1,9 +1,9 @@
-﻿using Blockfrost.Api.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {

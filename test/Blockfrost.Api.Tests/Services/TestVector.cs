@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Blockfrost.Api.Utils;
 using System.Text.Json;
+using Blockfrost.Api.Utils;
 
 namespace Blockfrost.Api.Tests
 {

@@ -1,8 +1,8 @@
-﻿using Blockfrost.Api.Extensions;
+﻿using System.Linq;
+using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Blockfrost.Api.Tests.Extensions
 {

@@ -1,17 +1,17 @@
-﻿using Blockfrost.Api.Http;
-using Blockfrost.Api.Options;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Options;
-using Polly;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
+using Blockfrost.Api.Http;
+using Blockfrost.Api.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
+using Polly;
 
 namespace Blockfrost.Api.Extensions
 {

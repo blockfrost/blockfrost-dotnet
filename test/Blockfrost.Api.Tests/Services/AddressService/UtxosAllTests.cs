@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
-using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
 {

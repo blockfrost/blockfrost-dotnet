@@ -1,13 +1,13 @@
-﻿using Blockfrost.Api.Extensions;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Tests.Attributes;
+using CardanoSharp.Wallet.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using CardanoSharp.Wallet.Extensions;
-using Blockfrost.Api.Tests.Attributes;
-using System.Net;
 
 namespace Blockfrost.Api.Tests.Services
 {

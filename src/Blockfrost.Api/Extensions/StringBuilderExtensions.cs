@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Reflection;
+using System.Text;
 
 namespace Blockfrost.Api.Extensions
 {

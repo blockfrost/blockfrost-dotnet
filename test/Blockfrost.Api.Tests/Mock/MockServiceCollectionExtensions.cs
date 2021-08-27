@@ -1,13 +1,13 @@
-﻿using Blockfrost.Api.Tests.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace Blockfrost.Api.Tests.Mock
 {

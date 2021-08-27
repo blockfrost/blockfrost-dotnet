@@ -1,12 +1,12 @@
-﻿using Blockfrost.Api;
+﻿using System;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blockfrost.Console.Test
 {

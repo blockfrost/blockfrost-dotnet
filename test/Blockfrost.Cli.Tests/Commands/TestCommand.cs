@@ -1,8 +1,8 @@
 using System;
 using System.Text;
+using Blockfrost.Cli.Commands;
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Blockfrost.Cli.Commands;
 
 namespace Blockfrost.Cli.Tests.Commands
 {

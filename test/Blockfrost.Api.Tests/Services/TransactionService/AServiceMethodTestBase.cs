@@ -1,11 +1,11 @@
-﻿using Blockfrost.Api.Tests.Mock;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using Blockfrost.Api.Tests.Mock;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
 {

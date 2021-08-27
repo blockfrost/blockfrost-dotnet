@@ -1,11 +1,11 @@
-﻿using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Integration
 {
