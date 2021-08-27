@@ -2,6 +2,18 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "clean",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "clean",
+        "${workspaceFolder}/Blockfrost.sln",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "build",
+    },
+    {
       "label": "build",
       "command": "dotnet",
       "type": "process",
@@ -11,7 +23,17 @@
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
-      "problemMatcher": "$msCompile"
+      "problemMatcher": "$msCompile",
+      "group": "build",
+    },
+    {
+      "label": "rebuild",
+      "dependsOn": [
+        "clean",
+        "build"
+      ],
+      "dependsOrder": "sequence",
+      "group": "build",
     },
     {
       "label": "test",
@@ -26,6 +48,33 @@
         "kind": "test",
         "isDefault": true
       }
+    },
+    {
+      "label": "fix style (errors)",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "format",
+        "-ws error"
+      ]
+    },
+    {
+      "label": "fix style (warnings)",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "format",
+        "-ws warn"
+      ]
+    },
+    {
+      "label": "fix style (infos)",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "format",
+        "-ws info"
+      ]
     }
   ]
 }
