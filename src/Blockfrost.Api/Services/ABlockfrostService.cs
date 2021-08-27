@@ -98,7 +98,7 @@ namespace Blockfrost.Api
         public async Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/");
+            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append('/');
 
             return await SendGetRequestAsync<InfoResponse>(urlBuilder_, cancellationToken);
         }

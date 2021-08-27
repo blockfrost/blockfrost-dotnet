@@ -51,7 +51,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> EpochBlocks(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks?");
@@ -87,10 +87,10 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> EpochBlocksByPool(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+                throw new System.ArgumentNullException(nameof(pool_id));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks/{pool_id}?");
@@ -121,7 +121,7 @@ namespace Blockfrost.Api
         public async Task<EpochParamContent> EpochParameters(int number, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/parameters");
@@ -147,7 +147,7 @@ namespace Blockfrost.Api
         public async Task<EpochContentResponse> EpochsAsync(int number, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}");
@@ -166,7 +166,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<EpochStakesResponse>> EpochStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes?");
@@ -207,10 +207,10 @@ namespace Blockfrost.Api
         public async Task<ICollection<Anonymous2>> EpochStakesByPool(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+                throw new System.ArgumentNullException(nameof(pool_id));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes/{pool_id}?");
@@ -270,7 +270,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<EpochContentResponse>> NextEpochAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/next?");
@@ -338,7 +338,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<EpochContentResponse>> PreviousEpochAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (number < 0)
-                throw new System.ArgumentNullException("number");
+                throw new System.ArgumentNullException(nameof(number));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/previous?");

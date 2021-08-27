@@ -65,7 +65,7 @@ namespace Blockfrost.Api
         public async Task<IpfsPinListResponse> ListAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
-                throw new System.ArgumentNullException("iPFS_path");
+                throw new System.ArgumentNullException(nameof(iPFS_path));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/{IPFS_path}");
@@ -89,7 +89,7 @@ namespace Blockfrost.Api
         public  Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
-                throw new System.ArgumentNullException("iPFS_path");
+                throw new System.ArgumentNullException(nameof(iPFS_path));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/add/{IPFS_path}");
@@ -114,7 +114,7 @@ namespace Blockfrost.Api
         public  Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
-                throw new System.ArgumentNullException("iPFS_path");
+                throw new System.ArgumentNullException(nameof(iPFS_path));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/remove/{IPFS_path}");

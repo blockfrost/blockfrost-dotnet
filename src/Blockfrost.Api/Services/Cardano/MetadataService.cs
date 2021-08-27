@@ -37,7 +37,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
-                throw new System.ArgumentNullException("label");
+                throw new System.ArgumentNullException(nameof(label));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metadata/txs/labels/{label}/cbor?");
@@ -84,7 +84,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataLabelJsonResponse>> Labels2Async(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
-                throw new System.ArgumentNullException("label");
+                throw new System.ArgumentNullException(nameof(label));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metadata/txs/labels/{label}?");

@@ -20,7 +20,7 @@ namespace Blockfrost.Api
         public async Task<AddressResponse> AddressAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/addresses/{address}");
@@ -46,7 +46,7 @@ namespace Blockfrost.Api
         public async Task<AddressContentTotal> AddressTotalAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/addresses/{address}/total");
@@ -71,7 +71,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<AddressTransactionResponse>> AddressTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/addresses/{address}/transactions?");
@@ -114,7 +114,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> AddressTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/addresses/{address}/txs?");
@@ -149,7 +149,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<AddressUTxOResponse>> AddressUtxoAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/addresses/{address}/utxos?");

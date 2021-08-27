@@ -20,7 +20,7 @@ namespace Blockfrost.Api
         public async Task GatewayAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
-                throw new System.ArgumentNullException("iPFS_path");
+                throw new System.ArgumentNullException(nameof(iPFS_path));
 
             var urlBuilder = new System.Text.StringBuilder();
             urlBuilder.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/gateway/{IPFS_path}");

@@ -158,6 +158,10 @@ csharp_space_between_square_brackets = false
 dotnet_code_quality.ca1802.api_surface = private, internal
 
 # C++ Files
+
+# CA1507: Use nameof to express symbol names
+dotnet_diagnostic.CA1507.severity = warning
+
 [*.{cpp,h,in}]
 curly_bracket_next_line = true
 indent_brace_style = Allman

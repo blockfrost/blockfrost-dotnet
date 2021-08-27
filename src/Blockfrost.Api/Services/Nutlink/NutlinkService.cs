@@ -25,7 +25,7 @@ namespace Blockfrost.Api
         public async Task<NutlinkAddress> NutlinkAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}");
@@ -55,10 +55,10 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             if (ticker == null)
-                throw new System.ArgumentNullException("ticker");
+                throw new System.ArgumentNullException(nameof(ticker));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}/tickers/{ticker}?");
@@ -102,7 +102,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (ticker == null)
-                throw new System.ArgumentNullException("ticker");
+                throw new System.ArgumentNullException(nameof(ticker));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/tickers/{ticker}?");
@@ -145,7 +145,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
-                throw new System.ArgumentNullException("address");
+                throw new System.ArgumentNullException(nameof(address));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}/tickers?");

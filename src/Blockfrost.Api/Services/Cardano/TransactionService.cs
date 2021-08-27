@@ -33,7 +33,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
@@ -59,7 +59,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxDelegation>> DelegationsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
@@ -85,7 +85,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataResponse>> MetadataAllAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
@@ -111,7 +111,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMir>> MirsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
@@ -137,7 +137,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxStakeAddress>> Stakes3Async(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
@@ -163,7 +163,7 @@ namespace Blockfrost.Api
         public async Task<TxContentResponse> TxsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
@@ -189,7 +189,7 @@ namespace Blockfrost.Api
         public async Task<TxContentUTxOResponse> UtxosAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
@@ -215,7 +215,7 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxWithdawal>> WithdrawalsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+                throw new System.ArgumentNullException(nameof(hash));
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
