@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -55,11 +57,11 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken);
 
-         /// <summary>Blockfrost usage metrics</summary>
+        /// <summary>Blockfrost usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ICollection<MetricResponse>> GetMetricsAsync();
-        
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Blockfrost usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>

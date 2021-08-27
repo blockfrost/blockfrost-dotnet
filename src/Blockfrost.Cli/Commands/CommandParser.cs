@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Blockfrost.Api.Extensions;
@@ -22,12 +24,12 @@ namespace Blockfrost.Cli.Commands
                 return new ShowVersionCommand();
             }
 
-            var flattenedArgs = string.Join(' ', args);
+            string flattenedArgs = string.Join(' ', args);
             if (flattenedArgs.StartsWith("address"))
             {
                 return BuildCommand<AddressCommand>(args);
             }
-            
+
             if (flattenedArgs.StartsWith("health"))
             {
                 return BuildCommand<HealthCommand>(args);
@@ -37,10 +39,10 @@ namespace Blockfrost.Cli.Commands
         }
 
         private static ICommand BuildCommand<T>(string[] args)
-            where T : class, ICommand 
+            where T : class, ICommand
         {
-            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
-            var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
+            string env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            bool isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
 
             var builder = new ConfigurationBuilder();
             builder.AddEnvironmentVariables().AddCommandLine(args);
@@ -51,8 +53,8 @@ namespace Blockfrost.Cli.Commands
                 builder.AddUserSecrets<CliSettings>();
             }
 
-            var network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
-            var apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
+            string network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
+            string apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
 
             var config = builder.Build();
 

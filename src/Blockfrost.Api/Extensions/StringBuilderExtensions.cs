@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
+using System.Reflection;
 using System.Text;
 
 namespace Blockfrost.Api.Extensions
@@ -23,31 +26,29 @@ namespace Blockfrost.Api.Extensions
 
             if (value is System.Enum)
             {
-                var name = System.Enum.GetName(value.GetType(), value);
+                string name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
-                        var attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(field, typeof(System.Runtime.Serialization.EnumMemberAttribute))
-                            as System.Runtime.Serialization.EnumMemberAttribute;
-                        if (attribute != null)
+                        if (field.GetCustomAttribute(typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
                         {
-                            return attribute.Value != null ? attribute.Value : name;
+                            return attribute.Value ?? name;
                         }
                     }
 
-                    var converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
-                    return converted == null ? string.Empty : converted;
+                    string converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    return converted ?? string.Empty;
                 }
             }
-            else if (value is bool)
+            else if (value is bool boolean)
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
-            else if (value is byte[])
+            else if (value is byte[] bytes)
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String(bytes);
             }
             else if (value.GetType().IsArray)
             {
@@ -55,8 +56,8 @@ namespace Blockfrost.Api.Extensions
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
-            return result == null ? "" : result;
+            string result = System.Convert.ToString(value, cultureInfo);
+            return result ?? "";
         }
     }
 }

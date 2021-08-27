@@ -1,8 +1,10 @@
-﻿using Blockfrost.Api.Extensions;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -40,14 +42,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetsResponse>>(urlBuilder_, cancellationToken);
@@ -70,7 +75,9 @@ namespace Blockfrost.Api
         public async Task<AssetResponse> AssetsAsync(string asset, CancellationToken cancellationToken)
         {
             if (asset == null)
-                throw new System.ArgumentNullException("asset");
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}");
@@ -104,7 +111,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<AssetAddressesResponse>> GetAssetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
-                throw new System.ArgumentNullException("asset");
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/addresses?");
@@ -113,14 +122,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetAddressesResponse>>(urlBuilder_, cancellationToken);
@@ -151,7 +163,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<AssetHistoryResponse>> History3Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
-                throw new System.ArgumentNullException("asset");
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/history?");
@@ -160,14 +174,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetHistoryResponse>>(urlBuilder_, cancellationToken);
@@ -198,7 +215,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<AssetPolicyResponse>> PolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (policy_id == null)
-                throw new System.ArgumentNullException("policy_id");
+            {
+                throw new System.ArgumentNullException(nameof(policy_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/policy/{policy_id}?");
@@ -207,14 +226,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetPolicyResponse>>(urlBuilder_, cancellationToken);
@@ -244,7 +266,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<AssetTransactionResponse>> Transactions2Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
-                throw new System.ArgumentNullException("asset");
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/transactions?");
@@ -253,14 +277,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<AssetTransactionResponse>>(urlBuilder_, cancellationToken);
@@ -293,7 +320,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
-                throw new System.ArgumentNullException("asset");
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/txs?");
@@ -302,14 +331,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);

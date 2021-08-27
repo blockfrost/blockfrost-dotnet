@@ -1,8 +1,10 @@
-﻿using Blockfrost.Api.Extensions;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -24,7 +26,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressHistoryResponse>> HistoryAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/history?");
@@ -33,14 +37,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressHistoryResponse>>(urlBuilder_, cancellationToken);
@@ -71,7 +78,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressDelegationsResponse>> Delegations2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/delegations?");
@@ -80,14 +89,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressDelegationsResponse>>(urlBuilder_, cancellationToken);
@@ -118,7 +130,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressRegistrationsResponse>> RegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/registrations?");
@@ -127,14 +141,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressRegistrationsResponse>>(urlBuilder_, cancellationToken);
@@ -165,7 +182,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressWithdrawalsResponse>> Withdrawals2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/withdrawals?");
@@ -174,14 +193,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressWithdrawalsResponse>>(urlBuilder_, cancellationToken);
@@ -212,7 +234,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressMirsResponse>> Mirs2Async(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/mirs?");
@@ -221,14 +245,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressMirsResponse>>(urlBuilder_, cancellationToken);
@@ -258,7 +285,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses?");
@@ -267,14 +296,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressesAddressesResponse>>(urlBuilder_, cancellationToken);
@@ -305,7 +337,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<StakeAddressAddressesAssetsResponse>> AssetsAllAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses/assets?");
@@ -314,14 +348,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<StakeAddressAddressesAssetsResponse>>(urlBuilder_, cancellationToken);
@@ -339,7 +376,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<Anonymous9>> RewardsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/rewards?");
@@ -348,14 +387,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<Anonymous9>>(urlBuilder_, cancellationToken);
@@ -404,7 +446,9 @@ namespace Blockfrost.Api
         public Task<Account> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
         {
             if (stake_address == null)
-                throw new System.ArgumentNullException("stake_address");
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}");

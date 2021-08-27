@@ -1,16 +1,18 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Attributes
 {
     public abstract class EnvironmentAwareTestMethodAttribute : TestMethodAttribute
     {
-        protected static readonly IConfiguration __cfg = new ConfigurationBuilder()
+        protected static readonly IConfiguration TestConfiguration = new ConfigurationBuilder()
                             .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME)
                             .AddEnvironmentVariables()
                             .Build();
 
-        public static string EnvironmentName => __cfg[Constants.ENV_ENVIRONMENT];
+        public static string EnvironmentName => TestConfiguration[Constants.ENV_ENVIRONMENT];
 
         protected static TestResult[] CreateInconclusiveResult(string message)
         {
@@ -23,12 +25,12 @@ namespace Blockfrost.Api.Tests.Attributes
             };
         }
 
-        public bool IsEnvironment(string name)
+        public static bool IsEnvironment(string name)
         {
-            return string.Equals(EnvironmentName.Trim(),name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(EnvironmentName.Trim(), name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
         }
 
-        public bool IsNotEnvironment(string name)
+        public static bool IsNotEnvironment(string name)
         {
             return !IsEnvironment(name);
         }
@@ -42,7 +44,7 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <returns></returns>
         protected TestResult[] ExecuteOrInconclusive(ITestMethod testMethod, string environment, bool exclusive = true)
         {
-            var message = $"Test not executed due to environment restriction.";
+            string message = $"Test not executed due to environment restriction.";
             return ExecuteOrInconclusive(testMethod, environment, message, exclusive);
         }
 
@@ -56,7 +58,11 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <returns></returns>
         protected TestResult[] ExecuteOrInconclusive(ITestMethod testMethod, string environment, string message, bool exclusive = true)
         {
-            if (IsEnvironment(environment) == exclusive) return base.Execute(testMethod);
+            if (IsEnvironment(environment) == exclusive)
+            {
+                return base.Execute(testMethod);
+            }
+
             return CreateInconclusiveResult(message);
         }
     }

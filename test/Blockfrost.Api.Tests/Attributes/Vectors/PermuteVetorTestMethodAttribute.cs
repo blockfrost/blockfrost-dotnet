@@ -1,8 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Attributes
 {
@@ -10,12 +12,12 @@ namespace Blockfrost.Api.Tests.Attributes
     public class PermuteVetorTestMethodAttribute : TestMethodAttribute, ITestDataSource
     {
         private readonly string _vectorId;
-        private Dictionary<string, VectorTestMethodAttribute> testVectorAtts;
+        private readonly Dictionary<string, VectorTestMethodAttribute> testVectorAtts;
 
         public PermuteVetorTestMethodAttribute(string vectorId, string fileNames, char separator = '\'')
         {
             _vectorId = vectorId;
-            testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename =>  new VectorTestMethodAttribute(_vectorId, filename));
+            testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename => new VectorTestMethodAttribute(_vectorId, filename));
         }
 
         public override TestResult[] Execute(ITestMethod testMethod)
@@ -28,19 +30,21 @@ namespace Blockfrost.Api.Tests.Attributes
                     testResults.Append(result);
                 }
             }
+
             return testResults;
         }
 
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
-            var data = Array.Empty<object[]>();
+            object[][] data = Array.Empty<object[]>();
             foreach (var attribute in testVectorAtts.Values)
             {
-                foreach (var result in attribute.GetData(methodInfo))
+                foreach (object[] result in attribute.GetData(methodInfo))
                 {
                     data.Append(result);
                 }
             }
+
             return data;
         }
 

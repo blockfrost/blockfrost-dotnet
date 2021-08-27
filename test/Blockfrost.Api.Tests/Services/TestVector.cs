@@ -1,9 +1,9 @@
-﻿using System.IO;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Blockfrost.Api.Utils;
+using System.IO;
 using System.Text.Json;
+using Blockfrost.Api.Utils;
 
 namespace Blockfrost.Api.Tests
 {
@@ -41,14 +41,14 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         public const string V91 = "93";
 
-        private static ProtocolParameters __protocol { get; set; } = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
+        private static readonly ProtocolParameters s_protocol = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(TestProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
 
-        private DirectoryInfo _vectorDir;
-        private string _vectorId;
+        private readonly DirectoryInfo _vectorDir;
+        private readonly string _vectorId;
         public TestVector(string vectorId1)
         {
             _vectorId = vectorId1;
-            _vectorDir = GetDirectoryInfo(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, _vectorId);
+            _vectorDir = GetDirectoryInfo(TestProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, _vectorId);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         public bool Exists => _vectorDir.Exists;
 
-        private static string __testProjectRootDir
+        private static string TestProjectRootDir
         {
             get
             {
@@ -68,19 +68,22 @@ namespace Blockfrost.Api.Tests
             }
         }
 
-        public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-","").ToLower();
-
+        public static string DummyHash => BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
 
         public static FileInfo GetFileInfo(params string[] segments)
         {
-            FileInfo vectorFile = new FileInfo(Path.Combine(segments));
+            var vectorFile = new FileInfo(Path.Combine(segments));
             return vectorFile;
         }
 
         public byte[] GetFileBytes(string filename)
         {
-            FileInfo vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
+            var vectorFile = GetFileInfo(filename);
+            if (!vectorFile.Exists)
+            {
+                throw new FileNotFoundException(vectorFile.FullName);
+            }
+
             return File.ReadAllBytes(vectorFile.FullName);
         }
 
@@ -91,8 +94,12 @@ namespace Blockfrost.Api.Tests
 
         public string GetFileText(string filename)
         {
-            FileInfo vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
+            var vectorFile = GetFileInfo(filename);
+            if (!vectorFile.Exists)
+            {
+                throw new FileNotFoundException(vectorFile.FullName);
+            }
+
             return File.ReadAllText(vectorFile.FullName);
         }
 
@@ -104,7 +111,11 @@ namespace Blockfrost.Api.Tests
             }
 
             var vector = new TestVector(vectorId);
-            if (!vector.Exists) throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
+            if (!vector.Exists)
+            {
+                throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
+            }
+
             return vector;
         }
 
@@ -118,9 +129,9 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         /// <param name="cborHex"></param>
         /// <returns></returns>
-        public uint CalculateMinFee(byte[] cborRaw)
-        {            
-            return (uint)(__protocol.TxFeeFixed + cborRaw.Length * __protocol.TxFeePerByte);
+        public static uint CalculateMinFee(byte[] cborRaw)
+        {
+            return (uint)(s_protocol.TxFeeFixed + cborRaw.Length * s_protocol.TxFeePerByte);
         }
     }
 }

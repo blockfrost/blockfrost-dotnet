@@ -1,8 +1,10 @@
-﻿using Blockfrost.Api.Extensions;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -37,7 +39,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/blocks?");
@@ -46,14 +50,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;
@@ -84,7 +91,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<PoolDelegatorResponse>> DelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/delegators?");
@@ -93,14 +102,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<PoolDelegatorResponse>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;
@@ -131,7 +143,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<PoolHistoryResponse>> History2Async(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/history?");
@@ -140,14 +154,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<PoolHistoryResponse>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;
@@ -170,7 +187,9 @@ namespace Blockfrost.Api
         public async Task<PoolMetadataResponse> MetadataAsync(string pool_id, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/metadata");
@@ -207,14 +226,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);
@@ -237,7 +259,9 @@ namespace Blockfrost.Api
         public async Task<PoolResponse> PoolsAsync(string pool_id, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}");
@@ -263,7 +287,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<PoolRelayResponse>> RelaysAsync(string pool_id, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/relays");
@@ -300,14 +326,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<RetiredResponse>>(urlBuilder_, cancellationToken);
@@ -341,14 +370,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<RetiredResponse>>(urlBuilder_, cancellationToken);
@@ -379,7 +411,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<PoolUpdateResponse>> UpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
-                throw new System.ArgumentNullException("pool_id");
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/pools/{pool_id}/updates?");
@@ -388,14 +422,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<PoolUpdateResponse>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;

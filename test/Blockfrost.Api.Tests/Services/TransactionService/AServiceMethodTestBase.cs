@@ -1,20 +1,20 @@
-﻿using Blockfrost.Api.Tests.Mock;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Linq;
 using System.Net;
 using System.Threading;
+using Blockfrost.Api.Tests.Mock;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
 {
     [TestClass]
-    public abstract class AServiceMethodTestBase<TService, TContent> : AServiceTestBase, IServiceMethodTest<TService, TContent> 
-        where TService : IBlockfrostService 
+    public abstract class AServiceMethodTestBase<TService, TContent> : AServiceTestBase, IServiceMethodTest<TService, TContent>
+        where TService : IBlockfrostService
         where TContent : class
     {
-        public AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
+        protected AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             _statusCode = statusCode;
             ServiceMethodName = methodName;
@@ -40,19 +40,17 @@ namespace Blockfrost.Api.Tests.Services
         protected void AssertMethodExists(bool assertCancellationSupport = true)
         {
             Assert.IsNotNull(ServiceMethodName);
-            if (!assertCancellationSupport) return;
+            if (!assertCancellationSupport)
+            {
+                return;
+            }
 
             var methods = typeof(TService).GetMethods().Where(m => m.Name.Equals(ServiceMethodName));
             var withCancellationSupport = methods.Where(m => m.GetParameters().Any(p => p.ParameterType == typeof(CancellationToken))).ToArray();
             var withoutCancellationSupport = methods.Except(withCancellationSupport).ToArray();
-            int withCount = withoutCancellationSupport.Count();
-            int withoutCount = withoutCancellationSupport.Count();
+            int withCount = withoutCancellationSupport.Length;
+            int withoutCount = withoutCancellationSupport.Length;
             Assert.AreEqual(withCount, withoutCount);
-        }
-
-        protected TContent CollectionContent(int v) 
-        {
-            return default(TContent);
         }
     }
 }

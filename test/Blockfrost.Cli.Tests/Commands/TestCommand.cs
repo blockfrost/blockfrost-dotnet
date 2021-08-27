@@ -1,8 +1,7 @@
-using System;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using Blockfrost.Cli.Commands;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Cli.Tests.Commands
 {

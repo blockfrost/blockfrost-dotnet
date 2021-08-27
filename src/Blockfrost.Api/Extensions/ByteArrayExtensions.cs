@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 
 namespace Blockfrost.Api.Extensions
 {
@@ -13,7 +15,11 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static int LastBits(this byte b, int n)
         {
-            if (n > 8) throw new InvalidOperationException($"{nameof(n)} must be <= 8");
+            if (n > 8)
+            {
+                throw new InvalidOperationException($"{nameof(n)} must be <= 8");
+            }
+
             int mask = ~(0xff >> n << n);
             return b & mask;
         }
@@ -32,7 +38,9 @@ namespace Blockfrost.Api.Extensions
         public static byte[] HexToByteArray(this string hex)
         {
             if (hex.Length % 2 == 1)
+            {
                 throw new Exception("The binary key cannot have an odd number of digits");
+            }
 
             byte[] arr = new byte[hex.Length >> 1];
 

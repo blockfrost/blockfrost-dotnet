@@ -1,17 +1,17 @@
-﻿using Blockfrost.Api.Tests.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using System.IO;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace Blockfrost.Api.Tests.Mock
 {
-    static class MockServiceCollectionExtensions
+    internal static class MockServiceCollectionExtensions
     {
         /// <summary>
         /// Returns a <see cref="HttpResponseMessage"/> wrapping <paramref name="content"/> as <see cref="StringContent"/>

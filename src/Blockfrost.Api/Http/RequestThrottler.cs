@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,9 +15,9 @@ namespace Blockfrost.Api.Http
     /// </summary>
     public class RequestThrottler : DelegatingHandler
     {
-        readonly SemaphoreSlim mutex = new SemaphoreSlim(1, 1);
-        int requestCount = 0;
-        DateTimeOffset lastRequestTime = DateTimeOffset.UtcNow;
+        private readonly SemaphoreSlim _mutex = new(1, 1);
+        private int _requestCount = 0;
+        private DateTimeOffset _lastRequestTime = DateTimeOffset.UtcNow;
 
         public RequestThrottler(BlockfrostAuthorizationHandler innerHandler) : base(innerHandler)
         {
@@ -23,25 +25,25 @@ namespace Blockfrost.Api.Http
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            await mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+            await _mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
-                var timeSinceLastCall = DateTimeOffset.UtcNow - this.lastRequestTime;
-                var cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN;
-                this.requestCount = this.requestCount > cooledOffRequests ? this.requestCount - cooledOffRequests : 0;
+                var timeSinceLastCall = DateTimeOffset.UtcNow - _lastRequestTime;
+                int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN;
+                _requestCount = _requestCount > cooledOffRequests ? _requestCount - cooledOffRequests : 0;
 
-                while (this.requestCount >= Constants.BURST_LIMIT)
+                while (_requestCount >= Constants.BURST_LIMIT)
                 {
                     await Task.Delay(TimeSpan.FromMilliseconds(Constants.BURST_COOLDOWN_INTERVAL), cancellationToken).ConfigureAwait(false);
-                    this.requestCount -= Constants.BURST_COOLDOWN;
+                    _requestCount -= Constants.BURST_COOLDOWN;
                 }
 
-                this.lastRequestTime = DateTimeOffset.UtcNow;
-                this.requestCount++;
+                _lastRequestTime = DateTimeOffset.UtcNow;
+                _requestCount++;
             }
             finally
             {
-                mutex.Release();
+                _mutex.Release();
             }
 
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

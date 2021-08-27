@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
@@ -27,7 +29,7 @@ namespace Blockfrost.Api
 
         /// <summary>UTXO index in the transaction</summary>
         [JsonPropertyName("tx_index")]
-        [System.Obsolete]
+        [System.Obsolete("No longer supported by blockfrost and may be removed in future releases")]
         public int Tx_index { get; set; }
     }
 }

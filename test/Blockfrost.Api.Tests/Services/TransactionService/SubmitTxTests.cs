@@ -1,13 +1,12 @@
-﻿using Blockfrost.Api.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.IO;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
-using CardanoSharp.Wallet.Extensions;
-using Blockfrost.Api.Tests.Attributes;
 using System.Net;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Attributes;
+using CardanoSharp.Wallet.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
 {
@@ -22,7 +21,7 @@ namespace Blockfrost.Api.Tests.Services
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         public override string Content => TestVector.DummyHash;
@@ -44,10 +43,10 @@ namespace Blockfrost.Api.Tests.Services
         {
             // Arrange
             using var stream = new MemoryStream(bytes);
-            var cbroHex = bytes.ToStringHex();
+            string cbroHex = bytes.ToStringHex();
 
             // Act
-            var txId = await ServiceUnderTest.SubmitAsync(bytes);
+            string txId = await ServiceUnderTest.SubmitAsync(bytes);
 
             // Assert
             Assert.AreEqual(TestVector.DummyHash, txId);
@@ -60,7 +59,7 @@ namespace Blockfrost.Api.Tests.Services
             ((TransactionService)ServiceUnderTest).ReadResponseAsString = true;
 
             // Act
-            var txId = await ServiceUnderTest.SubmitAsync(content);
+            string txId = await ServiceUnderTest.SubmitAsync(content);
 
             // Assert
             Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
@@ -70,7 +69,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task SubmitAsync_Cbor_Raw(byte[] cborRaw)
         {
             // Act
-            var txId = await ServiceUnderTest.SubmitAsync(cborRaw);
+            string txId = await ServiceUnderTest.SubmitAsync(cborRaw);
             // Assert
             Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
         }
@@ -80,20 +79,20 @@ namespace Blockfrost.Api.Tests.Services
         public void ReadCBORRaw(TestVector vector, string filename)
         {
 #if NET
-            var cborHex = vector.GetFileBytes(filename);
+            byte[] cborHex = vector.GetFileBytes(filename);
 
             // Arrange
             var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
 
             // Act
-            var arrLength = reader.ReadStartArray();
-            var mapLength = reader.ReadStartMap();
+            int? arrLength = reader.ReadStartArray();
+            int? mapLength = reader.ReadStartMap();
 
             // Assert
             Assert.AreEqual(arrLength, mapLength);
             for (uint i = 0; i < arrLength; i++)
             {
-                var value = reader.ReadUInt32();
+                uint value = reader.ReadUInt32();
                 Assert.AreEqual(i, value);
 
                 if (i != 2)
@@ -104,8 +103,8 @@ namespace Blockfrost.Api.Tests.Services
                 else
                 {
                     // except for the transaction fee... we can validate that
-                    var fee = reader.ReadUInt32();
-                    Assert.IsTrue(fee >= vector.CalculateMinFee(cborHex));
+                    uint fee = reader.ReadUInt32();
+                    Assert.IsTrue(fee >= TestVector.CalculateMinFee(cborHex));
                 }
             }
 #else

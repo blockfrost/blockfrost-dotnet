@@ -1,11 +1,13 @@
-﻿using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Integration
 {
@@ -29,22 +31,22 @@ namespace Blockfrost.Api.Tests.Integration
     //,INutlinkService
     //,ICardanoService
     {
-        protected string ApiVersion;
+        protected string _apiVersion;
 
-        public AIntegrationTestsBase(string apiVersion)
+        protected AIntegrationTestsBase(string apiVersion)
         {
-            ApiVersion = apiVersion;
+            _apiVersion = apiVersion;
         }
 
-        public IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
-        public IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
-        public IAssetService Assets => Provider.GetRequiredService<IAssetService>();
-        public IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
-        public IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
-        public ILedgerService Ledger => Provider.GetRequiredService<ILedgerService>();
-        public IMetadataService Metadata => Provider.GetRequiredService<IMetadataService>();
-        public IPoolService Pools => Provider.GetRequiredService<IPoolService>();
-        public ITransactionService Transactions => Provider.GetRequiredService<ITransactionService>();
+        public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
+        public static IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
+        public static IAssetService Assets => Provider.GetRequiredService<IAssetService>();
+        public static IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
+        public static IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
+        public static ILedgerService Ledger => Provider.GetRequiredService<ILedgerService>();
+        public static IMetadataService Metadata => Provider.GetRequiredService<IMetadataService>();
+        public static IPoolService Pools => Provider.GetRequiredService<IPoolService>();
+        public static ITransactionService Transactions => Provider.GetRequiredService<ITransactionService>();
         //private static IBlockfrostService GetService(string projectName)
         //{
         //    IServiceCollection services = new ServiceCollection();
@@ -738,6 +740,7 @@ namespace Blockfrost.Api.Tests.Integration
             return Blocks.TxsAll2Async(hash_or_number, count, page, order, cancellationToken);
         }
 
+        [System.Obsolete("No longer supported by blockfrost and may be removed in future releases")]
         public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order)
         {
             return Addresses.TxsAll3Async(address, count, page, order);

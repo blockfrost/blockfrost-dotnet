@@ -1,5 +1,6 @@
-﻿using System;
-using System.Net.Http;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace Blockfrost.Api
         /// <summary>Add a file or directory to IPFS</summary>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public  Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken)
+        public Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/add");

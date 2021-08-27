@@ -1,8 +1,9 @@
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests.Integration
 {
@@ -12,9 +13,8 @@ namespace Blockfrost.Api.Tests.Integration
     [TestCategory(Constants.NETWORK_TESTNET)]
     public class TestnetServiceIntegrationTests : AIntegrationTestsBase
     {
-        private const string addr_test = "addr_test1qzxug2wcch4gqu6squcx4ffuhsppvrsk7edxv0y0uwqn0xvtcm6l3yfqa9j7swygrgh2k2g7kd7jgvkwxkew2uclhssqgp9f83";
-
-        private const string stake_test = "stake_test1uz9uda0cjyswje0g8zyp5t4t9y0txlfyxt8rtvh9wv0mcgqphtf6d";
+        private const string AddrTestAddress = "addr_test1qzxug2wcch4gqu6squcx4ffuhsppvrsk7edxv0y0uwqn0xvtcm6l3yfqa9j7swygrgh2k2g7kd7jgvkwxkew2uclhssqgp9f83";
+        private const string StakeTestAddress = "stake_test1uz9uda0cjyswje0g8zyp5t4t9y0txlfyxt8rtvh9wv0mcgqphtf6d";
 
         public TestnetServiceIntegrationTests() : base(Constants.API_VERSION)
         {
@@ -23,21 +23,21 @@ namespace Blockfrost.Api.Tests.Integration
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
         public async Task Service_ApiVersion_Matches_Server_ApiVersion()
         {
-            var info = await __service.GetInfoAsync();
-            Assert.AreEqual(ApiVersion, info.Version);
+            var info = await Service.GetInfoAsync();
+            Assert.AreEqual(_apiVersion, info.Version);
             Assert.AreEqual(BaseUrl, info.Url);
         }
 
         [TestMethod]
         public void Network_Is_Testnet()
         {
-            Assert.AreEqual(Constants.NETWORK_TESTNET, __service.Network);
+            Assert.AreEqual(Constants.NETWORK_TESTNET, Service.Network);
         }
     }
 }

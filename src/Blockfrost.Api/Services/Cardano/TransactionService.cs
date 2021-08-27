@@ -1,4 +1,5 @@
-﻿using Blockfrost.Api.Extensions;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -33,7 +35,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
@@ -59,7 +63,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxDelegation>> DelegationsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
@@ -85,7 +91,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataResponse>> MetadataAllAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
@@ -111,7 +119,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMir>> MirsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
@@ -137,7 +147,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxStakeAddress>> Stakes3Async(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
@@ -163,7 +175,9 @@ namespace Blockfrost.Api
         public async Task<TxContentResponse> TxsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
@@ -189,7 +203,9 @@ namespace Blockfrost.Api
         public async Task<TxContentUTxOResponse> UtxosAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
@@ -215,7 +231,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxWithdawal>> WithdrawalsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
@@ -239,7 +257,7 @@ namespace Blockfrost.Api
         public async Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
         {
             // we expect cbor in hex
-            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase)) 
+            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase))
             {
                 //   we can assume it is either CDDL or JSON
                 try
@@ -265,13 +283,12 @@ namespace Blockfrost.Api
 
         public async Task<string> SubmitAsync(byte[] rawCbor, CancellationToken cancellationToken)
         {
-
 #if NET5_0_OR_GREATER
-            var cborHex = rawCbor;
+            byte[] cborHex = rawCbor;
             var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
 
-            var arrLength = reader.ReadStartArray();
-            
+            int? arrLength = reader.ReadStartArray();
+
             for (uint i = 0; i < arrLength; i++)
             {
                 switch (reader.PeekState())
@@ -281,10 +298,10 @@ namespace Blockfrost.Api
                         break;
                     default:
                         {
-                            var mapLength = reader.ReadStartMap();
+                            int? mapLength = reader.ReadStartMap();
                             for (uint j = 0; j < mapLength; j++)
                             {
-                                var value = reader.ReadUInt32();
+                                uint value = reader.ReadUInt32();
                                 if (value != j)
                                 {
                                     throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
@@ -292,6 +309,7 @@ namespace Blockfrost.Api
                                 // we will not validate the individual values
                                 reader.SkipValue();
                             }
+
                             reader.ReadEndMap();
                             break;
                         }
@@ -312,10 +330,8 @@ namespace Blockfrost.Api
             }
             // this is really all we can do without parsing it
 #endif
-            using (var stream = new MemoryStream(rawCbor))
-            {
-                return await SubmitAsync(stream, cancellationToken);
-            }
+            using var stream = new MemoryStream(rawCbor);
+            return await SubmitAsync(stream, cancellationToken);
         }
 
         /// <summary>Submit a transaction</summary>

@@ -1,48 +1,53 @@
-﻿using Blockfrost.Api.Extensions;
-using Blockfrost.Api.Tests.Http;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Tests.Integration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests
 {
     [TestClass]
     public abstract class AServiceTestBase : IBlockfrostService
     {
-        private static string __providerNotConfiguredErrorMessage = $"The {nameof(Provider)}` has not been configured. Call '{nameof(ConfigureServicesFromConfig)}' inside '{nameof(ConfigureServices)}' or configure the backing field '{nameof(__provider)}' yourself.";
-        private static string __configureProjectName = "";
+        private static readonly string s_providerNotConfiguredErrorMessage = $"The {nameof(Provider)}` has not been configured. Call '{nameof(ConfigureServicesFromConfig)}' inside '{nameof(ConfigureServices)}' or configure the backing field '{nameof(s_provider)}' yourself.";
+        private static string s_configureProjectName = "";
 
-        protected static IServiceProvider __provider;
-        protected static IConfiguration __configuration;
+        private static IServiceProvider s_provider;
 
-        protected static IBlockfrostService __service => Provider.GetRequiredService<IBlockfrostService>();
+        protected static IBlockfrostService Service => Provider.GetRequiredService<IBlockfrostService>();
 
         public static IEnumerable<Type> AvailableServiceTypes => Assembly.GetAssembly(typeof(IBlockfrostService)).GetTypes().Where(t => t == typeof(IBlockfrostService));
-        public string BaseUrl => Constants.API_URL;
+        public static string BaseUrl => Constants.API_URL;
         public string Network { get; private set; }
         public bool ReadResponseAsString { get; set; }
-        protected static IServiceProvider Provider { 
-            get { 
-                if (__provider == null) { 
-                    throw new InvalidOperationException(__providerNotConfiguredErrorMessage);  
-                } 
-                else return __provider; 
-            } 
-            set => __provider = value; 
+        protected static IServiceProvider Provider
+        {
+            get
+            {
+                if (s_provider == null)
+                {
+                    throw new InvalidOperationException(s_providerNotConfiguredErrorMessage);
+                }
+                else
+                {
+                    return s_provider;
+                }
+            }
+            set => s_provider = value;
         }
 
-        private IServiceCollection __services;
+        public static IConfiguration Configuration { get; set; }
+
+        private IServiceCollection _services;
 
         public static void InitializeEnvironment()
         {
@@ -53,11 +58,11 @@ namespace Blockfrost.Api.Tests
                 .AddEnvironmentVariables();
 
             // Load environment
-            var environmentName = Environment.GetEnvironmentVariable(Constants.ENV_ENVIRONMENT);
+            string environmentName = Environment.GetEnvironmentVariable(Constants.ENV_ENVIRONMENT);
 
             if (string.IsNullOrWhiteSpace(environmentName))
             {
-                IConfigurationRoot configurationRoot = config.Build();
+                var configurationRoot = config.Build();
                 environmentName = configurationRoot[Constants.ENV_ENVIRONMENT] ?? "development";
             }
 
@@ -72,12 +77,24 @@ namespace Blockfrost.Api.Tests
                 config.AddUserSecrets<TestnetServiceIntegrationTests>();
             }
 
-            __configuration = config.Build();
+            Configuration = config.Build();
         }
 
+        [Obsolete("Use ConfigureEnvironment(string projectName, TestContext context) instead")]
         public static void ConfigureEnvironment(string projectName)
         {
-            __configureProjectName = projectName;
+            s_configureProjectName = projectName;
+            InitializeEnvironment();
+        }
+
+        public static void ConfigureEnvironment(string projectName, TestContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            s_configureProjectName = projectName;
             InitializeEnvironment();
         }
 
@@ -94,58 +111,64 @@ namespace Blockfrost.Api.Tests
         public void TestInitialize()
         {
             var services = new ServiceCollection();
-            if (string.IsNullOrEmpty(__configureProjectName)) ConfigureServices(services);
-            else ConfigureServicesFromConfig(services, __configureProjectName);
+            if (string.IsNullOrEmpty(s_configureProjectName))
+            {
+                ConfigureServices(services);
+            }
+            else
+            {
+                ConfigureServicesFromConfig(services, s_configureProjectName);
+            }
         }
 
         public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
         {
-            return __service.EndpointsAsync();
+            return Service.EndpointsAsync();
         }
 
         public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
         {
-            return __service.EndpointsAsync(cancellationToken);
+            return Service.EndpointsAsync(cancellationToken);
         }
 
         public virtual Task<ClockResponse> GetClockAsync()
         {
-            return __service.GetClockAsync();
+            return Service.GetClockAsync();
         }
 
         public virtual Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
-            return __service.GetClockAsync(cancellationToken);
+            return Service.GetClockAsync(cancellationToken);
         }
 
         public virtual Task<HealthResponse> GetHealthAsync()
         {
-            return __service.GetHealthAsync();
+            return Service.GetHealthAsync();
         }
 
         public virtual Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
-            return __service.GetHealthAsync(cancellationToken);
+            return Service.GetHealthAsync(cancellationToken);
         }
 
         public virtual Task<InfoResponse> GetInfoAsync()
         {
-            return __service.GetInfoAsync();
+            return Service.GetInfoAsync();
         }
 
         public virtual Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
-            return __service.GetInfoAsync(cancellationToken);
+            return Service.GetInfoAsync(cancellationToken);
         }
 
         public virtual Task<ICollection<MetricResponse>> GetMetricsAsync()
         {
-            return __service.GetMetricsAsync();
+            return Service.GetMetricsAsync();
         }
 
         public virtual Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
         {
-            return __service.GetMetricsAsync(cancellationToken);
+            return Service.GetMetricsAsync(cancellationToken);
         }
 
         protected static void AssertServiceNetworkConfigured<TService>(string projectName, IConfiguration config, IServiceCollection services)
@@ -174,10 +197,9 @@ namespace Blockfrost.Api.Tests
             Assert.IsFalse(services.Any(t => t.ServiceType == type));
         }
 
-
         protected virtual void ConfigureServices(IServiceCollection serviceCollection)
         {
-            if (!string.IsNullOrEmpty(__configureProjectName))
+            if (!string.IsNullOrEmpty(s_configureProjectName))
             {
                 throw new NotImplementedException(
                     $"{nameof(ConfigureServices)} must not be called explicitly!  " +
@@ -194,14 +216,14 @@ namespace Blockfrost.Api.Tests
 
         protected virtual void ConfigureServicesFromConfig(IServiceCollection serviceCollection, string projectName)
         {
-            if(__configuration == null)
+            if (Configuration == null)
             {
                 throw new InvalidOperationException($"The implemnting TestClass did not explicitly call {nameof(AServiceTestBase.InitializeEnvironment)}().");
             }
 
-            var apiKey = __configuration[$"Blockfrost:{projectName}:ApiKey"] ?? __configuration[Constants.ENV_BFCLI_API_KEY];
-            var network = __configuration[$"Blockfrost:{projectName}:Network"] ?? __configuration[Constants.ENV_BFCLI_NETWORK];
-            var connectionLimit = __configuration[$"Blockfrost:{projectName}:ConnectionLimit"] ?? __configuration[Constants.ENV_BF_RATE_LIMIT]; 
+            string apiKey = Configuration[$"Blockfrost:{projectName}:ApiKey"] ?? Configuration[Constants.ENV_BFCLI_API_KEY];
+            string network = Configuration[$"Blockfrost:{projectName}:Network"] ?? Configuration[Constants.ENV_BFCLI_NETWORK];
+            string connectionLimit = Configuration[$"Blockfrost:{projectName}:ConnectionLimit"] ?? Configuration[Constants.ENV_BF_RATE_LIMIT];
 
             if (string.IsNullOrEmpty(apiKey))
             {
@@ -221,10 +243,10 @@ namespace Blockfrost.Api.Tests
 
             Network = network;
 
-            OnBuildServiceProvider(serviceCollection.AddBlockfrost(projectName, __configuration));
+            OnBuildServiceProvider(serviceCollection.AddBlockfrost(projectName, Configuration));
 
             Provider = serviceCollection.BuildServiceProvider();
-            __services = serviceCollection;
+            _services = serviceCollection;
         }
 
         protected virtual void OnBuildServiceProvider(IServiceCollection serviceCollection) { }
@@ -233,7 +255,7 @@ namespace Blockfrost.Api.Tests
         {
             if (Network.Equals(Constants.NETWORK_TESTNET))
             {
-                return new  Uri(Constants.API_URL_TESTNET);
+                return new Uri(Constants.API_URL_TESTNET);
             }
 
             if (Network.Equals(Constants.NETWORK_MAINNET))
@@ -251,14 +273,15 @@ namespace Blockfrost.Api.Tests
 
         protected async IAsyncEnumerable<ServiceDescriptor> GetClientsAsync()
         {
-            foreach(var descriptor in __services)
+            foreach (var descriptor in _services)
             {
                 await Task.CompletedTask;
-                if (descriptor.ServiceType == typeof(IBlockfrostService) 
+                if (descriptor.ServiceType == typeof(IBlockfrostService)
                     || descriptor.ServiceType.GetInterface(nameof(IBlockfrostService)) != null)
+                {
                     yield return descriptor;
+                }
             }
         }
-
     }
 }

@@ -1,11 +1,12 @@
-﻿using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Attributes;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Integration.Throttling
 {
@@ -18,7 +19,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
@@ -26,15 +27,15 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         {
             // After 500 requests the burst limit is reached.
             // The next 50 requests need to be throttled, otherwise the server will return an error.
-            var requestCount = 550;
+            int requestCount = 550;
             var results = new Dictionary<int, bool>();
 
-            foreach (var requestNr in Enumerable.Range(1, requestCount))
+            foreach (int requestNr in Enumerable.Range(1, requestCount))
             {
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    await __service.EndpointsAsync();
+                    await Service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)
@@ -45,6 +46,5 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
 
             Assert.IsTrue(results.All(r => r.Value));
         }
-
     }
 }
