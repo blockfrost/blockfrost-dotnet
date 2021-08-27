@@ -160,7 +160,7 @@ csharp_prefer_braces = when_multiline:warning
 dotnet_diagnostic.IDE0011.severity = warning
 
 # IDE0040: Add accessibility modifiers
-dotnet_diagnostic.IDE0040.severity = warning
+dotnet_diagnostic.IDE0040.severity = error
 
 # CONSIDER: Are IDE0051 and IDE0052 too noisy to be warnings for IDE editing scenarios? Should they be made build-only warnings?
 # IDE0051: Remove unused private member

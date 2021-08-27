@@ -7,16 +7,16 @@ namespace Blockfrost.Api.Utils
     /// <summary>
     /// Serializable cardano-cli transaction body
     /// </summary>
-    public class CardanoCliTransaction
+    public class CardanoCliTransaction : ICardanoCliTransaction
     {
 
         [JsonPropertyName("type")]
-        string Type { get; set; }
+        public string Type { get; set; }
 
         [JsonPropertyName("description")]
-        string Description { get; set; }
+        public string Description { get; set; }
 
         [JsonPropertyName("cborHex")]
-        string CBORHex { get; set; }
+        public string CBORHex { get; set; }
     }
 }
