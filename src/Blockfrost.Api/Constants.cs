@@ -1,31 +1,4 @@
-﻿
-/* Unmerged change from project 'Blockfrost.Api(netstandard2.1)'
-Before:
-using System.Runtime.Serialization;
-After:
-// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
-
-using System.Runtime.Serialization;
-*/
-
-/* Unmerged change from project 'Blockfrost.Api(netstandard2.0)'
-Before:
-using System.Runtime.Serialization;
-After:
-// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
-
-using System.Runtime.Serialization;
-*/
-
-/* Unmerged change from project 'Blockfrost.Api(net472)'
-Before:
-using System.Runtime.Serialization;
-After:
-// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
-
-using System.Runtime.Serialization;
-*/
-// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
 
 namespace Blockfrost.Api
 {

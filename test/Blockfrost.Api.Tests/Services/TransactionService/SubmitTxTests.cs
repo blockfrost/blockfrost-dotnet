@@ -105,7 +105,7 @@ namespace Blockfrost.Api.Tests.Services
                 {
                     // except for the transaction fee... we can validate that
                     uint fee = reader.ReadUInt32();
-                    Assert.IsTrue(fee >= vector.CalculateMinFee(cborHex));
+                    Assert.IsTrue(fee >= TestVector.CalculateMinFee(cborHex));
                 }
             }
 #else

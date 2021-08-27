@@ -25,10 +25,10 @@ namespace Blockfrost.Api.Tests.Attributes
         }
 
         //[PermuteVetorTestMethod(V_01, ALL_SUPPORTED_FILENAMES)]
-        public void Loads_Vector_And_Returns_FileName(TestVector vector, string fileName)
-        {
-            Assert.IsNotNull(fileName);
-            Assert.IsTrue(vector.GetFileInfo(fileName).Exists);
-        }
+        //public void Loads_Vector_And_Returns_FileName(TestVector vector, string fileName)
+        //{
+        //    Assert.IsNotNull(fileName);
+        //    Assert.IsTrue(vector.GetFileInfo(fileName).Exists);
+        //}
     }
 }

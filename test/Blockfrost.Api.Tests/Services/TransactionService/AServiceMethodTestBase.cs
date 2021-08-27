@@ -14,7 +14,7 @@ namespace Blockfrost.Api.Tests.Services
         where TService : IBlockfrostService
         where TContent : class
     {
-        public AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
+        protected AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
             _statusCode = statusCode;
             ServiceMethodName = methodName;
@@ -51,11 +51,6 @@ namespace Blockfrost.Api.Tests.Services
             int withCount = withoutCancellationSupport.Count();
             int withoutCount = withoutCancellationSupport.Count();
             Assert.AreEqual(withCount, withoutCount);
-        }
-
-        protected TContent CollectionContent(int v)
-        {
-            return default(TContent);
         }
     }
 }

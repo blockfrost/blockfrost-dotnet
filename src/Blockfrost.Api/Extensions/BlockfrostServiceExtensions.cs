@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -202,11 +201,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="name">The logical name of the HttpClient to configure.</param>
         /// <param name="configureClient">A delegate that is used to configure an HttpClient.</param>
         /// <returns></returns>
-#if NET
-        public static IHttpClientBuilder AddBlockfrostService<TClient, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services, string name, Action<IServiceProvider, HttpClient> configureClient)
-#else
         public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name, Action<IServiceProvider, HttpClient> configureClient)
-#endif
             where TClient : class
             where TImplementation : class, TClient
         {
@@ -222,11 +217,7 @@ namespace Blockfrost.Api.Extensions
         /// <typeparam name="TImplementation">The implementation type of the typed blockfrost service. They type specified will be instantiated by the ITypedHttpClientFactory<TClient>.</typeparam>
         /// <param name="services">The IServiceCollection.</param>
         /// <param name="name">The logical name of the HttpClient to configure.</param>
-#if NET
-        public static IHttpClientBuilder AddBlockfrostService<TClient, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services, string name, int connectionLimit = Constants.CONNECTION_LIMIT)
-#else
         public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name, int connectionLimit = Constants.CONNECTION_LIMIT)
-#endif
             where TClient : class
             where TImplementation : ABlockfrostService, TClient
         {
@@ -436,22 +427,6 @@ namespace Blockfrost.Api.Extensions
             if (sockets > Constants.CONNECTION_LIMIT)
             {
                 sockets = Constants.CONNECTION_LIMIT;
-
-/* Unmerged change from project 'Blockfrost.Api(netstandard2.0)'
-Before:
-            ServicePointManager.FindServicePoint(address: client.BaseAddress).ConnectionLimit = sockets;
-After:
-            }
-
-            client.BaseAddress = network switch
-            {
-                "testnet" => new Uri(Constants.API_URL_TESTNET),
-                "mainnet" => new Uri(Constants.API_URL_MAINNET),
-                "ipfs" => new Uri(Constants.API_URL_IPFS),
-                _ => throw new NotSupportedException($"The specified network '{network}' is not supported"),
-            };
-            ServicePointManager.FindServicePoint(address: client.BaseAddress).ConnectionLimit = sockets;
-*/
             }
 
             client.BaseAddress = network switch

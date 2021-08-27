@@ -129,7 +129,7 @@ namespace Blockfrost.Api.Tests
         /// </summary>
         /// <param name="cborHex"></param>
         /// <returns></returns>
-        public uint CalculateMinFee(byte[] cborRaw)
+        public static uint CalculateMinFee(byte[] cborRaw)
         {
             return (uint)(__protocol.TxFeeFixed + cborRaw.Length * __protocol.TxFeePerByte);
         }
