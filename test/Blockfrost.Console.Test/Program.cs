@@ -61,8 +61,6 @@ namespace Blockfrost.Console.Test
             return Task.CompletedTask;
         }
 
-
-
         private void OnStarted()
         {
             _logger.LogInformation("2. OnStarted has been called.");

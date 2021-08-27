@@ -53,6 +53,5 @@ namespace Blockfrost.Api.Tests.Services
             Assert.AreEqual(expected, utxos.Count);
         }
 
-
     }
 }

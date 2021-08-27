@@ -70,7 +70,6 @@ namespace Blockfrost.Api.Tests
 
         public static string DummyHash = BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
 
-
         public static FileInfo GetFileInfo(params string[] segments)
         {
             FileInfo vectorFile = new FileInfo(Path.Combine(segments));

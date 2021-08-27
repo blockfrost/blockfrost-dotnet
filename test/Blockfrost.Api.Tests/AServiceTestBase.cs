@@ -175,7 +175,6 @@ namespace Blockfrost.Api.Tests
             Assert.IsFalse(services.Any(t => t.ServiceType == type));
         }
 
-
         protected virtual void ConfigureServices(IServiceCollection serviceCollection)
         {
             if (!string.IsNullOrEmpty(s_configureProjectName))

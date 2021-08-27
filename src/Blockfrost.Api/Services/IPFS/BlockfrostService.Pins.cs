@@ -99,8 +99,6 @@ namespace Blockfrost.Api
             //return await SendPostRequestAsync<IpfsPinAddResponse>(urlBuilder_, cancellationToken);
         }
 
-
-
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path)

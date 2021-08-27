@@ -34,7 +34,6 @@ namespace Blockfrost.Api.Tests.Http
             _handler = handler;
         }
 
-
         /// <summary>
         /// Invokes the configured <see cref="_handler"/>
         /// </summary>

@@ -27,13 +27,13 @@ namespace Blockfrost.Api.Http
             try
             {
                 TimeSpan timeSinceLastCall = DateTimeOffset.UtcNow - _lastRequestTime;
-                int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN;
+                int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN_10;
                 _requestCount = _requestCount > cooledOffRequests ? _requestCount - cooledOffRequests : 0;
 
-                while (_requestCount >= Constants.BURST_LIMIT)
+                while (_requestCount >= Constants.BURST_LIMIT_500)
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(Constants.BURST_COOLDOWN_INTERVAL), cancellationToken).ConfigureAwait(false);
-                    _requestCount -= Constants.BURST_COOLDOWN;
+                    await Task.Delay(TimeSpan.FromMilliseconds(Constants.BURST_COOLDOWN_INTERVAL_1000), cancellationToken).ConfigureAwait(false);
+                    _requestCount -= Constants.BURST_COOLDOWN_10;
                 }
 
                 _lastRequestTime = DateTimeOffset.UtcNow;

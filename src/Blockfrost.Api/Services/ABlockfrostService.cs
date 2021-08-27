@@ -125,7 +125,7 @@ namespace Blockfrost.Api
 
         protected HttpClient _httpClient;
 
-        public ABlockfrostService(HttpClient httpClient)
+        protected ABlockfrostService(HttpClient httpClient)
         {
             _httpClient = httpClient;
             _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);
@@ -540,7 +540,7 @@ namespace Blockfrost.Api
                         throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
                     }
                     else
-                    if (status_ == 418) // i am a teapot 
+                    if (status_ == 418) // i am a teapot
                     {
                         ObjectResponseResult<UnsupportedMediaTypeResponse> objectResponse_ = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                         if (objectResponse_.Object == null)

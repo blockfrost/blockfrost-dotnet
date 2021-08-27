@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-
 namespace Blockfrost.Api
 {
     public interface ITransactionService : IBlockfrostService

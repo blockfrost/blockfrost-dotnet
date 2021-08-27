@@ -13,9 +13,9 @@ namespace Blockfrost.Cli.Commands
         {
             _service = service;
         }
-        public const int MaxCount = 100;
-        public const int DefaultCount = 10;
-        public const string DefaultAddressType = "Shelley";
+        public static readonly int MaxCount = 100;
+        public static readonly int DefaultCount = 10;
+        public static readonly string DefaultAddressType = "Shelley";
 
         public string Address { get; set; } = "";
 
