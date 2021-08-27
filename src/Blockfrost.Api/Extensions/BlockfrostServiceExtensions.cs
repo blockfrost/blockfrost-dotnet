@@ -430,7 +430,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="network"></param>
         private static void ConfigureHttpClient(HttpClient client, string network, int sockets)
         {
-            client.DefaultRequestHeaders.Add("User-Agent", $"blockfrost-dotnet / v0.0.3 {network}");
+            client.DefaultRequestHeaders.Add($"User-Agent", $"blockfrost-dotnet / v0.0.3 {network}");
             client.DefaultRequestHeaders.Add("Accept", "application/json");
 
             if (sockets > Constants.CONNECTION_LIMIT)
