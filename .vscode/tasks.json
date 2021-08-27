@@ -12,6 +12,9 @@
       ],
       "problemMatcher": "$msCompile",
       "group": "build",
+      "presentation": {
+        "focus": true,
+      }
     },
     {
       "label": "build",
@@ -25,6 +28,9 @@
       ],
       "problemMatcher": "$msCompile",
       "group": "build",
+      "presentation": {
+        "focus": true,
+      }
     },
     {
       "label": "rebuild",
@@ -34,6 +40,9 @@
       ],
       "dependsOrder": "sequence",
       "group": "build",
+      "presentation": {
+        "focus": true,
+      }
     },
     {
       "label": "test",
@@ -47,34 +56,37 @@
       "group": {
         "kind": "test",
         "isDefault": true
+      },
+      "presentation": {
+        "focus": true,
       }
     },
     {
       "label": "fix style (errors)",
-      "command": "dotnet",
+      "command": "dotnet format -ws error",
       "type": "shell",
-      "args": [
-        "format",
-        "-ws error"
-      ]
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "focus": true,
+      }
     },
     {
       "label": "fix style (warnings)",
-      "command": "dotnet",
+      "command": "dotnet format -ws warn",
       "type": "shell",
-      "args": [
-        "format",
-        "-ws warn"
-      ]
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "focus": true,
+      }
     },
     {
       "label": "fix style (infos)",
-      "command": "dotnet",
+      "command": "dotnet format -ws info",
       "type": "shell",
-      "args": [
-        "format",
-        "-ws info"
-      ]
+      "problemMatcher": "$msCompile",
+      "presentation": {
+        "focus": true,
+      }
     }
   ]
 }
