@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Reflection;
 using System.Text;
 
@@ -27,7 +29,7 @@ namespace Blockfrost.Api.Extensions
                 string name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    FieldInfo field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
                         if (field.GetCustomAttribute(typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
@@ -50,7 +52,7 @@ namespace Blockfrost.Api.Extensions
             }
             else if (value.GetType().IsArray)
             {
-                System.Collections.Generic.IEnumerable<object> array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 

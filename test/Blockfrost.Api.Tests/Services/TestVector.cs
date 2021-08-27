@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using Blockfrost.Api.Utils;
 
@@ -43,8 +43,8 @@ namespace Blockfrost.Api.Tests
 
         private static ProtocolParameters __protocol { get; set; } = JsonSerializer.Deserialize<ProtocolParameters>(File.ReadAllText(Path.Combine(__testProjectRootDir, Constants.TEST_VECTOR_ROOT_DIRNAME, Constants.PROTOCOL_PARAMETERS_FILENAME)));
 
-        private DirectoryInfo _vectorDir;
-        private string _vectorId;
+        private readonly DirectoryInfo _vectorDir;
+        private readonly string _vectorId;
         public TestVector(string vectorId1)
         {
             _vectorId = vectorId1;
@@ -72,14 +72,18 @@ namespace Blockfrost.Api.Tests
 
         public static FileInfo GetFileInfo(params string[] segments)
         {
-            FileInfo vectorFile = new FileInfo(Path.Combine(segments));
+            var vectorFile = new FileInfo(Path.Combine(segments));
             return vectorFile;
         }
 
         public byte[] GetFileBytes(string filename)
         {
-            FileInfo vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
+            var vectorFile = GetFileInfo(filename);
+            if (!vectorFile.Exists)
+            {
+                throw new FileNotFoundException(vectorFile.FullName);
+            }
+
             return File.ReadAllBytes(vectorFile.FullName);
         }
 
@@ -90,8 +94,12 @@ namespace Blockfrost.Api.Tests
 
         public string GetFileText(string filename)
         {
-            FileInfo vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists) throw new FileNotFoundException(vectorFile.FullName);
+            var vectorFile = GetFileInfo(filename);
+            if (!vectorFile.Exists)
+            {
+                throw new FileNotFoundException(vectorFile.FullName);
+            }
+
             return File.ReadAllText(vectorFile.FullName);
         }
 
@@ -103,7 +111,11 @@ namespace Blockfrost.Api.Tests
             }
 
             var vector = new TestVector(vectorId);
-            if (!vector.Exists) throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
+            if (!vector.Exists)
+            {
+                throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
+            }
+
             return vector;
         }
 

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +27,9 @@ namespace Blockfrost.Api
         public async Task<NutlinkAddress> NutlinkAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
+            {
                 throw new System.ArgumentNullException(nameof(address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}");
@@ -55,10 +59,14 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkAddressTickerResponse>> Tickers2Async(string address, string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
+            {
                 throw new System.ArgumentNullException(nameof(address));
+            }
 
             if (ticker == null)
+            {
                 throw new System.ArgumentNullException(nameof(ticker));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}/tickers/{ticker}?");
@@ -68,14 +76,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<NutlinkAddressTickerResponse>>(urlBuilder_, cancellationToken);
@@ -102,7 +113,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkTickersTickerResponse>> Tickers3Async(string ticker, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (ticker == null)
+            {
                 throw new System.ArgumentNullException(nameof(ticker));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/tickers/{ticker}?");
@@ -111,14 +124,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<NutlinkTickersTickerResponse>>(urlBuilder_, cancellationToken);
@@ -145,7 +161,9 @@ namespace Blockfrost.Api
         public async Task<ICollection<NutlinkAddressTickersResponse>> TickersAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
+            {
                 throw new System.ArgumentNullException(nameof(address));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/nutlink/{address}/tickers?");
@@ -154,14 +172,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<NutlinkAddressTickersResponse>>(urlBuilder_, cancellationToken);

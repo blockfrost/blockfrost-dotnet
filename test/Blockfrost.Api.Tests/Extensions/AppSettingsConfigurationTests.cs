@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Linq;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +17,7 @@ namespace Blockfrost.Api.Tests.Extensions
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET,context);
         }
 
         [TestMethod]
@@ -46,7 +48,7 @@ namespace Blockfrost.Api.Tests.Extensions
         {
             // Arrange
             IServiceCollection services = new ServiceCollection();
-            IConfiguration config = CreateTestSpecificConfiguration();
+            var config = CreateTestSpecificConfiguration();
 
             // Act
             services.AddBlockfrost(projectName, config);
@@ -60,13 +62,13 @@ namespace Blockfrost.Api.Tests.Extensions
 
         private static IConfiguration CreateTestSpecificConfiguration()
         {
-            IConfigurationRoot testSettings = new ConfigurationBuilder()
+            var testSettings = new ConfigurationBuilder()
                             .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
                             .Build();
 
             string configuredTestEnvironment = testSettings[Constants.ENV_ENVIRONMENT];
 
-            IConfigurationRoot configurationRoot1 = new ConfigurationBuilder()
+            var configurationRoot1 = new ConfigurationBuilder()
                             .AddJsonFile($"appsettings.{configuredTestEnvironment}.json", optional: true, reloadOnChange: true)
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                             .Build();

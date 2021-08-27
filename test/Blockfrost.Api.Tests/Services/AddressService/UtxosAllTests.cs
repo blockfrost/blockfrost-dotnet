@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
@@ -14,6 +15,7 @@ namespace Blockfrost.Api.Tests.Services
         public override ICollection<AddressUTxOResponse> Content => new List<AddressUTxOResponse>() { new AddressUTxOResponse() };
 
         [ClassInitialize]
+        [System.Obsolete]
         public static void Setup(TestContext context)
         {
             ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
@@ -44,7 +46,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task PaginationTests(int count, int page, ESortOrder order, int expected)
         {
 
-            var addr = "addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu";
+            string addr = "addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu";
 
             // Act
             var utxos = await ServiceUnderTest.UtxosAllAsync(addr, count, page, order);
@@ -52,6 +54,5 @@ namespace Blockfrost.Api.Tests.Services
             // Assert
             Assert.AreEqual(expected, utxos.Count);
         }
-
     }
 }

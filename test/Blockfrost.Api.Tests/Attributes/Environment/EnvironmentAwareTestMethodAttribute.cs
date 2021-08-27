@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Attributes
@@ -42,7 +44,7 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <returns></returns>
         protected TestResult[] ExecuteOrInconclusive(ITestMethod testMethod, string environment, bool exclusive = true)
         {
-            var message = $"Test not executed due to environment restriction.";
+            string message = $"Test not executed due to environment restriction.";
             return ExecuteOrInconclusive(testMethod, environment, message, exclusive);
         }
 
@@ -56,7 +58,11 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <returns></returns>
         protected TestResult[] ExecuteOrInconclusive(ITestMethod testMethod, string environment, string message, bool exclusive = true)
         {
-            if (IsEnvironment(environment) == exclusive) return base.Execute(testMethod);
+            if (IsEnvironment(environment) == exclusive)
+            {
+                return base.Execute(testMethod);
+            }
+
             return CreateInconclusiveResult(message);
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
@@ -39,14 +41,17 @@ namespace Blockfrost.Api
             {
                 urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
                 urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<Anonymous32>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;
@@ -65,7 +70,9 @@ namespace Blockfrost.Api
         public async Task<IpfsPinListResponse> ListAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
+            {
                 throw new System.ArgumentNullException(nameof(iPFS_path));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/{IPFS_path}");
@@ -89,7 +96,9 @@ namespace Blockfrost.Api
         public Task<IpfsPinAddResponse> PostPinAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
+            {
                 throw new System.ArgumentNullException(nameof(iPFS_path));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/add/{IPFS_path}");
@@ -112,7 +121,9 @@ namespace Blockfrost.Api
         public Task<IpfsPinRemoveResponse> RemoveAsync(string iPFS_path, CancellationToken cancellationToken)
         {
             if (iPFS_path == null)
+            {
                 throw new System.ArgumentNullException(nameof(iPFS_path));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
             urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/remove/{IPFS_path}");

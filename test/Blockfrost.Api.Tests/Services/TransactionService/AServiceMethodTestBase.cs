@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -40,7 +40,10 @@ namespace Blockfrost.Api.Tests.Services
         protected void AssertMethodExists(bool assertCancellationSupport = true)
         {
             Assert.IsNotNull(ServiceMethodName);
-            if (!assertCancellationSupport) return;
+            if (!assertCancellationSupport)
+            {
+                return;
+            }
 
             var methods = typeof(TService).GetMethods().Where(m => m.Name.Equals(ServiceMethodName));
             var withCancellationSupport = methods.Where(m => m.GetParameters().Any(p => p.ParameterType == typeof(CancellationToken))).ToArray();

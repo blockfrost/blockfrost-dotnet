@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -41,7 +43,10 @@ namespace Blockfrost.Api.Tests.Attributes
             }
             catch (Exception ex)
             {
-                if (!allowNullVector) throw new InvalidOperationException($"TestVector '{_vectorId}' failed to load. Set {nameof(allowNullVector)} = true if this was intentional. See inner exception for details.", ex);
+                if (!allowNullVector)
+                {
+                    throw new InvalidOperationException($"TestVector '{_vectorId}' failed to load. Set {nameof(allowNullVector)} = true if this was intentional. See inner exception for details.", ex);
+                }
             }
         }
 
@@ -56,22 +61,37 @@ namespace Blockfrost.Api.Tests.Attributes
 
         public IEnumerable<object[]> GetData(MethodInfo info)
         {
-            Type[] parameters = info.GetParameters().Select(p => p.ParameterType).ToArray();
+            var parameters = info.GetParameters().Select(p => p.ParameterType).ToArray();
             switch (parameters.Length)
             {
                 case 1:
                     if (parameters[0] == typeof(string))
+                    {
                         return new[] { new object[] { GetFileText(_fileName) } };
+                    }
+
                     if (parameters[0] == typeof(byte[]))
+                    {
                         return new[] { new object[] { GetFileBytes(_fileName) } };
+                    }
+
                     if (parameters[0] == typeof(FileInfo))
+                    {
                         return new[] { new object[] { GetFileInfo(_fileName) } };
+                    }
+
                     break;
                 case 2:
                     if (parameters[0] == typeof(string) && parameters[1] == typeof(string))
+                    {
                         return new[] { new object[] { _vectorId, _fileName } };
+                    }
+
                     if (parameters[0] == typeof(TestVector) && parameters[1] == typeof(string))
+                    {
                         return new[] { new object[] { _testVector, _fileName } };
+                    }
+
                     break;
                 default:
                     throw new NotSupportedException($"Too " + (parameters.Length == 0 ? "few" : "many") + $" arguments on VectorTestMethod '{info.Name}'");

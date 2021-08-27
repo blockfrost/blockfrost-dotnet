@@ -1,9 +1,10 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,6 +17,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
     public class ClientSideThrottlingTests : AServiceTestBase
     {
         [ClassInitialize]
+        [Obsolete]
         public static void Setup(TestContext context)
         {
             ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
@@ -45,6 +47,5 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
 
             Assert.IsTrue(results.All(r => r.Value));
         }
-
     }
 }

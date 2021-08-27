@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +12,7 @@ namespace Blockfrost.Api.Tests.Attributes
     public class PermuteVetorTestMethodAttribute : TestMethodAttribute, ITestDataSource
     {
         private readonly string _vectorId;
-        private Dictionary<string, VectorTestMethodAttribute> testVectorAtts;
+        private readonly Dictionary<string, VectorTestMethodAttribute> testVectorAtts;
 
         public PermuteVetorTestMethodAttribute(string vectorId, string fileNames, char separator = '\'')
         {
@@ -28,19 +30,21 @@ namespace Blockfrost.Api.Tests.Attributes
                     testResults.Append(result);
                 }
             }
+
             return testResults;
         }
 
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
-            var data = Array.Empty<object[]>();
+            object[][] data = Array.Empty<object[]>();
             foreach (var attribute in testVectorAtts.Values)
             {
-                foreach (var result in attribute.GetData(methodInfo))
+                foreach (object[] result in attribute.GetData(methodInfo))
                 {
                     data.Append(result);
                 }
             }
+
             return data;
         }
 

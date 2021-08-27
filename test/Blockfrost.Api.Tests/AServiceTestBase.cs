@@ -1,11 +1,12 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
-using Blockfrost.Api.Tests.Http;
 using Blockfrost.Api.Tests.Integration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +37,10 @@ namespace Blockfrost.Api.Tests
                 {
                     throw new InvalidOperationException(s_providerNotConfiguredErrorMessage);
                 }
-                else return s_provider;
+                else
+                {
+                    return s_provider;
+                }
             }
             set => s_provider = value;
         }
@@ -58,7 +62,7 @@ namespace Blockfrost.Api.Tests
 
             if (string.IsNullOrWhiteSpace(environmentName))
             {
-                IConfigurationRoot configurationRoot = config.Build();
+                var configurationRoot = config.Build();
                 environmentName = configurationRoot[Constants.ENV_ENVIRONMENT] ?? "development";
             }
 
@@ -76,8 +80,20 @@ namespace Blockfrost.Api.Tests
             Configuration = config.Build();
         }
 
+        [Obsolete("Use ConfigureEnvironment(string projectName, TestContext context) instead")]
         public static void ConfigureEnvironment(string projectName)
         {
+            s_configureProjectName = projectName;
+            InitializeEnvironment();
+        }
+
+        public static void ConfigureEnvironment(string projectName, TestContext context)
+        {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             s_configureProjectName = projectName;
             InitializeEnvironment();
         }
@@ -95,8 +111,14 @@ namespace Blockfrost.Api.Tests
         public void TestInitialize()
         {
             var services = new ServiceCollection();
-            if (string.IsNullOrEmpty(s_configureProjectName)) ConfigureServices(services);
-            else ConfigureServicesFromConfig(services, s_configureProjectName);
+            if (string.IsNullOrEmpty(s_configureProjectName))
+            {
+                ConfigureServices(services);
+            }
+            else
+            {
+                ConfigureServicesFromConfig(services, s_configureProjectName);
+            }
         }
 
         public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
@@ -256,9 +278,10 @@ namespace Blockfrost.Api.Tests
                 await Task.CompletedTask;
                 if (descriptor.ServiceType == typeof(IBlockfrostService)
                     || descriptor.ServiceType.GetInterface(nameof(IBlockfrostService)) != null)
+                {
                     yield return descriptor;
+                }
             }
         }
-
     }
 }

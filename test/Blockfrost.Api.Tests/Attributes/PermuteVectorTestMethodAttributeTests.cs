@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Attributes
 {
@@ -15,9 +17,9 @@ namespace Blockfrost.Api.Tests.Attributes
             var method = typeof(VectorTestMethodAttributeTests).GetMethod(nameof(Init));
             var data = m.GetData(method);
             Assert.IsNotNull(data);
-            foreach (var item in data)
+            foreach (object[] item in data)
             {
-                var name = m.GetDisplayName(method, item);
+                string name = m.GetDisplayName(method, item);
                 Assert.IsNotNull(name);
             }
         }

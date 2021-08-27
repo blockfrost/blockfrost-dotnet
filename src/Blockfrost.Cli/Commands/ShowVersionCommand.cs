@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,15 +11,15 @@ namespace Blockfrost.Cli.Commands
     {
         public ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
         {
-            var blockfrostVersionString = (Assembly.GetAssembly(typeof(Api.IBlockfrostService)) ?? throw new InvalidOperationException())
+            string blockfrostVersionString = (Assembly.GetAssembly(typeof(Api.IBlockfrostService)) ?? throw new InvalidOperationException())
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 ?.InformationalVersion;
 
-            var bfcliVersionString = (Assembly.GetEntryAssembly() ?? throw new InvalidOperationException())
+            string bfcliVersionString = (Assembly.GetEntryAssembly() ?? throw new InvalidOperationException())
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
                 ?.InformationalVersion;
 
-            var versionText = $"bfcli {bfcliVersionString} | Blockfrost.Api {blockfrostVersionString}";
+            string versionText = $"bfcli {bfcliVersionString} | Blockfrost.Api {blockfrostVersionString}";
             return ValueTask.FromResult(CommandResult.Success(versionText));
         }
     }

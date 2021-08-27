@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api;
@@ -30,7 +32,8 @@ namespace Blockfrost.Cli.Commands
                 return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
                     $"Invalid option --count {Count} exceeded the max count of {MaxCount}"));
             }
-            if (!Enum.TryParse<EContentType>(AddressType, out var era))
+
+            if (!Enum.TryParse<EContentType>(AddressType, out _))
             {
                 return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
                     $"Invalid option --type {AddressType} is not supported"));

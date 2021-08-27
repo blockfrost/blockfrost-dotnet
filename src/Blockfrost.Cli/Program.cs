@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Cli.Commands;
@@ -8,9 +10,9 @@ namespace Blockfrost.Cli
     /// <summary>
     /// Based on https://github.com/CardanoSharp/cscli
     /// </summary>
-    class Program
+    internal class Program
     {
-        static async Task<int> Main(string[] args)
+        private static async Task<int> Main(string[] args)
         {
             var cts = SetupUserInputCancellationTokenSource();
             var command = CommandParser.ParseArgsToCommand(args);
@@ -24,6 +26,7 @@ namespace Blockfrost.Cli
                 await Console.Error.WriteLineAsync(commandResult.Result);
                 return (int)commandResult.Outcome;
             }
+
             return 0;
         }
 

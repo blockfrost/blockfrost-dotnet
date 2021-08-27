@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,7 +28,7 @@ namespace Blockfrost.Api.Http
             await _mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
-                TimeSpan timeSinceLastCall = DateTimeOffset.UtcNow - _lastRequestTime;
+                var timeSinceLastCall = DateTimeOffset.UtcNow - _lastRequestTime;
                 int cooledOffRequests = timeSinceLastCall.Seconds * Constants.BURST_COOLDOWN;
                 _requestCount = _requestCount > cooledOffRequests ? _requestCount - cooledOffRequests : 0;
 
