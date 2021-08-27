@@ -1,7 +1,5 @@
 <Project>
  <PropertyGroup>
    <LangVersion>9.0</LangVersion>
-   <EnableNETAnalyzers>true</EnableNETAnalyzers>
-   <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
  </PropertyGroup>
 </Project>

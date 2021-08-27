@@ -181,6 +181,9 @@ dotnet_diagnostic.CA1012.severity = warning
 # CA1822: Make member static
 dotnet_diagnostic.CA1822.severity = warning
 
+# CA1507: use nameof instead of string literal
+dotnet_diagnostic.CA1507.severity = warning
+
 # IDE0005: Using directive is unnecessary
 dotnet_diagnostic.IDE0005.severity = warning
 

@@ -101,12 +101,12 @@ namespace Blockfrost.Api
 
             if (from != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("from") + "=").Append(System.Uri.EscapeDataString(ConvertToString(from, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString(nameof(from)) + "=").Append(System.Uri.EscapeDataString(ConvertToString(from, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
             }
 
             if (to != null)
             {
-                urlBuilder_.Append(System.Uri.EscapeDataString("to") + "=").Append(System.Uri.EscapeDataString(ConvertToString(to, System.Globalization.CultureInfo.InvariantCulture))).Append("&");
+                urlBuilder_.Append(System.Uri.EscapeDataString(nameof(to)) + "=").Append(System.Uri.EscapeDataString(ConvertToString(to, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
             }
 
             urlBuilder_.Length--;
@@ -123,7 +123,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
+        [System.Obsolete("No longer supported by blockfrost and may be removed in future releases")]
         public async Task<ICollection<string>> AddressTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
@@ -181,7 +181,7 @@ namespace Blockfrost.Api
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                urlBuilder_.AppendQueryParameter("page", page);
             }
 
             if (order != null)
@@ -229,7 +229,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
+        [System.Obsolete("No longer supported and may be removed in future releases")]
         public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order)
         {
             return AddressTxsAsync(address, count, page, order, CancellationToken.None);

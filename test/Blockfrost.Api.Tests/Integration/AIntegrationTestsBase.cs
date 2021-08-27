@@ -740,6 +740,7 @@ namespace Blockfrost.Api.Tests.Integration
             return Blocks.TxsAll2Async(hash_or_number, count, page, order, cancellationToken);
         }
 
+        [System.Obsolete("No longer supported by blockfrost and may be removed in future releases")]
         public Task<ICollection<string>> TxsAll3Async(string address, int? count, int? page, ESortOrder? order)
         {
             return Addresses.TxsAll3Async(address, count, page, order);
