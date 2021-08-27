@@ -146,7 +146,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-            var projectName = $"blockfrost-{network}-project";
+            string projectName = $"blockfrost-{network}-project";
 
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
             services.AddCardanoServices(projectName);
@@ -232,8 +232,8 @@ namespace Blockfrost.Api.Extensions
         {
             return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", (client, provider) =>
             {
-                var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                var service = ServiceFactory<TImplementation>(client, options.Value[name].Network, connectionLimit);
+                IOptions<BlockfrostOptions> options = provider.GetService<IOptions<BlockfrostOptions>>();
+                TImplementation service = ServiceFactory<TImplementation>(client, options.Value[name].Network, connectionLimit);
                 return service;
             }).AddBlockfrostMessageHandlers();
         }
@@ -309,7 +309,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
         {
-            var projectName = $"Anonymous.Blockfrost.{network}.Project"; 
+            string projectName = $"Anonymous.Blockfrost.{network}.Project"; 
             
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
             
@@ -436,24 +436,13 @@ namespace Blockfrost.Api.Extensions
             if (sockets > Constants.CONNECTION_LIMIT)
                 sockets = Constants.CONNECTION_LIMIT;
 
-            switch (network)
+            client.BaseAddress = network switch
             {
-                case "testnet":
-                    client.BaseAddress = new Uri(Constants.API_URL_TESTNET);
-                    break;
-
-                case "mainnet":
-                    client.BaseAddress = new Uri(Constants.API_URL_MAINNET);
-                    break;
-
-                case "ipfs":
-                    client.BaseAddress = new Uri(Constants.API_URL_IPFS);
-                    break;
-
-                default:
-                    throw new NotSupportedException($"The specified network '{network}' is not supported");
-            }
-
+                "testnet" => new Uri(Constants.API_URL_TESTNET),
+                "mainnet" => new Uri(Constants.API_URL_MAINNET),
+                "ipfs" => new Uri(Constants.API_URL_IPFS),
+                _ => throw new NotSupportedException($"The specified network '{network}' is not supported"),
+            };
             ServicePointManager.FindServicePoint(address: client.BaseAddress).ConnectionLimit = sockets;
         }
 

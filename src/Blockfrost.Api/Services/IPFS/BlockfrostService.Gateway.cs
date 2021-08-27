@@ -32,21 +32,21 @@ namespace Blockfrost.Api
 
                 PrepareRequest(_httpClient, request, urlBuilder);
 
-                var url = urlBuilder.ToString();
+                string url = urlBuilder.ToString();
                 request.RequestUri = new System.Uri(url, System.UriKind.RelativeOrAbsolute);
 
                 PrepareRequest(_httpClient, request, urlBuilder);
 
-                var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                HttpResponseMessage response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
                 try
                 {
                     var headers = System.Linq.Enumerable.ToDictionary(response.Headers, h => h.Key, h => h.Value);
-                    foreach (var item_ in response.Content.Headers)
+                    foreach (System.Collections.Generic.KeyValuePair<string, System.Collections.Generic.IEnumerable<string>> item_ in response.Content.Headers)
                         headers[item_.Key] = item_.Value;
 
                     ProcessResponse(_httpClient, response);
 
-                    var status = (int)response.StatusCode;
+                    int status = (int)response.StatusCode;
                     switch (status)
                     {
                         case 200:
@@ -54,7 +54,7 @@ namespace Blockfrost.Api
 
                         case 400:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<BadRequestResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<BadRequestResponse> objectResponse = await ReadObjectResponseAsync<BadRequestResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -63,7 +63,7 @@ namespace Blockfrost.Api
                             }
                         case 403:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<ForbiddenResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<ForbiddenResponse> objectResponse = await ReadObjectResponseAsync<ForbiddenResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -72,7 +72,7 @@ namespace Blockfrost.Api
                             }
                         case 404:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<NotFoundResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<NotFoundResponse> objectResponse = await ReadObjectResponseAsync<NotFoundResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -81,7 +81,7 @@ namespace Blockfrost.Api
                             }
                         case 418:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<UnsupportedMediaTypeResponse> objectResponse = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -90,7 +90,7 @@ namespace Blockfrost.Api
                             }
                         case 429:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<TooManyRequestsResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<TooManyRequestsResponse> objectResponse = await ReadObjectResponseAsync<TooManyRequestsResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -99,7 +99,7 @@ namespace Blockfrost.Api
                             }
                         case 500:
                             {
-                                var objectResponse = await ReadObjectResponseAsync<InternalServerErrorResponse>(response, headers, cancellationToken).ConfigureAwait(false);
+                                ObjectResponseResult<InternalServerErrorResponse> objectResponse = await ReadObjectResponseAsync<InternalServerErrorResponse>(response, headers, cancellationToken).ConfigureAwait(false);
                                 if (objectResponse.Object == null)
                                 {
                                     throw new ApiException("Response was null which was not expected.", status, objectResponse.Text, headers, null);
@@ -109,7 +109,7 @@ namespace Blockfrost.Api
                         default:
                             {
 #if NET
-                                var responseData = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+                                string responseData = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 #else
                                 var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 #endif

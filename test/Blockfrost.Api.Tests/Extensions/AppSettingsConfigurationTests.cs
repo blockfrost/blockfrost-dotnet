@@ -60,15 +60,18 @@ namespace Blockfrost.Api.Tests.Extensions
 
         private static IConfiguration CreateTestSpecificConfiguration()
         {
-            var env = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
-                .Build()[Constants.ENV_ENVIRONMENT];
+            IConfigurationRoot testSettings = new ConfigurationBuilder()
+                            .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
+                            .Build();
 
-            var config = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            return config;
+            string configuredTestEnvironment = testSettings[Constants.ENV_ENVIRONMENT];
+
+            IConfigurationRoot configurationRoot1 = new ConfigurationBuilder()
+                            .AddJsonFile($"appsettings.{configuredTestEnvironment}.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .Build();
+
+            return configurationRoot1;
         }
     }
 }

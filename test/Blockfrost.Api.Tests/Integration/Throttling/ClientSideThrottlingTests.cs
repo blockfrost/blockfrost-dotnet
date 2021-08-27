@@ -26,10 +26,10 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         {
             // After 500 requests the burst limit is reached.
             // The next 50 requests need to be throttled, otherwise the server will return an error.
-            var requestCount = 550;
+            int requestCount = 550;
             var results = new Dictionary<int, bool>();
 
-            foreach (var requestNr in Enumerable.Range(1, requestCount))
+            foreach (int requestNr in Enumerable.Range(1, requestCount))
             {
                 try
                 {

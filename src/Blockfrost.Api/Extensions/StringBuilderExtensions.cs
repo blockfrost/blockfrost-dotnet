@@ -40,22 +40,22 @@ namespace Blockfrost.Api.Extensions
                     return converted ?? string.Empty;
                 }
             }
-            else if (value is bool)
+            else if (value is bool boolean)
             {
-                return System.Convert.ToString((bool)value, cultureInfo).ToLowerInvariant();
+                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
-            else if (value is byte[])
+            else if (value is byte[] bytes)
             {
-                return System.Convert.ToBase64String((byte[])value);
+                return System.Convert.ToBase64String(bytes);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                System.Collections.Generic.IEnumerable<object> array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            var result = System.Convert.ToString(value, cultureInfo);
-            return result == null ? "" : result;
+            string result = System.Convert.ToString(value, cultureInfo);
+            return result ?? "";
         }
     }
 }

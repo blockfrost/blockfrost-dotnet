@@ -267,10 +267,10 @@ namespace Blockfrost.Api
         {
 
 #if NET5_0_OR_GREATER
-            var cborHex = rawCbor;
+            byte[] cborHex = rawCbor;
             var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
 
-            var arrLength = reader.ReadStartArray();
+            int? arrLength = reader.ReadStartArray();
             
             for (uint i = 0; i < arrLength; i++)
             {
@@ -281,10 +281,10 @@ namespace Blockfrost.Api
                         break;
                     default:
                         {
-                            var mapLength = reader.ReadStartMap();
+                            int? mapLength = reader.ReadStartMap();
                             for (uint j = 0; j < mapLength; j++)
                             {
-                                var value = reader.ReadUInt32();
+                                uint value = reader.ReadUInt32();
                                 if (value != j)
                                 {
                                     throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));

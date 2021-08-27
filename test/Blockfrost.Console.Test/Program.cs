@@ -12,7 +12,7 @@ namespace Blockfrost.Console.Test
 {
     public class BlockfrostHostedService : IHostedService
     {
-        static JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
+        static readonly JsonSerializerOptions s_options = new() { WriteIndented = true };
 
         private readonly ILogger _logger;
         private readonly IBlockService _blocks;
@@ -42,7 +42,7 @@ namespace Blockfrost.Console.Test
                     if (slot != latest.Slot)
                     {
                         slot = latest.Slot;
-                        _logger.LogInformation(JsonSerializer.Serialize(latest, options));
+                        _logger.LogInformation(JsonSerializer.Serialize(latest, s_options));
                     } else
                     {
                         _logger.LogDebug("No new block...");
@@ -87,8 +87,8 @@ namespace Blockfrost.Console.Test
             Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                var network = context.Configuration["Network"];
-                var apiKey = context.Configuration["ApiKey"];
+                string network = context.Configuration["Network"];
+                string apiKey = context.Configuration["ApiKey"];
 
                 services
                     .AddBlockfrost(network, apiKey)
