@@ -1,0 +1,8 @@
+﻿{
+  "id": "01",
+  "description": "1 ada test vector",
+  "amount": "1000000",
+  "sender": "payment1",
+  "reciever": "payment2",
+  "magic": "1097911063"
+}

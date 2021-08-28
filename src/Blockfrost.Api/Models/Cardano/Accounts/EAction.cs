@@ -1,5 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Accounts
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public enum EAction
     {

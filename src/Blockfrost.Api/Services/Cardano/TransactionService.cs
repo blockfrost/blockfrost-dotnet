@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -29,11 +33,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMetadataCborResponse>>(urlBuilder_, cancellationToken);
         }
@@ -55,11 +61,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxDelegation>> DelegationsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxDelegation>>(urlBuilder_, cancellationToken);
         }
@@ -81,11 +89,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMetadataResponse>> MetadataAllAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMetadataResponse>>(urlBuilder_, cancellationToken);
         }
@@ -107,11 +117,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxMir>> MirsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMir>>(urlBuilder_, cancellationToken);
         }
@@ -133,11 +145,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxStakeAddress>> Stakes3Async(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxStakeAddress>>(urlBuilder_, cancellationToken);
         }
@@ -159,11 +173,13 @@ namespace Blockfrost.Api
         public async Task<TxContentResponse> TxsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<TxContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -185,11 +201,13 @@ namespace Blockfrost.Api
         public async Task<TxContentUTxOResponse> UtxosAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<TxContentUTxOResponse>(urlBuilder_, cancellationToken);
         }
@@ -211,11 +229,13 @@ namespace Blockfrost.Api
         public async Task<ICollection<TxWithdawal>> WithdrawalsAsync(string hash, CancellationToken cancellationToken)
         {
             if (hash == null)
-                throw new System.ArgumentNullException("hash");
+            {
+                throw new ArgumentNullException(nameof(hash));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxWithdawal>>(urlBuilder_, cancellationToken);
         }
@@ -234,13 +254,85 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<string> SubmitAsync(string content, CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+            // we expect cbor in hex
+            if (!Regex.IsMatch(content, "^[0-9a-f]+$", RegexOptions.IgnoreCase))
+            {
+                //   we can assume it is either CDDL or JSON
+                try
+                {
+                    throw new NotSupportedException("We don't support CDDL for now");
+                }
+                catch
+                {
+                    // Assume its a cardano cli transaction
+                    content = JsonDocument.Parse(content).RootElement.GetProperty("cborHex").GetString();
+                    return await SubmitAsync(content, cancellationToken);
+                }
+            }
 
-            return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
+            // Send as byte
+            return await SubmitAsync(content.HexToByteArray(), cancellationToken);
         }
 
-                /// <summary>Submit a transaction</summary>
+        public Task<string> SubmitAsync(byte[] rawCbor)
+        {
+            return SubmitAsync(rawCbor, CancellationToken.None);
+        }
+
+        public async Task<string> SubmitAsync(byte[] rawCbor, CancellationToken cancellationToken)
+        {
+#if NET5_0_OR_GREATER
+            byte[] cborHex = rawCbor;
+            var reader = new System.Formats.Cbor.CborReader(cborHex, System.Formats.Cbor.CborConformanceMode.Strict, false);
+
+            int? arrLength = reader.ReadStartArray();
+
+            for (uint i = 0; i < arrLength; i++)
+            {
+                switch (reader.PeekState())
+                {
+                    case System.Formats.Cbor.CborReaderState.Null:
+                        reader.SkipValue();
+                        break;
+                    default:
+                        {
+                            int? mapLength = reader.ReadStartMap();
+                            for (uint j = 0; j < mapLength; j++)
+                            {
+                                uint value = reader.ReadUInt32();
+                                if (value != j)
+                                {
+                                    throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+                                }
+                                // we will not validate the individual values
+                                reader.SkipValue();
+                            }
+
+                            reader.ReadEndMap();
+                            break;
+                        }
+                }
+            }
+
+            reader.ReadEndArray();
+            if (reader.BytesRemaining != 0)
+            {
+                throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+            }
+#else
+            bool notArray = rawCbor[0] >> 4 != 4; // CBOR MajorType 4 = array 
+            bool notMap = rawCbor[1] >> 4 != 5;   // CBOR MajorType 5 = map (txbody is a map)
+            if (notArray || notMap || (rawCbor[0] & 0xf0) != 3) // '3' because we expect 'three' sections (txbody, scripts and metadata)
+            {
+                throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+            }
+            // this is really all we can do without parsing it
+#endif
+            using var stream = new MemoryStream(rawCbor);
+            return await SubmitAsync(stream, cancellationToken);
+        }
+
+        /// <summary>Submit a transaction</summary>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public Task<string> SubmitAsync(Stream content)
@@ -255,7 +347,7 @@ namespace Blockfrost.Api
         public async Task<string> SubmitAsync(Stream content, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
 
             return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
         }

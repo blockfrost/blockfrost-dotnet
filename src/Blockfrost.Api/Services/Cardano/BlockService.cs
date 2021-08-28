@@ -1,8 +1,8 @@
-﻿using Blockfrost.Api.Extensions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
@@ -29,11 +29,13 @@ namespace Blockfrost.Api
         public async Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
-                throw new System.ArgumentNullException("hash_or_number");
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -53,7 +55,7 @@ namespace Blockfrost.Api
         public async Task<BlockContentResponse> GetLatestBlockAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest");
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -79,19 +81,23 @@ namespace Blockfrost.Api
         public async Task<ICollection<BlockContentResponse>> GetNextBlockAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
-                throw new System.ArgumentNullException("hash_or_number");
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/next?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/next?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<BlockContentResponse>>(urlBuilder_, cancellationToken);
@@ -116,15 +122,19 @@ namespace Blockfrost.Api
         public async Task<BlockContentResponse> GetSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
         {
             if (epoch_number < 0)
-                throw new System.ArgumentNullException("epoch_number");
+            {
+                throw new System.ArgumentNullException(nameof(epoch_number));
+            }
 
             if (slot_number < 0)
-                throw new System.ArgumentNullException("slot_number");
+            {
+                throw new System.ArgumentNullException(nameof(slot_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/epoch/{epoch_number}/slot/{slot_number}");
-            urlBuilder_.Replace("{epoch_number}", System.Uri.EscapeDataString(ConvertToString(epoch_number, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/epoch/{epoch_number}/slot/{slot_number}");
+            _ = urlBuilder_.Replace("{epoch_number}", System.Uri.EscapeDataString(ConvertToString(epoch_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -146,11 +156,13 @@ namespace Blockfrost.Api
         public async Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
         {
             if (slot_number < 0)
-                throw new System.ArgumentNullException("slot_number");
+            {
+                throw new System.ArgumentNullException(nameof(slot_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/slot/{slot_number}");
-            urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/slot/{slot_number}");
+            _ = urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -176,19 +188,23 @@ namespace Blockfrost.Api
         public async Task<ICollection<BlockContentResponse>> PreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
-                throw new System.ArgumentNullException("hash_or_number");
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/previous?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/previous?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<BlockContentResponse>>(urlBuilder_, cancellationToken);
@@ -221,23 +237,28 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> TxsAll2Async(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (hash_or_number == null)
-                throw new System.ArgumentNullException("hash_or_number");
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/txs?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/txs?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);
@@ -268,19 +289,22 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> TxsAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
+
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
+
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
+
             urlBuilder_.Length--;
 
             return await SendGetRequestAsync<ICollection<string>>(urlBuilder_, cancellationToken);

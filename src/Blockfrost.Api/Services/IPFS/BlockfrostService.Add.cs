@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,10 +18,10 @@ namespace Blockfrost.Api
         /// <summary>Add a file or directory to IPFS</summary>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public  Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken)
+        public Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/add");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/add");
 
             throw new NotImplementedException();
             //return await SendPostRequestAsync<IpfsAddResponse>(urlBuilder_, cancellationToken);

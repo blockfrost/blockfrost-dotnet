@@ -6,12 +6,12 @@ namespace Blockfrost.Cli.Commands
 {
     public abstract class ABlockfrostCommandBase : ICommand
     {
-        protected readonly IBlockfrostService _service;
-
         protected ABlockfrostCommandBase(IBlockfrostService service)
         {
-            _service = service;
+            Service = service;
         }
+
+        protected IBlockfrostService Service { get; }
 
         public abstract ValueTask<CommandResult> ExecuteAsync(CancellationToken ct);
     }

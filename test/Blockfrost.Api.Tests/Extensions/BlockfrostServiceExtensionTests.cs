@@ -1,11 +1,7 @@
-﻿using Blockfrost.Api.Extensions;
+﻿using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blockfrost.Api.Tests.Extensions
 {
@@ -16,20 +12,20 @@ namespace Blockfrost.Api.Tests.Extensions
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
         public async Task AddBlockfrost_With_NetworkAndApiKey()
         {
             IServiceCollection services = new ServiceCollection();
-            var apiKey = __configuration["ApiKey"] ?? __configuration[Constants.ENV_BFCLI_API_KEY];
-            var network = __configuration["Network"] ?? __configuration[Constants.ENV_BFCLI_NETWORK];
+            string apiKey = Configuration["ApiKey"] ?? Configuration[Constants.ENV_BFCLI_API_KEY];
+            string network = Configuration["Network"] ?? Configuration[Constants.ENV_BFCLI_NETWORK];
 
-            services.AddBlockfrost(network, apiKey);
+            _ = services.AddBlockfrost(network, apiKey);
             var provider = services.BuildServiceProvider();
             var service = provider.GetRequiredService<IBlockfrostService>();
-            
+
             Assert.IsNotNull(await service.EndpointsAsync());
         }
     }

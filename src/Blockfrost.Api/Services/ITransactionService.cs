@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.IO;
-
 
 namespace Blockfrost.Api
 {
@@ -43,6 +42,9 @@ namespace Blockfrost.Api
         Task<string> SubmitAsync(string content);
 
         Task<string> SubmitAsync(string content, CancellationToken cancellationToken);
+
+        Task<string> SubmitAsync(byte[] rawCbor);
+        Task<string> SubmitAsync(byte[] rawCbor, CancellationToken cancellationToken);
 
         Task<string> SubmitAsync(Stream stream);
 

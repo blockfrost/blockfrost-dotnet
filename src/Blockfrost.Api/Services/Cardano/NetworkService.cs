@@ -25,7 +25,7 @@ namespace Blockfrost.Api
         public async Task<NetworkResponse> NetworkAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/network");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/network");
 
             return await SendGetRequestAsync<NetworkResponse>(urlBuilder_, cancellationToken);
         }
