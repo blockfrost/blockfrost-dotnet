@@ -16,18 +16,17 @@ namespace Blockfrost.Api.Tests.Services
     {
         protected AServiceMethodTestBase(string methodName, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            _statusCode = statusCode;
+            StatusCode = statusCode;
             ServiceMethodName = methodName;
         }
 
-        private readonly HttpStatusCode _statusCode;
-        public HttpStatusCode StatusCode => _statusCode;
+        public HttpStatusCode StatusCode { get; }
         public string ServiceMethodName { get; }
         public TService ServiceUnderTest => Provider.GetRequiredService<TService>();
         public abstract TContent Content { get; }
         protected override void OnBuildServiceProvider(IServiceCollection serviceCollection)
         {
-            serviceCollection.MockHttpClient(Content, StatusCode);
+            _ = serviceCollection.MockHttpClient(Content, StatusCode);
             base.OnBuildServiceProvider(serviceCollection);
         }
 
@@ -45,7 +44,7 @@ namespace Blockfrost.Api.Tests.Services
                 return;
             }
 
-            var methods = typeof(TService).GetMethods().Where(m => m.Name.Equals(ServiceMethodName));
+            var methods = typeof(TService).GetMethods().Where(m => m.Name.Equals(ServiceMethodName, System.StringComparison.Ordinal));
             var withCancellationSupport = methods.Where(m => m.GetParameters().Any(p => p.ParameterType == typeof(CancellationToken))).ToArray();
             var withoutCancellationSupport = methods.Except(withCancellationSupport).ToArray();
             int withCount = withoutCancellationSupport.Length;

@@ -51,11 +51,11 @@ namespace Blockfrost.Api.Tests.Mock
         public static IServiceCollection MockHttpClient(this IServiceCollection serviceCollection, HttpResponseMessage response)
         {
             var mFactory = new Mock<IHttpClientFactory>();
-            mFactory
+            _ = mFactory
                 .Setup(_ => _.CreateClient(It.IsAny<string>()))
                 .Returns(new HttpClient(new HttpMessageHandlerStub((_, _) => Task.FromResult(response))));
 
-            serviceCollection.Remove(serviceCollection.First(s => s.ServiceType == typeof(IHttpClientFactory)));
+            _ = serviceCollection.Remove(serviceCollection.First(s => s.ServiceType == typeof(IHttpClientFactory)));
             return serviceCollection.AddSingleton(mFactory.Object);
         }
     }

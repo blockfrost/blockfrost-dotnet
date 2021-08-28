@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             try
             {
-                Assert.ThrowsException<InvalidOperationException>(() => Provider.GetRequiredService<ITransactionService>());
+                _ = Assert.ThrowsException<InvalidOperationException>(() => Provider.GetRequiredService<ITransactionService>());
                 Assert.Fail("The Provider could not get the required service");
             }
             catch (AssertFailedException)
@@ -57,8 +57,8 @@ namespace Blockfrost.Api.Tests.Services
                 var transactionService = Provider.GetRequiredService<ITransactionService>();
                 var addressService = Provider.GetRequiredService<IAddressService>();
 
-                await transactionService.EndpointsAsync();
-                await addressService.EndpointsAsync();
+                _ = await transactionService.EndpointsAsync();
+                _ = await addressService.EndpointsAsync();
             }
             catch (Exception ex)
             {

@@ -19,8 +19,8 @@ namespace Blockfrost.Api
 
         public string BaseUrl
         {
-            get => _httpClient.BaseAddress?.AbsoluteUri;
-            set => _httpClient.BaseAddress = new Uri(value);
+            get => HttpClient.BaseAddress?.AbsoluteUri;
+            set => HttpClient.BaseAddress = new Uri(value);
         }
 
         public bool ReadResponseAsString { get; set; }
@@ -39,8 +39,8 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metrics/endpoints");
+            var urlBuilder_ = new StringBuilder();
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metrics/endpoints");
 
             return await SendGetRequestAsync<ICollection<MetricsEndpointResponse>>(urlBuilder_, cancellationToken);
         }
@@ -59,8 +59,8 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health/clock");
+            var urlBuilder_ = new StringBuilder();
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health/clock");
 
             return await SendGetRequestAsync<ClockResponse>(urlBuilder_, cancellationToken);
         }
@@ -79,8 +79,8 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health");
+            var urlBuilder_ = new StringBuilder();
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/health");
 
             return await SendGetRequestAsync<HealthResponse>(urlBuilder_, cancellationToken);
         }
@@ -99,8 +99,8 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append('/');
+            var urlBuilder_ = new StringBuilder();
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append('/');
 
             return await SendGetRequestAsync<InfoResponse>(urlBuilder_, cancellationToken);
         }
@@ -119,18 +119,16 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         public async Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
         {
-            var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metrics/");
+            var urlBuilder_ = new StringBuilder();
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/metrics/");
 
             return await SendGetRequestAsync<ICollection<MetricResponse>>(urlBuilder_, cancellationToken); //var disposeClient_ = false;
         }
 
-        protected HttpClient _httpClient;
-
         protected ABlockfrostService(HttpClient httpClient)
         {
-            _httpClient = httpClient;
-            _options = new System.Lazy<System.Text.Json.JsonSerializerOptions>(CreateSerializerOptions);
+            HttpClient = httpClient;
+            _options = new Lazy<JsonSerializerOptions>(CreateSerializerOptions);
         }
 
         protected string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
@@ -140,9 +138,9 @@ namespace Blockfrost.Api
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
-                string name = System.Enum.GetName(value.GetType(), value);
+                string name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
                     var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
@@ -154,25 +152,25 @@ namespace Blockfrost.Api
                         }
                     }
 
-                    string converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    string converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo), cultureInfo);
                     return converted ?? string.Empty;
                 }
             }
             else if (value is bool boolean)
             {
-                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
+                return Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[] bytes)
             {
-                return System.Convert.ToBase64String(bytes);
+                return Convert.ToBase64String(bytes);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            string result = System.Convert.ToString(value, cultureInfo);
+            string result = Convert.ToString(value, cultureInfo);
             return result ?? "";
         }
 
@@ -200,7 +198,7 @@ namespace Blockfrost.Api
 #endif
                 try
                 {
-                    var typedBody = System.Text.Json.JsonSerializer.Deserialize<T>(responseText, TextJsonSerializerSettings);
+                    var typedBody = JsonSerializer.Deserialize<T>(responseText, TextJsonSerializerSettings);
                     return new ObjectResponseResult<T>(typedBody, responseText);
                 }
                 catch (JsonException exception)
@@ -235,20 +233,20 @@ namespace Blockfrost.Api
         /// <param name="urlBuilder_"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected async Task<TResponse> SendGetRequestAsync<TResponse>(System.Text.StringBuilder urlBuilder_, CancellationToken cancellationToken)
+        protected async Task<TResponse> SendGetRequestAsync<TResponse>(StringBuilder urlBuilder_, CancellationToken cancellationToken)
         {
             using var request_ = new HttpRequestMessage();
             request_.Method = new HttpMethod("GET");
             request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
             string url_ = urlBuilder_.ToString();
-            request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+            request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
-            var response_ = await _httpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await HttpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
             bool disposeResponse_ = true;
             try
@@ -262,73 +260,70 @@ namespace Blockfrost.Api
                     }
                 }
 
-                ProcessResponse(_httpClient, response_);
+                ProcessResponse(HttpClient, response_);
 
                 int status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                    }
-
-                    return objectResponse_.Object;
+                    return objectResponse_.Value == null
+                        ? throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null)
+                        : objectResponse_.Value;
                 }
                 else
                 if (status_ == 400)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<BadRequestResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 403)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ForbiddenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 418)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TooManyRequestsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<InternalServerErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 {
@@ -351,21 +346,21 @@ namespace Blockfrost.Api
             }
         }
 
-        protected async Task<TResponse> SendPostRequestAsync<TResponse>(string content, System.Text.StringBuilder urlBuilder_, CancellationToken cancellationToken)
+        protected async Task<TResponse> SendPostRequestAsync<TResponse>(string content, StringBuilder urlBuilder_, CancellationToken cancellationToken)
         {
             using var request_ = new HttpRequestMessage();
-            request_.Content = new StringContent(content, System.Text.Encoding.UTF8, "application/cbor");
+            request_.Content = new StringContent(content, Encoding.UTF8, "application/cbor");
             request_.Method = new HttpMethod("POST");
             request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
             string url_ = urlBuilder_.ToString();
-            request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+            request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
-            var response_ = await _httpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await HttpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             bool disposeResponse_ = true;
             try
             {
@@ -378,84 +373,81 @@ namespace Blockfrost.Api
                     }
                 }
 
-                ProcessResponse(_httpClient, response_);
+                ProcessResponse(HttpClient, response_);
 
                 int status_ = (int)response_.StatusCode;
                 if (status_ == 200)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                    }
-
-                    return objectResponse_.Object;
+                    return objectResponse_.Value == null
+                        ? throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null)
+                        : objectResponse_.Value;
                 }
                 else
                 if (status_ == 400)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<BadRequestResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 403)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ForbiddenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 404)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<NotFoundResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 418)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 429)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TooManyRequestsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 500)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<InternalServerErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 {
@@ -478,7 +470,7 @@ namespace Blockfrost.Api
             }
         }
 
-        protected async Task<TResponse> SendPostRequestAsync<TResponse>(Stream content, System.Text.StringBuilder urlBuilder_, CancellationToken cancellationToken)
+        protected async Task<TResponse> SendPostRequestAsync<TResponse>(Stream content, StringBuilder urlBuilder_, CancellationToken cancellationToken)
         {
             using var request_ = new HttpRequestMessage();
             request_.Content = new StreamContent(content);
@@ -486,14 +478,14 @@ namespace Blockfrost.Api
             request_.Method = new HttpMethod("POST");
             request_.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse("application/json"));
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
             string url_ = urlBuilder_.ToString();
-            request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+            request_.RequestUri = new Uri(url_, UriKind.RelativeOrAbsolute);
 
-            PrepareRequest(_httpClient, request_, urlBuilder_);
+            PrepareRequest(HttpClient, request_, urlBuilder_);
 
-            var response_ = await _httpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            var response_ = await HttpClient.SendAsync(request_, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
             bool disposeResponse_ = true;
             try
             {
@@ -506,95 +498,89 @@ namespace Blockfrost.Api
                     }
                 }
 
-                ProcessResponse(_httpClient, response_);
+                ProcessResponse(HttpClient, response_);
 
                 int status_ = (int)response_.StatusCode;
                 if (status_ == 200) // ok
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                    }
-
-                    return objectResponse_.Object;
+                    return objectResponse_.Value == null
+                        ? throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null)
+                        : objectResponse_.Value;
                 }
                 else
                 if (status_ == 202) // accepted
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
-                    {
-                        throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
-                    }
-
-                    return objectResponse_.Object;
+                    return objectResponse_.Value == null
+                        ? throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null)
+                        : objectResponse_.Value;
                 }
                 else
                 if (status_ == 400) // bad request
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<BadRequestResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<BadRequestResponse>("Bad request", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 403) // forbidden
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<ForbiddenResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<ForbiddenResponse>("Authentication secret is missing or invalid", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 404) // unauthorized
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<NotFoundResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<NotFoundResponse>("Component not found", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 418) // i am a teapot
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<UnsupportedMediaTypeResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<UnsupportedMediaTypeResponse>("IP has been auto-banned for extensive sending of requests after usage limit has been reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 429) // enhance your calm (twitter rate limiting)
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<TooManyRequestsResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<TooManyRequestsResponse>("Usage limit reached", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 if (status_ == 500) // internal server error
                 {
                     var objectResponse_ = await ReadObjectResponseAsync<InternalServerErrorResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
-                    if (objectResponse_.Object == null)
+                    if (objectResponse_.Value == null)
                     {
                         throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
                     }
 
-                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                    throw new ApiException<InternalServerErrorResponse>("Internal Server Error", status_, objectResponse_.Text, headers_, objectResponse_.Value, null);
                 }
                 else
                 {
@@ -625,22 +611,24 @@ namespace Blockfrost.Api
         {
             public ObjectResponseResult(T responseObject, string responseText)
             {
-                Object = responseObject;
+                Value = responseObject;
                 Text = responseText;
             }
 
-            public T Object { get; }
+            public T Value { get; }
 
             public string Text { get; }
         }
 
-        private readonly System.Lazy<System.Text.Json.JsonSerializerOptions> _options;
+        private readonly Lazy<JsonSerializerOptions> _options;
 
-        private System.Text.Json.JsonSerializerOptions TextJsonSerializerSettings => _options.Value;
+        private JsonSerializerOptions TextJsonSerializerSettings => _options.Value;
 
-        private System.Text.Json.JsonSerializerOptions CreateSerializerOptions()
+        protected HttpClient HttpClient { get; set; }
+
+        private JsonSerializerOptions CreateSerializerOptions()
         {
-            var options = new System.Text.Json.JsonSerializerOptions();
+            var options = new JsonSerializerOptions();
             UpdateJsonSerializerOptions(options);
             return options;
         }

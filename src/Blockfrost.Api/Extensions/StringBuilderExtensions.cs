@@ -24,12 +24,12 @@ namespace Blockfrost.Api.Extensions
                 return "";
             }
 
-            if (value is System.Enum)
+            if (value is Enum)
             {
                 string name = Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
-                    var field = System.Reflection.IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
                     if (field != null)
                     {
                         if (field.GetCustomAttribute(typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
@@ -38,25 +38,25 @@ namespace Blockfrost.Api.Extensions
                         }
                     }
 
-                    string converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo));
+                    string converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo), cultureInfo);
                     return converted ?? string.Empty;
                 }
             }
             else if (value is bool boolean)
             {
-                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
+                return Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[] bytes)
             {
-                return System.Convert.ToBase64String(bytes);
+                return Convert.ToBase64String(bytes);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            string result = System.Convert.ToString(value, cultureInfo);
+            string result = Convert.ToString(value, cultureInfo);
             return result ?? "";
         }
     }

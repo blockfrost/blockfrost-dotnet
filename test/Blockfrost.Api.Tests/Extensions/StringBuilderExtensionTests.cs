@@ -9,8 +9,8 @@ namespace Blockfrost.Api.Tests.Extensions
 {
 
     [TestClass]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Extensions))]
     public class StringBuilderExtensionTests
     {
         [TestMethod]
@@ -18,14 +18,14 @@ namespace Blockfrost.Api.Tests.Extensions
         public void Name_Is_Null_Throws()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendQueryParameter(null, "value");
+            _ = stringBuilder.AppendQueryParameter(null, "value");
         }
 
         [TestMethod]
         public void Name_Value_Is_Not_Null_Or_Empty_Does_Not_Throw()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendQueryParameter("name", "value");
+            _ = stringBuilder.AppendQueryParameter("name", "value");
             Assert.AreEqual("name=value&", stringBuilder.ToString());
         }
 
@@ -34,14 +34,14 @@ namespace Blockfrost.Api.Tests.Extensions
         public void Name_Value_Is_Null_Throws()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendQueryParameter(null, null);
+            _ = stringBuilder.AppendQueryParameter(null, null);
         }
 
         [TestMethod]
         public void Value_Is_Null_Does_Not_Throw()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendQueryParameter("name", null);
+            _ = stringBuilder.AppendQueryParameter("name", null);
             Assert.AreEqual("name=&", stringBuilder.ToString());
         }
     }

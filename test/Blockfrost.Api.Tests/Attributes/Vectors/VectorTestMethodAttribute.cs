@@ -26,7 +26,7 @@ namespace Blockfrost.Api.Tests.Attributes
     {
         private readonly string _vectorId;
         private readonly TestVector _testVector;
-        protected string _fileName;
+        private readonly string _fileName;
 
         /// <summary>
         /// Initializes the TestVector
@@ -59,9 +59,9 @@ namespace Blockfrost.Api.Tests.Attributes
         {
         }
 
-        public IEnumerable<object[]> GetData(MethodInfo info)
+        public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
-            var parameters = info.GetParameters().Select(p => p.ParameterType).ToArray();
+            var parameters = methodInfo.GetParameters().Select(p => p.ParameterType).ToArray();
             switch (parameters.Length)
             {
                 case 1:
@@ -94,10 +94,10 @@ namespace Blockfrost.Api.Tests.Attributes
 
                     break;
                 default:
-                    throw new NotSupportedException($"Too " + (parameters.Length == 0 ? "few" : "many") + $" arguments on VectorTestMethod '{info.Name}'");
+                    throw new NotSupportedException($"Too " + (parameters.Length == 0 ? "few" : "many") + $" arguments on VectorTestMethod '{methodInfo.Name}'");
             }
 
-            throw new NotSupportedException($"Method signature on VectorTestMethod '{info.Name}' is not supported.");
+            throw new NotSupportedException($"Method signature on VectorTestMethod '{methodInfo.Name}' is not supported.");
         }
 
         public string GetDisplayName(MethodInfo methodInfo, object[] data)

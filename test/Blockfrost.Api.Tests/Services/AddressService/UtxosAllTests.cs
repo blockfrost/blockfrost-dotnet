@@ -15,10 +15,9 @@ namespace Blockfrost.Api.Tests.Services
         public override ICollection<AddressUTxOResponse> Content => new List<AddressUTxOResponse>() { new AddressUTxOResponse() };
 
         [ClassInitialize]
-        [System.Obsolete]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]

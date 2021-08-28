@@ -37,20 +37,20 @@ namespace Blockfrost.Api
         public async Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets?");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets?");
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -80,8 +80,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}");
-            urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}");
+            _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<AssetResponse>(urlBuilder_, cancellationToken);
         }
@@ -116,21 +116,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/addresses?");
-            urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/addresses?");
+            _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -168,21 +168,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/history?");
-            urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/history?");
+            _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -220,21 +220,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/policy/{policy_id}?");
-            urlBuilder_.Replace("{policy_id}", System.Uri.EscapeDataString(ConvertToString(policy_id, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/policy/{policy_id}?");
+            _ = urlBuilder_.Replace("{policy_id}", System.Uri.EscapeDataString(ConvertToString(policy_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -271,21 +271,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/transactions?");
-            urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/transactions?");
+            _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -301,7 +301,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
+        [System.Obsolete("No longer supported and may be removed")]
         public Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order)
         {
             return TxsAll4Async(asset, count, page, order, CancellationToken.None);
@@ -316,7 +316,7 @@ namespace Blockfrost.Api
         /// <br/>not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [System.Obsolete]
+        [System.Obsolete("No longer supported and may be removed")]
         public async Task<ICollection<string>> TxsAll4Async(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
@@ -325,21 +325,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/txs?");
-            urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}/txs?");
+            _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;

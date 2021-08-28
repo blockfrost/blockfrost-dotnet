@@ -8,8 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Blockfrost.Api.Tests.Integration
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
     [TestCategory(Constants.NETWORK_TESTNET)]
     public class TestnetServiceIntegrationTests : AIntegrationTestsBase
     {
@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Tests.Integration
         public async Task Service_ApiVersion_Matches_Server_ApiVersion()
         {
             var info = await Service.GetInfoAsync();
-            Assert.AreEqual(_apiVersion, info.Version);
+            Assert.AreEqual(ApiVersion, info.Version);
             Assert.AreEqual(BaseUrl, info.Url);
         }
 

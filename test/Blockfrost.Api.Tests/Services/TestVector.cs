@@ -68,7 +68,7 @@ namespace Blockfrost.Api.Tests
             }
         }
 
-        public static string DummyHash => BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower();
+        public static string DummyHash => BitConverter.ToString(Blake2Fast.Blake2b.ComputeHash(32, new byte[] { 0x00 })).Replace("-", "").ToLower(System.Globalization.CultureInfo.InvariantCulture);
 
         public static FileInfo GetFileInfo(params string[] segments)
         {
@@ -79,12 +79,7 @@ namespace Blockfrost.Api.Tests
         public byte[] GetFileBytes(string filename)
         {
             var vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists)
-            {
-                throw new FileNotFoundException(vectorFile.FullName);
-            }
-
-            return File.ReadAllBytes(vectorFile.FullName);
+            return !vectorFile.Exists ? throw new FileNotFoundException(vectorFile.FullName) : File.ReadAllBytes(vectorFile.FullName);
         }
 
         public FileInfo GetFileInfo(string filename)
@@ -95,28 +90,20 @@ namespace Blockfrost.Api.Tests
         public string GetFileText(string filename)
         {
             var vectorFile = GetFileInfo(filename);
-            if (!vectorFile.Exists)
-            {
-                throw new FileNotFoundException(vectorFile.FullName);
-            }
-
-            return File.ReadAllText(vectorFile.FullName);
+            return !vectorFile.Exists ? throw new FileNotFoundException(vectorFile.FullName) : File.ReadAllText(vectorFile.FullName);
         }
 
         internal static TestVector Load(string vectorId)
         {
             if (string.IsNullOrWhiteSpace(vectorId))
             {
-                throw new System.ArgumentException($"'{nameof(vectorId)}' cannot be null or whitespace.", nameof(vectorId));
+                throw new ArgumentException($"'{nameof(vectorId)}' cannot be null or whitespace.", nameof(vectorId));
             }
 
             var vector = new TestVector(vectorId);
-            if (!vector.Exists)
-            {
-                throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
-            }
-
-            return vector;
+            return vector.Exists
+                ? vector
+                : throw new InvalidOperationException($"Could not load TestVector '{nameof(vectorId)}' because the path does not exist.");
         }
 
         private static DirectoryInfo GetDirectoryInfo(params string[] segments)
@@ -131,7 +118,7 @@ namespace Blockfrost.Api.Tests
         /// <returns></returns>
         public static uint CalculateMinFee(byte[] cborRaw)
         {
-            return (uint)(s_protocol.TxFeeFixed + cborRaw.Length * s_protocol.TxFeePerByte);
+            return (uint)(s_protocol.TxFeeFixed + (cborRaw.Length * s_protocol.TxFeePerByte));
         }
     }
 }

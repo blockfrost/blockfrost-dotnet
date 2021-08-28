@@ -10,7 +10,7 @@ namespace Blockfrost.Api
     {
         /// <summary>VRF key of the block</summary>
         [JsonPropertyName("block_vrf")]
-        [System.ComponentModel.DataAnnotations.StringLength(65, MinimumLength = 65)]
+        [StringLength(65, MinimumLength = 65)]
         public string BlockVrf { get; set; }
 
         /// <summary>Number of block confirmations</summary>

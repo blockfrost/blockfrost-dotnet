@@ -26,9 +26,9 @@ namespace Blockfrost.Console.Test
         {
             _logger = logger;
             _blocks = blockService;
-            appLifetime.ApplicationStarted.Register(OnStarted);
-            appLifetime.ApplicationStopping.Register(OnStopping);
-            appLifetime.ApplicationStopped.Register(OnStopped);
+            _ = appLifetime.ApplicationStarted.Register(OnStarted);
+            _ = appLifetime.ApplicationStopping.Register(OnStopping);
+            _ = appLifetime.ApplicationStopped.Register(OnStopped);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -91,7 +91,7 @@ namespace Blockfrost.Console.Test
                 string network = context.Configuration["Network"];
                 string apiKey = context.Configuration["ApiKey"];
 
-                services
+                _ = services
                     .AddBlockfrost(network, apiKey)
                     .AddHostedService<BlockfrostHostedService>();
             });

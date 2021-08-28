@@ -22,7 +22,7 @@ namespace Blockfrost.Api
 
         /// <summary>Index of the certificate within the transaction</summary>
         [JsonPropertyName("index")]
-        [System.Obsolete]
+        [System.Obsolete("No longer supported and may be removed")]
         public int Index { get; set; }
 
         /// <summary>Bech32 ID of delegated stake pool</summary>

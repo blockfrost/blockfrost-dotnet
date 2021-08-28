@@ -27,7 +27,7 @@ namespace Blockfrost.Api
         public async Task<GenesisContentResponse> GenesisAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/genesis");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/genesis");
 
             return await SendGetRequestAsync<GenesisContentResponse>(urlBuilder_, cancellationToken);
         }

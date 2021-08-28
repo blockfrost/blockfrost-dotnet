@@ -36,8 +36,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -57,7 +57,7 @@ namespace Blockfrost.Api
         public async Task<BlockContentResponse> GetLatestBlockAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest");
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -88,16 +88,16 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/next?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/next?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;
@@ -134,9 +134,9 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/epoch/{epoch_number}/slot/{slot_number}");
-            urlBuilder_.Replace("{epoch_number}", System.Uri.EscapeDataString(ConvertToString(epoch_number, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/epoch/{epoch_number}/slot/{slot_number}");
+            _ = urlBuilder_.Replace("{epoch_number}", System.Uri.EscapeDataString(ConvertToString(epoch_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -163,8 +163,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/slot/{slot_number}");
-            urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/slot/{slot_number}");
+            _ = urlBuilder_.Replace("{slot_number}", System.Uri.EscapeDataString(ConvertToString(slot_number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<BlockContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -195,16 +195,16 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/previous?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/previous?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;
@@ -244,21 +244,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/txs?");
-            urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/{hash_or_number}/txs?");
+            _ = urlBuilder_.Replace("{hash_or_number}", System.Uri.EscapeDataString(ConvertToString(hash_or_number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -291,20 +291,20 @@ namespace Blockfrost.Api
         public async Task<ICollection<string>> TxsAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/blocks/latest/txs?");
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;

@@ -36,12 +36,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata/cbor");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMetadataCborResponse>>(urlBuilder_, cancellationToken);
         }
@@ -64,12 +64,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/delegations");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxDelegation>>(urlBuilder_, cancellationToken);
         }
@@ -92,12 +92,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/metadata");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMetadataResponse>>(urlBuilder_, cancellationToken);
         }
@@ -120,12 +120,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/mirs");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxMir>>(urlBuilder_, cancellationToken);
         }
@@ -148,12 +148,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/stakes");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxStakeAddress>>(urlBuilder_, cancellationToken);
         }
@@ -176,12 +176,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<TxContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -204,12 +204,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/utxos");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<TxContentUTxOResponse>(urlBuilder_, cancellationToken);
         }
@@ -232,12 +232,12 @@ namespace Blockfrost.Api
         {
             if (hash == null)
             {
-                throw new System.ArgumentNullException(nameof(hash));
+                throw new ArgumentNullException(nameof(hash));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
-            urlBuilder_.Replace("{hash}", System.Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/txs/{hash}/withdrawals");
+            _ = urlBuilder_.Replace("{hash}", Uri.EscapeDataString(ConvertToString(hash, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<ICollection<TxWithdawal>>(urlBuilder_, cancellationToken);
         }
@@ -349,7 +349,7 @@ namespace Blockfrost.Api
         public async Task<string> SubmitAsync(Stream content, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/tx/submit");
 
             return await SendPostRequestAsync<string>(content, urlBuilder_, cancellationToken);
         }

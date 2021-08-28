@@ -11,9 +11,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Blockfrost.Api.Tests.Integration.Throttling
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration.Throttling))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(nameof(Throttling))]
     public class ClientSideThrottlingTests : AServiceTestBase
     {
         [ClassInitialize]
@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    await Service.EndpointsAsync();
+                    _ = await Service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)

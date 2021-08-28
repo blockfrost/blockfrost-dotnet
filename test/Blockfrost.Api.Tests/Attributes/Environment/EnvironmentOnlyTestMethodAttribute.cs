@@ -23,16 +23,13 @@ namespace Blockfrost.Api.Tests.Attributes
             _sort = sort;
             _expected = expected;
         }
-        public IEnumerable<object[]> GetData(MethodInfo info)
+        public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
-            int parameters = info.GetParameters().Length;
+            int parameters = methodInfo.GetParameters().Length;
 
-            if (parameters == 4)
-            {
-                return new[] { new object[] { _count, _page, _sort, _expected } };
-            }
-
-            throw new NotSupportedException($"Method signature on PaginationTestMethod '{info.Name}' is not supported.");
+            return parameters == 4
+                ? (new[] { new object[] { _count, _page, _sort, _expected } })
+                : throw new NotSupportedException($"Method signature on PaginationTestMethod '{methodInfo.Name}' is not supported.");
         }
         public string GetDisplayName(MethodInfo methodInfo, object[] data)
         {

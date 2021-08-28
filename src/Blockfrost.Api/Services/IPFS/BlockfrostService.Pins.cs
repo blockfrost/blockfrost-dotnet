@@ -36,20 +36,20 @@ namespace Blockfrost.Api
         public async Task<ICollection<Anonymous32>> ListAllAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/?");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/?");
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -71,12 +71,12 @@ namespace Blockfrost.Api
         {
             if (iPFS_path == null)
             {
-                throw new System.ArgumentNullException(nameof(iPFS_path));
+                throw new ArgumentNullException(nameof(iPFS_path));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/{IPFS_path}");
-            urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/list/{IPFS_path}");
+            _ = urlBuilder_.Replace("{IPFS_path}", Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<IpfsPinListResponse>(urlBuilder_, cancellationToken);
         }
@@ -97,12 +97,12 @@ namespace Blockfrost.Api
         {
             if (iPFS_path == null)
             {
-                throw new System.ArgumentNullException(nameof(iPFS_path));
+                throw new ArgumentNullException(nameof(iPFS_path));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/add/{IPFS_path}");
-            urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/add/{IPFS_path}");
+            _ = urlBuilder_.Replace("{IPFS_path}", Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
             //POST
             throw new NotImplementedException();
             //return await SendPostRequestAsync<IpfsPinAddResponse>(urlBuilder_, cancellationToken);
@@ -122,12 +122,12 @@ namespace Blockfrost.Api
         {
             if (iPFS_path == null)
             {
-                throw new System.ArgumentNullException(nameof(iPFS_path));
+                throw new ArgumentNullException(nameof(iPFS_path));
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/remove/{IPFS_path}");
-            urlBuilder_.Replace("{IPFS_path}", System.Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/ipfs/pin/remove/{IPFS_path}");
+            _ = urlBuilder_.Replace("{IPFS_path}", Uri.EscapeDataString(ConvertToString(iPFS_path, System.Globalization.CultureInfo.InvariantCulture)));
             //POST
 
             throw new NotImplementedException();

@@ -15,8 +15,8 @@ namespace Blockfrost.Api.Tests.Integration
     /// We need to be aware of versioning
     /// </summary>
     [IntegrationTestClass(nameof(Environments.Staging))]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
     public abstract class AIntegrationTestsBase : AServiceTestBase,
         IAccountService,
         IAddressService,
@@ -31,11 +31,11 @@ namespace Blockfrost.Api.Tests.Integration
     //,INutlinkService
     //,ICardanoService
     {
-        protected string _apiVersion;
+        protected string ApiVersion { get; }
 
         protected AIntegrationTestsBase(string apiVersion)
         {
-            _apiVersion = apiVersion;
+            ApiVersion = apiVersion;
         }
 
         public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();

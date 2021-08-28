@@ -58,22 +58,22 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -104,22 +104,22 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks/{pool_id}?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/blocks/{pool_id}?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -140,8 +140,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/parameters");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/parameters");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<EpochParamContent>(urlBuilder_, cancellationToken);
         }
@@ -168,8 +168,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
 
             return await SendGetRequestAsync<EpochContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -189,16 +189,16 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;
@@ -239,17 +239,17 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes/{pool_id}?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
-            urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/stakes/{pool_id}?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Replace("{pool_id}", System.Uri.EscapeDataString(ConvertToString(pool_id, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;
@@ -272,7 +272,7 @@ namespace Blockfrost.Api
         public async Task<EpochContentResponse> Latest2Async(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/latest");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/latest");
 
             return await SendGetRequestAsync<EpochContentResponse>(urlBuilder_, cancellationToken);
         }
@@ -303,16 +303,16 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/next?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/next?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;
@@ -344,7 +344,7 @@ namespace Blockfrost.Api
         public async Task<EpochParamContent> ParametersAsync(CancellationToken cancellationToken)
         {
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/latest/parameters");
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/latest/parameters");
 
             return await SendGetRequestAsync<EpochParamContent>(urlBuilder_, cancellationToken);
         }
@@ -375,16 +375,16 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/previous?");
-            urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/epochs/{number}/previous?");
+            _ = urlBuilder_.Replace("{number}", System.Uri.EscapeDataString(ConvertToString(number, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             urlBuilder_.Length--;

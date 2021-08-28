@@ -31,21 +31,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/history?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/history?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -83,21 +83,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/delegations?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/delegations?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -135,21 +135,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/registrations?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/registrations?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -187,21 +187,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/withdrawals?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/withdrawals?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -239,21 +239,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/mirs?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/mirs?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -290,21 +290,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -342,21 +342,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses/assets?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/addresses/assets?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -381,21 +381,21 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/rewards?");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}/rewards?");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
             if (count != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(count), count);
+                _ = urlBuilder_.AppendQueryParameter(nameof(count), count);
             }
 
             if (page != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(page), page);
+                _ = urlBuilder_.AppendQueryParameter(nameof(page), page);
             }
 
             if (order != null)
             {
-                urlBuilder_.AppendQueryParameter(nameof(order), order);
+                _ = urlBuilder_.AppendQueryParameter(nameof(order), order);
             }
 
             urlBuilder_.Length--;
@@ -451,8 +451,8 @@ namespace Blockfrost.Api
             }
 
             var urlBuilder_ = new System.Text.StringBuilder();
-            urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}");
-            urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
+            _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/accounts/{stake_address}");
+            _ = urlBuilder_.Replace("{stake_address}", System.Uri.EscapeDataString(ConvertToString(stake_address, System.Globalization.CultureInfo.InvariantCulture)));
 
             return SendGetRequestAsync<Account>(urlBuilder_, cancellationToken);
         }

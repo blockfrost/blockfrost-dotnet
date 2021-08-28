@@ -27,7 +27,7 @@ namespace Blockfrost.Api.Tests.Attributes
 
         public static bool IsEnvironment(string name)
         {
-            return string.Equals(EnvironmentName.Trim(), name.Trim(), System.StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(EnvironmentName.Trim(), name.Trim(), System.StringComparison.OrdinalIgnoreCase);
         }
 
         public static bool IsNotEnvironment(string name)
@@ -58,12 +58,7 @@ namespace Blockfrost.Api.Tests.Attributes
         /// <returns></returns>
         protected TestResult[] ExecuteOrInconclusive(ITestMethod testMethod, string environment, string message, bool exclusive = true)
         {
-            if (IsEnvironment(environment) == exclusive)
-            {
-                return base.Execute(testMethod);
-            }
-
-            return CreateInconclusiveResult(message);
+            return IsEnvironment(environment) == exclusive ? base.Execute(testMethod) : CreateInconclusiveResult(message);
         }
     }
 }

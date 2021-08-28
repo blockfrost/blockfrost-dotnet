@@ -8,8 +8,8 @@ namespace Blockfrost.Api.Tests.Integration
 {
 
     [IntegrationTestClass(nameof(Environments.Staging))]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
     [TestCategory(Constants.NETWORK_MAINNET)]
     public class MainnetServiceTests : AIntegrationTestsBase
     {

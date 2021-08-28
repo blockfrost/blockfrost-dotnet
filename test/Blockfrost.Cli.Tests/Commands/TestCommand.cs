@@ -7,8 +7,8 @@ namespace Blockfrost.Cli.Tests.Commands
 {
 
     [TestClass]
-    [TestCategory(nameof(Blockfrost.Cli))]
-    [TestCategory(nameof(Blockfrost.Cli.Commands))]
+    [TestCategory(nameof(Cli))]
+    [TestCategory(nameof(Cli.Commands))]
     public class TestCommands
     {
         [TestMethod]

@@ -138,9 +138,36 @@ dotnet_naming_symbols.all_members.applicable_kinds = *
 
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
+# Analyzer diagnostincs: Warn by default, configure below
+dotnet_analyzer_diagnostic.severity = warning
+
 # IDE0073: File header
-dotnet_diagnostic.IDE0073.severity = warning
+dotnet_diagnostic.IDE0073.severity = error
 file_header_template = Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
+
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = silent
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none
+
+# IDE0040: Add accessibility modifiers
+dotnet_diagnostic.IDE0040.severity = error
+
+# IDE0002: name can be simplified
+dotnet_diagnostic.IDE0002.severity = suggestion
+
+# CS1572: no parameter for param tag
+dotnet_diagnostic.CS1572.severity = suggestion
+
+# CS1573: no matching param tag in the XML comment
+dotnet_diagnostic.CS1573.severity = suggestion
+
+# CS1587: XML comment not placed on valid language element
+dotnet_diagnostic.CS1587.severity = suggestion
+
+# CS1591: Missing XML comment for publicly visible type or parameter
+dotnet_diagnostic.CS1591.severity = suggestion
 
 # IDE0035: Remove unreachable code
 dotnet_diagnostic.IDE0035.severity = warning
@@ -158,9 +185,6 @@ dotnet_diagnostic.IDE0044.severity = warning
 csharp_prefer_braces = when_multiline:warning
 # NOTE: We need the below severity entry for Add Braces due to https://github.com/dotnet/roslyn/issues/44201
 dotnet_diagnostic.IDE0011.severity = warning
-
-# IDE0040: Add accessibility modifiers
-dotnet_diagnostic.IDE0040.severity = error
 
 # CONSIDER: Are IDE0051 and IDE0052 too noisy to be warnings for IDE editing scenarios? Should they be made build-only warnings?
 # IDE0051: Remove unused private member
@@ -204,6 +228,7 @@ dotnet_diagnostic.IDE2004.severity = warning
 
 # CSharp code style settings:
 [*.cs]
+
 # Newline settings
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -277,3 +302,7 @@ csharp_space_between_square_brackets = false
 csharp_prefer_braces = true:silent
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
+
+
+# CA1716: Identifiers should not match keywords
+dotnet_diagnostic.CA1716.severity = suggestion

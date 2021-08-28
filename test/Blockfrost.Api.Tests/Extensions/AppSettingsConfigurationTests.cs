@@ -9,8 +9,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Blockfrost.Api.Tests.Extensions
 {
     [TestClass]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Extensions))]
     public class AppSettingsConfigurationTests : AServiceTestBase
     {
 
@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Tests.Extensions
             IServiceCollection services = new ServiceCollection();
 
             // Act
-            services.AddAddressService(projectName, CreateTestSpecificConfiguration());
+            _ = services.AddAddressService(projectName, CreateTestSpecificConfiguration());
 
             // Assert
             AssertServiceNetworkConfigured<IAddressService>(projectName, CreateTestSpecificConfiguration(), services);
@@ -51,7 +51,7 @@ namespace Blockfrost.Api.Tests.Extensions
             var config = CreateTestSpecificConfiguration();
 
             // Act
-            services.AddBlockfrost(projectName, config);
+            _ = services.AddBlockfrost(projectName, config);
 
             // Assert
             foreach (var serviceType in AvailableServiceTypes)

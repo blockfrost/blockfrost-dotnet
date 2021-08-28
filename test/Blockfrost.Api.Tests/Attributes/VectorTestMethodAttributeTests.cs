@@ -89,10 +89,10 @@ namespace Blockfrost.Api.Tests.Attributes
         [DataRow(DOES_NOT_EXIST, DOES_NOT_EXIST)]
         public void DontAllowNullVector_Does_Throw(string vectorId, string fileName)
         {
-            Assert.ThrowsException<InvalidOperationException>(() =>
-            {
-                var attribute = new VectorTestMethodAttribute(vectorId, fileName, false);
-            });
+            _ = Assert.ThrowsException<InvalidOperationException>(() =>
+              {
+                  var attribute = new VectorTestMethodAttribute(vectorId, fileName, false);
+              });
         }
     }
 }

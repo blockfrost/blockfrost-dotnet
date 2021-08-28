@@ -12,22 +12,22 @@ namespace Blockfrost.Api.Tests.Attributes
     public class PermuteVetorTestMethodAttribute : TestMethodAttribute, ITestDataSource
     {
         private readonly string _vectorId;
-        private readonly Dictionary<string, VectorTestMethodAttribute> testVectorAtts;
+        private readonly Dictionary<string, VectorTestMethodAttribute> _testVectorAtts;
 
         public PermuteVetorTestMethodAttribute(string vectorId, string fileNames, char separator = '\'')
         {
             _vectorId = vectorId;
-            testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename => new VectorTestMethodAttribute(_vectorId, filename));
+            _testVectorAtts = fileNames.Split(separator).ToDictionary(filename => filename, filename => new VectorTestMethodAttribute(_vectorId, filename));
         }
 
         public override TestResult[] Execute(ITestMethod testMethod)
         {
             var testResults = Array.Empty<TestResult>();
-            foreach (var attribute in testVectorAtts.Values)
+            foreach (var attribute in _testVectorAtts.Values)
             {
                 foreach (var result in attribute.Execute(testMethod))
                 {
-                    testResults.Append(result);
+                    _ = testResults.Append(result);
                 }
             }
 
@@ -37,11 +37,11 @@ namespace Blockfrost.Api.Tests.Attributes
         public IEnumerable<object[]> GetData(MethodInfo methodInfo)
         {
             object[][] data = Array.Empty<object[]>();
-            foreach (var attribute in testVectorAtts.Values)
+            foreach (var attribute in _testVectorAtts.Values)
             {
                 foreach (object[] result in attribute.GetData(methodInfo))
                 {
-                    data.Append(result);
+                    _ = data.Append(result);
                 }
             }
 

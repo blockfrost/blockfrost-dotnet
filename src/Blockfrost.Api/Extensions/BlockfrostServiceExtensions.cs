@@ -48,8 +48,8 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddAddressService(this IServiceCollection services, string projectName, IConfiguration config)
         {
-            services.ConfigureBlockfrost(projectName, config);
-            services.AddBlockfrostService<IAddressService, AddressService>(projectName);
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddBlockfrostService<IAddressService, AddressService>(projectName);
             return services;
         }
 
@@ -72,8 +72,8 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddTransactionService(this IServiceCollection services, string projectName, IConfiguration config)
         {
-            services.ConfigureBlockfrost(projectName, config);
-            services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
             return services;
         }
 
@@ -148,7 +148,7 @@ namespace Blockfrost.Api.Extensions
             string projectName = $"blockfrost-{network}-project";
 
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
-            services.AddCardanoServices(projectName);
+            _ = services.AddCardanoServices(projectName);
             return services;
         }
 
@@ -169,7 +169,7 @@ namespace Blockfrost.Api.Extensions
                 Network = network
             });
 
-            services
+            _ = services
                 .AddOptions<BlockfrostOptions>()
                 .Configure<BlockfrostProject>((projects, project) =>
                 {
@@ -187,8 +187,8 @@ namespace Blockfrost.Api.Extensions
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
 
-            services.ConfigureBlockfrost(projectName, configuration);
-            services.AddCardanoServices(projectName);
+            _ = services.ConfigureBlockfrost(projectName, configuration);
+            _ = services.AddCardanoServices(projectName);
             return services;
         }
 
@@ -264,29 +264,29 @@ namespace Blockfrost.Api.Extensions
             //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             //});
 
-            services.AddAccountService(projectName);
+            _ = services.AddAccountService(projectName);
 
-            services.AddAddressService(projectName);
+            _ = services.AddAddressService(projectName);
 
-            services.AddAssetService(projectName);
+            _ = services.AddAssetService(projectName);
 
-            services.AddAssetService(projectName);
+            _ = services.AddAssetService(projectName);
 
-            services.AddBlockService(projectName);
+            _ = services.AddBlockService(projectName);
 
-            services.AddEpochService(projectName);
+            _ = services.AddEpochService(projectName);
 
-            services.AddLedgerService(projectName);
+            _ = services.AddLedgerService(projectName);
 
-            services.AddMetadataService(projectName);
+            _ = services.AddMetadataService(projectName);
 
-            services.AddNetworkService(projectName);
+            _ = services.AddNetworkService(projectName);
 
-            services.AddPoolService(projectName);
+            _ = services.AddPoolService(projectName);
 
-            services.AddRootService(projectName);
+            _ = services.AddRootService(projectName);
 
-            services.AddTransactionService(projectName);
+            _ = services.AddTransactionService(projectName);
 
             return services;
         }
@@ -304,9 +304,9 @@ namespace Blockfrost.Api.Extensions
 
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
 
-            services.AddBasicBlockfrostService(projectName, connectionLimit);
-            services.AddAddressService(projectName, connectionLimit);
-            services.AddTransactionService(projectName, connectionLimit);
+            _ = services.AddBasicBlockfrostService(projectName, connectionLimit);
+            _ = services.AddAddressService(projectName, connectionLimit);
+            _ = services.AddTransactionService(projectName, connectionLimit);
 
             return services;
         }
@@ -388,7 +388,7 @@ namespace Blockfrost.Api.Extensions
         {
             if (!services.Any(s => s.ServiceType.FullName.Contains(typeof(IOptions<BlockfrostOptions>).Name)))
             {
-                services.Configure<BlockfrostOptions>(configuration.GetSection($"Blockfrost"));
+                _ = services.Configure<BlockfrostOptions>(configuration.GetSection($"Blockfrost"));
                 var project = configuration.GetSection($"Blockfrost:{projectName}").Get<BlockfrostProject>();
                 if (project == null)
                 {

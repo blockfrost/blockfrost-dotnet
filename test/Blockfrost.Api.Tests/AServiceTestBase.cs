@@ -31,17 +31,7 @@ namespace Blockfrost.Api.Tests
         public bool ReadResponseAsString { get; set; }
         protected static IServiceProvider Provider
         {
-            get
-            {
-                if (s_provider == null)
-                {
-                    throw new InvalidOperationException(s_providerNotConfiguredErrorMessage);
-                }
-                else
-                {
-                    return s_provider;
-                }
-            }
+            get => s_provider ?? throw new InvalidOperationException(s_providerNotConfiguredErrorMessage);
             set => s_provider = value;
         }
 
@@ -67,14 +57,14 @@ namespace Blockfrost.Api.Tests
             }
 
             // tell the builder to look for the appsettings.json file
-            config
+            _ = config
                 .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             //only add secrets in development
-            if (Environments.Development.Equals(environmentName, StringComparison.InvariantCultureIgnoreCase))
+            if (Environments.Development.Equals(environmentName, StringComparison.OrdinalIgnoreCase))
             {
-                config.AddUserSecrets<TestnetServiceIntegrationTests>();
+                _ = config.AddUserSecrets<TestnetServiceIntegrationTests>();
             }
 
             Configuration = config.Build();
@@ -253,22 +243,13 @@ namespace Blockfrost.Api.Tests
 
         protected Uri GetNetworkApiBaseAddress()
         {
-            if (Network.Equals(Constants.NETWORK_TESTNET))
-            {
-                return new Uri(Constants.API_URL_TESTNET);
-            }
-
-            if (Network.Equals(Constants.NETWORK_MAINNET))
-            {
-                return new Uri(Constants.API_URL_MAINNET);
-            }
-
-            if (Network.Equals(Constants.NETWORK_IPFS))
-            {
-                return new Uri(Constants.API_URL_IPFS);
-            }
-
-            throw new NotSupportedException(nameof(Network));
+            return Network.Equals(Constants.NETWORK_TESTNET, StringComparison.OrdinalIgnoreCase)
+                ? new Uri(Constants.API_URL_TESTNET)
+                : Network.Equals(Constants.NETWORK_MAINNET, StringComparison.OrdinalIgnoreCase)
+                ? new Uri(Constants.API_URL_MAINNET)
+                : Network.Equals(Constants.NETWORK_IPFS, StringComparison.OrdinalIgnoreCase)
+                ? new Uri(Constants.API_URL_IPFS)
+                : throw new NotSupportedException(nameof(Network));
         }
 
         protected async IAsyncEnumerable<ServiceDescriptor> GetClientsAsync()

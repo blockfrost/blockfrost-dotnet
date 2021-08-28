@@ -16,7 +16,7 @@ namespace Blockfrost.Api.Http
     public class RequestThrottler : DelegatingHandler
     {
         private readonly SemaphoreSlim _mutex = new(1, 1);
-        private int _requestCount = 0;
+        private int _requestCount;
         private DateTimeOffset _lastRequestTime = DateTimeOffset.UtcNow;
 
         public RequestThrottler(BlockfrostAuthorizationHandler innerHandler) : base(innerHandler)
@@ -43,7 +43,7 @@ namespace Blockfrost.Api.Http
             }
             finally
             {
-                _mutex.Release();
+                _ = _mutex.Release();
             }
 
             return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);

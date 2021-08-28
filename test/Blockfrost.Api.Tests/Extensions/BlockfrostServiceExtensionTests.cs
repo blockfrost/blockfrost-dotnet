@@ -24,7 +24,7 @@ namespace Blockfrost.Api.Tests.Extensions
             string apiKey = Configuration["ApiKey"] ?? Configuration[Constants.ENV_BFCLI_API_KEY];
             string network = Configuration["Network"] ?? Configuration[Constants.ENV_BFCLI_NETWORK];
 
-            services.AddBlockfrost(network, apiKey);
+            _ = services.AddBlockfrost(network, apiKey);
             var provider = services.BuildServiceProvider();
             var service = provider.GetRequiredService<IBlockfrostService>();
 
