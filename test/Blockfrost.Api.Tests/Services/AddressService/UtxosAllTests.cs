@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

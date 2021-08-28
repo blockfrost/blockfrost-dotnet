@@ -142,7 +142,7 @@ dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 dotnet_analyzer_diagnostic.severity = warning
 
 # IDE0073: File header
-dotnet_diagnostic.IDE0073.severity = error
+dotnet_diagnostic.IDE0073.severity = none
 file_header_template = Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
 
 # CA1707: Identifiers should not contain underscores
