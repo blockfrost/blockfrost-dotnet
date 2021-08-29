@@ -1,5 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Assets
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {

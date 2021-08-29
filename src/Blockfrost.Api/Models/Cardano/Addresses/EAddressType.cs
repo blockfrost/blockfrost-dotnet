@@ -1,5 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Addresses
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public enum EAddressType
     {

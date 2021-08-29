@@ -1,21 +1,21 @@
-﻿using Blockfrost.Api.Extensions;
+﻿using System.Linq;
+using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 
 namespace Blockfrost.Api.Tests.Extensions
 {
     [TestClass]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Extensions))]
     public class AppSettingsConfigurationTests : AServiceTestBase
     {
 
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace Blockfrost.Api.Tests.Extensions
             IServiceCollection services = new ServiceCollection();
 
             // Act
-            services.AddAddressService(projectName, CreateTestSpecificConfiguration());
+            _ = services.AddAddressService(projectName, CreateTestSpecificConfiguration());
 
             // Assert
             AssertServiceNetworkConfigured<IAddressService>(projectName, CreateTestSpecificConfiguration(), services);
@@ -46,10 +46,10 @@ namespace Blockfrost.Api.Tests.Extensions
         {
             // Arrange
             IServiceCollection services = new ServiceCollection();
-            IConfiguration config = CreateTestSpecificConfiguration();
+            var config = CreateTestSpecificConfiguration();
 
             // Act
-            services.AddBlockfrost(projectName, config);
+            _ = services.AddBlockfrost(projectName, config);
 
             // Assert
             foreach (var serviceType in AvailableServiceTypes)
@@ -60,15 +60,18 @@ namespace Blockfrost.Api.Tests.Extensions
 
         private static IConfiguration CreateTestSpecificConfiguration()
         {
-            var env = new ConfigurationBuilder()
-                .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
-                .Build()[Constants.ENV_ENVIRONMENT];
+            var testSettings = new ConfigurationBuilder()
+                            .AddJsonFile(Constants.APPSETTINGS_TEST_FILENAME, optional: false, reloadOnChange: true)
+                            .Build();
 
-            var config = new ConfigurationBuilder()
-                .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            return config;
+            string configuredTestEnvironment = testSettings[Constants.ENV_ENVIRONMENT];
+
+            var configurationRoot1 = new ConfigurationBuilder()
+                            .AddJsonFile($"appsettings.{configuredTestEnvironment}.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .Build();
+
+            return configurationRoot1;
         }
     }
 }

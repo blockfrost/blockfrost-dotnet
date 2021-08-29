@@ -55,11 +55,11 @@ namespace Blockfrost.Api
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken);
 
-         /// <summary>Blockfrost usage metrics</summary>
+        /// <summary>Blockfrost usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         Task<ICollection<MetricResponse>> GetMetricsAsync();
-        
+
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Blockfrost usage metrics</summary>
         /// <returns>Return the last 30 days of metrics</returns>

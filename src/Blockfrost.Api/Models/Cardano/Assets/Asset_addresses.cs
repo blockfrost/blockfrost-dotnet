@@ -1,6 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Assets
-
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public partial class Asset_addresses : System.Collections.ObjectModel.Collection<AssetAddressesResponse>
     {

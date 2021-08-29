@@ -1,14 +1,15 @@
 {
-    "json.schemaDownload.enable": true,
-    "json.schemas": [
-        {
-            "fileMatch": [
-                "/oas/v*/swagger.json"
-            ],
-            "url": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.json"
-        }
-    ],
-    "openapi.approvedHostnames": [
-        "https://json-schema.org"
-    ]
+  "json.schemaDownload.enable": true,
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/oas/v*/swagger.json"
+      ],
+      "url": "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.0/schema.json"
+    }
+  ],
+  "openapi.approvedHostnames": [
+    "https://json-schema.org"
+  ],
+  "hexdump.littleEndian": true
 }

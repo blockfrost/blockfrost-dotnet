@@ -1,5 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Assets
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public partial class AssetHistoryCollection : System.Collections.ObjectModel.Collection<AssetHistoryResponse>
     {

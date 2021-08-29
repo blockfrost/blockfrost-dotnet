@@ -1,18 +1,18 @@
-﻿using Blockfrost.Api;
+﻿using System;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Blockfrost.Console.Test
 {
     public class BlockfrostHostedService : IHostedService
     {
-        static JsonSerializerOptions options = new JsonSerializerOptions() { WriteIndented = true };
+        private static readonly JsonSerializerOptions s_options = new() { WriteIndented = true };
 
         private readonly ILogger _logger;
         private readonly IBlockService _blocks;
@@ -24,15 +24,15 @@ namespace Blockfrost.Console.Test
         {
             _logger = logger;
             _blocks = blockService;
-            appLifetime.ApplicationStarted.Register(OnStarted);
-            appLifetime.ApplicationStopping.Register(OnStopping);
-            appLifetime.ApplicationStopped.Register(OnStopped);
+            _ = appLifetime.ApplicationStarted.Register(OnStarted);
+            _ = appLifetime.ApplicationStopping.Register(OnStopping);
+            _ = appLifetime.ApplicationStopped.Register(OnStopped);
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             _logger.LogInformation("1. StartAsync has been called.");
-            
+
             return Task.Run(async () =>
             {
                 int? slot = 0;
@@ -42,8 +42,9 @@ namespace Blockfrost.Console.Test
                     if (slot != latest.Slot)
                     {
                         slot = latest.Slot;
-                        _logger.LogInformation(JsonSerializer.Serialize(latest, options));
-                    } else
+                        _logger.LogInformation(JsonSerializer.Serialize(latest, s_options));
+                    }
+                    else
                     {
                         _logger.LogDebug("No new block...");
                     }
@@ -59,8 +60,6 @@ namespace Blockfrost.Console.Test
 
             return Task.CompletedTask;
         }
-
-        
 
         private void OnStarted()
         {
@@ -78,19 +77,19 @@ namespace Blockfrost.Console.Test
         }
     }
 
-    class Program
+    internal class Program
     {
-        static Task Main(string[] args) =>
+        private static Task Main(string[] args) =>
            CreateHostBuilder(args).Build().RunAsync();
 
-        static IHostBuilder CreateHostBuilder(string[] args) =>
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                var network = context.Configuration["Network"];
-                var apiKey = context.Configuration["ApiKey"];
+                string network = context.Configuration["Network"];
+                string apiKey = context.Configuration["ApiKey"];
 
-                services
+                _ = services
                     .AddBlockfrost(network, apiKey)
                     .AddHostedService<BlockfrostHostedService>();
             });

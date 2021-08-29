@@ -8,9 +8,9 @@ namespace Blockfrost.Cli
     /// <summary>
     /// Based on https://github.com/CardanoSharp/cscli
     /// </summary>
-    class Program
+    internal class Program
     {
-        static async Task<int> Main(string[] args)
+        private static async Task<int> Main(string[] args)
         {
             var cts = SetupUserInputCancellationTokenSource();
             var command = CommandParser.ParseArgsToCommand(args);
@@ -24,6 +24,7 @@ namespace Blockfrost.Cli
                 await Console.Error.WriteLineAsync(commandResult.Result);
                 return (int)commandResult.Outcome;
             }
+
             return 0;
         }
 

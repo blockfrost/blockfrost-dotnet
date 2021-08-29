@@ -27,7 +27,7 @@ namespace Blockfrost.Api
 
         /// <summary>UTXO index in the transaction</summary>
         [JsonPropertyName("tx_index")]
-        [System.Obsolete]
+        [System.Obsolete("No longer supported by blockfrost and may be removed in future releases")]
         public int Tx_index { get; set; }
     }
 }
