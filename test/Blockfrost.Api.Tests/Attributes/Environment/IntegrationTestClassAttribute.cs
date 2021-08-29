@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Blockfrost.Api.Tests
+namespace Blockfrost.Api.Tests.Attributes
 {
     /// <summary>
     /// An extension of the [TestClass] attribute. If applied to a class, any [TestMethod] attributes
@@ -21,6 +21,7 @@ namespace Blockfrost.Api.Tests
             {
                 return testMethodAttribute;
             }
+
             return new IntegrationTestMethodAttribute(IgnoreEnvironment);
         }
     }

@@ -22,37 +22,31 @@ namespace Blockfrost.Cli.Commands
                 return new ShowVersionCommand();
             }
 
-            var flattenedArgs = string.Join(' ', args);
-            if (flattenedArgs.StartsWith("address"))
-            {
-                return BuildCommand<AddressCommand>(args);
-            }
-            
-            if (flattenedArgs.StartsWith("health"))
-            {
-                return BuildCommand<HealthCommand>(args);
-            }
-
-            return new ShowInvalidArgumentCommand(flattenedArgs);
+            string flattenedArgs = string.Join(' ', args);
+            return flattenedArgs.StartsWith("address", StringComparison.OrdinalIgnoreCase)
+                ? BuildCommand<AddressCommand>(args)
+                : flattenedArgs.StartsWith("health", StringComparison.OrdinalIgnoreCase)
+                ? BuildCommand<HealthCommand>(args)
+                : new ShowInvalidArgumentCommand(flattenedArgs);
         }
 
         private static ICommand BuildCommand<T>(string[] args)
-            where T : class, ICommand 
+            where T : class, ICommand
         {
-            var env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
-            var isDevelopment = string.IsNullOrEmpty(env) || env.ToLower() == "development";
+            string env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            bool isDevelopment = string.IsNullOrEmpty(env) || env.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "development";
 
             var builder = new ConfigurationBuilder();
-            builder.AddEnvironmentVariables().AddCommandLine(args);
+            _ = builder.AddEnvironmentVariables().AddCommandLine(args);
 
             //only add secrets in development
             if (isDevelopment)
             {
-                builder.AddUserSecrets<CliSettings>();
+                _ = builder.AddUserSecrets<CliSettings>();
             }
 
-            var network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
-            var apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
+            string network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
+            string apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
 
             var config = builder.Build();
 
@@ -72,12 +66,18 @@ namespace Blockfrost.Cli.Commands
 
         private static bool IsHelpOption(string arg)
         {
-            return arg == "help" || arg == "-h" || arg == "--help";
+            return arg
+                is "help"
+                or "-h"
+                or "--help";
         }
 
         private static bool IsVersionOption(string arg)
         {
-            return arg == "version" || arg == "-v" || arg == "--version";
+            return arg
+                is "version"
+                or "-v"
+                or "--version";
         }
     }
 }

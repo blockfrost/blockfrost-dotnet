@@ -1,5 +1,4 @@
-﻿//namespace Blockfrost.Api.Models.Cardano.Assets
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
@@ -8,7 +7,7 @@ namespace Blockfrost.Api
     {
         /// <summary>Number of decimal places of the asset unit</summary>
         [JsonPropertyName("decimals")]
-        [System.ComponentModel.DataAnnotations.Range(int.MinValue, 255)]
+        [Range(int.MinValue, 255)]
         public int? Decimals { get; set; }
 
         /// <summary>Asset description</summary>

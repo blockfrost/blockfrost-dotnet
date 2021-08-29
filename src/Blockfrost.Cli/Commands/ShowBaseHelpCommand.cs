@@ -9,10 +9,10 @@ namespace Blockfrost.Cli.Commands
     {
         public ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
         {
-            var versionString = (Assembly.GetEntryAssembly() ?? throw new InvalidOperationException())
+            string versionString = (Assembly.GetEntryAssembly() ?? throw new InvalidOperationException())
                 .GetCustomAttribute<AssemblyFileVersionAttribute>()
                 .Version;
-            var helpText = $@"bfcli v{versionString}
+            string helpText = $@"bfcli v{versionString}
 A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
 
 USAGE: bfcli (OPTION | COMMAND)

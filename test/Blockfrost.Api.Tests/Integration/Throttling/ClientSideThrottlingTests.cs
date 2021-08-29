@@ -1,23 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blockfrost.Api.Tests.Attributes;
+using Microsoft.Extensions.Hosting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Integration.Throttling
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Integration.Throttling))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(nameof(Throttling))]
     public class ClientSideThrottlingTests : AServiceTestBase
     {
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET);
+            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
         }
 
         [TestMethod]
@@ -25,15 +25,15 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         {
             // After 500 requests the burst limit is reached.
             // The next 50 requests need to be throttled, otherwise the server will return an error.
-            var requestCount = 550;
+            int requestCount = 550;
             var results = new Dictionary<int, bool>();
 
-            foreach (var requestNr in Enumerable.Range(1, requestCount))
+            foreach (int requestNr in Enumerable.Range(1, requestCount))
             {
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    await __service.EndpointsAsync();
+                    _ = await Service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)
@@ -44,6 +44,5 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
 
             Assert.IsTrue(results.All(r => r.Value));
         }
-
     }
 }

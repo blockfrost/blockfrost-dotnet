@@ -13,12 +13,12 @@ namespace Blockfrost.Cli.Commands
         {
             _service = service;
         }
-        public const int MaxCount = 100;
-        public const int DefaultCount = 10;
-        public const string DefaultAddressType = "Shelley";
+        public static readonly int MaxCount = 100;
+        public static readonly int DefaultCount = 10;
+        public static readonly string DefaultAddressType = "Shelley";
 
         public string Address { get; set; } = "";
-        
+
         public int Count { get; init; } = DefaultCount;
 
         public string AddressType { get; init; } = DefaultAddressType;
@@ -30,7 +30,8 @@ namespace Blockfrost.Cli.Commands
                 return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
                     $"Invalid option --count {Count} exceeded the max count of {MaxCount}"));
             }
-            if (!Enum.TryParse<EContentType>(AddressType, out var era))
+
+            if (!Enum.TryParse<EContentType>(AddressType, out _))
             {
                 return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
                     $"Invalid option --type {AddressType} is not supported"));

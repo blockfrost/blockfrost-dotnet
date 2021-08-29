@@ -1,11 +1,9 @@
-﻿using System.Runtime.Serialization;
-
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public static class Constants
     {
         public const string API_URL = "https://blockfrost.io/";
-        public const string API_VERSION = "0.8.4";
+        public const string API_VERSION = "0.8.5";
 
         public const string APPSETTINGS_TEST_FILENAME = "appsettings.test.json";
         public const string APPSETTINGS_FILENAME = "appsettings.json";
@@ -42,5 +40,10 @@ namespace Blockfrost.Api
         // RETRIES
         public const int RETRIES = 3;
         public const int RETRY_TIMEOUT = 600;
+
+        // TESTS
+        public const string TEST_VECTOR_ROOT_DIRNAME = "dat";
+
+        public const string PROTOCOL_PARAMETERS_FILENAME = "protocol.json";
     }
 }

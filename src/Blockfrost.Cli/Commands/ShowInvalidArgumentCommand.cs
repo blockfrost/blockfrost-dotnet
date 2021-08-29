@@ -14,7 +14,7 @@ namespace Blockfrost.Cli.Commands
 
         public ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
         {
-            var helpText = $"Invalid argument {InvalidArg}";
+            string helpText = $"Invalid argument {InvalidArg}";
             var result = CommandResult.Success(helpText);
             return ValueTask.FromResult(result);
         }

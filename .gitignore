@@ -458,3 +458,7 @@ $RECYCLE.BIN/
 ##
 blockfrost-client/
 *.StyleCop
+/samples/client/client.sln
+/samples/client/src/Blockfrost.Api/Blockfrost.Api.csproj
+appsettings.test.json
+/samples/client

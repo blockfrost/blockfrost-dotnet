@@ -3,8 +3,8 @@
 namespace Blockfrost.Api.Tests.Extensions
 {
     [TestClass]
-    [TestCategory(nameof(Blockfrost.Api))]
-    [TestCategory(nameof(Blockfrost.Api.Tests.Extensions))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Extensions))]
     public class EnvironmentConfigurationTests
     {
         [TestMethod]
