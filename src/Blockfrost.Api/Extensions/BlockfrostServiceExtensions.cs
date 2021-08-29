@@ -159,7 +159,7 @@ namespace Blockfrost.Api.Extensions
 
             services.TryAddSingleton<BlockfrostAuthorizationHandler>();
             services.TryAddSingleton<RequestThrottler>();
-            services.TryAddSingleton(new Options.BlockfrostProject()
+            services.TryAddSingleton(new BlockfrostProject()
             {
                 ApiKey = apiKey,
                 ConnectionLimit = $"{connectionLimit}",
@@ -169,7 +169,7 @@ namespace Blockfrost.Api.Extensions
 
             _ = services
                 .AddOptions<BlockfrostOptions>()
-                .Configure<Options.BlockfrostProject>((projects, project) =>
+                .Configure<BlockfrostProject>((projects, project) =>
                 {
                     projects.Add(projectName, project);
                 });
