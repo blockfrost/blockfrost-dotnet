@@ -19,7 +19,7 @@ namespace Blockfrost.Api.Tests
             var devEnvironmentVariable = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
 
             var isDevelopment = string.IsNullOrEmpty(devEnvironmentVariable) ||
-                                devEnvironmentVariable.ToLower() == "development";
+                                devEnvironmentVariable.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "development";
             //Determines the working environment as IHostingEnvironment is unavailable in a console app
 
             var builder = new ConfigurationBuilder();
@@ -47,9 +47,9 @@ namespace Blockfrost.Api.Tests
             services.AddBlockfrost(projectName, configuration);
             
             var provider = services.BuildServiceProvider();
-            BlockfrostService service = provider.GetRequiredService<BlockfrostService>();
+            IBlockfrostService service = provider.GetRequiredService<IBlockfrostService>();
 
-            var health = await service.HealthAsync();
+            var health = await service.GetHealthAsync();
             Assert.IsTrue(health.IsHealthy);
         }
     }
