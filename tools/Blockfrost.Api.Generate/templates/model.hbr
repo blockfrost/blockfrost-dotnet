@@ -1,0 +1,25 @@
+﻿{{>partial_header}}
+using System;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
+
+namespace {{packageName}}.{{modelPackage}}
+{
+{{#isArray}}
+    /// <summary>
+    /// A collection of <see cref="{{itemname}}"/>
+    /// </summary>
+    {{>partial_visibility}} partial class {{collectionname}} : Collection<{{itemname}}>
+    {
+    }
+{{/isArray}}
+{{#items}}{{#isEnum}}{{>partial_enumEnum}}{{/isEnum}}{{^isEnum}}{{>partial_modelGeneric}}{{/isEnum}}{{/items}}
+}
