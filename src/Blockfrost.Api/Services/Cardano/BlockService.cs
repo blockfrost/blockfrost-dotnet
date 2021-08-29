@@ -6,7 +6,7 @@ using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
-    public class BlockService : ABlockfrostService, IBlockService
+    public partial class BlockService : ABlockfrostService, IBlockService
     {
         public BlockService(HttpClient httpClient) : base(httpClient)
         {

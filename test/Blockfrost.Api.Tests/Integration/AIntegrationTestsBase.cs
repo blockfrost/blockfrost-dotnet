@@ -36,8 +36,8 @@ namespace Blockfrost.Api.Tests.Integration
             ApiVersion = apiVersion;
         }
 
-        public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
-        public static IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
+        public static AccountService Accounts => (AccountService) Provider.GetRequiredService<IAccountService>();
+        public static AddressService Addresses =>  (AddressService) Provider.GetRequiredService<IAddressService>();
         public static IAssetService Assets => Provider.GetRequiredService<IAssetService>();
         public static IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
         public static IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
