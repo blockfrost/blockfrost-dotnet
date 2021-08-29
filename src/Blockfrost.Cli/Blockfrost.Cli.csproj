@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Version>0.0.0.0-populated-by-NetRevisionTask</Version>
+    <LangVersion>9.0</LangVersion>
+
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>bfcli</ToolCommandName>
+    <PackageOutputPath>nupkg</PackageOutputPath>
+    <Authors>Alex</Authors>
+    <Company>blockfrost io</Company>
+    <Description>Cross Platform Global Tool / Console App for interacting with the blockfrost api</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageId>bfcli</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NrtRevisionFormat>{semvertag:main}+{chash}{!:-mod}</NrtRevisionFormat>
+    <NrtResolveSimpleAttributes>true</NrtResolveSimpleAttributes>
+    <NrtResolveInformationalAttribute>true</NrtResolveInformationalAttribute>
+    <NrtResolveCopyright>true</NrtResolveCopyright>
+    <NrtTagMatch>v[0-9]*</NrtTagMatch>
+    <NrtRemoveTagV>true</NrtRemoveTagV>
+    <NrtRequiredVcs>git</NrtRequiredVcs>
+    <NrtShowRevision>true</NrtShowRevision>
+    <AssemblyName>Blockfrost.Cli</AssemblyName>
+    <RootNamespace>Blockfrost.Cli</RootNamespace>
+    <UserSecretsId>a7eb06d1-f643-4add-bc36-37eab11e9c8b</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
+    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
+    <PackageReference Include="system.threading.tasks.extensions" Version="4.5.4" />
+    <PackageReference Include="Unclassified.NetRevisionTask" Version="0.4.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Blockfrost.Api\Blockfrost.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="nupkg\" />
+  </ItemGroup>
+</Project>

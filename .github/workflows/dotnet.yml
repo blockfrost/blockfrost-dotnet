@@ -1,15 +1,18 @@
-name: .NET
+name: ci build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    env:
+      NETCORE_ENVIRONMENT: production
+      BFCLI_NETWORK: testnet
+      BFCLI_API_KEY: ${{ secrets.BFCLI_API_KEY }}
 
     steps:
     - uses: actions/checkout@v2
@@ -23,3 +26,4 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
