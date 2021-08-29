@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    internal interface INetworkService
+    public partial interface INetworkService
     {
         Task<NetworkResponse> NetworkAsync();
 

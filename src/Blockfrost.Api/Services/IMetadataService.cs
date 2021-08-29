@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IMetadataService : IBlockfrostService
+    public partial interface IMetadataService : IBlockfrostService
     {
         Task<ICollection<TxMetadataLabelCBORResponse>> Cbor2Async(string label, int? count, int? page,
             ESortOrder? order);

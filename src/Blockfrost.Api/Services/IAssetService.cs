@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IAssetService : IBlockfrostService
+    public partial interface IAssetService : IBlockfrostService
     {
         Task<ICollection<AssetsResponse>> AssetsAll2Async(int? count, int? page, ESortOrder? order);
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface ILedgerService : IBlockfrostService
+    public partial interface ILedgerService : IBlockfrostService
     {
         Task<GenesisContentResponse> GenesisAsync();
 

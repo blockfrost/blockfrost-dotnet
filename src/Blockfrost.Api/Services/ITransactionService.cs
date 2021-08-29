@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface ITransactionService : IBlockfrostService
+    public partial interface ITransactionService : IBlockfrostService
     {
         Task<ICollection<TxMetadataCborResponse>> CborAsync(string hash);
 

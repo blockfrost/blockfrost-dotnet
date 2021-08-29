@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IBlockService : IBlockfrostService
+    public partial interface IBlockService : IBlockfrostService
     {
         Task<BlockContentResponse> GetBlocksAsync(string hash_or_number);
 

@@ -1,6 +1,6 @@
 ﻿namespace Blockfrost.Api
 {
-    public interface ICardanoService :
+    public partial interface ICardanoService :
         IBlockfrostService,
         IAccountService,
         IAddressService,

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IAccountService : IBlockfrostService
+    public partial interface IAccountService : IBlockfrostService
     {
         Task<ICollection<StakeAddressesAddressesResponse>> AddressesAllAsync(string stake_address, int? count,
             int? page, ESortOrder? order);

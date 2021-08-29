@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IPoolService : IBlockfrostService
+    public partial interface IPoolService : IBlockfrostService
     {
         Task<ICollection<string>> BlocksAll3Async(string pool_id, int? count, int? page, ESortOrder? order);
 

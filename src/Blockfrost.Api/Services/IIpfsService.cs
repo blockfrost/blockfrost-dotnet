@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IIpfsService : IBlockfrostService
+    public partial interface IIpfsService : IBlockfrostService
     {
         Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory, CancellationToken cancellationToken);
         Task<IpfsAddResponse> AddIpfsAsync(string file_or_directory);

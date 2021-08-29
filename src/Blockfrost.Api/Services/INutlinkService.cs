@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface INutlinkService : IBlockfrostService
+    public partial interface INutlinkService : IBlockfrostService
     {
         Task<NutlinkAddress> NutlinkAsync(string address);
 

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IAddressService : IBlockfrostService
+    public partial interface IAddressService : IBlockfrostService
     {
         Task<AddressResponse> AddressAsync(string address, CancellationToken cancellationToken);
 

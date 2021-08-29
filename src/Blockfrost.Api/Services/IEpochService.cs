@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public interface IEpochService : IBlockfrostService
+    public partial interface IEpochService : IBlockfrostService
     {
         Task<ICollection<string>> BlocksAll2Async(int number, string pool_id, int? count, int? page, ESortOrder? order);
 
