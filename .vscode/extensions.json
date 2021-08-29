@@ -4,6 +4,8 @@
     "ms-vscode.hexeditor",
     "ms-dotnettools.csharp",
     "davidanson.vscode-markdownlint",
-    "slevesque.vscode-hexdump"
+    "slevesque.vscode-hexdump",
+    "anweiss.cddl-languageserver",
+    "gabrielkerekes.cbor"
   ]
 }
