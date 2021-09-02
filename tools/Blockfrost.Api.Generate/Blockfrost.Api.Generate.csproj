@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,12 +6,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Handlebars.Net" Version="2.0.9" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.2.3" />
+    <Compile Remove="output\**" />
+    <Compile Remove="output_oas\**" />
+    <Compile Remove="output_simple\**" />
+    <EmbeddedResource Remove="output\**" />
+    <EmbeddedResource Remove="output_oas\**" />
+    <EmbeddedResource Remove="output_simple\**" />
+    <None Remove="output\**" />
+    <None Remove="output_oas\**" />
+    <None Remove="output_simple\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="output\" />
+    <PackageReference Include="Handlebars.Net" Version="2.0.9" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.2.3" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

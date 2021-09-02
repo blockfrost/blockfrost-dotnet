@@ -1,0 +1,90 @@
+﻿    /// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{itemname}}"/>{{/description}}
+    /// </summary>
+    {{>partial_visibility}} partial class {{itemname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{itemname}}>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{itemname}}" /> class.
+        /// </summary>
+        public {{itemname}}()
+        {
+        }
+
+        {{#each Properties}}
+        /// <summary>
+        /// Gets or sets the {{Name}}
+        /// </summary>
+        {{#Format}}
+        /// <remarks>{{writeSafe .}}</remarks>
+        {{/Format}}
+        /// <returns>
+        /// {{#Description}}{{writeSafe .}}{{/Description}}{{^Description}}The {{Name}}{{/Description}}
+        /// </returns>
+        {{#required}}
+        [Required]
+        {{/required}}
+        [JsonPropertyName("{{BaseName}}")]
+        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{DataTypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^Required}}?{{/Required}}{{/isContainer}} {{name}} { get; set; }
+
+        {{/each}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            return ToJson();
+        }
+
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public string ToJson(JsonSerializerOptions options = null)
+        {
+            return JsonSerializer.Serialize(this, options);
+        }
+
+        /// <summary>
+        /// Returns true if {{itemname}} instances are equal
+        /// </summary>
+        /// <param name="other">Instance of {{itemname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{itemname}} other)
+        {
+            return other is not null
+                   && (ReferenceEquals(this, other)
+                   || ({{#each Properties}}{{#IsNotContainer}}{{name}} == other.{{name}}{{/IsNotContainer}}{{^IsNotContainer}}Equals({{name}},other.{{name}}){{/IsNotContainer}}{{#IsLast}}){{/IsLast}}{{^IsLast}} && {{/IsLast}}{{/each}});
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="obj">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object obj)
+        {
+            return obj is not null
+                   && (ReferenceEquals(this, obj)
+                   || (obj.GetType() != GetType() && Equals(({{itemname}})obj)));
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new HashCode();
+            {{#each Properties}}
+            hashCode.Add({{Name}});
+            {{/each}}
+            return hashCode.ToHashCode();
+        }
+
+        public static bool operator ==({{itemname}} left, {{itemname}} right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=({{itemname}} left, {{itemname}} right)
+        {
+            return !Equals(left, right);
+        }
+    }

@@ -1,40 +1,249 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using HandlebarsDotNet;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Readers;
 
 namespace Blockfrost.Api.Generate
 {
     public class TemplateHelper
     {
-
-        public static string CamelCase(object val)
+        public static void GetIsArrayBlockHelper(EncodedTextWriter output, BlockHelperOptions options, Context context, Arguments arguments)
         {
-            var b = new StringBuilder(PascalCase(val));
-            b[0] = char.ToLower(b[0], System.Globalization.CultureInfo.InvariantCulture);
-            return b.ToString();
+            switch (context.Value)
+            {
+                case SchemaNode node:
+                    if (node.schema.Type.Equals("array", StringComparison.OrdinalIgnoreCase))
+                    {
+                        options.Template(output, context);
+                    }
+                    else
+                    {
+                        options.Inverse(output, context);
+                    }
+                    break;
+                case ModelContext ctx:
+                    if (ctx.IsArray)
+                    {
+                        options.Template(output, context);
+                    }
+                    else
+                    {
+                        options.Inverse(output, context);
+                    }
+                    break;
+                default:
+                    throw new HandlebarsException("Invalid context: {{#isArray}} supports OpenApiSchema as context");
+            }
         }
 
-        public static string PascalCase(object val)
+        public static string GetReturnType(string route, OpenApiSchema schema)
         {
-            string v1 = val.ToString();
-            char[] value = v1.ToCharArray();
-            var b = new StringBuilder();
+            var sb = new StringBuilder();
+            sb.Append(PascalCase(route));
 
-            bool toUpper = true;
-            for (int i = 0; i < value.Length; i++)
+            if(schema.Type == null)
             {
-                if (value[i] == '_')
+                return "object";
+            }
+
+            if (schema.Type.Equals("array", StringComparison.OrdinalIgnoreCase))
+            {
+                sb.Insert(0, "ICollection<").Append("Item>");
+            }
+            else
+            {
+                sb.Append("Item");
+            }
+            return sb.ToString();
+        }
+
+        internal static string GetDataType(OpenApiSchema schema)
+        {
+            return GetDataType(schema.Type);            
+        }
+
+        public static string WriteSafe(object input)
+        {
+            if (input == null)
+            {
+                return null;
+            }
+
+            var env = input.ToString();
+            env = env.Replace("\n", "");
+            env = env.Replace("\r\n", "");
+            env = env.Replace("\r", "");
+            env = env.Replace("\t","");
+            return env;
+        }
+        internal static void RegisterHelpers()
+        {
+            // register partials
+
+            Handlebars.RegisterHelper("writeSafe", (writer, context, parameters) =>
+            {
+                writer.WriteSafeString(WriteSafe(parameters[0]));
+            });
+
+            Handlebars.RegisterHelper("packageName", (writer, context, parameters) => { writer.WriteSafeString("Blockfrost.Api"); });
+            Handlebars.RegisterHelper("servicePackage", (writer, context, parameters) => { writer.WriteSafeString("Services"); });
+            Handlebars.RegisterHelper("modelPackage", (writer, context, parameters) => { writer.WriteSafeString("Models"); });
+            Handlebars.RegisterHelper("first", TemplateHelper.FirstBlockHelper);
+            Handlebars.RegisterHelper("last", TemplateHelper.CamelCaseHelper);
+            Handlebars.RegisterHelper("camel_case", TemplateHelper.CamelCaseHelper);
+            Handlebars.RegisterHelper("pascal_case", TemplateHelper.PascalCaseHelper);
+            Handlebars.RegisterHelper("required_ctor_params", TemplateHelper.RequiredCtorParamsHelper);
+
+            Handlebars.RegisterHelper("is_array", (writer, context, parameters) =>
+            {
+                if (parameters.Length != 1)
                 {
-                    toUpper = true;
-                    continue;
+                    throw new InvalidOperationException("is_array requires a single parameter");
                 }
                 else
                 {
-                    char v = toUpper ? char.ToUpper(value[i], System.Globalization.CultureInfo.InvariantCulture) : value[i];
-                    _ = b.Append(v);
+                    writer.WriteSafeString($"{TemplateHelper.CamelCase(parameters[0])}");
                 }
-                toUpper = false;
+            });
+
+            //Handlebars.RegisterHelper("isArray", TemplateHelper.IsArrayBlockHelper);
+            Handlebars.RegisterHelper("isArray", TemplateHelper.GetIsArrayBlockHelper);
+        }
+
+        internal static void RegisterPartials(DirectoryInfo templateDir)
+        {
+            foreach (var item in templateDir.GetFiles("*.hbr"))
+            {
+                if (!item.Name.StartsWith("partial_", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                Handlebars.RegisterTemplate(item.Name.Replace(".hbr", ""), File.ReadAllText(item.FullName));
             }
-            return b.ToString();
+        }
+
+        internal static async Task<OpenApiDocument> GetSpecsAsync(Uri uri)
+        {
+            var spec = await new HttpClient().GetStreamAsync(uri);
+            var read = new Microsoft.OpenApi.Readers.OpenApiStreamReader(new Microsoft.OpenApi.Readers.OpenApiReaderSettings());
+            return read.Read(spec, out _);
+        }
+
+
+        internal static void RequiredCtorParamsHelper(EncodedTextWriter output, Context context, Arguments arguments)
+        {
+            if(context.Value is SchemaNode node)
+            {
+                if (node.vars == null) return;
+                var sdict = node.vars.Where(v => v.required)
+                    .Select(x => new Tuple<string,string,string>(x.dataTypeWithEnum, CamelCase(x.name), x.defaultValue == null ? string.Empty : " = " + x.defaultValue.ToString()));
+                
+                output.WriteSafeString(string.Join(", ", sdict.Select(v => $"{v.Item1} {v.Item2}{v.Item3}")));
+            }
+            
+            else if(context.Value is ModelContext ctx)
+            {
+                output.WriteSafeString("/** todo **/");
+            } else 
+            {
+                throw new NotSupportedException("not supported in the current context");
+            }
+        }
+
+        public static void PascalCaseHelper(EncodedTextWriter output, Context context, Arguments arguments)
+        {
+            if (arguments.Length != 1)
+            {
+                throw new InvalidOperationException("pascal_case requires a single parameter");
+            }
+            else
+            {
+                output.WriteSafeString($"{PascalCase(arguments[0])}");
+            }
+        }
+
+        public static void CamelCaseHelper(EncodedTextWriter output, Context context, Arguments arguments)
+        {
+            if (arguments.Length != 1)
+            {
+                throw new InvalidOperationException("camel_case requires a single parameter");
+            }
+            else
+            {
+                output.WriteSafeString($"{TemplateHelper.CamelCase(arguments[0])}");
+            }
+        }
+
+
+        public static void BlockHelper(EncodedTextWriter output, BlockHelperOptions options, Context context, Arguments arguments)
+        {
+            if (arguments.Length != 2)
+            {
+                throw new HandlebarsException("{{#isArray}} helper must have exactly two arguments");
+            }
+
+            var left = arguments.At<string>(0);
+            var right = arguments[1] as string;
+            if (left == right) options.Template(output, context);
+            else options.Inverse(output, context);
+        }
+
+        public static void FirstBlockHelper(EncodedTextWriter output, BlockHelperOptions options, Context context, Arguments arguments)
+        {
+            if(context.Value is ServiceContext ctx)
+            {
+                var op = ctx.ops.FirstOrDefault();
+                //op.Value.Values.First().First().Description
+                options.Template(output, op);
+            }else
+            {
+                options.Template(output, context);
+            }
+        }
+
+        public static string CamelCase(object val)
+        {
+            var parts = _r.Matches(ToStringSafe(val)).Select(s => s.Value).ToArray();
+            return string.Join("", UpperCaseFirstLetter(parts, 1));
+        }
+
+        private static string ToStringSafe(object val)
+        {
+            if(val == null)
+            {
+                val = "";    
+            }
+            
+            var v = val.ToString();
+            if (v.Equals("/")) v = "root_endpoint";
+            return v;
+        }
+
+        private static readonly Regex _r = new("([a-z])+", RegexOptions.IgnoreCase);
+
+        public static string PascalCase(object val)
+        {
+            var parts = _r.Matches(ToStringSafe(val)).Select(s => s.Value).ToArray();
+            return string.Join("", UpperCaseFirstLetter(parts));
+        }
+
+        private static string[] UpperCaseFirstLetter(string[] parts, int start = 0)
+        {
+            for (int i = start; i < parts.Length; i++)
+            {
+                parts[i] = char.ToUpper(parts[i][0]) + parts[i][1..];
+            }
+            return parts;
         }
 
         internal static string GetDataType(string type)
@@ -44,7 +253,7 @@ namespace Blockfrost.Api.Generate
                 case "string":
                     return "string";
                 case "integer":
-                    return "integer";
+                    return "long";
                 case "number":
                     return "double";
                 case "boolean":
@@ -55,6 +264,26 @@ namespace Blockfrost.Api.Generate
                     break;
             }
             return "object";
+        }
+
+        public static async Task<OpenApiDocument> ReadSpecsAsync(string spec)
+        {
+            var encoding = Encoding.UTF8;
+            if (Uri.IsWellFormedUriString(spec, UriKind.RelativeOrAbsolute))
+            {
+                var uri = new Uri(spec);
+                spec = await new HttpClient().GetStringAsync(uri, CancellationToken.None);
+            }
+
+            if (Path.IsPathFullyQualified(spec))
+            {
+                spec = File.ReadAllText(spec, encoding);
+            }
+            
+            using var stream = new MemoryStream(encoding.GetBytes(spec));
+            var read = new Microsoft.OpenApi.Readers.OpenApiStreamReader(new Microsoft.OpenApi.Readers.OpenApiReaderSettings());
+            var docs = read.Read(stream, out var diag);
+            return docs;
         }
     }
 }

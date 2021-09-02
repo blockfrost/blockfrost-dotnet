@@ -12,7 +12,7 @@ namespace Blockfrost.Api.Generate
         public string servicePackage { get; internal set; }
         public string modelPackage { get; internal set; }
         public OpenApiDocument doc { get; }
-        public IEnumerable<SchemaContext> models => doc.Components.Schemas.Select(componentSchema => new SchemaContext(this, componentSchema));
+        public IEnumerable<SchemaContext> components => doc.Components.Schemas.Select(componentSchema => new SchemaContext(this, componentSchema));
 
         public GeneratorContext(OpenApiDocument document)
         {

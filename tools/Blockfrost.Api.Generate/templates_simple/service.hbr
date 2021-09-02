@@ -1,0 +1,75 @@
+﻿{{>partial_header}}
+using System;
+using System.Linq;
+using System.IO;
+using System.Text;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Threading;
+using System.ComponentModel.DataAnnotations;
+using Blockfrost.Api.Http;
+
+namespace Blockfrost.Api.Services.{{GroupName}}
+{
+    public partial interface I{{ServiceName}}Service 
+    {
+        {{#each Operations}}
+        {{#each GetOperations}}
+
+        /// <summary>{{writeSafe Summary}}</summary>
+        /// <remarks>Route template: {{Context.Route}}</remarks>
+        {{#each Parameters}}
+        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{/each}}
+        /// <returns>{{writeSafe Returns}}</returns>
+        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
+        Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}});
+
+        /// <summary>{{writeSafe Summary}}</summary>
+        /// <remarks>Route template: {{Context.Route}}</remarks>
+        {{#each Parameters}}
+        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{/each}}
+        /// <returns>{{writeSafe Returns}}</returns>
+        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
+        Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}, {{/Parameters}}CancellationToken token);
+        {{/each}}
+        {{/each}}
+    }
+    
+    public partial class {{ServiceName}}Service : I{{ServiceName}}Service 
+    {
+        {{#each Operations}}
+        {{#each GetOperations}}
+
+        /// <summary>{{writeSafe Summary}}</summary>
+        /// <remarks>Route template: {{Context.Route}}</remarks>
+        {{#each Parameters}}
+        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{/each}}
+        /// <returns>{{writeSafe Returns}}</returns>
+        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
+        public Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        {
+            return {{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}}CancellationToken.None);
+        }
+
+        /// <summary>{{writeSafe Summary}}</summary>
+        /// <remarks>Route template: {{Context.Route}}</remarks>
+        {{#each Parameters}}
+        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{/each}}
+        /// <returns>{{writeSafe Returns}}</returns>
+        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
+        public Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}, {{/Parameters}}CancellationToken token)
+        {
+            throw new NotImplementedException(); 
+        }
+        {{/each}}
+        {{/each}}
+    }
+}
