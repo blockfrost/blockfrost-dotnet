@@ -1,12 +1,12 @@
 ﻿    /// <summary>
-    /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{itemname}}"/>{{/description}}
+    /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{ClassName}}"/>{{/description}}
     /// </summary>
-    {{>partial_visibility}} partial class {{itemname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{itemname}}>
+    {{>partial_visibility}} partial class {{ClassName}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{ClassName}}>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="{{itemname}}" /> class.
+        /// Initializes a new instance of the <see cref="{{ClassName}}" /> class.
         /// </summary>
-        public {{itemname}}()
+        public {{ClassName}}()
         {
         }
 
@@ -27,30 +27,13 @@
         public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{DataTypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^Required}}?{{/Required}}{{/isContainer}} {{name}} { get; set; }
 
         {{/each}}
+        {{>partial_modelSerialize}}
         /// <summary>
-        /// Returns the string presentation of the object
+        /// Returns true if {{ClassName}} instances are equal
         /// </summary>
-        /// <returns>String presentation of the object</returns>
-        public override string ToString()
-        {
-            return ToJson();
-        }
-
-        /// <summary>
-        /// Returns the JSON string presentation of the object
-        /// </summary>
-        /// <returns>JSON string presentation of the object</returns>
-        public string ToJson(JsonSerializerOptions options = null)
-        {
-            return JsonSerializer.Serialize(this, options);
-        }
-
-        /// <summary>
-        /// Returns true if {{itemname}} instances are equal
-        /// </summary>
-        /// <param name="other">Instance of {{itemname}} to be compared</param>
+        /// <param name="other">Instance of {{ClassName}} to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals({{itemname}} other)
+        public bool Equals({{ClassName}} other)
         {
             return other is not null
                    && (ReferenceEquals(this, other)
@@ -66,7 +49,7 @@
         {
             return obj is not null
                    && (ReferenceEquals(this, obj)
-                   || (obj.GetType() != GetType() && Equals(({{itemname}})obj)));
+                   || (obj.GetType() != GetType() && Equals(({{ClassName}})obj)));
         }
 
         public override int GetHashCode()
@@ -78,12 +61,12 @@
             return hashCode.ToHashCode();
         }
 
-        public static bool operator ==({{itemname}} left, {{itemname}} right)
+        public static bool operator ==({{ClassName}} left, {{ClassName}} right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=({{itemname}} left, {{itemname}} right)
+        public static bool operator !=({{ClassName}} left, {{ClassName}} right)
         {
             return !Equals(left, right);
         }

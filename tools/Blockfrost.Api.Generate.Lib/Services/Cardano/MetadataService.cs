@@ -1,158 +1,160 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IMetadataService 
+    public partial class MetadataService : ABlockfrostService, IMetadataService
     {
+        /// <summary> 
+        ///     Initializes a new <see cref="MetadataService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata">Cardano » Metadata</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public MetadataService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
-        /// <summary>Transaction metadata labels</summary>
-        /// <remarks>Route template: /metadata/txs/labels</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Transaction metadata labels <c>/metadata/txs/labels</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels/get">/metadata/txs/labels</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels","0.1.26")]
-        Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(long count, long page, string order);
-
-        /// <summary>Transaction metadata labels</summary>
-        /// <remarks>Route template: /metadata/txs/labels</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels","0.1.26")]
-        Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>Transaction metadata content in JSON</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels/{label}","0.1.26")]
-        Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(string label, long count, long page, string order);
-
-        /// <summary>Transaction metadata content in JSON</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels/{label}","0.1.26")]
-        Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(string label, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Transaction metadata content in CBOR</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}/cbor</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content in CBOR</returns>
-        [Get("/metadata/txs/labels/{label}/cbor","0.1.26")]
-        Task<MetadataGetTxsLabelsCborResponse> GetTxsLabelsCborAsync(string label, long count, long page, string order);
-
-        /// <summary>Transaction metadata content in CBOR</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}/cbor</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content in CBOR</returns>
-        [Get("/metadata/txs/labels/{label}/cbor","0.1.26")]
-        Task<MetadataGetTxsLabelsCborResponse> GetTxsLabelsCborAsync(string label, long count, long page, string order, CancellationToken token);
-    }
-    
-    public partial class MetadataService : IMetadataService 
-    {
-
-        /// <summary>Transaction metadata labels</summary>
-        /// <remarks>Route template: /metadata/txs/labels</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels","0.1.26")]
-        public Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(long count, long page, string order)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels", "0.1.27")]
+        public Task<TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Transaction metadata labels</summary>
-        /// <remarks>Route template: /metadata/txs/labels</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Transaction metadata labels <c>/metadata/txs/labels</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels/get">/metadata/txs/labels</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels","0.1.26")]
-        public Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels", "0.1.27")]
+        public async Task<TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/metadata/txs/labels");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
 
-        /// <summary>Transaction metadata content in JSON</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            return await SendGetRequestAsync<TxMetadataLabelsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction metadata content in JSON <c>/metadata/txs/labels/{label}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}/get">/metadata/txs/labels/{label}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="label">Metadata label</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels/{label}","0.1.26")]
-        public Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(string label, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        public Task<TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(label, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Transaction metadata content in JSON</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Transaction metadata content in JSON <c>/metadata/txs/labels/{label}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}/get">/metadata/txs/labels/{label}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="label">Metadata label</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/metadata/txs/labels/{label}","0.1.26")]
-        public Task<MetadataGetTxsLabelsResponse> GetTxsLabelsAsync(string label, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        public async Task<TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (label == null)
+            {
+                throw new System.ArgumentNullException(nameof(label));
+            }
 
-        /// <summary>Transaction metadata content in CBOR</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}/cbor</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/metadata/txs/labels/{label}");
+            _ = builder.SetRouteParameter("{label}", label);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<TxMetadataLabelJsonResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction metadata content in CBOR <c>/metadata/txs/labels/{label}/cbor</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}~1cbor/get">/metadata/txs/labels/{label}/cbor</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="label">Metadata label</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content in CBOR</returns>
-        [Get("/metadata/txs/labels/{label}/cbor","0.1.26")]
-        public Task<MetadataGetTxsLabelsCborResponse> GetTxsLabelsCborAsync(string label, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        public Task<TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsCborAsync(label, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Transaction metadata content in CBOR</summary>
-        /// <remarks>Route template: /metadata/txs/labels/{label}/cbor</remarks>
-        /// <param name="label">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Transaction metadata content in CBOR <c>/metadata/txs/labels/{label}/cbor</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}~1cbor/get">/metadata/txs/labels/{label}/cbor</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="label">Metadata label</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content in CBOR</returns>
-        [Get("/metadata/txs/labels/{label}/cbor","0.1.26")]
-        public Task<MetadataGetTxsLabelsCborResponse> GetTxsLabelsCborAsync(string label, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        public async Task<TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (label == null)
+            {
+                throw new System.ArgumentNullException(nameof(label));
+            }
+
+            var builder = GetUrlBuilder("/metadata/txs/labels/{label}/cbor");
+            _ = builder.SetRouteParameter("{label}", label);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<TxMetadataLabelCborResponseCollection>(builder, cancellationToken);
         }
     }
 }

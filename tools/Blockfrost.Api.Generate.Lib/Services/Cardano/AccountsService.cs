@@ -1,426 +1,454 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IAccountsService 
+    public partial class AccountsService : ABlockfrostService, IAccountsService
     {
-
-        /// <summary>Specific account address</summary>
-        /// <remarks>Route template: /accounts/{stake_address}</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}","0.1.26")]
-        Task<AccountsGetResponse> GetAsync(string stake_address);
-
-        /// <summary>Specific account address</summary>
-        /// <remarks>Route template: /accounts/{stake_address}</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}","0.1.26")]
-        Task<AccountsGetResponse> GetAsync(string stake_address, CancellationToken token);
-
-        /// <summary>Account reward history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/rewards</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/rewards","0.1.26")]
-        Task<AccountsGetRewardsResponse> GetRewardsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account reward history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/rewards</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/rewards","0.1.26")]
-        Task<AccountsGetRewardsResponse> GetRewardsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/history</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/history","0.1.26")]
-        Task<AccountsGetHistoryResponse> GetHistoryAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/history</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/history","0.1.26")]
-        Task<AccountsGetHistoryResponse> GetHistoryAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account delegation history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/delegations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/accounts/{stake_address}/delegations","0.1.26")]
-        Task<AccountsGetDelegationsResponse> GetDelegationsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account delegation history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/delegations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account delegations content</returns>
-        [Get("/accounts/{stake_address}/delegations","0.1.26")]
-        Task<AccountsGetDelegationsResponse> GetDelegationsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account registration history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/registrations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account registration content.</returns>
-        [Get("/accounts/{stake_address}/registrations","0.1.26")]
-        Task<AccountsGetRegistrationsResponse> GetRegistrationsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account registration history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/registrations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account registration content.</returns>
-        [Get("/accounts/{stake_address}/registrations","0.1.26")]
-        Task<AccountsGetRegistrationsResponse> GetRegistrationsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account withdrawal history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/withdrawals</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account withdrawal content.</returns>
-        [Get("/accounts/{stake_address}/withdrawals","0.1.26")]
-        Task<AccountsGetWithdrawalsResponse> GetWithdrawalsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account withdrawal history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/withdrawals</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account withdrawal content.</returns>
-        [Get("/accounts/{stake_address}/withdrawals","0.1.26")]
-        Task<AccountsGetWithdrawalsResponse> GetWithdrawalsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account MIR history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/mirs</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account MIR content.</returns>
-        [Get("/accounts/{stake_address}/mirs","0.1.26")]
-        Task<AccountsGetMirsResponse> GetMirsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account MIR history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/mirs</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account MIR content.</returns>
-        [Get("/accounts/{stake_address}/mirs","0.1.26")]
-        Task<AccountsGetMirsResponse> GetMirsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Account associated addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses","0.1.26")]
-        Task<AccountsGetAddressesResponse> GetAddressesAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Account associated addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses","0.1.26")]
-        Task<AccountsGetAddressesResponse> GetAddressesAsync(string stake_address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Assets associated with the account addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses/assets</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses/assets","0.1.26")]
-        Task<AccountsGetAddressesAssetsResponse> GetAddressesAssetsAsync(string stake_address, long count, long page, string order);
-
-        /// <summary>Assets associated with the account addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses/assets</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses/assets","0.1.26")]
-        Task<AccountsGetAddressesAssetsResponse> GetAddressesAssetsAsync(string stake_address, long count, long page, string order, CancellationToken token);
-    }
-    
-    public partial class AccountsService : IAccountsService 
-    {
-
-        /// <summary>Specific account address</summary>
-        /// <remarks>Route template: /accounts/{stake_address}</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}","0.1.26")]
-        public Task<AccountsGetResponse> GetAsync(string stake_address)
+        /// <summary> 
+        ///     Initializes a new <see cref="AccountsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts">Cardano » Accounts</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public AccountsService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(stake_address, CancellationToken.None);
         }
 
-        /// <summary>Specific account address</summary>
-        /// <remarks>Route template: /accounts/{stake_address}</remarks>
-        /// <param name="stake_address">Description</param>
+        /// <summary>
+        ///     Specific account address <c>/accounts/{stake_address}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}/get">/accounts/{stake_address}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
         /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}","0.1.26")]
-        public Task<AccountsGetResponse> GetAsync(string stake_address, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}", "0.1.27")]
+        public Task<AccountContentResponse> GetAccountsAsync(string stake_address)
         {
-            throw new NotImplementedException(); 
+            return GetAccountsAsync(stake_address, CancellationToken.None);
         }
 
-        /// <summary>Account reward history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/rewards</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Specific account address <c>/accounts/{stake_address}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}/get">/accounts/{stake_address}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
         /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/rewards","0.1.26")]
-        public Task<AccountsGetRewardsResponse> GetRewardsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}", "0.1.27")]
+        public async Task<AccountContentResponse> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
+        {
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
+
+            var builder = GetUrlBuilder("/accounts/{stake_address}");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+
+            return await SendGetRequestAsync<AccountContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account reward history <c>/accounts/{stake_address}/rewards</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1rewards/get">/accounts/{stake_address}/rewards</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <returns>Return the account content.</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/rewards", "0.1.27")]
+        public Task<AccountRewardContentResponseCollection> GetRewardsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetRewardsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account reward history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/rewards</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account reward history <c>/accounts/{stake_address}/rewards</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1rewards/get">/accounts/{stake_address}/rewards</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/rewards","0.1.26")]
-        public Task<AccountsGetRewardsResponse> GetRewardsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/rewards", "0.1.27")]
+        public async Task<AccountRewardContentResponseCollection> GetRewardsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/history</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/rewards");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountRewardContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account history <c>/accounts/{stake_address}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1history/get">/accounts/{stake_address}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/history","0.1.26")]
-        public Task<AccountsGetHistoryResponse> GetHistoryAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/history", "0.1.27")]
+        public Task<AccountHistoryContentResponseCollection> GetHistoryAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetHistoryAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/history</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account history <c>/accounts/{stake_address}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1history/get">/accounts/{stake_address}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account content.</returns>
-        [Get("/accounts/{stake_address}/history","0.1.26")]
-        public Task<AccountsGetHistoryResponse> GetHistoryAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/history", "0.1.27")]
+        public async Task<AccountHistoryContentResponseCollection> GetHistoryAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account delegation history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/delegations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/history");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountHistoryContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account delegation history <c>/accounts/{stake_address}/delegations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1delegations/get">/accounts/{stake_address}/delegations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/accounts/{stake_address}/delegations","0.1.26")]
-        public Task<AccountsGetDelegationsResponse> GetDelegationsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/delegations", "0.1.27")]
+        public Task<AccountDelegationContentResponseCollection> GetDelegationsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetDelegationsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account delegation history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/delegations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account delegation history <c>/accounts/{stake_address}/delegations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1delegations/get">/accounts/{stake_address}/delegations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
-        [Get("/accounts/{stake_address}/delegations","0.1.26")]
-        public Task<AccountsGetDelegationsResponse> GetDelegationsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/delegations", "0.1.27")]
+        public async Task<AccountDelegationContentResponseCollection> GetDelegationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account registration history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/registrations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/delegations");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountDelegationContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account registration history <c>/accounts/{stake_address}/registrations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1registrations/get">/accounts/{stake_address}/registrations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account registration content.</returns>
-        [Get("/accounts/{stake_address}/registrations","0.1.26")]
-        public Task<AccountsGetRegistrationsResponse> GetRegistrationsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/registrations", "0.1.27")]
+        public Task<AccountRegistrationContentResponseCollection> GetRegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetRegistrationsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account registration history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/registrations</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account registration history <c>/accounts/{stake_address}/registrations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1registrations/get">/accounts/{stake_address}/registrations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account registration content.</returns>
-        [Get("/accounts/{stake_address}/registrations","0.1.26")]
-        public Task<AccountsGetRegistrationsResponse> GetRegistrationsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/registrations", "0.1.27")]
+        public async Task<AccountRegistrationContentResponseCollection> GetRegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account withdrawal history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/withdrawals</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/registrations");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountRegistrationContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account withdrawal history <c>/accounts/{stake_address}/withdrawals</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1withdrawals/get">/accounts/{stake_address}/withdrawals</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account withdrawal content.</returns>
-        [Get("/accounts/{stake_address}/withdrawals","0.1.26")]
-        public Task<AccountsGetWithdrawalsResponse> GetWithdrawalsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/withdrawals", "0.1.27")]
+        public Task<AccountWithdrawalContentResponseCollection> GetWithdrawalsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetWithdrawalsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account withdrawal history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/withdrawals</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account withdrawal history <c>/accounts/{stake_address}/withdrawals</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1withdrawals/get">/accounts/{stake_address}/withdrawals</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account withdrawal content.</returns>
-        [Get("/accounts/{stake_address}/withdrawals","0.1.26")]
-        public Task<AccountsGetWithdrawalsResponse> GetWithdrawalsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/withdrawals", "0.1.27")]
+        public async Task<AccountWithdrawalContentResponseCollection> GetWithdrawalsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account MIR history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/mirs</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/withdrawals");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountWithdrawalContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account MIR history <c>/accounts/{stake_address}/mirs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1mirs/get">/accounts/{stake_address}/mirs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account MIR content.</returns>
-        [Get("/accounts/{stake_address}/mirs","0.1.26")]
-        public Task<AccountsGetMirsResponse> GetMirsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/mirs", "0.1.27")]
+        public Task<AccountMirContentResponseCollection> GetMirsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetMirsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account MIR history</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/mirs</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account MIR history <c>/accounts/{stake_address}/mirs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1mirs/get">/accounts/{stake_address}/mirs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account MIR content.</returns>
-        [Get("/accounts/{stake_address}/mirs","0.1.26")]
-        public Task<AccountsGetMirsResponse> GetMirsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/mirs", "0.1.27")]
+        public async Task<AccountMirContentResponseCollection> GetMirsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Account associated addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/mirs");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountMirContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Account associated addresses <c>/accounts/{stake_address}/addresses</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1addresses/get">/accounts/{stake_address}/addresses</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses","0.1.26")]
-        public Task<AccountsGetAddressesResponse> GetAddressesAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/addresses", "0.1.27")]
+        public Task<AccountAddressesContentResponseCollection> GetAddressesAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetAddressesAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Account associated addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Account associated addresses <c>/accounts/{stake_address}/addresses</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1addresses/get">/accounts/{stake_address}/addresses</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses","0.1.26")]
-        public Task<AccountsGetAddressesResponse> GetAddressesAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/addresses", "0.1.27")]
+        public async Task<AccountAddressesContentResponseCollection> GetAddressesAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
 
-        /// <summary>Assets associated with the account addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses/assets</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/accounts/{stake_address}/addresses");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountAddressesContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Assets associated with the account addresses <c>/accounts/{stake_address}/addresses/assets</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1addresses~1assets/get">/accounts/{stake_address}/addresses/assets</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses/assets","0.1.26")]
-        public Task<AccountsGetAddressesAssetsResponse> GetAddressesAssetsAsync(string stake_address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/addresses/assets", "0.1.27")]
+        public Task<AccountAddressesAssetsResponseCollection> GetAddressesAssetsAsync(string stake_address, int? count, int? page, ESortOrder? order)
         {
             return GetAddressesAssetsAsync(stake_address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Assets associated with the account addresses</summary>
-        /// <remarks>Route template: /accounts/{stake_address}/addresses/assets</remarks>
-        /// <param name="stake_address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Assets associated with the account addresses <c>/accounts/{stake_address}/addresses/assets</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Accounts/paths/~1accounts~1{stake_address}~1addresses~1assets/get">/accounts/{stake_address}/addresses/assets</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="stake_address">Bech32 stake address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account addresses content</returns>
-        [Get("/accounts/{stake_address}/addresses/assets","0.1.26")]
-        public Task<AccountsGetAddressesAssetsResponse> GetAddressesAssetsAsync(string stake_address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/accounts/{stake_address}/addresses/assets", "0.1.27")]
+        public async Task<AccountAddressesAssetsResponseCollection> GetAddressesAssetsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (stake_address == null)
+            {
+                throw new System.ArgumentNullException(nameof(stake_address));
+            }
+
+            var builder = GetUrlBuilder("/accounts/{stake_address}/addresses/assets");
+            _ = builder.SetRouteParameter("{stake_address}", stake_address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AccountAddressesAssetsResponseCollection>(builder, cancellationToken);
         }
     }
 }

@@ -1,436 +1,453 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IPoolsService 
+    public partial class PoolsService : ABlockfrostService, IPoolsService
     {
-
-        /// <summary>List of stake pools</summary>
-        /// <remarks>Route template: /pools</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the list of pools.</returns>
-        [Get("/pools","0.1.26")]
-        Task<PoolsGetResponse> GetAsync(long count, long page, string order);
-
-        /// <summary>List of stake pools</summary>
-        /// <remarks>Route template: /pools</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the list of pools.</returns>
-        [Get("/pools","0.1.26")]
-        Task<PoolsGetResponse> GetAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>List of retired stake pools</summary>
-        /// <remarks>Route template: /pools/retired</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/retired","0.1.26")]
-        Task<PoolsGetRetiredResponse> GetRetiredAsync(long count, long page, string order);
-
-        /// <summary>List of retired stake pools</summary>
-        /// <remarks>Route template: /pools/retired</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/retired","0.1.26")]
-        Task<PoolsGetRetiredResponse> GetRetiredAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>List of retiring stake pools</summary>
-        /// <remarks>Route template: /pools/retiring</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/retiring","0.1.26")]
-        Task<PoolsGetRetiringResponse> GetRetiringAsync(long count, long page, string order);
-
-        /// <summary>List of retiring stake pools</summary>
-        /// <remarks>Route template: /pools/retiring</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/retiring","0.1.26")]
-        Task<PoolsGetRetiringResponse> GetRetiringAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>Specific stake pool</summary>
-        /// <remarks>Route template: /pools/{pool_id}</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/{pool_id}","0.1.26")]
-        Task<PoolsGetResponse> GetAsync(string pool_id);
-
-        /// <summary>Specific stake pool</summary>
-        /// <remarks>Route template: /pools/{pool_id}</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/{pool_id}","0.1.26")]
-        Task<PoolsGetResponse> GetAsync(string pool_id, CancellationToken token);
-
-        /// <summary>Stake pool history</summary>
-        /// <remarks>Route template: /pools/{pool_id}/history</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content.</returns>
-        [Get("/pools/{pool_id}/history","0.1.26")]
-        Task<PoolsGetHistoryResponse> GetHistoryAsync(string pool_id, long count, long page, string order);
-
-        /// <summary>Stake pool history</summary>
-        /// <remarks>Route template: /pools/{pool_id}/history</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool information content.</returns>
-        [Get("/pools/{pool_id}/history","0.1.26")]
-        Task<PoolsGetHistoryResponse> GetHistoryAsync(string pool_id, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Stake pool metadata</summary>
-        /// <remarks>Route template: /pools/{pool_id}/metadata</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool metadata content.</returns>
-        [Get("/pools/{pool_id}/metadata","0.1.26")]
-        Task<PoolsGetMetadataResponse> GetMetadataAsync(string pool_id);
-
-        /// <summary>Stake pool metadata</summary>
-        /// <remarks>Route template: /pools/{pool_id}/metadata</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool metadata content.</returns>
-        [Get("/pools/{pool_id}/metadata","0.1.26")]
-        Task<PoolsGetMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken token);
-
-        /// <summary>Stake pool relays</summary>
-        /// <remarks>Route template: /pools/{pool_id}/relays</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool relays information content.</returns>
-        [Get("/pools/{pool_id}/relays","0.1.26")]
-        Task<PoolsGetRelaysResponse> GetRelaysAsync(string pool_id);
-
-        /// <summary>Stake pool relays</summary>
-        /// <remarks>Route template: /pools/{pool_id}/relays</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool relays information content.</returns>
-        [Get("/pools/{pool_id}/relays","0.1.26")]
-        Task<PoolsGetRelaysResponse> GetRelaysAsync(string pool_id, CancellationToken token);
-
-        /// <summary>Stake pool delegators</summary>
-        /// <remarks>Route template: /pools/{pool_id}/delegators</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool delegations.</returns>
-        [Get("/pools/{pool_id}/delegators","0.1.26")]
-        Task<PoolsGetDelegatorsResponse> GetDelegatorsAsync(string pool_id, long count, long page, string order);
-
-        /// <summary>Stake pool delegators</summary>
-        /// <remarks>Route template: /pools/{pool_id}/delegators</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool delegations.</returns>
-        [Get("/pools/{pool_id}/delegators","0.1.26")]
-        Task<PoolsGetDelegatorsResponse> GetDelegatorsAsync(string pool_id, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Stake pool blocks</summary>
-        /// <remarks>Route template: /pools/{pool_id}/blocks</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool block list</returns>
-        [Get("/pools/{pool_id}/blocks","0.1.26")]
-        Task<PoolsGetBlocksResponse> GetBlocksAsync(string pool_id, long count, long page, string order);
-
-        /// <summary>Stake pool blocks</summary>
-        /// <remarks>Route template: /pools/{pool_id}/blocks</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool block list</returns>
-        [Get("/pools/{pool_id}/blocks","0.1.26")]
-        Task<PoolsGetBlocksResponse> GetBlocksAsync(string pool_id, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Stake pool updates</summary>
-        /// <remarks>Route template: /pools/{pool_id}/updates</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool updates history</returns>
-        [Get("/pools/{pool_id}/updates","0.1.26")]
-        Task<PoolsGetUpdatesResponse> GetUpdatesAsync(string pool_id, long count, long page, string order);
-
-        /// <summary>Stake pool updates</summary>
-        /// <remarks>Route template: /pools/{pool_id}/updates</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the pool updates history</returns>
-        [Get("/pools/{pool_id}/updates","0.1.26")]
-        Task<PoolsGetUpdatesResponse> GetUpdatesAsync(string pool_id, long count, long page, string order, CancellationToken token);
-    }
-    
-    public partial class PoolsService : IPoolsService 
-    {
-
-        /// <summary>List of stake pools</summary>
-        /// <remarks>Route template: /pools</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the list of pools.</returns>
-        [Get("/pools","0.1.26")]
-        public Task<PoolsGetResponse> GetAsync(long count, long page, string order)
+        /// <summary> 
+        ///     Initializes a new <see cref="PoolsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools">Cardano » Pools</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public PoolsService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>List of stake pools</summary>
-        /// <remarks>Route template: /pools</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     List of stake pools <c>/pools</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools/get">/pools</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the list of pools.</returns>
-        [Get("/pools","0.1.26")]
-        public Task<PoolsGetResponse> GetAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools", "0.1.27")]
+        public Task<StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order)
         {
-            throw new NotImplementedException(); 
+            return GetPoolsAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>List of retired stake pools</summary>
-        /// <remarks>Route template: /pools/retired</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     List of stake pools <c>/pools</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools/get">/pools</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <returns>Return the list of pools.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools", "0.1.27")]
+        public async Task<StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/pools");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     List of retired stake pools <c>/pools/retired</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1retired/get">/pools/retired</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
-        [Get("/pools/retired","0.1.26")]
-        public Task<PoolsGetRetiredResponse> GetRetiredAsync(long count, long page, string order)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/retired", "0.1.27")]
+        public Task<PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order)
         {
             return GetRetiredAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>List of retired stake pools</summary>
-        /// <remarks>Route template: /pools/retired</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     List of retired stake pools <c>/pools/retired</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1retired/get">/pools/retired</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
-        [Get("/pools/retired","0.1.26")]
-        public Task<PoolsGetRetiredResponse> GetRetiredAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/retired", "0.1.27")]
+        public async Task<PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/pools/retired");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
 
-        /// <summary>List of retiring stake pools</summary>
-        /// <remarks>Route template: /pools/retiring</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            return await SendGetRequestAsync<PoolListRetireResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     List of retiring stake pools <c>/pools/retiring</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1retiring/get">/pools/retiring</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
-        [Get("/pools/retiring","0.1.26")]
-        public Task<PoolsGetRetiringResponse> GetRetiringAsync(long count, long page, string order)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/retiring", "0.1.27")]
+        public Task<PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order)
         {
             return GetRetiringAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>List of retiring stake pools</summary>
-        /// <remarks>Route template: /pools/retiring</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     List of retiring stake pools <c>/pools/retiring</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1retiring/get">/pools/retiring</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content</returns>
-        [Get("/pools/retiring","0.1.26")]
-        public Task<PoolsGetRetiringResponse> GetRetiringAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/retiring", "0.1.27")]
+        public async Task<PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            var builder = GetUrlBuilder("/pools/retiring");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<PoolListRetireResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific stake pool <c>/pools/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}/get">/pools/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <returns>Return the pool information content</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}", "0.1.27")]
+        public Task<PoolResponse> GetPoolsAsync(string pool_id)
+        {
+            return GetPoolsAsync(pool_id, CancellationToken.None);
         }
 
-        /// <summary>Specific stake pool</summary>
-        /// <remarks>Route template: /pools/{pool_id}</remarks>
-        /// <param name="pool_id">Description</param>
+        /// <summary>
+        ///     Specific stake pool <c>/pools/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}/get">/pools/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool information content</returns>
-        [Get("/pools/{pool_id}","0.1.26")]
-        public Task<PoolsGetResponse> GetAsync(string pool_id)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}", "0.1.27")]
+        public async Task<PoolResponse> GetPoolsAsync(string pool_id, CancellationToken cancellationToken)
         {
-            return GetAsync(pool_id, CancellationToken.None);
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Specific stake pool</summary>
-        /// <remarks>Route template: /pools/{pool_id}</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <returns>Return the pool information content</returns>
-        [Get("/pools/{pool_id}","0.1.26")]
-        public Task<PoolsGetResponse> GetAsync(string pool_id, CancellationToken token)
-        {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/pools/{pool_id}");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
 
-        /// <summary>Stake pool history</summary>
-        /// <remarks>Route template: /pools/{pool_id}/history</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            return await SendGetRequestAsync<PoolResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool history <c>/pools/{pool_id}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1history/get">/pools/{pool_id}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content.</returns>
-        [Get("/pools/{pool_id}/history","0.1.26")]
-        public Task<PoolsGetHistoryResponse> GetHistoryAsync(string pool_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/history", "0.1.27")]
+        public Task<PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetHistoryAsync(pool_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Stake pool history</summary>
-        /// <remarks>Route template: /pools/{pool_id}/history</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Stake pool history <c>/pools/{pool_id}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1history/get">/pools/{pool_id}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool information content.</returns>
-        [Get("/pools/{pool_id}/history","0.1.26")]
-        public Task<PoolsGetHistoryResponse> GetHistoryAsync(string pool_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/history", "0.1.27")]
+        public async Task<PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Stake pool metadata</summary>
-        /// <remarks>Route template: /pools/{pool_id}/metadata</remarks>
-        /// <param name="pool_id">Description</param>
+            var builder = GetUrlBuilder("/pools/{pool_id}/history");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<PoolHistoryResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool metadata <c>/pools/{pool_id}/metadata</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1metadata/get">/pools/{pool_id}/metadata</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool metadata content.</returns>
-        [Get("/pools/{pool_id}/metadata","0.1.26")]
-        public Task<PoolsGetMetadataResponse> GetMetadataAsync(string pool_id)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/metadata", "0.1.27")]
+        public Task<PoolMetadataResponse> GetMetadataAsync(string pool_id)
         {
             return GetMetadataAsync(pool_id, CancellationToken.None);
         }
 
-        /// <summary>Stake pool metadata</summary>
-        /// <remarks>Route template: /pools/{pool_id}/metadata</remarks>
-        /// <param name="pool_id">Description</param>
+        /// <summary>
+        ///     Stake pool metadata <c>/pools/{pool_id}/metadata</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1metadata/get">/pools/{pool_id}/metadata</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool metadata content.</returns>
-        [Get("/pools/{pool_id}/metadata","0.1.26")]
-        public Task<PoolsGetMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/metadata", "0.1.27")]
+        public async Task<PoolMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Stake pool relays</summary>
-        /// <remarks>Route template: /pools/{pool_id}/relays</remarks>
-        /// <param name="pool_id">Description</param>
+            var builder = GetUrlBuilder("/pools/{pool_id}/metadata");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+
+            return await SendGetRequestAsync<PoolMetadataResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool relays <c>/pools/{pool_id}/relays</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1relays/get">/pools/{pool_id}/relays</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool relays information content.</returns>
-        [Get("/pools/{pool_id}/relays","0.1.26")]
-        public Task<PoolsGetRelaysResponse> GetRelaysAsync(string pool_id)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/relays", "0.1.27")]
+        public Task<PoolRelaysResponseCollection> GetRelaysAsync(string pool_id)
         {
             return GetRelaysAsync(pool_id, CancellationToken.None);
         }
 
-        /// <summary>Stake pool relays</summary>
-        /// <remarks>Route template: /pools/{pool_id}/relays</remarks>
-        /// <param name="pool_id">Description</param>
+        /// <summary>
+        ///     Stake pool relays <c>/pools/{pool_id}/relays</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1relays/get">/pools/{pool_id}/relays</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
         /// <returns>Return the pool relays information content.</returns>
-        [Get("/pools/{pool_id}/relays","0.1.26")]
-        public Task<PoolsGetRelaysResponse> GetRelaysAsync(string pool_id, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/relays", "0.1.27")]
+        public async Task<PoolRelaysResponseCollection> GetRelaysAsync(string pool_id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Stake pool delegators</summary>
-        /// <remarks>Route template: /pools/{pool_id}/delegators</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/pools/{pool_id}/relays");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+
+            return await SendGetRequestAsync<PoolRelaysResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool delegators <c>/pools/{pool_id}/delegators</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1delegators/get">/pools/{pool_id}/delegators</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool delegations.</returns>
-        [Get("/pools/{pool_id}/delegators","0.1.26")]
-        public Task<PoolsGetDelegatorsResponse> GetDelegatorsAsync(string pool_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/delegators", "0.1.27")]
+        public Task<PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetDelegatorsAsync(pool_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Stake pool delegators</summary>
-        /// <remarks>Route template: /pools/{pool_id}/delegators</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Stake pool delegators <c>/pools/{pool_id}/delegators</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1delegators/get">/pools/{pool_id}/delegators</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool delegations.</returns>
-        [Get("/pools/{pool_id}/delegators","0.1.26")]
-        public Task<PoolsGetDelegatorsResponse> GetDelegatorsAsync(string pool_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/delegators", "0.1.27")]
+        public async Task<PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Stake pool blocks</summary>
-        /// <remarks>Route template: /pools/{pool_id}/blocks</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/pools/{pool_id}/delegators");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<PoolDelegatorsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool blocks <c>/pools/{pool_id}/blocks</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1blocks/get">/pools/{pool_id}/blocks</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool block list</returns>
-        [Get("/pools/{pool_id}/blocks","0.1.26")]
-        public Task<PoolsGetBlocksResponse> GetBlocksAsync(string pool_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/blocks", "0.1.27")]
+        public Task<StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetBlocksAsync(pool_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Stake pool blocks</summary>
-        /// <remarks>Route template: /pools/{pool_id}/blocks</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Stake pool blocks <c>/pools/{pool_id}/blocks</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1blocks/get">/pools/{pool_id}/blocks</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool block list</returns>
-        [Get("/pools/{pool_id}/blocks","0.1.26")]
-        public Task<PoolsGetBlocksResponse> GetBlocksAsync(string pool_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/blocks", "0.1.27")]
+        public async Task<StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Stake pool updates</summary>
-        /// <remarks>Route template: /pools/{pool_id}/updates</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/pools/{pool_id}/blocks");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake pool updates <c>/pools/{pool_id}/updates</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1updates/get">/pools/{pool_id}/updates</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool updates history</returns>
-        [Get("/pools/{pool_id}/updates","0.1.26")]
-        public Task<PoolsGetUpdatesResponse> GetUpdatesAsync(string pool_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/updates", "0.1.27")]
+        public Task<PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetUpdatesAsync(pool_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Stake pool updates</summary>
-        /// <remarks>Route template: /pools/{pool_id}/updates</remarks>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Stake pool updates <c>/pools/{pool_id}/updates</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools/paths/~1pools~1{pool_id}~1updates/get">/pools/{pool_id}/updates</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the pool updates history</returns>
-        [Get("/pools/{pool_id}/updates","0.1.26")]
-        public Task<PoolsGetUpdatesResponse> GetUpdatesAsync(string pool_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/pools/{pool_id}/updates", "0.1.27")]
+        public async Task<PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
+
+            var builder = GetUrlBuilder("/pools/{pool_id}/updates");
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<PoolUpdatesResponseCollection>(builder, cancellationToken);
         }
     }
 }

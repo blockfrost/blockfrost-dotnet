@@ -17,7 +17,7 @@
       "url": "https://opensource.org/licenses/MIT"
     },
     "termsOfService": "https://blockfrost.io/terms",
-    "description": "Blockfrost is an API as a service that allows users to interact with the Cardano blockchain and parts of its ecosystem.\n\n## Tokens\n\nAfter signing up on https://blockfrost.io, a `project_id` token is automatically generated for each project.\nHTTP header of your request MUST include this `project_id` in order to authenticate against Blockfrost servers.\n\n## Available networks\n\nAt the moment, you can use the following networks. Please, note that each network has its own `project_id`.\n\n<table>\n  <tr><td><b>Network</b></td><td><b>Endpoint</b></td></tr>\n  <tr><td>Cardano mainnet</td><td><tt>https://cardano-mainnet.blockfrost.io/api/v0</td></tt></tr>\n  <tr><td>Cardano testnet</td><td><tt>https://cardano-testnet.blockfrost.io/api/v0</tt></td></tr>\n  <tr><td>InterPlanetary File System</td><td><tt>https://ipfs.blockfrost.io/api/v0</tt></td></tr>\n</table>\n\n## Concepts\n\n* All endpoints return either a JSON object or an array.\n* Data is returned in *ascending* (oldest first, newest last) order.\n  * You might use the `?order=desc` query parameter to reverse this order.\n* By default, we return 100 results at a time. You have to use `?page=2` to list through the results.\n* All time and timestamp related fields (except `server_time`) are in seconds of UNIX time.\n* All amounts are returned in Lovelaces, where 1 ADA = 1 000 000 Lovelaces.\n* Addresses, accounts and pool IDs are in Bech32 format.\n* All values are case sensitive.\n* All hex encoded values are lower case.\n* Examples are not based on real data. Any resemblance to actual events is purely coincidental.\n* We allow to upload files up to 100MB of size to IPFS. This might increase in the future.\n\n## Errors\n\n### HTTP Status codes\n\nThe following are HTTP status code your application might receive when reaching Blockfrost endpoints and\nit should handle all of these cases.\n\n* HTTP `400` return code is used when the request is not valid.\n* HTTP `402` return code is used when the projects exceed their daily request limit.\n* HTTP `403` return code is used when the request is not authenticated.\n* HTTP `404` return code is used when the resource doesn't exist.\n* HTTP `418` return code is used when the user has been auto-banned for flooding too much after previously receiving error code `402` or `429`.\n* HTTP `429` return code is used when the user has sent too many requests in a given amount of time and therefore has been rate-limited.\n* HTTP `500` return code is used when our endpoints are having a problem.\n\n### Error codes\n\nAn internal error code number is used for better indication of the error in question. It is passed using the following payload.\n\n```json\n{\n  \"status_code\": 403,\n  \"error\": \"Forbidden\",\n  \"message\": \"Invalid project token.\"\n}\n```\n## Limits\n\n There are two types of limits we are enforcing:\n\n The first depends on your plan and is the number of request we allow per day. We defined the day from midnight to midnight of UTC time.\n\n The second is rate limiting. We limit an end user, distinguished by IP address, to 10 requests per second. On top of that, we allow\n each user to send burst of 500 requests, which cools off at rate of 10 requests per second. In essence, a user is allowed to make another\n whole burst after (currently) 500/10 = 50 seconds. E.g. if a user attemtps to make a call 3 seconds after whole burst, 30 requests will be processed.\n We believe this should be sufficient for most of the use cases. If it is not and you have a specific use case, please get in touch with us, and\n we will make sure to take it into account as much as we can.\n \n## SDKs\n\nWe support a number of SDKs that will help you in developing your application on top of Blockfrost.\n\n<table>\n  <tr><td><b>Programming language</b></td><td><b>SDK</b></td></tr>\n  <tr><td>JavaScript</td><td><a href=\"https://github.com/blockfrost/blockfrost-js\">blockfrost-js</a></tr>\n</table>\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
+    "description": "Blockfrost is an API as a service that allows users to interact with the Cardano blockchain and parts of its ecosystem.  ## Tokens  After signing up on https://blockfrost.io, a `project_id` token is automatically generated for each project. HTTP header of your request MUST include this `project_id` in order to authenticate against Blockfrost servers.  ## Available networks  At the moment, you can use the following networks. Please, note that each network has its own `project_id`.  <table>   <tr><td><b>Network</b></td><td><b>Endpoint</b></td></tr>   <tr><td>Cardano mainnet</td><td><tt>https://cardano-mainnet.blockfrost.io/api/v0</td></tt></tr>   <tr><td>Cardano testnet</td><td><tt>https://cardano-testnet.blockfrost.io/api/v0</tt></td></tr>   <tr><td>InterPlanetary File System</td><td><tt>https://ipfs.blockfrost.io/api/v0</tt></td></tr> </table>  ## Concepts  * All endpoints return either a JSON object or an array. * Data is returned in *ascending* (oldest first, newest last) order.   * You might use the `?order=desc` query parameter to reverse this order. * By default, we return 100 results at a time. You have to use `?page=2` to list through the results. * All time and timestamp related fields (except `server_time`) are in seconds of UNIX time. * All amounts are returned in Lovelaces, where 1 ADA = 1 000 000 Lovelaces. * Addresses, accounts and pool IDs are in Bech32 format. * All values are case sensitive. * All hex encoded values are lower case. * Examples are not based on real data. Any resemblance to actual events is purely coincidental. * We allow to upload files up to 100MB of size to IPFS. This might increase in the future.  ## Errors  ### HTTP Status codes  The following are HTTP status code your application might receive when reaching Blockfrost endpoints and it should handle all of these cases.  * HTTP `400` return code is used when the request is not valid. * HTTP `402` return code is used when the projects exceed their daily request limit. * HTTP `403` return code is used when the request is not authenticated. * HTTP `404` return code is used when the resource doesn't exist. * HTTP `418` return code is used when the user has been auto-banned for flooding too much after previously receiving error code `402` or `429`. * HTTP `429` return code is used when the user has sent too many requests in a given amount of time and therefore has been rate-limited. * HTTP `500` return code is used when our endpoints are having a problem.  ### Error codes  An internal error code number is used for better indication of the error in question. It is passed using the following payload.  ```json {   \"status_code\": 403,   \"error\": \"Forbidden\",   \"message\": \"Invalid project token.\" } ``` ## Limits   There are two types of limits we are enforcing:   The first depends on your plan and is the number of request we allow per day. We defined the day from midnight to midnight of UTC time.   The second is rate limiting. We limit an end user, distinguished by IP address, to 10 requests per second. On top of that, we allow  each user to send burst of 500 requests, which cools off at rate of 10 requests per second. In essence, a user is allowed to make another  whole burst after (currently) 500/10 = 50 seconds. E.g. if a user attemtps to make a call 3 seconds after whole burst, 30 requests will be processed.  We believe this should be sufficient for most of the use cases. If it is not and you have a specific use case, please get in touch with us, and  we will make sure to take it into account as much as we can.   ## SDKs  We support a number of SDKs that will help you in developing your application on top of Blockfrost.  <table>   <tr><td><b>Programming language</b></td><td><b>SDK</b></td></tr>   <tr><td>JavaScript</td><td><a href=\"https://github.com/blockfrost/blockfrost-js\">blockfrost-js</a></tr> </table>  # Authentication  <!-- ReDoc-Inject: <security-definitions> -->"
   },
   "servers": [
     {
@@ -92,7 +92,7 @@
           "Health"
         ],
         "summary": "Root endpoint",
-        "description": "Root endpoint has no other function than to point end users to documentation.\n",
+        "description": "Root endpoint has no other function than to point end users to documentation. ",
         "responses": {
           "200": {
             "description": "Information pointing to the documentation.",
@@ -142,7 +142,7 @@
           "Health"
         ],
         "summary": "Backend health status",
-        "description": "Return backend status as a boolean. Your application\n    should handle situations when backend for the given chain is unavailable.\n",
+        "description": "Return backend status as a boolean. Your application     should handle situations when backend for the given chain is unavailable. ",
         "responses": {
           "200": {
             "description": "Return the boolean indicating the health of the backend.",
@@ -187,7 +187,7 @@
           "Health"
         ],
         "summary": "Current backend time",
-        "description": "This endpoint provides the current UNIX time. Your application might\nuse this to verify if the client clock is not out of sync.\n",
+        "description": "This endpoint provides the current UNIX time. Your application might use this to verify if the client clock is not out of sync. ",
         "responses": {
           "200": {
             "description": "Return the current UNIX time in milliseconds.",
@@ -232,7 +232,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Latest block",
-        "description": "Return the latest block available to the backends, also known as the\ntip of the blockchain.\n",
+        "description": "Return the latest block available to the backends, also known as the tip of the blockchain. ",
         "responses": {
           "200": {
             "description": "Return the contents of the latest block.",
@@ -306,7 +306,7 @@
               ],
               "default": "asc"
             },
-            "description": "Ordered by tx index in the block.\nThe ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "Ordered by tx index in the block. The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -347,7 +347,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Specific block",
-        "description": "Return the content of a requested block.\n",
+        "description": "Return the content of a requested block. ",
         "parameters": [
           {
             "in": "path",
@@ -399,7 +399,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Specific block in a slot",
-        "description": "Return the content of a requested block for a specific slot.\n",
+        "description": "Return the content of a requested block for a specific slot. ",
         "parameters": [
           {
             "in": "path",
@@ -451,7 +451,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Specific block in a slot in an epoch",
-        "description": "Return the content of a requested block for a specific slot in an epoch.\n",
+        "description": "Return the content of a requested block for a specific slot in an epoch. ",
         "parameters": [
           {
             "in": "path",
@@ -514,7 +514,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Listing of next blocks",
-        "description": "Return the list of blocks following a specific block.\n",
+        "description": "Return the list of blocks following a specific block. ",
         "parameters": [
           {
             "in": "path",
@@ -587,7 +587,7 @@
           "Cardano » Blocks"
         ],
         "summary": "Listing of previous blocks",
-        "description": "Return the list of blocks preceding a specific block.\n",
+        "description": "Return the list of blocks preceding a specific block. ",
         "parameters": [
           {
             "in": "path",
@@ -706,7 +706,7 @@
               ],
               "default": "asc"
             },
-            "description": "Ordered by tx index in the block.\nThe ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "Ordered by tx index in the block. The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -1255,7 +1255,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -1351,7 +1351,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -1547,7 +1547,7 @@
           "Cardano » Transactions"
         ],
         "summary": "Transaction stake addresses certificates",
-        "description": "Obtain information about (de)registration of stake addresses within a transaction.\n",
+        "description": "Obtain information about (de)registration of stake addresses within a transaction. ",
         "parameters": [
           {
             "in": "path",
@@ -1563,7 +1563,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Obtain information about (de)registration of stake addresses within a transaction.\n",
+            "description": "Obtain information about (de)registration of stake addresses within a transaction. ",
             "content": {
               "application/json": {
                 "schema": {
@@ -1599,7 +1599,7 @@
           "Cardano » Transactions"
         ],
         "summary": "Transaction delegation certificates",
-        "description": "Obtain information about delegation certificates of a specific transaction.\n",
+        "description": "Obtain information about delegation certificates of a specific transaction. ",
         "parameters": [
           {
             "in": "path",
@@ -1755,7 +1755,7 @@
           "Cardano » Transactions"
         ],
         "summary": "Transaction stake pool registration and update certificates",
-        "description": "Obtain information about stake pool registration and update certificates of a specific transaction.\n",
+        "description": "Obtain information about stake pool registration and update certificates of a specific transaction. ",
         "parameters": [
           {
             "in": "path",
@@ -1807,7 +1807,7 @@
           "Cardano » Transactions"
         ],
         "summary": "Transaction stake pool retirement certificates",
-        "description": "Obtain information about stake pool retirements within a specific transaction.\n",
+        "description": "Obtain information about stake pool retirements within a specific transaction. ",
         "parameters": [
           {
             "in": "path",
@@ -1823,7 +1823,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Obtain information about stake pool retirements within a specific transaction.\n",
+            "description": "Obtain information about stake pool retirements within a specific transaction. ",
             "content": {
               "application/json": {
                 "schema": {
@@ -1981,12 +1981,12 @@
           {
             "lang": "Shell",
             "label": "cURL",
-            "source": "# Assuming `data` is a serialized transaction on the file-system.\ncurl \"https://cardano-mainnet.blockfrost.io/api/v0/tx/submit\" \\\n  -X POST \\\n  -H \"Content-Type: application/cbor\" \\\n  -H \"project_id: $PROJECT_ID\" \\\n  --data-binary @./data\n"
+            "source": "# Assuming `data` is a serialized transaction on the file-system. curl \"https://cardano-mainnet.blockfrost.io/api/v0/tx/submit\" \\   -X POST \\   -H \"Content-Type: application/cbor\" \\   -H \"project_id: $PROJECT_ID\" \\   --data-binary @./data "
           },
           {
             "lang": "Shell",
             "label": "cardano-cli",
-            "source": "# Assuming `tx.signed` is signed transaction constructed by cardano-cli\nxxd -r -p <<< $(jq .cborHex tx.signed) > tx.submit-api.raw\ncurl \"https://cardano-mainnet.blockfrost.io/api/v0/tx/submit\" \\\n  -X POST \\\n  -H \"Content-Type: application/cbor\" \\\n  -H \"project_id: $PROJECT_ID\" \\\n  --data-binary @./tx.submit-api.raw\n"
+            "source": "# Assuming `tx.signed` is signed transaction constructed by cardano-cli xxd -r -p <<< $(jq .cborHex tx.signed) > tx.submit-api.raw curl \"https://cardano-mainnet.blockfrost.io/api/v0/tx/submit\" \\   -X POST \\   -H \"Content-Type: application/cbor\" \\   -H \"project_id: $PROJECT_ID\" \\   --data-binary @./tx.submit-api.raw "
           }
         ],
         "responses": {
@@ -2031,7 +2031,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Specific account address",
-        "description": "Obtain information about a specific stake account.\n",
+        "description": "Obtain information about a specific stake account. ",
         "parameters": [
           {
             "in": "path",
@@ -2082,7 +2082,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Account reward history",
-        "description": "Obtain information about the reward history of a specific account.\n",
+        "description": "Obtain information about the reward history of a specific account. ",
         "parameters": [
           {
             "in": "path",
@@ -2127,7 +2127,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2168,7 +2168,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Account history",
-        "description": "Obtain information about the history of a specific account.\n",
+        "description": "Obtain information about the history of a specific account. ",
         "parameters": [
           {
             "in": "path",
@@ -2213,7 +2213,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2299,7 +2299,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2340,7 +2340,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Account registration history",
-        "description": "Obtain information about the registrations and deregistrations of a specific account.\n",
+        "description": "Obtain information about the registrations and deregistrations of a specific account. ",
         "parameters": [
           {
             "in": "path",
@@ -2385,7 +2385,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2426,7 +2426,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Account withdrawal history",
-        "description": "Obtain information about the withdrawals of a specific account.\n",
+        "description": "Obtain information about the withdrawals of a specific account. ",
         "parameters": [
           {
             "in": "path",
@@ -2471,7 +2471,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2512,7 +2512,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Account MIR history",
-        "description": "Obtain information about the MIRs of a specific account.\n",
+        "description": "Obtain information about the MIRs of a specific account. ",
         "parameters": [
           {
             "in": "path",
@@ -2557,7 +2557,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2643,7 +2643,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2684,7 +2684,7 @@
           "Cardano » Accounts"
         ],
         "summary": "Assets associated with the account addresses",
-        "description": "Obtain information about assets associated with addresses of a specific account.\n\n<b>Be careful</b>, as an account could be part of a mangled address and does not necessarily mean the addresses are owned by user as the account.\n",
+        "description": "Obtain information about assets associated with addresses of a specific account.  <b>Be careful</b>, as an account could be part of a mangled address and does not necessarily mean the addresses are owned by user as the account. ",
         "parameters": [
           {
             "in": "path",
@@ -2729,7 +2729,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2770,7 +2770,7 @@
           "Cardano » Metadata"
         ],
         "summary": "Transaction metadata labels",
-        "description": "List of all used transaction metadata labels.\n",
+        "description": "List of all used transaction metadata labels. ",
         "parameters": [
           {
             "in": "query",
@@ -2805,7 +2805,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2891,7 +2891,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -2977,7 +2977,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3165,7 +3165,7 @@
               ],
               "default": "asc"
             },
-            "description": "Ordered by tx index in the block.\nThe ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "Ordered by tx index in the block. The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3252,7 +3252,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3338,7 +3338,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           },
           {
             "in": "query",
@@ -3347,7 +3347,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.\nHas to be lower than or equal to `to` parameter.\n",
+            "description": "The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon. Has to be lower than or equal to `to` parameter. ",
             "example": "8929261"
           },
           {
@@ -3357,7 +3357,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.\nHas to be higher than or equal to `from` parameter.\n",
+            "description": "The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon. Has to be higher than or equal to `from` parameter. ",
             "example": "9999269:10"
           }
         ],
@@ -3434,7 +3434,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3510,7 +3510,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3586,7 +3586,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3678,7 +3678,7 @@
           "Cardano » Pools"
         ],
         "summary": "Stake pool history",
-        "description": "History of stake pool parameters over epochs.\n",
+        "description": "History of stake pool parameters over epochs. ",
         "parameters": [
           {
             "in": "path",
@@ -3723,7 +3723,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -3764,7 +3764,7 @@
           "Cardano » Pools"
         ],
         "summary": "Stake pool metadata",
-        "description": "Stake pool registration metadata.\n",
+        "description": "Stake pool registration metadata. ",
         "parameters": [
           {
             "in": "path",
@@ -3918,7 +3918,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4004,7 +4004,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4090,7 +4090,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4166,7 +4166,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4303,7 +4303,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4390,7 +4390,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4476,7 +4476,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4562,7 +4562,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4648,7 +4648,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4694,11 +4694,11 @@
           "IPFS » Add"
         ],
         "summary": "Add a file or directory to IPFS",
-        "description": "You need to `/ipfs/pin/add` an object to avoid it being garbage collected. This usage\nis being counted in your user account quota.\n",
+        "description": "You need to `/ipfs/pin/add` an object to avoid it being garbage collected. This usage is being counted in your user account quota. ",
         "x-codeSamples": [
           {
             "lang": "curl",
-            "source": "curl \"https://ipfs.blockfrost.io/api/v0/ipfs/add\" \\\n  -X POST \\\n  -H \"project_id: $PROJECT_ID\" \\\n  -F \"file=@./README.md\"\n"
+            "source": "curl \"https://ipfs.blockfrost.io/api/v0/ipfs/add\" \\   -X POST \\   -H \"project_id: $PROJECT_ID\" \\   -F \"file=@./README.md\" "
           }
         ],
         "responses": {
@@ -4922,7 +4922,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -4960,7 +4960,7 @@
                         "enum": [
                           "queued|pinned|unpinned|failed|gc"
                         ],
-                        "description": "State of the pinned object, which is `queued` when we are retriving object. If this\nis successful the state is changed to `pinned` or `failed` if not. The state `gc` means the\npinned item has been garbage collected due to account being over storage quota or after it has\nbeen moved to `unpinned` state by removing the object pin.\n",
+                        "description": "State of the pinned object, which is `queued` when we are retriving object. If this is successful the state is changed to `pinned` or `failed` if not. The state `gc` means the pinned item has been garbage collected due to account being over storage quota or after it has been moved to `unpinned` state by removing the object pin. ",
                         "example": "pinned"
                       }
                     },
@@ -5052,7 +5052,7 @@
                       "enum": [
                         "queued|pinned|unpinned|failed|gc"
                       ],
-                      "description": "State of the pinned object. We define 5 states: `queued`, `pinned`, `unpinned`, `failed`, `gc`.\nWhen the object is pending retrieval (i.e. after `/ipfs/pin/add/{IPFS_path}`), the state is `queued`.\nIf the object is already successfully retrieved, state is changed to `pinned` or `failed` otherwise.\nWhen object is unpinned (i.e. after `/ipfs/pin/remove/{IPFS_path}`) it is marked for garbage collection.\nState `gc` means that a previously `unpinned` item has been garbage collected due to account being over storage quota.\n",
+                      "description": "State of the pinned object. We define 5 states: `queued`, `pinned`, `unpinned`, `failed`, `gc`. When the object is pending retrieval (i.e. after `/ipfs/pin/add/{IPFS_path}`), the state is `queued`. If the object is already successfully retrieved, state is changed to `pinned` or `failed` otherwise. When object is unpinned (i.e. after `/ipfs/pin/remove/{IPFS_path}`) it is marked for garbage collection. State `gc` means that a previously `unpinned` item has been garbage collected due to account being over storage quota. ",
                       "example": "pinned"
                     }
                   },
@@ -5206,7 +5206,7 @@
           "Metrics"
         ],
         "summary": "Blockfrost endpoint usage metrics",
-        "description": "History of your Blockfrost usage metrics per endpoint in the past 30 days.\n",
+        "description": "History of your Blockfrost usage metrics per endpoint in the past 30 days. ",
         "responses": {
           "200": {
             "description": "Return the last 30 days of metrics",
@@ -5376,7 +5376,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -5469,7 +5469,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -5553,7 +5553,7 @@
               ],
               "default": "asc"
             },
-            "description": "The ordering of items from the point of view of the blockchain,\nnot the page listing itself. By default, we return oldest first, newest last.\n"
+            "description": "The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
           }
         ],
         "responses": {
@@ -5771,7 +5771,7 @@
         "type": "apiKey",
         "in": "header",
         "name": "project_id",
-        "description": "There are multiple token types available based on network you choose\nwhen creating a Blockfrost a project, for a list of token types\nsee [Available networks](#section/Available-networks)\n"
+        "description": "There are multiple token types available based on network you choose when creating a Blockfrost a project, for a list of token types see [Available networks](#section/Available-networks) "
       }
     },
     "schemas": {
@@ -8228,7 +8228,7 @@
             "type": "object",
             "additionalProperties": true,
             "nullable": true,
-            "description": "On-chain metadata stored in the minting transaction under label 721,\ncommunity discussion around the standard ongoing at https://github.com/cardano-foundation/CIPs/pull/85\n",
+            "description": "On-chain metadata stored in the minting transaction under label 721, community discussion around the standard ongoing at https://github.com/cardano-foundation/CIPs/pull/85 ",
             "properties": {
               "name": {
                 "type": "string",

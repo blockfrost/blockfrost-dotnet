@@ -1,332 +1,338 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IBlocksService 
+    public partial class BlocksService : ABlockfrostService, IBlocksService
     {
+        /// <summary> 
+        ///     Initializes a new <see cref="BlocksService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks">Cardano » Blocks</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public BlocksService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
-        /// <summary>Latest block</summary>
-        /// <remarks>Route template: /blocks/latest</remarks>
+        /// <summary>
+        ///     Latest block <c>/blocks/latest</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1latest/get">/blocks/latest</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the contents of the latest block.</returns>
-        [Get("/blocks/latest","0.1.26")]
-        Task<BlocksGetLatestResponse> GetLatestAsync();
-
-        /// <summary>Latest block</summary>
-        /// <remarks>Route template: /blocks/latest</remarks>
-        /// <returns>Return the contents of the latest block.</returns>
-        [Get("/blocks/latest","0.1.26")]
-        Task<BlocksGetLatestResponse> GetLatestAsync(CancellationToken token);
-
-        /// <summary>Latest block transactions</summary>
-        /// <remarks>Route template: /blocks/latest/txs</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/latest/txs","0.1.26")]
-        Task<BlocksGetLatestTxsResponse> GetLatestTxsAsync(long count, long page, string order);
-
-        /// <summary>Latest block transactions</summary>
-        /// <remarks>Route template: /blocks/latest/txs</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/latest/txs","0.1.26")]
-        Task<BlocksGetLatestTxsResponse> GetLatestTxsAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>Specific block</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}","0.1.26")]
-        Task<BlocksGetResponse> GetAsync(string hash_or_number);
-
-        /// <summary>Specific block</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}","0.1.26")]
-        Task<BlocksGetResponse> GetAsync(string hash_or_number, CancellationToken token);
-
-        /// <summary>Specific block in a slot</summary>
-        /// <remarks>Route template: /blocks/slot/{slot_number}</remarks>
-        /// <param name="slot_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/slot/{slot_number}","0.1.26")]
-        Task<BlocksGetSlotResponse> GetSlotAsync(long slot_number);
-
-        /// <summary>Specific block in a slot</summary>
-        /// <remarks>Route template: /blocks/slot/{slot_number}</remarks>
-        /// <param name="slot_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/slot/{slot_number}","0.1.26")]
-        Task<BlocksGetSlotResponse> GetSlotAsync(long slot_number, CancellationToken token);
-
-        /// <summary>Specific block in a slot in an epoch</summary>
-        /// <remarks>Route template: /blocks/epoch/{epoch_number}/slot/{slot_number}</remarks>
-        /// <param name="epoch_number">Description</param>
-        /// <param name="slot_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}","0.1.26")]
-        Task<BlocksGetEpochSlotResponse> GetEpochSlotAsync(long epoch_number, long slot_number);
-
-        /// <summary>Specific block in a slot in an epoch</summary>
-        /// <remarks>Route template: /blocks/epoch/{epoch_number}/slot/{slot_number}</remarks>
-        /// <param name="epoch_number">Description</param>
-        /// <param name="slot_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}","0.1.26")]
-        Task<BlocksGetEpochSlotResponse> GetEpochSlotAsync(long epoch_number, long slot_number, CancellationToken token);
-
-        /// <summary>Listing of next blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/next</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the contents of the block.</returns>
-        [Get("/blocks/{hash_or_number}/next","0.1.26")]
-        Task<BlocksGetNextResponse> GetNextAsync(string hash_or_number, long count, long page);
-
-        /// <summary>Listing of next blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/next</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the contents of the block.</returns>
-        [Get("/blocks/{hash_or_number}/next","0.1.26")]
-        Task<BlocksGetNextResponse> GetNextAsync(string hash_or_number, long count, long page, CancellationToken token);
-
-        /// <summary>Listing of previous blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/previous</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}/previous","0.1.26")]
-        Task<BlocksGetPreviousResponse> GetPreviousAsync(string hash_or_number, long count, long page);
-
-        /// <summary>Listing of previous blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/previous</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}/previous","0.1.26")]
-        Task<BlocksGetPreviousResponse> GetPreviousAsync(string hash_or_number, long count, long page, CancellationToken token);
-
-        /// <summary>Block transactions</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/txs</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/{hash_or_number}/txs","0.1.26")]
-        Task<BlocksGetTxsResponse> GetTxsAsync(string hash_or_number, long count, long page, string order);
-
-        /// <summary>Block transactions</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/txs</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/{hash_or_number}/txs","0.1.26")]
-        Task<BlocksGetTxsResponse> GetTxsAsync(string hash_or_number, long count, long page, string order, CancellationToken token);
-    }
-    
-    public partial class BlocksService : IBlocksService 
-    {
-
-        /// <summary>Latest block</summary>
-        /// <remarks>Route template: /blocks/latest</remarks>
-        /// <returns>Return the contents of the latest block.</returns>
-        [Get("/blocks/latest","0.1.26")]
-        public Task<BlocksGetLatestResponse> GetLatestAsync()
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/latest", "0.1.27")]
+        public Task<BlockContentResponse> GetLatestAsync()
         {
             return GetLatestAsync(CancellationToken.None);
         }
 
-        /// <summary>Latest block</summary>
-        /// <remarks>Route template: /blocks/latest</remarks>
+        /// <summary>
+        ///     Latest block <c>/blocks/latest</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1latest/get">/blocks/latest</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the contents of the latest block.</returns>
-        [Get("/blocks/latest","0.1.26")]
-        public Task<BlocksGetLatestResponse> GetLatestAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/latest", "0.1.27")]
+        public async Task<BlockContentResponse> GetLatestAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/blocks/latest");
 
-        /// <summary>Latest block transactions</summary>
-        /// <remarks>Route template: /blocks/latest/txs</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            return await SendGetRequestAsync<BlockContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Latest block transactions <c>/blocks/latest/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1latest~1txs/get">/blocks/latest/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/latest/txs","0.1.26")]
-        public Task<BlocksGetLatestTxsResponse> GetLatestTxsAsync(long count, long page, string order)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/latest/txs", "0.1.27")]
+        public Task<StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetLatestTxsAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Latest block transactions</summary>
-        /// <remarks>Route template: /blocks/latest/txs</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Latest block transactions <c>/blocks/latest/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1latest~1txs/get">/blocks/latest/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/latest/txs","0.1.26")]
-        public Task<BlocksGetLatestTxsResponse> GetLatestTxsAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/latest/txs", "0.1.27")]
+        public async Task<StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            var builder = GetUrlBuilder("/blocks/latest/txs");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific block <c>/blocks/{hash_or_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}/get">/blocks/{hash_or_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash or number of the requested block.</param>
+        /// <returns>Return the contents of the block</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}", "0.1.27")]
+        public Task<BlockContentResponse> GetBlocksAsync(string hash_or_number)
+        {
+            return GetBlocksAsync(hash_or_number, CancellationToken.None);
         }
 
-        /// <summary>Specific block</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}</remarks>
-        /// <param name="hash_or_number">Description</param>
+        /// <summary>
+        ///     Specific block <c>/blocks/{hash_or_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}/get">/blocks/{hash_or_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash or number of the requested block.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}","0.1.26")]
-        public Task<BlocksGetResponse> GetAsync(string hash_or_number)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}", "0.1.27")]
+        public async Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
         {
-            return GetAsync(hash_or_number, CancellationToken.None);
-        }
+            if (hash_or_number == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
-        /// <summary>Specific block</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}","0.1.26")]
-        public Task<BlocksGetResponse> GetAsync(string hash_or_number, CancellationToken token)
-        {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/blocks/{hash_or_number}");
+            _ = builder.SetRouteParameter("{hash_or_number}", hash_or_number);
 
-        /// <summary>Specific block in a slot</summary>
-        /// <remarks>Route template: /blocks/slot/{slot_number}</remarks>
-        /// <param name="slot_number">Description</param>
+            return await SendGetRequestAsync<BlockContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific block in a slot <c>/blocks/slot/{slot_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1slot~1{slot_number}/get">/blocks/slot/{slot_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/slot/{slot_number}","0.1.26")]
-        public Task<BlocksGetSlotResponse> GetSlotAsync(long slot_number)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/slot/{slot_number}", "0.1.27")]
+        public Task<BlockContentResponse> GetSlotAsync(int slot_number)
         {
             return GetSlotAsync(slot_number, CancellationToken.None);
         }
 
-        /// <summary>Specific block in a slot</summary>
-        /// <remarks>Route template: /blocks/slot/{slot_number}</remarks>
-        /// <param name="slot_number">Description</param>
+        /// <summary>
+        ///     Specific block in a slot <c>/blocks/slot/{slot_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1slot~1{slot_number}/get">/blocks/slot/{slot_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/slot/{slot_number}","0.1.26")]
-        public Task<BlocksGetSlotResponse> GetSlotAsync(long slot_number, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/slot/{slot_number}", "0.1.27")]
+        public async Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/blocks/slot/{slot_number}");
+            _ = builder.SetRouteParameter("{slot_number}", slot_number);
 
-        /// <summary>Specific block in a slot in an epoch</summary>
-        /// <remarks>Route template: /blocks/epoch/{epoch_number}/slot/{slot_number}</remarks>
-        /// <param name="epoch_number">Description</param>
-        /// <param name="slot_number">Description</param>
+            return await SendGetRequestAsync<BlockContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific block in a slot in an epoch <c>/blocks/epoch/{epoch_number}/slot/{slot_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1epoch~1{epoch_number}~1slot~1{slot_number}/get">/blocks/epoch/{epoch_number}/slot/{slot_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="epoch_number">Epoch for specific epoch slot.</param>
+        /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}","0.1.26")]
-        public Task<BlocksGetEpochSlotResponse> GetEpochSlotAsync(long epoch_number, long slot_number)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.27")]
+        public Task<BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number)
         {
             return GetEpochSlotAsync(epoch_number, slot_number, CancellationToken.None);
         }
 
-        /// <summary>Specific block in a slot in an epoch</summary>
-        /// <remarks>Route template: /blocks/epoch/{epoch_number}/slot/{slot_number}</remarks>
-        /// <param name="epoch_number">Description</param>
-        /// <param name="slot_number">Description</param>
+        /// <summary>
+        ///     Specific block in a slot in an epoch <c>/blocks/epoch/{epoch_number}/slot/{slot_number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1epoch~1{epoch_number}~1slot~1{slot_number}/get">/blocks/epoch/{epoch_number}/slot/{slot_number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="epoch_number">Epoch for specific epoch slot.</param>
+        /// <param name="slot_number">Slot position for requested block.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}","0.1.26")]
-        public Task<BlocksGetEpochSlotResponse> GetEpochSlotAsync(long epoch_number, long slot_number, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.27")]
+        public async Task<BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/blocks/epoch/{epoch_number}/slot/{slot_number}");
+            _ = builder.SetRouteParameter("{epoch_number}", epoch_number);
+            _ = builder.SetRouteParameter("{slot_number}", slot_number);
 
-        /// <summary>Listing of next blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/next</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            return await SendGetRequestAsync<BlockContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Listing of next blocks <c>/blocks/{hash_or_number}/next</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1next/get">/blocks/{hash_or_number}/next</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block.</returns>
-        [Get("/blocks/{hash_or_number}/next","0.1.26")]
-        public Task<BlocksGetNextResponse> GetNextAsync(string hash_or_number, long count, long page)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/next", "0.1.27")]
+        public Task<BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page)
         {
             return GetNextAsync(hash_or_number, count, page, CancellationToken.None);
         }
 
-        /// <summary>Listing of next blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/next</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Listing of next blocks <c>/blocks/{hash_or_number}/next</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1next/get">/blocks/{hash_or_number}/next</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block.</returns>
-        [Get("/blocks/{hash_or_number}/next","0.1.26")]
-        public Task<BlocksGetNextResponse> GetNextAsync(string hash_or_number, long count, long page, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/next", "0.1.27")]
+        public async Task<BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash_or_number == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
-        /// <summary>Listing of previous blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/previous</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            var builder = GetUrlBuilder("/blocks/{hash_or_number}/next");
+            _ = builder.SetRouteParameter("{hash_or_number}", hash_or_number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
+
+            return await SendGetRequestAsync<BlockContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Listing of previous blocks <c>/blocks/{hash_or_number}/previous</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1previous/get">/blocks/{hash_or_number}/previous</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}/previous","0.1.26")]
-        public Task<BlocksGetPreviousResponse> GetPreviousAsync(string hash_or_number, long count, long page)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/previous", "0.1.27")]
+        public Task<BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page)
         {
             return GetPreviousAsync(hash_or_number, count, page, CancellationToken.None);
         }
 
-        /// <summary>Listing of previous blocks</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/previous</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Listing of previous blocks <c>/blocks/{hash_or_number}/previous</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1previous/get">/blocks/{hash_or_number}/previous</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the contents of the block</returns>
-        [Get("/blocks/{hash_or_number}/previous","0.1.26")]
-        public Task<BlocksGetPreviousResponse> GetPreviousAsync(string hash_or_number, long count, long page, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/previous", "0.1.27")]
+        public async Task<BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash_or_number == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
 
-        /// <summary>Block transactions</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/txs</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/blocks/{hash_or_number}/previous");
+            _ = builder.SetRouteParameter("{hash_or_number}", hash_or_number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
+
+            return await SendGetRequestAsync<BlockContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Block transactions <c>/blocks/{hash_or_number}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1txs/get">/blocks/{hash_or_number}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/{hash_or_number}/txs","0.1.26")]
-        public Task<BlocksGetTxsResponse> GetTxsAsync(string hash_or_number, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/txs", "0.1.27")]
+        public Task<StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(hash_or_number, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Block transactions</summary>
-        /// <remarks>Route template: /blocks/{hash_or_number}/txs</remarks>
-        /// <param name="hash_or_number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Block transactions <c>/blocks/{hash_or_number}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1txs/get">/blocks/{hash_or_number}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash_or_number">Hash of the requested block.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the transactions within the block.</returns>
-        [Get("/blocks/{hash_or_number}/txs","0.1.26")]
-        public Task<BlocksGetTxsResponse> GetTxsAsync(string hash_or_number, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/blocks/{hash_or_number}/txs", "0.1.27")]
+        public async Task<StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (hash_or_number == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash_or_number));
+            }
+
+            var builder = GetUrlBuilder("/blocks/{hash_or_number}/txs");
+            _ = builder.SetRouteParameter("{hash_or_number}", hash_or_number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
         }
     }
 }

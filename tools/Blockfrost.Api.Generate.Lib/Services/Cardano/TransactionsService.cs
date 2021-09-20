@@ -1,364 +1,481 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface ITransactionsService 
+    public partial class TransactionsService : ABlockfrostService, ITransactionsService
     {
+        /// <summary> 
+        ///     Initializes a new <see cref="TransactionsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions">Cardano » Transactions</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public TransactionsService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
-        /// <summary>Specific transaction</summary>
-        /// <remarks>Route template: /txs/{hash}</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Specific transaction <c>/txs/{hash}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}/get">/txs/{hash}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}","0.1.26")]
-        Task<TransactionsGetTxsResponse> GetTxsAsync(string hash);
-
-        /// <summary>Specific transaction</summary>
-        /// <remarks>Route template: /txs/{hash}</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}","0.1.26")]
-        Task<TransactionsGetTxsResponse> GetTxsAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction UTXOs</summary>
-        /// <remarks>Route template: /txs/{hash}/utxos</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}/utxos","0.1.26")]
-        Task<TransactionsGetTxsUtxosResponse> GetTxsUtxosAsync(string hash);
-
-        /// <summary>Transaction UTXOs</summary>
-        /// <remarks>Route template: /txs/{hash}/utxos</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}/utxos","0.1.26")]
-        Task<TransactionsGetTxsUtxosResponse> GetTxsUtxosAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction stake addresses certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/stakes</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about (de)registration of stake addresses within a transaction.</returns>
-        [Get("/txs/{hash}/stakes","0.1.26")]
-        Task<TransactionsGetTxsStakesResponse> GetTxsStakesAsync(string hash);
-
-        /// <summary>Transaction stake addresses certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/stakes</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about (de)registration of stake addresses within a transaction.</returns>
-        [Get("/txs/{hash}/stakes","0.1.26")]
-        Task<TransactionsGetTxsStakesResponse> GetTxsStakesAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction delegation certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/delegations</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about delegation certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/delegations","0.1.26")]
-        Task<TransactionsGetTxsDelegationsResponse> GetTxsDelegationsAsync(string hash);
-
-        /// <summary>Transaction delegation certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/delegations</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about delegation certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/delegations","0.1.26")]
-        Task<TransactionsGetTxsDelegationsResponse> GetTxsDelegationsAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction withdrawal</summary>
-        /// <remarks>Route template: /txs/{hash}/withdrawals</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about withdrawals of a specific transaction.</returns>
-        [Get("/txs/{hash}/withdrawals","0.1.26")]
-        Task<TransactionsGetTxsWithdrawalsResponse> GetTxsWithdrawalsAsync(string hash);
-
-        /// <summary>Transaction withdrawal</summary>
-        /// <remarks>Route template: /txs/{hash}/withdrawals</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about withdrawals of a specific transaction.</returns>
-        [Get("/txs/{hash}/withdrawals","0.1.26")]
-        Task<TransactionsGetTxsWithdrawalsResponse> GetTxsWithdrawalsAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction MIRs</summary>
-        /// <remarks>Route template: /txs/{hash}/mirs</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.</returns>
-        [Get("/txs/{hash}/mirs","0.1.26")]
-        Task<TransactionsGetTxsMirsResponse> GetTxsMirsAsync(string hash);
-
-        /// <summary>Transaction MIRs</summary>
-        /// <remarks>Route template: /txs/{hash}/mirs</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.</returns>
-        [Get("/txs/{hash}/mirs","0.1.26")]
-        Task<TransactionsGetTxsMirsResponse> GetTxsMirsAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction stake pool registration and update certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_updates</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/pool_updates","0.1.26")]
-        Task<TransactionsGetTxsPoolUpdatesResponse> GetTxsPoolUpdatesAsync(string hash);
-
-        /// <summary>Transaction stake pool registration and update certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_updates</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/pool_updates","0.1.26")]
-        Task<TransactionsGetTxsPoolUpdatesResponse> GetTxsPoolUpdatesAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction stake pool retirement certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_retires</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/pool_retires","0.1.26")]
-        Task<TransactionsGetTxsPoolRetiresResponse> GetTxsPoolRetiresAsync(string hash);
-
-        /// <summary>Transaction stake pool retirement certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_retires</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/pool_retires","0.1.26")]
-        Task<TransactionsGetTxsPoolRetiresResponse> GetTxsPoolRetiresAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction metadata</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata","0.1.26")]
-        Task<TransactionsGetTxsMetadataResponse> GetTxsMetadataAsync(string hash);
-
-        /// <summary>Transaction metadata</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata","0.1.26")]
-        Task<TransactionsGetTxsMetadataResponse> GetTxsMetadataAsync(string hash, CancellationToken token);
-
-        /// <summary>Transaction metadata in CBOR</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata/cbor</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata/cbor","0.1.26")]
-        Task<TransactionsGetTxsMetadataCborResponse> GetTxsMetadataCborAsync(string hash);
-
-        /// <summary>Transaction metadata in CBOR</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata/cbor</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata/cbor","0.1.26")]
-        Task<TransactionsGetTxsMetadataCborResponse> GetTxsMetadataCborAsync(string hash, CancellationToken token);
-    }
-    
-    public partial class TransactionsService : ITransactionsService 
-    {
-
-        /// <summary>Specific transaction</summary>
-        /// <remarks>Route template: /txs/{hash}</remarks>
-        /// <param name="hash">Description</param>
-        /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}","0.1.26")]
-        public Task<TransactionsGetTxsResponse> GetTxsAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}", "0.1.27")]
+        public Task<TxContentResponse> GetTxsAsync(string hash)
         {
             return GetTxsAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Specific transaction</summary>
-        /// <remarks>Route template: /txs/{hash}</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Specific transaction <c>/txs/{hash}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}/get">/txs/{hash}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}","0.1.26")]
-        public Task<TransactionsGetTxsResponse> GetTxsAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}", "0.1.27")]
+        public async Task<TxContentResponse> GetTxsAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction UTXOs</summary>
-        /// <remarks>Route template: /txs/{hash}/utxos</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction UTXOs <c>/txs/{hash}/utxos</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1utxos/get">/txs/{hash}/utxos</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}/utxos","0.1.26")]
-        public Task<TransactionsGetTxsUtxosResponse> GetTxsUtxosAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/utxos", "0.1.27")]
+        public Task<TxContentUtxoResponse> GetTxsUtxosAsync(string hash)
         {
             return GetTxsUtxosAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction UTXOs</summary>
-        /// <remarks>Route template: /txs/{hash}/utxos</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction UTXOs <c>/txs/{hash}/utxos</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1utxos/get">/txs/{hash}/utxos</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of the transaction.</returns>
-        [Get("/txs/{hash}/utxos","0.1.26")]
-        public Task<TransactionsGetTxsUtxosResponse> GetTxsUtxosAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/utxos", "0.1.27")]
+        public async Task<TxContentUtxoResponse> GetTxsUtxosAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction stake addresses certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/stakes</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/utxos");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentUtxoResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction stake addresses certificates <c>/txs/{hash}/stakes</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1stakes/get">/txs/{hash}/stakes</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about (de)registration of stake addresses within a transaction.</returns>
-        [Get("/txs/{hash}/stakes","0.1.26")]
-        public Task<TransactionsGetTxsStakesResponse> GetTxsStakesAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/stakes", "0.1.27")]
+        public Task<TxContentStakeAddrResponseCollection> GetTxsStakesAsync(string hash)
         {
             return GetTxsStakesAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction stake addresses certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/stakes</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction stake addresses certificates <c>/txs/{hash}/stakes</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1stakes/get">/txs/{hash}/stakes</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about (de)registration of stake addresses within a transaction.</returns>
-        [Get("/txs/{hash}/stakes","0.1.26")]
-        public Task<TransactionsGetTxsStakesResponse> GetTxsStakesAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/stakes", "0.1.27")]
+        public async Task<TxContentStakeAddrResponseCollection> GetTxsStakesAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction delegation certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/delegations</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/stakes");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentStakeAddrResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction delegation certificates <c>/txs/{hash}/delegations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1delegations/get">/txs/{hash}/delegations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about delegation certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/delegations","0.1.26")]
-        public Task<TransactionsGetTxsDelegationsResponse> GetTxsDelegationsAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/delegations", "0.1.27")]
+        public Task<TxContentDelegationsResponseCollection> GetTxsDelegationsAsync(string hash)
         {
             return GetTxsDelegationsAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction delegation certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/delegations</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction delegation certificates <c>/txs/{hash}/delegations</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1delegations/get">/txs/{hash}/delegations</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about delegation certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/delegations","0.1.26")]
-        public Task<TransactionsGetTxsDelegationsResponse> GetTxsDelegationsAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/delegations", "0.1.27")]
+        public async Task<TxContentDelegationsResponseCollection> GetTxsDelegationsAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction withdrawal</summary>
-        /// <remarks>Route template: /txs/{hash}/withdrawals</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/delegations");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentDelegationsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction withdrawal <c>/txs/{hash}/withdrawals</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1withdrawals/get">/txs/{hash}/withdrawals</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about withdrawals of a specific transaction.</returns>
-        [Get("/txs/{hash}/withdrawals","0.1.26")]
-        public Task<TransactionsGetTxsWithdrawalsResponse> GetTxsWithdrawalsAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/withdrawals", "0.1.27")]
+        public Task<TxContentWithdrawalsResponseCollection> GetTxsWithdrawalsAsync(string hash)
         {
             return GetTxsWithdrawalsAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction withdrawal</summary>
-        /// <remarks>Route template: /txs/{hash}/withdrawals</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction withdrawal <c>/txs/{hash}/withdrawals</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1withdrawals/get">/txs/{hash}/withdrawals</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about withdrawals of a specific transaction.</returns>
-        [Get("/txs/{hash}/withdrawals","0.1.26")]
-        public Task<TransactionsGetTxsWithdrawalsResponse> GetTxsWithdrawalsAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/withdrawals", "0.1.27")]
+        public async Task<TxContentWithdrawalsResponseCollection> GetTxsWithdrawalsAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction MIRs</summary>
-        /// <remarks>Route template: /txs/{hash}/mirs</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/withdrawals");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentWithdrawalsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction MIRs <c>/txs/{hash}/mirs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1mirs/get">/txs/{hash}/mirs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.</returns>
-        [Get("/txs/{hash}/mirs","0.1.26")]
-        public Task<TransactionsGetTxsMirsResponse> GetTxsMirsAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/mirs", "0.1.27")]
+        public Task<TxContentMirsResponseCollection> GetTxsMirsAsync(string hash)
         {
             return GetTxsMirsAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction MIRs</summary>
-        /// <remarks>Route template: /txs/{hash}/mirs</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction MIRs <c>/txs/{hash}/mirs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1mirs/get">/txs/{hash}/mirs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction.</param>
         /// <returns>Obtain information about Move Instantaneous Rewards (MIRs) of a specific transaction.</returns>
-        [Get("/txs/{hash}/mirs","0.1.26")]
-        public Task<TransactionsGetTxsMirsResponse> GetTxsMirsAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/mirs", "0.1.27")]
+        public async Task<TxContentMirsResponseCollection> GetTxsMirsAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction stake pool registration and update certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_updates</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/mirs");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentMirsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction stake pool registration and update certificates <c>/txs/{hash}/pool_updates</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1pool_updates/get">/txs/{hash}/pool_updates</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/pool_updates","0.1.26")]
-        public Task<TransactionsGetTxsPoolUpdatesResponse> GetTxsPoolUpdatesAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/pool_updates", "0.1.27")]
+        public Task<TxContentPoolCertsResponseCollection> GetTxsPoolUpdatesAsync(string hash)
         {
             return GetTxsPoolUpdatesAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction stake pool registration and update certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_updates</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction stake pool registration and update certificates <c>/txs/{hash}/pool_updates</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1pool_updates/get">/txs/{hash}/pool_updates</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool certificates of a specific transaction</returns>
-        [Get("/txs/{hash}/pool_updates","0.1.26")]
-        public Task<TransactionsGetTxsPoolUpdatesResponse> GetTxsPoolUpdatesAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/pool_updates", "0.1.27")]
+        public async Task<TxContentPoolCertsResponseCollection> GetTxsPoolUpdatesAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction stake pool retirement certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_retires</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/pool_updates");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentPoolCertsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction stake pool retirement certificates <c>/txs/{hash}/pool_retires</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1pool_retires/get">/txs/{hash}/pool_retires</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/pool_retires","0.1.26")]
-        public Task<TransactionsGetTxsPoolRetiresResponse> GetTxsPoolRetiresAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/pool_retires", "0.1.27")]
+        public Task<TxContentPoolRetiresResponseCollection> GetTxsPoolRetiresAsync(string hash)
         {
             return GetTxsPoolRetiresAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction stake pool retirement certificates</summary>
-        /// <remarks>Route template: /txs/{hash}/pool_retires</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction stake pool retirement certificates <c>/txs/{hash}/pool_retires</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1pool_retires/get">/txs/{hash}/pool_retires</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/pool_retires","0.1.26")]
-        public Task<TransactionsGetTxsPoolRetiresResponse> GetTxsPoolRetiresAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/pool_retires", "0.1.27")]
+        public async Task<TxContentPoolRetiresResponseCollection> GetTxsPoolRetiresAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction metadata</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/pool_retires");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentPoolRetiresResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction metadata <c>/txs/{hash}/metadata</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1metadata/get">/txs/{hash}/metadata</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata","0.1.26")]
-        public Task<TransactionsGetTxsMetadataResponse> GetTxsMetadataAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/metadata", "0.1.27")]
+        public Task<TxContentMetadataResponseCollection> GetTxsMetadataAsync(string hash)
         {
             return GetTxsMetadataAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction metadata</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction metadata <c>/txs/{hash}/metadata</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1metadata/get">/txs/{hash}/metadata</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata","0.1.26")]
-        public Task<TransactionsGetTxsMetadataResponse> GetTxsMetadataAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/metadata", "0.1.27")]
+        public async Task<TxContentMetadataResponseCollection> GetTxsMetadataAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
 
-        /// <summary>Transaction metadata in CBOR</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata/cbor</remarks>
-        /// <param name="hash">Description</param>
+            var builder = GetUrlBuilder("/txs/{hash}/metadata");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentMetadataResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction metadata in CBOR <c>/txs/{hash}/metadata/cbor</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1metadata~1cbor/get">/txs/{hash}/metadata/cbor</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata/cbor","0.1.26")]
-        public Task<TransactionsGetTxsMetadataCborResponse> GetTxsMetadataCborAsync(string hash)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/metadata/cbor", "0.1.27")]
+        public Task<TxContentMetadataCborResponseCollection> GetTxsMetadataCborAsync(string hash)
         {
             return GetTxsMetadataCborAsync(hash, CancellationToken.None);
         }
 
-        /// <summary>Transaction metadata in CBOR</summary>
-        /// <remarks>Route template: /txs/{hash}/metadata/cbor</remarks>
-        /// <param name="hash">Description</param>
+        /// <summary>
+        ///     Transaction metadata in CBOR <c>/txs/{hash}/metadata/cbor</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1metadata~1cbor/get">/txs/{hash}/metadata/cbor</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Obtain information about stake pool retirements within a specific transaction.</returns>
-        [Get("/txs/{hash}/metadata/cbor","0.1.26")]
-        public Task<TransactionsGetTxsMetadataCborResponse> GetTxsMetadataCborAsync(string hash, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/metadata/cbor", "0.1.27")]
+        public async Task<TxContentMetadataCborResponseCollection> GetTxsMetadataCborAsync(string hash, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
+
+            var builder = GetUrlBuilder("/txs/{hash}/metadata/cbor");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentMetadataCborResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Transaction redeemers <c>/txs/{hash}/redeemers</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1redeemers/get">/txs/{hash}/redeemers</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
+        /// <returns>Obtain information about redeemers within a specific transaction.</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/redeemers", "0.1.27")]
+        public Task<TxContentRedeemersResponseCollection> GetTxsRedeemersAsync(string hash)
+        {
+            return GetTxsRedeemersAsync(hash, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///     Transaction redeemers <c>/txs/{hash}/redeemers</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1redeemers/get">/txs/{hash}/redeemers</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
+        /// <returns>Obtain information about redeemers within a specific transaction.</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/redeemers", "0.1.27")]
+        public async Task<TxContentRedeemersResponseCollection> GetTxsRedeemersAsync(string hash, CancellationToken cancellationToken)
+        {
+            if (hash == null)
+            {
+                throw new System.ArgumentNullException(nameof(hash));
+            }
+
+            var builder = GetUrlBuilder("/txs/{hash}/redeemers");
+            _ = builder.SetRouteParameter("{hash}", hash);
+
+            return await SendGetRequestAsync<TxContentRedeemersResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Submit a transaction <c>/tx/submit</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1tx~1submit/post">/tx/submit</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Post("/tx/submit", "0.1.27")]
+        public Task<string> PostTxSubmitAsync(System.IO.Stream content)
+        {
+            return PostTxSubmitAsync(content, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///     Submit a transaction <c>/tx/submit</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1tx~1submit/post">/tx/submit</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <returns>Return the ID of the submitted transaction.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Post("/tx/submit", "0.1.27")]
+        public async Task<string> PostTxSubmitAsync(System.IO.Stream content, CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/tx/submit");
+
+            return await SendPostRequestAsync<string>(content, builder, cancellationToken);
         }
     }
 }

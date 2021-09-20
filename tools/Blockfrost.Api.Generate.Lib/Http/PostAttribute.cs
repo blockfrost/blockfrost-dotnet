@@ -3,6 +3,7 @@ using System;
 namespace Blockfrost.Api.Http
 {
     /// <summary>Decorates a Post Method with the route</summary>
+    [AttributeUsage(AttributeTargets.Method)]
     public class PostAttribute : Attribute 
     {
         /// <summar></summar>

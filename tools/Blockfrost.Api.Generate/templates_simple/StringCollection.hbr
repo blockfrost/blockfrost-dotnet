@@ -1,0 +1,14 @@
+{{>partial_header}}
+using System.Collections.ObjectModel;
+using System.Text.Json;
+
+namespace Blockfrost.Api.Models
+{
+    /// <summary>
+    /// A collection of <see cref="string" />
+    /// </summary>
+    {{>partial_visibility}} partial class StringCollection : Collection<string>
+    {
+        {{>partial_modelSerialize}}
+    }
+}

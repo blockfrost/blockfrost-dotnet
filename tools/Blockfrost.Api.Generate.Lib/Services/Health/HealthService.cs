@@ -1,114 +1,110 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Health
+namespace Blockfrost.Api.Services
 {
-    public partial interface IHealthService 
+    public partial class HealthService : ABlockfrostService, IHealthService
     {
+        /// <summary> 
+        ///     Initializes a new <see cref="HealthService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health">Health</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public HealthService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
-        /// <summary>Root endpoint</summary>
-        /// <remarks>Route template: /</remarks>
+        /// <summary>
+        ///     Root endpoint <c>/</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1/get">/</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Information pointing to the documentation.</returns>
-        [Get("/","0.1.26")]
-        Task<HealthGetResponse> GetAsync();
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/", "0.1.27")]
+        public Task<InfoResponse> GetApiInfoAsync()
+        {
+            return GetApiInfoAsync(CancellationToken.None);
+        }
 
-        /// <summary>Root endpoint</summary>
-        /// <remarks>Route template: /</remarks>
+        /// <summary>
+        ///     Root endpoint <c>/</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1/get">/</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Information pointing to the documentation.</returns>
-        [Get("/","0.1.26")]
-        Task<HealthGetResponse> GetAsync(CancellationToken token);
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/", "0.1.27")]
+        public async Task<InfoResponse> GetApiInfoAsync(CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/");
 
-        /// <summary>Backend health status</summary>
-        /// <remarks>Route template: /health</remarks>
+            return await SendGetRequestAsync<InfoResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Backend health status <c>/health</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1health/get">/health</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
-        [Get("/health","0.1.26")]
-        Task<HealthGetResponse> GetAsync();
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/health", "0.1.27")]
+        public Task<HealthResponse> GetHealthAsync()
+        {
+            return GetHealthAsync(CancellationToken.None);
+        }
 
-        /// <summary>Backend health status</summary>
-        /// <remarks>Route template: /health</remarks>
+        /// <summary>
+        ///     Backend health status <c>/health</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1health/get">/health</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
-        [Get("/health","0.1.26")]
-        Task<HealthGetResponse> GetAsync(CancellationToken token);
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/health", "0.1.27")]
+        public async Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/health");
 
-        /// <summary>Current backend time</summary>
-        /// <remarks>Route template: /health/clock</remarks>
+            return await SendGetRequestAsync<HealthResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Current backend time <c>/health/clock</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1health~1clock/get">/health/clock</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
-        [Get("/health/clock","0.1.26")]
-        Task<HealthGetClockResponse> GetClockAsync();
-
-        /// <summary>Current backend time</summary>
-        /// <remarks>Route template: /health/clock</remarks>
-        /// <returns>Return the current UNIX time in milliseconds.</returns>
-        [Get("/health/clock","0.1.26")]
-        Task<HealthGetClockResponse> GetClockAsync(CancellationToken token);
-    }
-    
-    public partial class HealthService : IHealthService 
-    {
-
-        /// <summary>Root endpoint</summary>
-        /// <remarks>Route template: /</remarks>
-        /// <returns>Information pointing to the documentation.</returns>
-        [Get("/","0.1.26")]
-        public Task<HealthGetResponse> GetAsync()
-        {
-            return GetAsync(CancellationToken.None);
-        }
-
-        /// <summary>Root endpoint</summary>
-        /// <remarks>Route template: /</remarks>
-        /// <returns>Information pointing to the documentation.</returns>
-        [Get("/","0.1.26")]
-        public Task<HealthGetResponse> GetAsync(CancellationToken token)
-        {
-            throw new NotImplementedException(); 
-        }
-
-        /// <summary>Backend health status</summary>
-        /// <remarks>Route template: /health</remarks>
-        /// <returns>Return the boolean indicating the health of the backend.</returns>
-        [Get("/health","0.1.26")]
-        public Task<HealthGetResponse> GetAsync()
-        {
-            return GetAsync(CancellationToken.None);
-        }
-
-        /// <summary>Backend health status</summary>
-        /// <remarks>Route template: /health</remarks>
-        /// <returns>Return the boolean indicating the health of the backend.</returns>
-        [Get("/health","0.1.26")]
-        public Task<HealthGetResponse> GetAsync(CancellationToken token)
-        {
-            throw new NotImplementedException(); 
-        }
-
-        /// <summary>Current backend time</summary>
-        /// <remarks>Route template: /health/clock</remarks>
-        /// <returns>Return the current UNIX time in milliseconds.</returns>
-        [Get("/health/clock","0.1.26")]
-        public Task<HealthGetClockResponse> GetClockAsync()
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/health/clock", "0.1.27")]
+        public Task<HealthClockResponse> GetClockAsync()
         {
             return GetClockAsync(CancellationToken.None);
         }
 
-        /// <summary>Current backend time</summary>
-        /// <remarks>Route template: /health/clock</remarks>
+        /// <summary>
+        ///     Current backend time <c>/health/clock</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Health/paths/~1health~1clock/get">/health/clock</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
-        [Get("/health/clock","0.1.26")]
-        public Task<HealthGetClockResponse> GetClockAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/health/clock", "0.1.27")]
+        public async Task<HealthClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            var builder = GetUrlBuilder("/health/clock");
+
+            return await SendGetRequestAsync<HealthClockResponse>(builder, cancellationToken);
         }
     }
 }

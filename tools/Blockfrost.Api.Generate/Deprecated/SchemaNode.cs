@@ -50,7 +50,7 @@ namespace Blockfrost.Api.Generate
 
         public SchemaNode(string key, OpenApiSchema node)
         {
-            if (key == "/") key = "root";
+            if (key == "/") key = "info";
             if (key is null)
             {
                 throw new ArgumentNullException(nameof(key));

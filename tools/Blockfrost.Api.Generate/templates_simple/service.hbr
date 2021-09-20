@@ -1,74 +1,31 @@
 ﻿{{>partial_header}}
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.{{GroupName}}
+namespace Blockfrost.Api.Services
 {
-    public partial interface I{{ServiceName}}Service 
+    public partial class {{ServiceName}}Service : ABlockfrostService, I{{ServiceName}}Service
     {
-        {{#each Operations}}
-        {{#each GetOperations}}
-
-        /// <summary>{{writeSafe Summary}}</summary>
-        /// <remarks>Route template: {{Context.Route}}</remarks>
-        {{#each Parameters}}
-        /// <param name="{{Name}}">{{writeSafe Description}}</param>
-        {{/each}}
-        /// <returns>{{writeSafe Returns}}</returns>
-        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
-        Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}});
-
-        /// <summary>{{writeSafe Summary}}</summary>
-        /// <remarks>Route template: {{Context.Route}}</remarks>
-        {{#each Parameters}}
-        /// <param name="{{Name}}">{{writeSafe Description}}</param>
-        {{/each}}
-        /// <returns>{{writeSafe Returns}}</returns>
-        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
-        Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}, {{/Parameters}}CancellationToken token);
-        {{/each}}
-        {{/each}}
-    }
-    
-    public partial class {{ServiceName}}Service : I{{ServiceName}}Service 
-    {
-        {{#each Operations}}
-        {{#each GetOperations}}
-
-        /// <summary>{{writeSafe Summary}}</summary>
-        /// <remarks>Route template: {{Context.Route}}</remarks>
-        {{#each Parameters}}
-        /// <param name="{{Name}}">{{writeSafe Description}}</param>
-        {{/each}}
-        /// <returns>{{writeSafe Returns}}</returns>
-        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
-        public Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        /// <summary> 
+        ///     Initializes a new <see cref="{{ServiceName}}Service"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="{{DocsLink}}">{{writeSafe Tag.Name}}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public {{ServiceName}}Service(HttpClient httpClient) : base(httpClient)
         {
-            return {{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}}CancellationToken.None);
         }
 
-        /// <summary>{{writeSafe Summary}}</summary>
-        /// <remarks>Route template: {{Context.Route}}</remarks>
-        {{#each Parameters}}
-        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{#each Operations}}
+        {{#each GetOperations}}
+        {{>partial_serviceMethodGet}}
         {{/each}}
-        /// <returns>{{writeSafe Returns}}</returns>
-        [Get("{{Context.Route}}","{{Context.ServiceContext.Version}}")]
-        public Task<{{Context.ServiceContext.ServiceName}}{{MethodName}}Response> {{MethodName}}Async({{#Parameters}}{{Type}} {{Name}}, {{/Parameters}}CancellationToken token)
-        {
-            throw new NotImplementedException(); 
-        }
+        {{#each PostOperations}}
+        {{>partial_serviceMethodPost}}
         {{/each}}
         {{/each}}
     }

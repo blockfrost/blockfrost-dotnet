@@ -46,9 +46,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{FCE1E925
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api.Generate", "tools\Blockfrost.Api.Generate\Blockfrost.Api.Generate.csproj", "{AB571829-7B88-4BFD-B95C-B0DA80366890}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Api.Generate.Tests", "tools\Blockfrost.Api.Generate.Tests\Blockfrost.Api.Generate.Tests.csproj", "{58A12E94-44D9-4143-905E-3F7B6DF295EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api.Generate.Tests", "tools\Blockfrost.Api.Generate.Tests\Blockfrost.Api.Generate.Tests.csproj", "{58A12E94-44D9-4143-905E-3F7B6DF295EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Api.Generate.Lib", "tools\Blockfrost.Api.Generate.Lib\Blockfrost.Api.Generate.Lib.csproj", "{74B7C103-1373-46CD-A191-DFFC97E467F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.1.27", "0.1.27", "{3D67EBE3-651F-45A1-B2FC-7204D5C296A6}"
+	ProjectSection(SolutionItems) = preProject
+		oas\0.1.27\swagger.yaml = oas\0.1.27\swagger.yaml
+		oas\0.1.27\swagger_simple.yaml = oas\0.1.27\swagger_simple.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,9 +174,8 @@ Global
 		{221B3B37-ACFB-4C04-9CA8-A83CB9DC1DA7} = {3938A33D-C902-48DD-BDF0-8DCD9BC39F54}
 		{73EDDACC-3254-4E15-8EC3-508385E8F6CF} = {3938A33D-C902-48DD-BDF0-8DCD9BC39F54}
 		{0F342CA9-A191-47F7-BF64-A0EB14D4E746} = {11189388-1C21-49B7-B232-A35714953484}
-		{AB571829-7B88-4BFD-B95C-B0DA80366890} = {FCE1E925-8AB6-4E18-9E74-20AE53414A8B}
-		{58A12E94-44D9-4143-905E-3F7B6DF295EE} = {FCE1E925-8AB6-4E18-9E74-20AE53414A8B}
 		{74B7C103-1373-46CD-A191-DFFC97E467F9} = {FCE1E925-8AB6-4E18-9E74-20AE53414A8B}
+		{3D67EBE3-651F-45A1-B2FC-7204D5C296A6} = {3938A33D-C902-48DD-BDF0-8DCD9BC39F54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C7CC50D9-3792-4107-BA7C-098AC6757297}

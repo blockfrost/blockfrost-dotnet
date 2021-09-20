@@ -1,58 +1,62 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.IPFS
+namespace Blockfrost.Api.Services
 {
-    public partial interface IGatewayService 
+    public partial class GatewayService : ABlockfrostService, IGatewayService
     {
-
-        /// <summary>Relay to an IPFS gateway</summary>
-        /// <remarks>Route template: /ipfs/gateway/{IPFS_path}</remarks>
-        /// <param name="IPFS_path">Description</param>
-        /// <returns>Returns the object content</returns>
-        [Get("/ipfs/gateway/{IPFS_path}","0.1.26")]
-        Task<GatewayGetResponse> GetAsync(string IPFS_path);
-
-        /// <summary>Relay to an IPFS gateway</summary>
-        /// <remarks>Route template: /ipfs/gateway/{IPFS_path}</remarks>
-        /// <param name="IPFS_path">Description</param>
-        /// <returns>Returns the object content</returns>
-        [Get("/ipfs/gateway/{IPFS_path}","0.1.26")]
-        Task<GatewayGetResponse> GetAsync(string IPFS_path, CancellationToken token);
-    }
-    
-    public partial class GatewayService : IGatewayService 
-    {
-
-        /// <summary>Relay to an IPFS gateway</summary>
-        /// <remarks>Route template: /ipfs/gateway/{IPFS_path}</remarks>
-        /// <param name="IPFS_path">Description</param>
-        /// <returns>Returns the object content</returns>
-        [Get("/ipfs/gateway/{IPFS_path}","0.1.26")]
-        public Task<GatewayGetResponse> GetAsync(string IPFS_path)
+        /// <summary> 
+        ///     Initializes a new <see cref="GatewayService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway">IPFS » Gateway</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public GatewayService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(IPFS_path, CancellationToken.None);
         }
 
-        /// <summary>Relay to an IPFS gateway</summary>
-        /// <remarks>Route template: /ipfs/gateway/{IPFS_path}</remarks>
-        /// <param name="IPFS_path">Description</param>
+        /// <summary>
+        ///     Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="IPFS_path"></param>
         /// <returns>Returns the object content</returns>
-        [Get("/ipfs/gateway/{IPFS_path}","0.1.26")]
-        public Task<GatewayGetResponse> GetAsync(string IPFS_path, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        public Task<object> GetGatewayAsync(string IPFS_path)
         {
-            throw new NotImplementedException(); 
+            return GetGatewayAsync(IPFS_path, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///     Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="IPFS_path"></param>
+        /// <returns>Returns the object content</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        public async Task<object> GetGatewayAsync(string IPFS_path, CancellationToken cancellationToken)
+        {
+            if (IPFS_path == null)
+            {
+                throw new System.ArgumentNullException(nameof(IPFS_path));
+            }
+
+            var builder = GetUrlBuilder("/ipfs/gateway/{IPFS_path}");
+            _ = builder.SetRouteParameter("{IPFS_path}", IPFS_path);
+
+            return await SendGetRequestAsync<object>(builder, cancellationToken);
         }
     }
 }

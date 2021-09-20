@@ -1,54 +1,52 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface INetworkService 
+    public partial class NetworkService : ABlockfrostService, INetworkService
     {
-
-        /// <summary>Network information</summary>
-        /// <remarks>Route template: /network</remarks>
-        /// <returns>Return detailed network information.</returns>
-        [Get("/network","0.1.26")]
-        Task<NetworkGetResponse> GetAsync();
-
-        /// <summary>Network information</summary>
-        /// <remarks>Route template: /network</remarks>
-        /// <returns>Return detailed network information.</returns>
-        [Get("/network","0.1.26")]
-        Task<NetworkGetResponse> GetAsync(CancellationToken token);
-    }
-    
-    public partial class NetworkService : INetworkService 
-    {
-
-        /// <summary>Network information</summary>
-        /// <remarks>Route template: /network</remarks>
-        /// <returns>Return detailed network information.</returns>
-        [Get("/network","0.1.26")]
-        public Task<NetworkGetResponse> GetAsync()
+        /// <summary> 
+        ///     Initializes a new <see cref="NetworkService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Network">Cardano » Network</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public NetworkService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(CancellationToken.None);
         }
 
-        /// <summary>Network information</summary>
-        /// <remarks>Route template: /network</remarks>
+        /// <summary>
+        ///     Network information <c>/network</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Network/paths/~1network/get">/network</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return detailed network information.</returns>
-        [Get("/network","0.1.26")]
-        public Task<NetworkGetResponse> GetAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/network", "0.1.27")]
+        public Task<NetworkResponse> GetNetworkAsync()
         {
-            throw new NotImplementedException(); 
+            return GetNetworkAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        ///     Network information <c>/network</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Network/paths/~1network/get">/network</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <returns>Return detailed network information.</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/network", "0.1.27")]
+        public async Task<NetworkResponse> GetNetworkAsync(CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/network");
+
+            return await SendGetRequestAsync<NetworkResponse>(builder, cancellationToken);
         }
     }
 }

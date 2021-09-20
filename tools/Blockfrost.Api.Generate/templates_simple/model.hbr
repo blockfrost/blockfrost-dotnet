@@ -1,27 +1,27 @@
 ﻿{{>partial_header}}
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
+{{#if IsArray}}
 using System.Collections.ObjectModel;
+using System.Text.Json;
+{{else}}
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.ComponentModel.DataAnnotations;
+{{/if}}
 
 namespace Blockfrost.Api.Models
 {
 {{#IsArray}}
-    /// <summary>
-    /// A collection of <see cref="{{ItemName}}"/>
-    /// </summary>
-    {{>partial_visibility}} partial class {{CollectionName}} : Collection<{{ItemName}}>
-    {
-    }
+{{>partial_modelCollection}}
 {{/IsArray}}
-{{#Item}}
-{{#IsEnum}}{{>partial_enumEnum}}{{/IsEnum}}{{^IsEnum}}{{>partial_modelGeneric}}{{/IsEnum}}
-{{/Item}}
+{{#IsEnum}}
+{{>partial_modelEnum}}
+{{/IsEnum}}
+{{#IsObject}}
+{{>partial_modelGeneric}}
+{{/IsObject}}
 }

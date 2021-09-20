@@ -1,84 +1,81 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Metrics
+namespace Blockfrost.Api.Services
 {
-    public partial interface IMetricsService 
+    public partial class MetricsService : ABlockfrostService, IMetricsService
     {
-
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <remarks>Route template: /metrics/</remarks>
-        /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/","0.1.26")]
-        Task<MetricsGetResponse> GetAsync();
-
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <remarks>Route template: /metrics/</remarks>
-        /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/","0.1.26")]
-        Task<MetricsGetResponse> GetAsync(CancellationToken token);
-
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <remarks>Route template: /metrics/endpoints</remarks>
-        /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/endpoints","0.1.26")]
-        Task<MetricsGetEndpointsResponse> GetEndpointsAsync();
-
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <remarks>Route template: /metrics/endpoints</remarks>
-        /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/endpoints","0.1.26")]
-        Task<MetricsGetEndpointsResponse> GetEndpointsAsync(CancellationToken token);
-    }
-    
-    public partial class MetricsService : IMetricsService 
-    {
-
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <remarks>Route template: /metrics/</remarks>
-        /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/","0.1.26")]
-        public Task<MetricsGetResponse> GetAsync()
+        /// <summary> 
+        ///     Initializes a new <see cref="MetricsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Metrics">Metrics</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public MetricsService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(CancellationToken.None);
         }
 
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <remarks>Route template: /metrics/</remarks>
+        /// <summary>
+        ///     Blockfrost usage metrics <c>/metrics/</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Metrics/paths/~1metrics~1/get">/metrics/</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/","0.1.26")]
-        public Task<MetricsGetResponse> GetAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metrics/", "0.1.27")]
+        public Task<MetricsResponseCollection> GetMetricsAsync()
         {
-            throw new NotImplementedException(); 
+            return GetMetricsAsync(CancellationToken.None);
         }
 
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <remarks>Route template: /metrics/endpoints</remarks>
+        /// <summary>
+        ///     Blockfrost usage metrics <c>/metrics/</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Metrics/paths/~1metrics~1/get">/metrics/</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/endpoints","0.1.26")]
-        public Task<MetricsGetEndpointsResponse> GetEndpointsAsync()
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metrics/", "0.1.27")]
+        public async Task<MetricsResponseCollection> GetMetricsAsync(CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/metrics/");
+
+            return await SendGetRequestAsync<MetricsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Blockfrost endpoint usage metrics <c>/metrics/endpoints</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Metrics/paths/~1metrics~1endpoints/get">/metrics/endpoints</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <returns>Return the last 30 days of metrics</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metrics/endpoints", "0.1.27")]
+        public Task<MetricsEndpointsResponseCollection> GetEndpointsAsync()
         {
             return GetEndpointsAsync(CancellationToken.None);
         }
 
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <remarks>Route template: /metrics/endpoints</remarks>
+        /// <summary>
+        ///     Blockfrost endpoint usage metrics <c>/metrics/endpoints</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Metrics/paths/~1metrics~1endpoints/get">/metrics/endpoints</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
-        [Get("/metrics/endpoints","0.1.26")]
-        public Task<MetricsGetEndpointsResponse> GetEndpointsAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/metrics/endpoints", "0.1.27")]
+        public async Task<MetricsEndpointsResponseCollection> GetEndpointsAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            var builder = GetUrlBuilder("/metrics/endpoints");
+
+            return await SendGetRequestAsync<MetricsEndpointsResponseCollection>(builder, cancellationToken);
         }
     }
 }

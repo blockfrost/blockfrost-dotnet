@@ -1,238 +1,254 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IAddressesService 
+    public partial class AddressesService : ABlockfrostService, IAddressesService
     {
-
-        /// <summary>Specific address</summary>
-        /// <remarks>Route template: /addresses/{address}</remarks>
-        /// <param name="address">Description</param>
-        /// <returns>Return the address content.</returns>
-        [Get("/addresses/{address}","0.1.26")]
-        Task<AddressesGetResponse> GetAsync(string address);
-
-        /// <summary>Specific address</summary>
-        /// <remarks>Route template: /addresses/{address}</remarks>
-        /// <param name="address">Description</param>
-        /// <returns>Return the address content.</returns>
-        [Get("/addresses/{address}","0.1.26")]
-        Task<AddressesGetResponse> GetAsync(string address, CancellationToken token);
-
-        /// <summary>Address details</summary>
-        /// <remarks>Route template: /addresses/{address}/total</remarks>
-        /// <param name="address">Description</param>
-        /// <returns>Return the Address details.</returns>
-        [Get("/addresses/{address}/total","0.1.26")]
-        Task<AddressesGetTotalResponse> GetTotalAsync(string address);
-
-        /// <summary>Address details</summary>
-        /// <remarks>Route template: /addresses/{address}/total</remarks>
-        /// <param name="address">Description</param>
-        /// <returns>Return the Address details.</returns>
-        [Get("/addresses/{address}/total","0.1.26")]
-        Task<AddressesGetTotalResponse> GetTotalAsync(string address, CancellationToken token);
-
-        /// <summary>Address UTXOs</summary>
-        /// <remarks>Route template: /addresses/{address}/utxos</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/utxos","0.1.26")]
-        Task<AddressesGetUtxosResponse> GetUtxosAsync(string address, long count, long page, string order);
-
-        /// <summary>Address UTXOs</summary>
-        /// <remarks>Route template: /addresses/{address}/utxos</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/utxos","0.1.26")]
-        Task<AddressesGetUtxosResponse> GetUtxosAsync(string address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/txs</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/txs","0.1.26")]
-        Task<AddressesGetTxsResponse> GetTxsAsync(string address, long count, long page, string order);
-
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/txs</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/txs","0.1.26")]
-        Task<AddressesGetTxsResponse> GetTxsAsync(string address, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/transactions</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <param name="from">Description</param>
-        /// <param name="to">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/transactions","0.1.26")]
-        Task<AddressesGetTransactionsResponse> GetTransactionsAsync(string address, long count, long page, string order, string from, string to);
-
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/transactions</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <param name="from">Description</param>
-        /// <param name="to">Description</param>
-        /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/transactions","0.1.26")]
-        Task<AddressesGetTransactionsResponse> GetTransactionsAsync(string address, long count, long page, string order, string from, string to, CancellationToken token);
-    }
-    
-    public partial class AddressesService : IAddressesService 
-    {
-
-        /// <summary>Specific address</summary>
-        /// <remarks>Route template: /addresses/{address}</remarks>
-        /// <param name="address">Description</param>
-        /// <returns>Return the address content.</returns>
-        [Get("/addresses/{address}","0.1.26")]
-        public Task<AddressesGetResponse> GetAsync(string address)
+        /// <summary> 
+        ///     Initializes a new <see cref="AddressesService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses">Cardano » Addresses</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public AddressesService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(address, CancellationToken.None);
         }
 
-        /// <summary>Specific address</summary>
-        /// <remarks>Route template: /addresses/{address}</remarks>
-        /// <param name="address">Description</param>
+        /// <summary>
+        ///     Specific address <c>/addresses/{address}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}/get">/addresses/{address}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
         /// <returns>Return the address content.</returns>
-        [Get("/addresses/{address}","0.1.26")]
-        public Task<AddressesGetResponse> GetAsync(string address, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}", "0.1.27")]
+        public Task<AddressContentResponse> GetAddressesAsync(string address)
         {
-            throw new NotImplementedException(); 
+            return GetAddressesAsync(address, CancellationToken.None);
         }
 
-        /// <summary>Address details</summary>
-        /// <remarks>Route template: /addresses/{address}/total</remarks>
-        /// <param name="address">Description</param>
+        /// <summary>
+        ///     Specific address <c>/addresses/{address}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}/get">/addresses/{address}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <returns>Return the address content.</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}", "0.1.27")]
+        public async Task<AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
+        {
+            if (address == null)
+            {
+                throw new System.ArgumentNullException(nameof(address));
+            }
+
+            var builder = GetUrlBuilder("/addresses/{address}");
+            _ = builder.SetRouteParameter("{address}", address);
+
+            return await SendGetRequestAsync<AddressContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Address details <c>/addresses/{address}/total</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1total/get">/addresses/{address}/total</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
         /// <returns>Return the Address details.</returns>
-        [Get("/addresses/{address}/total","0.1.26")]
-        public Task<AddressesGetTotalResponse> GetTotalAsync(string address)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/total", "0.1.27")]
+        public Task<AddressContentTotalResponse> GetTotalAsync(string address)
         {
             return GetTotalAsync(address, CancellationToken.None);
         }
 
-        /// <summary>Address details</summary>
-        /// <remarks>Route template: /addresses/{address}/total</remarks>
-        /// <param name="address">Description</param>
+        /// <summary>
+        ///     Address details <c>/addresses/{address}/total</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1total/get">/addresses/{address}/total</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
         /// <returns>Return the Address details.</returns>
-        [Get("/addresses/{address}/total","0.1.26")]
-        public Task<AddressesGetTotalResponse> GetTotalAsync(string address, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/total", "0.1.27")]
+        public async Task<AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (address == null)
+            {
+                throw new System.ArgumentNullException(nameof(address));
+            }
 
-        /// <summary>Address UTXOs</summary>
-        /// <remarks>Route template: /addresses/{address}/utxos</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/addresses/{address}/total");
+            _ = builder.SetRouteParameter("{address}", address);
+
+            return await SendGetRequestAsync<AddressContentTotalResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Address UTXOs <c>/addresses/{address}/utxos</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1utxos/get">/addresses/{address}/utxos</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/utxos","0.1.26")]
-        public Task<AddressesGetUtxosResponse> GetUtxosAsync(string address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/utxos", "0.1.27")]
+        public Task<AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetUtxosAsync(address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Address UTXOs</summary>
-        /// <remarks>Route template: /addresses/{address}/utxos</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Address UTXOs <c>/addresses/{address}/utxos</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1utxos/get">/addresses/{address}/utxos</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">Ordered by tx index in the block.The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/utxos","0.1.26")]
-        public Task<AddressesGetUtxosResponse> GetUtxosAsync(string address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/utxos", "0.1.27")]
+        public async Task<AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (address == null)
+            {
+                throw new System.ArgumentNullException(nameof(address));
+            }
 
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/txs</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/addresses/{address}/utxos");
+            _ = builder.SetRouteParameter("{address}", address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AddressUtxoContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Address transactions <c>/addresses/{address}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1txs/get">/addresses/{address}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The number of transactions per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/txs","0.1.26")]
-        public Task<AddressesGetTxsResponse> GetTxsAsync(string address, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/txs", "0.1.27")]
+        public Task<StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(address, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/txs</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Address transactions <c>/addresses/{address}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1txs/get">/addresses/{address}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The number of transactions per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/txs","0.1.26")]
-        public Task<AddressesGetTxsResponse> GetTxsAsync(string address, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/txs", "0.1.27")]
+        public async Task<StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (address == null)
+            {
+                throw new System.ArgumentNullException(nameof(address));
+            }
 
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/transactions</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <param name="from">Description</param>
-        /// <param name="to">Description</param>
+            var builder = GetUrlBuilder("/addresses/{address}/txs");
+            _ = builder.SetRouteParameter("{address}", address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Address transactions <c>/addresses/{address}/transactions</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1transactions/get">/addresses/{address}/transactions</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
+        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/transactions","0.1.26")]
-        public Task<AddressesGetTransactionsResponse> GetTransactionsAsync(string address, long count, long page, string order, string from, string to)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/transactions", "0.1.27")]
+        public Task<AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             return GetTransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
         }
 
-        /// <summary>Address transactions</summary>
-        /// <remarks>Route template: /addresses/{address}/transactions</remarks>
-        /// <param name="address">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <param name="from">Description</param>
-        /// <param name="to">Description</param>
+        /// <summary>
+        ///     Address transactions <c>/addresses/{address}/transactions</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1transactions/get">/addresses/{address}/transactions</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="address">Bech32 address.</param>
+        /// <param name="count">The numbers of pools per page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
+        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
-        [Get("/addresses/{address}/transactions","0.1.26")]
-        public Task<AddressesGetTransactionsResponse> GetTransactionsAsync(string address, long count, long page, string order, string from, string to, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/addresses/{address}/transactions", "0.1.27")]
+        public async Task<AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (address == null)
+            {
+                throw new System.ArgumentNullException(nameof(address));
+            }
+
+            var builder = GetUrlBuilder("/addresses/{address}/transactions");
+            _ = builder.SetRouteParameter("{address}", address);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            _ = builder.AppendQueryParameter(nameof(from), from);
+            _ = builder.AppendQueryParameter(nameof(to), to);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AddressTransactionsContentResponseCollection>(builder, cancellationToken);
         }
     }
 }

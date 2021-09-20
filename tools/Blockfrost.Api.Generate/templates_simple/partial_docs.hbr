@@ -1,0 +1,15 @@
+        /// <summary>
+        ///     {{writeSafe Summary}} <c>{{Context.Route}}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="{{Context.DocsLink}}/{{lower_case HttpMethod}}">{{Context.Route}}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        {{#each Parameters}}
+        /// <param name="{{Name}}">{{writeSafe Description}}</param>
+        {{/each}}
+        /// <returns>{{writeSafe Returns}}</returns>
+        {{#if HasNullCheck}} 
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        {{/if}}
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]

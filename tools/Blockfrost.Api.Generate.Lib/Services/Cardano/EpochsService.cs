@@ -1,420 +1,405 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IEpochsService 
+    public partial class EpochsService : ABlockfrostService, IEpochsService
     {
+        /// <summary> 
+        ///     Initializes a new <see cref="EpochsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs">Cardano » Epochs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public EpochsService(HttpClient httpClient) : base(httpClient)
+        {
+        }
 
-        /// <summary>Latest epoch</summary>
-        /// <remarks>Route template: /epochs/latest</remarks>
+        /// <summary>
+        ///     Latest epoch <c>/epochs/latest</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1latest/get">/epochs/latest</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest","0.1.26")]
-        Task<EpochsGetLatestResponse> GetLatestAsync();
-
-        /// <summary>Latest epoch</summary>
-        /// <remarks>Route template: /epochs/latest</remarks>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest","0.1.26")]
-        Task<EpochsGetLatestResponse> GetLatestAsync(CancellationToken token);
-
-        /// <summary>Latest epoch protocol parameters</summary>
-        /// <remarks>Route template: /epochs/latest/parameters</remarks>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest/parameters","0.1.26")]
-        Task<EpochsGetLatestParametersResponse> GetLatestParametersAsync();
-
-        /// <summary>Latest epoch protocol parameters</summary>
-        /// <remarks>Route template: /epochs/latest/parameters</remarks>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest/parameters","0.1.26")]
-        Task<EpochsGetLatestParametersResponse> GetLatestParametersAsync(CancellationToken token);
-
-        /// <summary>Specific epoch</summary>
-        /// <remarks>Route template: /epochs/{number}</remarks>
-        /// <param name="number">Description</param>
-        /// <returns>Return the epoch data.</returns>
-        [Get("/epochs/{number}","0.1.26")]
-        Task<EpochsGetResponse> GetAsync(long number);
-
-        /// <summary>Specific epoch</summary>
-        /// <remarks>Route template: /epochs/{number}</remarks>
-        /// <param name="number">Description</param>
-        /// <returns>Return the epoch data.</returns>
-        [Get("/epochs/{number}","0.1.26")]
-        Task<EpochsGetResponse> GetAsync(long number, CancellationToken token);
-
-        /// <summary>Listing of next epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/next</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/next","0.1.26")]
-        Task<EpochsGetNextResponse> GetNextAsync(long number, long count, long page);
-
-        /// <summary>Listing of next epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/next</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/next","0.1.26")]
-        Task<EpochsGetNextResponse> GetNextAsync(long number, long count, long page, CancellationToken token);
-
-        /// <summary>Listing of previous epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/previous</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the epoch data</returns>
-        [Get("/epochs/{number}/previous","0.1.26")]
-        Task<EpochsGetPreviousResponse> GetPreviousAsync(long number, long count, long page);
-
-        /// <summary>Listing of previous epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/previous</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the epoch data</returns>
-        [Get("/epochs/{number}/previous","0.1.26")]
-        Task<EpochsGetPreviousResponse> GetPreviousAsync(long number, long count, long page, CancellationToken token);
-
-        /// <summary>Stake distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes","0.1.26")]
-        Task<EpochsGetStakesResponse> GetStakesAsync(long number, long count, long page);
-
-        /// <summary>Stake distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes","0.1.26")]
-        Task<EpochsGetStakesResponse> GetStakesAsync(long number, long count, long page, CancellationToken token);
-
-        /// <summary>Stake distribution by pool</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes/{pool_id}","0.1.26")]
-        Task<EpochsGetStakesResponse> GetStakesAsync(long number, string pool_id, long count, long page);
-
-        /// <summary>Stake distribution by pool</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes/{pool_id}","0.1.26")]
-        Task<EpochsGetStakesResponse> GetStakesAsync(long number, string pool_id, long count, long page, CancellationToken token);
-
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks","0.1.26")]
-        Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, long count, long page, string order);
-
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks","0.1.26")]
-        Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks/{pool_id}","0.1.26")]
-        Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, string pool_id, long count, long page, string order);
-
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks/{pool_id}","0.1.26")]
-        Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, string pool_id, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Protocol parameters</summary>
-        /// <remarks>Route template: /epochs/{number}/parameters</remarks>
-        /// <param name="number">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/parameters","0.1.26")]
-        Task<EpochsGetParametersResponse> GetParametersAsync(long number);
-
-        /// <summary>Protocol parameters</summary>
-        /// <remarks>Route template: /epochs/{number}/parameters</remarks>
-        /// <param name="number">Description</param>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/parameters","0.1.26")]
-        Task<EpochsGetParametersResponse> GetParametersAsync(long number, CancellationToken token);
-    }
-    
-    public partial class EpochsService : IEpochsService 
-    {
-
-        /// <summary>Latest epoch</summary>
-        /// <remarks>Route template: /epochs/latest</remarks>
-        /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest","0.1.26")]
-        public Task<EpochsGetLatestResponse> GetLatestAsync()
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/latest", "0.1.27")]
+        public Task<EpochContentResponse> GetLatestAsync()
         {
             return GetLatestAsync(CancellationToken.None);
         }
 
-        /// <summary>Latest epoch</summary>
-        /// <remarks>Route template: /epochs/latest</remarks>
+        /// <summary>
+        ///     Latest epoch <c>/epochs/latest</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1latest/get">/epochs/latest</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest","0.1.26")]
-        public Task<EpochsGetLatestResponse> GetLatestAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/latest", "0.1.27")]
+        public async Task<EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/latest");
 
-        /// <summary>Latest epoch protocol parameters</summary>
-        /// <remarks>Route template: /epochs/latest/parameters</remarks>
+            return await SendGetRequestAsync<EpochContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Latest epoch protocol parameters <c>/epochs/latest/parameters</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1latest~1parameters/get">/epochs/latest/parameters</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest/parameters","0.1.26")]
-        public Task<EpochsGetLatestParametersResponse> GetLatestParametersAsync()
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/latest/parameters", "0.1.27")]
+        public Task<EpochParamContentResponse> GetLatestParametersAsync()
         {
             return GetLatestParametersAsync(CancellationToken.None);
         }
 
-        /// <summary>Latest epoch protocol parameters</summary>
-        /// <remarks>Route template: /epochs/latest/parameters</remarks>
+        /// <summary>
+        ///     Latest epoch protocol parameters <c>/epochs/latest/parameters</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1latest~1parameters/get">/epochs/latest/parameters</seealso> on docs.blockfrost.io
+        /// </remarks>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/latest/parameters","0.1.26")]
-        public Task<EpochsGetLatestParametersResponse> GetLatestParametersAsync(CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/latest/parameters", "0.1.27")]
+        public async Task<EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/latest/parameters");
 
-        /// <summary>Specific epoch</summary>
-        /// <remarks>Route template: /epochs/{number}</remarks>
-        /// <param name="number">Description</param>
+            return await SendGetRequestAsync<EpochParamContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific epoch <c>/epochs/{number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}/get">/epochs/{number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
         /// <returns>Return the epoch data.</returns>
-        [Get("/epochs/{number}","0.1.26")]
-        public Task<EpochsGetResponse> GetAsync(long number)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}", "0.1.27")]
+        public Task<EpochContentResponse> GetEpochsAsync(int number)
         {
-            return GetAsync(number, CancellationToken.None);
+            return GetEpochsAsync(number, CancellationToken.None);
         }
 
-        /// <summary>Specific epoch</summary>
-        /// <remarks>Route template: /epochs/{number}</remarks>
-        /// <param name="number">Description</param>
+        /// <summary>
+        ///     Specific epoch <c>/epochs/{number}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}/get">/epochs/{number}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
         /// <returns>Return the epoch data.</returns>
-        [Get("/epochs/{number}","0.1.26")]
-        public Task<EpochsGetResponse> GetAsync(long number, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}", "0.1.27")]
+        public async Task<EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/{number}");
+            _ = builder.SetRouteParameter("{number}", number);
 
-        /// <summary>Listing of next epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/next</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            return await SendGetRequestAsync<EpochContentResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Listing of next epochs <c>/epochs/{number}/next</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1next/get">/epochs/{number}/next</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the requested epoch.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/next","0.1.26")]
-        public Task<EpochsGetNextResponse> GetNextAsync(long number, long count, long page)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/next", "0.1.27")]
+        public Task<EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page)
         {
             return GetNextAsync(number, count, page, CancellationToken.None);
         }
 
-        /// <summary>Listing of next epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/next</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Listing of next epochs <c>/epochs/{number}/next</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1next/get">/epochs/{number}/next</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the requested epoch.</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/next","0.1.26")]
-        public Task<EpochsGetNextResponse> GetNextAsync(long number, long count, long page, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/next", "0.1.27")]
+        public async Task<EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/{number}/next");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
 
-        /// <summary>Listing of previous epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/previous</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            return await SendGetRequestAsync<EpochContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Listing of previous epochs <c>/epochs/{number}/previous</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1previous/get">/epochs/{number}/previous</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results</param>
         /// <returns>Return the epoch data</returns>
-        [Get("/epochs/{number}/previous","0.1.26")]
-        public Task<EpochsGetPreviousResponse> GetPreviousAsync(long number, long count, long page)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/previous", "0.1.27")]
+        public Task<EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page)
         {
             return GetPreviousAsync(number, count, page, CancellationToken.None);
         }
 
-        /// <summary>Listing of previous epochs</summary>
-        /// <remarks>Route template: /epochs/{number}/previous</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Listing of previous epochs <c>/epochs/{number}/previous</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1previous/get">/epochs/{number}/previous</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results</param>
         /// <returns>Return the epoch data</returns>
-        [Get("/epochs/{number}/previous","0.1.26")]
-        public Task<EpochsGetPreviousResponse> GetPreviousAsync(long number, long count, long page, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/previous", "0.1.27")]
+        public async Task<EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/{number}/previous");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
 
-        /// <summary>Stake distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            return await SendGetRequestAsync<EpochContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake distribution <c>/epochs/{number}/stakes</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes/get">/epochs/{number}/stakes</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes","0.1.26")]
-        public Task<EpochsGetStakesResponse> GetStakesAsync(long number, long count, long page)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/stakes", "0.1.27")]
+        public Task<EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page)
         {
             return GetStakesAsync(number, count, page, CancellationToken.None);
         }
 
-        /// <summary>Stake distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Stake distribution <c>/epochs/{number}/stakes</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes/get">/epochs/{number}/stakes</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes","0.1.26")]
-        public Task<EpochsGetStakesResponse> GetStakesAsync(long number, long count, long page, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/stakes", "0.1.27")]
+        public async Task<EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/{number}/stakes");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
 
-        /// <summary>Stake distribution by pool</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+            return await SendGetRequestAsync<EpochStakeContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Stake distribution by pool <c>/epochs/{number}/stakes/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes~1{pool_id}/get">/epochs/{number}/stakes/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="pool_id">Stake pool ID to filter</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes/{pool_id}","0.1.26")]
-        public Task<EpochsGetStakesResponse> GetStakesAsync(long number, string pool_id, long count, long page)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
+        public Task<EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page)
         {
             return GetStakesAsync(number, pool_id, count, page, CancellationToken.None);
         }
 
-        /// <summary>Stake distribution by pool</summary>
-        /// <remarks>Route template: /epochs/{number}/stakes/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
+        /// <summary>
+        ///     Stake distribution by pool <c>/epochs/{number}/stakes/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes~1{pool_id}/get">/epochs/{number}/stakes/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="pool_id">Stake pool ID to filter</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/stakes/{pool_id}","0.1.26")]
-        public Task<EpochsGetStakesResponse> GetStakesAsync(long number, string pool_id, long count, long page, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
+        public async Task<EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/epochs/{number}/stakes/{pool_id}");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            builder.Length--;
+
+            return await SendGetRequestAsync<EpochStakePoolContentResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Block distribution <c>/epochs/{number}/blocks</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks/get">/epochs/{number}/blocks</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks","0.1.26")]
-        public Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, long count, long page, string order)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/blocks", "0.1.27")]
+        public Task<StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order)
         {
             return GetBlocksAsync(number, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Block distribution <c>/epochs/{number}/blocks</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks/get">/epochs/{number}/blocks</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks","0.1.26")]
-        public Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/blocks", "0.1.27")]
+        public async Task<StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            var builder = GetUrlBuilder("/epochs/{number}/blocks");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
 
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Block distribution by pool <c>/epochs/{number}/blocks/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks~1{pool_id}/get">/epochs/{number}/blocks/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="pool_id">Stake pool ID to filter</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks/{pool_id}","0.1.26")]
-        public Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, string pool_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
+        public Task<StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetBlocksAsync(number, pool_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Block distribution</summary>
-        /// <remarks>Route template: /epochs/{number}/blocks/{pool_id}</remarks>
-        /// <param name="number">Description</param>
-        /// <param name="pool_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Block distribution by pool <c>/epochs/{number}/blocks/{pool_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks~1{pool_id}/get">/epochs/{number}/blocks/{pool_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
+        /// <param name="pool_id">Stake pool ID to filter</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/blocks/{pool_id}","0.1.26")]
-        public Task<EpochsGetBlocksResponse> GetBlocksAsync(long number, string pool_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
+        public async Task<StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (pool_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(pool_id));
+            }
 
-        /// <summary>Protocol parameters</summary>
-        /// <remarks>Route template: /epochs/{number}/parameters</remarks>
-        /// <param name="number">Description</param>
+            var builder = GetUrlBuilder("/epochs/{number}/blocks/{pool_id}");
+            _ = builder.SetRouteParameter("{number}", number);
+            _ = builder.SetRouteParameter("{pool_id}", pool_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Protocol parameters <c>/epochs/{number}/parameters</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1parameters/get">/epochs/{number}/parameters</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/parameters","0.1.26")]
-        public Task<EpochsGetParametersResponse> GetParametersAsync(long number)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/parameters", "0.1.27")]
+        public Task<EpochParamContentResponse> GetParametersAsync(int number)
         {
             return GetParametersAsync(number, CancellationToken.None);
         }
 
-        /// <summary>Protocol parameters</summary>
-        /// <remarks>Route template: /epochs/{number}/parameters</remarks>
-        /// <param name="number">Description</param>
+        /// <summary>
+        ///     Protocol parameters <c>/epochs/{number}/parameters</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1parameters/get">/epochs/{number}/parameters</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="number">Number of the epoch</param>
         /// <returns>Return the data about the epoch</returns>
-        [Get("/epochs/{number}/parameters","0.1.26")]
-        public Task<EpochsGetParametersResponse> GetParametersAsync(long number, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/epochs/{number}/parameters", "0.1.27")]
+        public async Task<EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            var builder = GetUrlBuilder("/epochs/{number}/parameters");
+            _ = builder.SetRouteParameter("{number}", number);
+
+            return await SendGetRequestAsync<EpochParamContentResponse>(builder, cancellationToken);
         }
     }
 }

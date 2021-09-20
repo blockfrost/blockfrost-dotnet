@@ -1,330 +1,346 @@
-using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Net.Http;
 using System.Threading;
-using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
-namespace Blockfrost.Api.Services.Cardano
+namespace Blockfrost.Api.Services
 {
-    public partial interface IAssetsService 
+    public partial class AssetsService : ABlockfrostService, IAssetsService
     {
-
-        /// <summary>Assets</summary>
-        /// <remarks>Route template: /assets</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return list of assets</returns>
-        [Get("/assets","0.1.26")]
-        Task<AssetsGetResponse> GetAsync(long count, long page, string order);
-
-        /// <summary>Assets</summary>
-        /// <remarks>Route template: /assets</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return list of assets</returns>
-        [Get("/assets","0.1.26")]
-        Task<AssetsGetResponse> GetAsync(long count, long page, string order, CancellationToken token);
-
-        /// <summary>Specific asset</summary>
-        /// <remarks>Route template: /assets/{asset}</remarks>
-        /// <param name="asset">Description</param>
-        /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/{asset}","0.1.26")]
-        Task<AssetsGetResponse> GetAsync(string asset);
-
-        /// <summary>Specific asset</summary>
-        /// <remarks>Route template: /assets/{asset}</remarks>
-        /// <param name="asset">Description</param>
-        /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/{asset}","0.1.26")]
-        Task<AssetsGetResponse> GetAsync(string asset, CancellationToken token);
-
-        /// <summary>Asset history</summary>
-        /// <remarks>Route template: /assets/{asset}/history</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/history","0.1.26")]
-        Task<AssetsGetHistoryResponse> GetHistoryAsync(string asset, long count, long page, string order);
-
-        /// <summary>Asset history</summary>
-        /// <remarks>Route template: /assets/{asset}/history</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/history","0.1.26")]
-        Task<AssetsGetHistoryResponse> GetHistoryAsync(string asset, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/txs</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/txs","0.1.26")]
-        Task<AssetsGetTxsResponse> GetTxsAsync(string asset, long count, long page, string order);
-
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/txs</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/txs","0.1.26")]
-        Task<AssetsGetTxsResponse> GetTxsAsync(string asset, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/transactions</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/transactions","0.1.26")]
-        Task<AssetsGetTransactionsResponse> GetTransactionsAsync(string asset, long count, long page, string order);
-
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/transactions</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/transactions","0.1.26")]
-        Task<AssetsGetTransactionsResponse> GetTransactionsAsync(string asset, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Asset addresses</summary>
-        /// <remarks>Route template: /assets/{asset}/addresses</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/addresses","0.1.26")]
-        Task<AssetsGetAddressesResponse> GetAddressesAsync(string asset, long count, long page, string order);
-
-        /// <summary>Asset addresses</summary>
-        /// <remarks>Route template: /assets/{asset}/addresses</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/addresses","0.1.26")]
-        Task<AssetsGetAddressesResponse> GetAddressesAsync(string asset, long count, long page, string order, CancellationToken token);
-
-        /// <summary>Assets of a specific policy</summary>
-        /// <remarks>Route template: /assets/policy/{policy_id}</remarks>
-        /// <param name="policy_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/policy/{policy_id}","0.1.26")]
-        Task<AssetsGetPolicyResponse> GetPolicyAsync(string policy_id, long count, long page, string order);
-
-        /// <summary>Assets of a specific policy</summary>
-        /// <remarks>Route template: /assets/policy/{policy_id}</remarks>
-        /// <param name="policy_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/policy/{policy_id}","0.1.26")]
-        Task<AssetsGetPolicyResponse> GetPolicyAsync(string policy_id, long count, long page, string order, CancellationToken token);
-    }
-    
-    public partial class AssetsService : IAssetsService 
-    {
-
-        /// <summary>Assets</summary>
-        /// <remarks>Route template: /assets</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
-        /// <returns>Return list of assets</returns>
-        [Get("/assets","0.1.26")]
-        public Task<AssetsGetResponse> GetAsync(long count, long page, string order)
+        /// <summary> 
+        ///     Initializes a new <see cref="AssetsService"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets">Cardano » Assets</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public AssetsService(HttpClient httpClient) : base(httpClient)
         {
-            return GetAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Assets</summary>
-        /// <remarks>Route template: /assets</remarks>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Assets <c>/assets</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets/get">/assets</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return list of assets</returns>
-        [Get("/assets","0.1.26")]
-        public Task<AssetsGetResponse> GetAsync(long count, long page, string order, CancellationToken token)
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets", "0.1.27")]
+        public Task<AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order)
         {
-            throw new NotImplementedException(); 
+            return GetAssetsAsync(count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Specific asset</summary>
-        /// <remarks>Route template: /assets/{asset}</remarks>
-        /// <param name="asset">Description</param>
+        /// <summary>
+        ///     Assets <c>/assets</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets/get">/assets</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
+        /// <returns>Return list of assets</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets", "0.1.27")]
+        public async Task<AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        {
+            var builder = GetUrlBuilder("/assets");
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AssetsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Specific asset <c>/assets/{asset}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}/get">/assets/{asset}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/{asset}","0.1.26")]
-        public Task<AssetsGetResponse> GetAsync(string asset)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}", "0.1.27")]
+        public Task<AssetResponse> GetAssetsAsync(string asset)
         {
-            return GetAsync(asset, CancellationToken.None);
+            return GetAssetsAsync(asset, CancellationToken.None);
         }
 
-        /// <summary>Specific asset</summary>
-        /// <remarks>Route template: /assets/{asset}</remarks>
-        /// <param name="asset">Description</param>
+        /// <summary>
+        ///     Specific asset <c>/assets/{asset}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}/get">/assets/{asset}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/{asset}","0.1.26")]
-        public Task<AssetsGetResponse> GetAsync(string asset, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}", "0.1.27")]
+        public async Task<AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (asset == null)
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
-        /// <summary>Asset history</summary>
-        /// <remarks>Route template: /assets/{asset}/history</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/assets/{asset}");
+            _ = builder.SetRouteParameter("{asset}", asset);
+
+            return await SendGetRequestAsync<AssetResponse>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Asset history <c>/assets/{asset}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1history/get">/assets/{asset}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/history","0.1.26")]
-        public Task<AssetsGetHistoryResponse> GetHistoryAsync(string asset, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/history", "0.1.27")]
+        public Task<AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetHistoryAsync(asset, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Asset history</summary>
-        /// <remarks>Route template: /assets/{asset}/history</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Asset history <c>/assets/{asset}/history</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1history/get">/assets/{asset}/history</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/history","0.1.26")]
-        public Task<AssetsGetHistoryResponse> GetHistoryAsync(string asset, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/history", "0.1.27")]
+        public async Task<AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (asset == null)
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/txs</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/assets/{asset}/history");
+            _ = builder.SetRouteParameter("{asset}", asset);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AssetHistoryResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Asset transactions <c>/assets/{asset}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1txs/get">/assets/{asset}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/txs","0.1.26")]
-        public Task<AssetsGetTxsResponse> GetTxsAsync(string asset, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/txs", "0.1.27")]
+        public Task<StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(asset, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/txs</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Asset transactions <c>/assets/{asset}/txs</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1txs/get">/assets/{asset}/txs</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/txs","0.1.26")]
-        public Task<AssetsGetTxsResponse> GetTxsAsync(string asset, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/txs", "0.1.27")]
+        public async Task<StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (asset == null)
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/transactions</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/assets/{asset}/txs");
+            _ = builder.SetRouteParameter("{asset}", asset);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Asset transactions <c>/assets/{asset}/transactions</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1transactions/get">/assets/{asset}/transactions</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/transactions","0.1.26")]
-        public Task<AssetsGetTransactionsResponse> GetTransactionsAsync(string asset, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/transactions", "0.1.27")]
+        public Task<AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetTransactionsAsync(asset, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Asset transactions</summary>
-        /// <remarks>Route template: /assets/{asset}/transactions</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Asset transactions <c>/assets/{asset}/transactions</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1transactions/get">/assets/{asset}/transactions</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/transactions","0.1.26")]
-        public Task<AssetsGetTransactionsResponse> GetTransactionsAsync(string asset, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/transactions", "0.1.27")]
+        public async Task<AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (asset == null)
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
-        /// <summary>Asset addresses</summary>
-        /// <remarks>Route template: /assets/{asset}/addresses</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/assets/{asset}/transactions");
+            _ = builder.SetRouteParameter("{asset}", asset);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AssetTransactionsResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Asset addresses <c>/assets/{asset}/addresses</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1addresses/get">/assets/{asset}/addresses</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/addresses","0.1.26")]
-        public Task<AssetsGetAddressesResponse> GetAddressesAsync(string asset, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/addresses", "0.1.27")]
+        public Task<AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetAddressesAsync(asset, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Asset addresses</summary>
-        /// <remarks>Route template: /assets/{asset}/addresses</remarks>
-        /// <param name="asset">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Asset addresses <c>/assets/{asset}/addresses</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1{asset}~1addresses/get">/assets/{asset}/addresses</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about the history of a specific asset</returns>
-        [Get("/assets/{asset}/addresses","0.1.26")]
-        public Task<AssetsGetAddressesResponse> GetAddressesAsync(string asset, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/{asset}/addresses", "0.1.27")]
+        public async Task<AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
-        }
+            if (asset == null)
+            {
+                throw new System.ArgumentNullException(nameof(asset));
+            }
 
-        /// <summary>Assets of a specific policy</summary>
-        /// <remarks>Route template: /assets/policy/{policy_id}</remarks>
-        /// <param name="policy_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+            var builder = GetUrlBuilder("/assets/{asset}/addresses");
+            _ = builder.SetRouteParameter("{asset}", asset);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AssetAddressesResponseCollection>(builder, cancellationToken);
+        }
+        /// <summary>
+        ///     Assets of a specific policy <c>/assets/policy/{policy_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1policy~1{policy_id}/get">/assets/policy/{policy_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="policy_id">Specific policy_id</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/policy/{policy_id}","0.1.26")]
-        public Task<AssetsGetPolicyResponse> GetPolicyAsync(string policy_id, long count, long page, string order)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/policy/{policy_id}", "0.1.27")]
+        public Task<AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order)
         {
             return GetPolicyAsync(policy_id, count, page, order, CancellationToken.None);
         }
 
-        /// <summary>Assets of a specific policy</summary>
-        /// <remarks>Route template: /assets/policy/{policy_id}</remarks>
-        /// <param name="policy_id">Description</param>
-        /// <param name="count">Description</param>
-        /// <param name="page">Description</param>
-        /// <param name="order">Description</param>
+        /// <summary>
+        ///     Assets of a specific policy <c>/assets/policy/{policy_id}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Assets/paths/~1assets~1policy~1{policy_id}/get">/assets/policy/{policy_id}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="policy_id">Specific policy_id</param>
+        /// <param name="count">The number of results displayed on one page.</param>
+        /// <param name="page">The page number for listing the results.</param>
+        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the information about a specific asset</returns>
-        [Get("/assets/policy/{policy_id}","0.1.26")]
-        public Task<AssetsGetPolicyResponse> GetPolicyAsync(string policy_id, long count, long page, string order, CancellationToken token)
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/assets/policy/{policy_id}", "0.1.27")]
+        public async Task<AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException(); 
+            if (policy_id == null)
+            {
+                throw new System.ArgumentNullException(nameof(policy_id));
+            }
+
+            var builder = GetUrlBuilder("/assets/policy/{policy_id}");
+            _ = builder.SetRouteParameter("{policy_id}", policy_id);
+            _ = builder.AppendQueryParameter(nameof(count), count);
+            _ = builder.AppendQueryParameter(nameof(page), page);
+            _ = builder.AppendQueryParameter(nameof(order), order);
+            builder.Length--;
+
+            return await SendGetRequestAsync<AssetPolicyResponseCollection>(builder, cancellationToken);
         }
     }
 }

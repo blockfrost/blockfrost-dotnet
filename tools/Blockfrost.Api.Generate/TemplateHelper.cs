@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Generate.Contexts;
 using HandlebarsDotNet;
 using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
@@ -45,30 +47,31 @@ namespace Blockfrost.Api.Generate
             }
         }
 
-        public static string GetReturnType(string route, OpenApiSchema schema)
-        {
-            var sb = new StringBuilder();
-            sb.Append(PascalCase(route));
+        //@TODO REMOVE
+        //public static string GetReturnType(string route, OpenApiSchema schema)
+        //{
+        //    var sb = new StringBuilder();
+        //    sb.Append(PascalCase(route));
 
-            if(schema.Type == null)
-            {
-                return "object";
-            }
+        //    if(schema.Type == null)
+        //    {
+        //        return "object";
+        //    }
 
-            if (schema.Type.Equals("array", StringComparison.OrdinalIgnoreCase))
-            {
-                sb.Insert(0, "ICollection<").Append("Item>");
-            }
-            else
-            {
-                sb.Append("Item");
-            }
-            return sb.ToString();
-        }
+        //    if (schema.Type.Equals("array", StringComparison.OrdinalIgnoreCase))
+        //    {
+        //        sb.Insert(0, "ICollection<").Append("Item>");
+        //    }
+        //    else
+        //    {
+        //        sb.Append("Item");
+        //    }
+        //    return sb.ToString();
+        //}
 
         internal static string GetDataType(OpenApiSchema schema)
         {
-            return GetDataType(schema.Type);            
+            return GetDataType(schema.Type);
         }
 
         public static string WriteSafe(object input)
@@ -93,6 +96,10 @@ namespace Blockfrost.Api.Generate
             {
                 writer.WriteSafeString(WriteSafe(parameters[0]));
             });
+            Handlebars.RegisterHelper("curly", (writer, context, parameters) =>
+            {
+                writer.WriteSafeString($"{{{parameters[0]}}}");
+            });
 
             Handlebars.RegisterHelper("packageName", (writer, context, parameters) => { writer.WriteSafeString("Blockfrost.Api"); });
             Handlebars.RegisterHelper("servicePackage", (writer, context, parameters) => { writer.WriteSafeString("Services"); });
@@ -101,6 +108,7 @@ namespace Blockfrost.Api.Generate
             Handlebars.RegisterHelper("last", TemplateHelper.CamelCaseHelper);
             Handlebars.RegisterHelper("camel_case", TemplateHelper.CamelCaseHelper);
             Handlebars.RegisterHelper("pascal_case", TemplateHelper.PascalCaseHelper);
+            Handlebars.RegisterHelper("lower_case", TemplateHelper.LowerCaseHelper);
             Handlebars.RegisterHelper("required_ctor_params", TemplateHelper.RequiredCtorParamsHelper);
 
             Handlebars.RegisterHelper("is_array", (writer, context, parameters) =>
@@ -132,11 +140,27 @@ namespace Blockfrost.Api.Generate
             }
         }
 
+        internal static async Task<OpenApiDocument> GetSpecsAsync(string path)
+        {
+            if (!File.Exists(path))
+            {
+                return await GetSpecsAsync(new Uri(path));
+            }
+            else
+            {
+                using var s = File.OpenRead(path);
+                return await GetSpecsAsync(s);
+            }
+        }
+        internal static async Task<OpenApiDocument> GetSpecsAsync(Stream content)
+        {
+            var read = new Microsoft.OpenApi.Readers.OpenApiStreamReader(new Microsoft.OpenApi.Readers.OpenApiReaderSettings());
+            return await Task.FromResult(read.Read(content, out _));
+        }
         internal static async Task<OpenApiDocument> GetSpecsAsync(Uri uri)
         {
             var spec = await new HttpClient().GetStreamAsync(uri);
-            var read = new Microsoft.OpenApi.Readers.OpenApiStreamReader(new Microsoft.OpenApi.Readers.OpenApiReaderSettings());
-            return read.Read(spec, out _);
+            return await GetSpecsAsync(spec);
         }
 
 
@@ -169,6 +193,17 @@ namespace Blockfrost.Api.Generate
             else
             {
                 output.WriteSafeString($"{PascalCase(arguments[0])}");
+            }
+        }
+        public static void LowerCaseHelper(EncodedTextWriter output, Context context, Arguments arguments)
+        {
+            if (arguments.Length != 1)
+            {
+                throw new InvalidOperationException("pascal_case requires a single parameter");
+            }
+            else
+            {
+                output.WriteSafeString($"{LowerCase(arguments[0])}");
             }
         }
 
@@ -225,16 +260,22 @@ namespace Blockfrost.Api.Generate
             }
             
             var v = val.ToString();
-            if (v.Equals("/")) v = "root_endpoint";
+            if (v.Equals("/")) v = "info";
             return v;
         }
 
-        private static readonly Regex _r = new("([a-z])+", RegexOptions.IgnoreCase);
+        private static readonly Regex _r = new("([a-z0-9])+", RegexOptions.IgnoreCase);
 
         public static string PascalCase(object val)
         {
             var parts = _r.Matches(ToStringSafe(val)).Select(s => s.Value).ToArray();
             return string.Join("", UpperCaseFirstLetter(parts));
+        }
+
+        public static string LowerCase(object val)
+        {
+            var parts = _r.Matches(ToStringSafe(val)).Select(s => s.Value).ToArray();
+            return string.Join("", parts).ToLower();
         }
 
         private static string[] UpperCaseFirstLetter(string[] parts, int start = 0)
