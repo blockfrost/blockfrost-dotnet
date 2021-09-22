@@ -10,6 +10,8 @@ namespace Blockfrost.Api
         {
         }
 
+        public Services.ILedgerService V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         /// <summary>Blockchain genesis</summary>
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>

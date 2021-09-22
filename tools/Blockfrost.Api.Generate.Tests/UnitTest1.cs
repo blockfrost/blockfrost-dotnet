@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Blockfrost.Api.Generate.Contexts;
 using Microsoft.OpenApi.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,7 +18,7 @@ namespace Blockfrost.Api.Generate.Tests
         [TestMethod]
         public void TestLoadModels()
         { 
-            var ctx = new OpenApiDocumentContext(s_specs);
+            var ctx = new OpenApiDocumentContext(new System.IO.DirectoryInfo(@"C:\dev\tweakch\blockfrost-dotnet\oas\0.1.27\"), s_specs);
             ctx.Load();
 
             foreach (var item in ctx.Models)
@@ -42,7 +41,7 @@ namespace Blockfrost.Api.Generate.Tests
         [TestMethod]
         public void TestLoadModels()
         {
-            var ctx = new OpenApiDocumentContext(s_specs);
+            var ctx = new OpenApiDocumentContext(new System.IO.DirectoryInfo(@"C:\dev\tweakch\blockfrost-dotnet\oas\0.1.27\"),s_specs);
             ctx.Load();
             Assert.AreEqual(7, ctx.Models.Count);
 

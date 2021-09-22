@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
@@ -11,6 +12,8 @@ namespace Blockfrost.Api
         public AssetService(HttpClient httpClient) : base(httpClient)
         {
         }
+
+        public IAssetsService V1 { get; set; }
 
         /// <summary>Assets</summary>
         /// <param name="count">The number of results displayed on one page.</param>

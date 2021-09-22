@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Blockfrost.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -52,11 +53,17 @@ namespace Blockfrost.Api.Tests.Services
         {
             try
             {
-                var transactionService = Provider.GetRequiredService<ITransactionService>();
-                var addressService = Provider.GetRequiredService<IAddressService>();
+                //new
+                //var transactionService = Provider.GetRequiredService<ITransactionService>();
+                //var addressService = Provider.GetRequiredService<IAddressService>();
+                //_ = await transactionService.EndpointsAsync();
+                //_ = await addressService.EndpointsAsync();
 
-                _ = await transactionService.EndpointsAsync();
-                _ = await addressService.EndpointsAsync();
+                //new
+                //var transactions = Provider.GetRequiredService<ITransactionsService>();
+                //var addresses = Provider.GetRequiredService<IAddressesService>();
+                //_ = await transactionService.Metrics.EndpointsAsync();
+                //_ = await addressService.Metrics.EndpointsAsync();
             }
             catch (Exception ex)
             {

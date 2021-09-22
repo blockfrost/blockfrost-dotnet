@@ -3,11 +3,14 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
     public partial class AccountService : ABlockfrostService, IAccountService
     {
+        public IAccountsService V1 { get; set; }
+
         public AccountService(HttpClient httpClient) : base(httpClient)
         {
         }

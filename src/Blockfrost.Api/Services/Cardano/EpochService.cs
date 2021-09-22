@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
@@ -11,6 +12,8 @@ namespace Blockfrost.Api
         public EpochService(HttpClient httpClient) : base(httpClient)
         {
         }
+
+        public IEpochsService V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         /// <summary>Block distribution</summary>
         /// <param name="number">Number of the epoch</param>

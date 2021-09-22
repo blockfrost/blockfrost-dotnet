@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
@@ -11,6 +12,8 @@ namespace Blockfrost.Api
         public PoolService(HttpClient httpClient) : base(httpClient)
         {
         }
+
+        public IPoolsService V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         /// <summary>Stake pool blocks</summary>
         /// <param name="pool_id">Bech32 or hexadecimal pool ID.</param>

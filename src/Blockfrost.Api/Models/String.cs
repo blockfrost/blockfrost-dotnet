@@ -1,0 +1,4 @@
+namespace Blockfrost.Api.Models
+{
+}
+

@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
@@ -11,6 +12,8 @@ namespace Blockfrost.Api
         public AddressService(HttpClient httpClient) : base(httpClient)
         {
         }
+
+        public IAddressesService V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Specific address</summary>

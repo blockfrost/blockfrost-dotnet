@@ -1,6 +1,4 @@
-﻿using Microsoft.OpenApi.Models;
-
-namespace Blockfrost.Api.Generate.Tests
+﻿namespace Blockfrost.Api.Generate.Tests
 {
 
 }

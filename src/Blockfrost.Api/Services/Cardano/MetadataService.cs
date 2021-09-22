@@ -12,6 +12,8 @@ namespace Blockfrost.Api
         {
         }
 
+        public Services.IMetadataService V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
         /// <summary>Transaction metadata content in CBOR</summary>
         /// <param name="label">Metadata label</param>
         /// <param name="count">The number of results displayed on one page.</param>
