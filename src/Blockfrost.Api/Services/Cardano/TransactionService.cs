@@ -7,11 +7,18 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
     public partial class TransactionService : ABlockfrostService, ITransactionService
     {
+        public ITransactionsService V1 { get; set; }
+
+        public TransactionService(ITransactionsService service, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = service;
+        }
         public TransactionService(HttpClient httpClient) : base(httpClient)
         {
         }
@@ -289,32 +296,29 @@ namespace Blockfrost.Api
 
             for (uint i = 0; i < arrLength; i++)
             {
-                switch (reader.PeekState())
+                if (reader.PeekState() == System.Formats.Cbor.CborReaderState.Null)
                 {
-                    case System.Formats.Cbor.CborReaderState.Null:
-                        reader.SkipValue();
-                        break;
-                    default:
-                        {
-                            int? mapLength = reader.ReadStartMap();
-                            for (uint j = 0; j < mapLength; j++)
-                            {
-                                uint value = reader.ReadUInt32();
-                                if (value != j)
-                                {
-                                    throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
-                                }
-                                // we will not validate the individual values
-                                reader.SkipValue();
-                            }
-
-                            reader.ReadEndMap();
-                            break;
-                        }
+                    reader.SkipValue();
+                    continue;
                 }
+
+                int? mapLength = reader.ReadStartMap();
+                for (uint j = 0; j < mapLength; j++)
+                {
+                    uint value = reader.ReadUInt32();
+                    if (value != j)
+                    {
+                        throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));
+                    }
+                    // we will not validate the individual values
+                    reader.SkipValue();
+                }
+
+                reader.ReadEndMap();
             }
 
             reader.ReadEndArray();
+
             if (reader.BytesRemaining != 0)
             {
                 throw new ArgumentException("The provided transaction is invalid", nameof(rawCbor));

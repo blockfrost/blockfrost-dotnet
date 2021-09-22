@@ -1,7 +1,3 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Blockfrost.Api
 {
     /// <summary>
@@ -10,101 +6,8 @@ namespace Blockfrost.Api
     public partial interface IBlockfrostService
     {
         string Network { get; }
-
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <returns>Return the last 30 days of metrics</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ICollection<MetricsEndpointResponse>> EndpointsAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Blockfrost endpoint usage metrics</summary>
-        /// <returns>Return the last 30 days of metrics</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken);
-
-        /// <summary>Current backend time</summary>
-        /// <returns>Return the current UNIX time in milliseconds.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ClockResponse> GetClockAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Current backend time</summary>
-        /// <returns>Return the current UNIX time in milliseconds.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken);
-
-        /// <summary>Backend health status</summary>
-        /// <returns>Return the boolean indicating the health of the backend.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<HealthResponse> GetHealthAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Backend health status</summary>
-        /// <returns>Return the boolean indicating the health of the backend.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken);
-
-        /// <summary>Root endpoint</summary>
-        /// <returns>Information pointing to the documentation.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<InfoResponse> GetInfoAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Root endpoint</summary>
-        /// <returns>Information pointing to the documentation.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken);
-
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <returns>Return the last 30 days of metrics</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ICollection<MetricResponse>> GetMetricsAsync();
-
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Blockfrost usage metrics</summary>
-        /// <returns>Return the last 30 days of metrics</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        /// <summary>
-        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
-        /// </summary>
-        [System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken);
-
+        string BaseUrl { get; set; }
+        bool ReadResponseAsString { get; set; }
     }
 }
+

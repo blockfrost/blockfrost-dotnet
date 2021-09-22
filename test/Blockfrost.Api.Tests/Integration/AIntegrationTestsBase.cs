@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Services;
 using Blockfrost.Api.Tests.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,16 +16,17 @@ namespace Blockfrost.Api.Tests.Integration
     [IntegrationTestClass(nameof(Environments.Staging))]
     [TestCategory(nameof(Api))]
     [TestCategory(nameof(Integration))]
-    public abstract class AIntegrationTestsBase : AServiceTestBase,
-        IAccountService,
-        IAddressService,
-        IAssetService,
-        IBlockService,
-        IEpochService,
-        IPoolService,
-        ILedgerService,
-        IMetadataService,
-        ITransactionService
+    public abstract class AIntegrationTestsBase : AServiceTestBase
+        //,
+        //IAccountService,
+        //IAddressService,
+        //IAssetService,
+        //IBlockService,
+        //IEpochService,
+        //IPoolService,
+        //ILedgerService,
+        //IMetadataService,
+        //ITransactionService
     //,IIpfsService
     //,INutlinkService
     //,ICardanoService
@@ -35,7 +37,7 @@ namespace Blockfrost.Api.Tests.Integration
         {
             ApiVersion = apiVersion;
         }
-
+        public string BaseUrl { get; set; }
         public static AccountService Accounts => (AccountService) Provider.GetRequiredService<IAccountService>();
         public static AddressService Addresses =>  (AddressService) Provider.GetRequiredService<IAddressService>();
         public static IAssetService Assets => Provider.GetRequiredService<IAssetService>();
@@ -45,6 +47,18 @@ namespace Blockfrost.Api.Tests.Integration
         public static IMetadataService Metadata => Provider.GetRequiredService<IMetadataService>();
         public static IPoolService Pools => Provider.GetRequiredService<IPoolService>();
         public static ITransactionService Transactions => Provider.GetRequiredService<ITransactionService>();
+        public static ITransactionsService TransactionsV1 => Provider.GetRequiredService<ITransactionsService>();
+        public static IHealthService Health => Provider.GetRequiredService<IHealthService>();
+
+        //Api.Services.IAddressesService IServiceMigration<Api.Services.IAddressesService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.IBlocksService IServiceMigration<Api.Services.IBlocksService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.IEpochsService IServiceMigration<Api.Services.IEpochsService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.IPoolsService IServiceMigration<Api.Services.IPoolsService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.ILedgerService IServiceMigration<Api.Services.ILedgerService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.IMetadataService IServiceMigration<Api.Services.IMetadataService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //Api.Services.ITransactionsService IServiceMigration<Api.Services.ITransactionsService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        //public IAssetsService AssetsV1 { get => Assets.V1; set => Assets.V1 = value; }
+        
         //private static IBlockfrostService GetService(string projectName)
         //{
         //    IServiceCollection services = new ServiceCollection();
@@ -278,16 +292,6 @@ namespace Blockfrost.Api.Tests.Integration
             return Pools.DelegatorsAsync(pool_id, count, page, order, cancellationToken);
         }
 
-        public override Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
-        {
-            return Blocks.EndpointsAsync();
-        }
-
-        public override Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
-        {
-            return Blocks.EndpointsAsync(cancellationToken);
-        }
-
         public Task<ICollection<string>> EpochBlocks(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             return Epochs.EpochBlocks(number, count, page, order, cancellationToken);
@@ -366,36 +370,6 @@ namespace Blockfrost.Api.Tests.Integration
         public Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
         {
             return Blocks.GetBlocksAsync(hash_or_number, cancellationToken);
-        }
-
-        public override Task<ClockResponse> GetClockAsync()
-        {
-            return Blocks.GetClockAsync();
-        }
-
-        public override Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
-        {
-            return Blocks.GetClockAsync(cancellationToken);
-        }
-
-        public override Task<HealthResponse> GetHealthAsync()
-        {
-            return Blocks.GetHealthAsync();
-        }
-
-        public override Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
-        {
-            return Blocks.GetHealthAsync(cancellationToken);
-        }
-
-        public override Task<InfoResponse> GetInfoAsync()
-        {
-            return Blocks.GetInfoAsync();
-        }
-
-        public override Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
-        {
-            return Blocks.GetInfoAsync(cancellationToken);
         }
 
         public Task<BlockContentResponse> GetLatestBlockAsync()

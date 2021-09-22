@@ -2,15 +2,15 @@
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Blockfrost.Api;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Cli.Commands
 {
-    public class HealthCommand : BlockfrostCommandBase
+    public class HealthCommand : BlockfrostCommandBase<IHealthService>
     {
         private readonly JsonSerializerOptions _options;
 
-        public HealthCommand(IBlockfrostService service, JsonSerializerOptions options) : base(service)
+        public HealthCommand(IHealthService service, JsonSerializerOptions options) : base(service)
         {
             _options = options;
         }

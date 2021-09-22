@@ -3,14 +3,22 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api
 {
     public partial class AccountService : ABlockfrostService, IAccountService
     {
+        public IAccountsService V1 { get; set; }
+
         public AccountService(HttpClient httpClient) : base(httpClient)
         {
         }
+        public AccountService(IAccountsService service, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = service;
+        }
+
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account history</summary>

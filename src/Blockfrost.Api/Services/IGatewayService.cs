@@ -1,0 +1,36 @@
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api.Http;
+
+namespace Blockfrost.Api.Services
+{
+    public partial interface IGatewayService : IBlockfrostService
+    {
+        /// <summary>
+        ///     Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="ipfsPath"></param>
+        /// <returns>Returns the object content</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        Task<object> GetGatewayAsync(string ipfsPath);
+
+        /// <summary>
+        ///     Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="ipfsPath"></param>
+        /// <returns>Returns the object content</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        Task<object> GetGatewayAsync(string ipfsPath, CancellationToken cancellationToken);
+    }
+}
+

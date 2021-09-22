@@ -33,7 +33,7 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    _ = await Service.EndpointsAsync();
+                    //_ = await Service.EndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)

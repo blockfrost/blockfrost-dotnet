@@ -10,6 +10,12 @@ namespace Blockfrost.Api
         {
         }
 
+        public LedgerService(Services.ILedgerService service, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = service;
+        }
+        public Services.ILedgerService V1 { get; set; }
+
         /// <summary>Blockchain genesis</summary>
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>

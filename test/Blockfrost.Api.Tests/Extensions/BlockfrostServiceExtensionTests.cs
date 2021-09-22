@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -24,9 +25,9 @@ namespace Blockfrost.Api.Tests.Extensions
 
             _ = services.AddBlockfrost(network, apiKey);
             var provider = services.BuildServiceProvider();
-            var service = provider.GetRequiredService<IBlockfrostService>();
+            var service = provider.GetRequiredService<IMetricsService>();
 
-            Assert.IsNotNull(await service.EndpointsAsync());
+            Assert.IsNotNull(await service.GetEndpointsAsync());
         }
     }
 }

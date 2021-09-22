@@ -54,7 +54,7 @@
 
         public override int GetHashCode()
         {
-            var hashCode = new HashCode();
+            var hashCode = new BlockfrostHashCode();
             {{#each Properties}}
             hashCode.Add({{Name}});
             {{/each}}

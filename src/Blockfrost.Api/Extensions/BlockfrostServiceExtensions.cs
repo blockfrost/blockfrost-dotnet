@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,78 +13,1036 @@ using Polly;
 
 namespace Blockfrost.Api.Extensions
 {
-
     public static class BlockfrostServiceExtensions
     {
+        #region AccountsService
         /// <summary>
-        /// Adds a new <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAccountService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAccountService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAccountsService&gt;();
+        ///</code>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
         public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<IAccountService, AccountService>(projectName);
+            _ = services.AddBlockfrostService<IAccountService, AccountService>(projectName);
+            return services.AddBlockfrostService<Services.AccountsService, Services.AccountsService>(projectName);
         }
 
         /// <summary>
-        /// Adds a new <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAccountService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAccountService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAccountsService&gt;();
+        ///</code>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
         /// <returns></returns>
-        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName, int connectionLimit = Constants.CONNECTION_LIMIT)
+        public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<IAddressService, AddressService>(projectName, connectionLimit);
+            _ = services.AddBlockfrostService<IAccountService, AccountService>(projectName);
+            return services.AddBlockfrostService<Services.AccountsService, Services.AccountsService>(projectName, connectionLimit);
         }
-
         /// <summary>
-        /// Adds a new <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAccountsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
-        public static IServiceCollection AddAddressService(this IServiceCollection services, string projectName, IConfiguration config)
+        public static IHttpClientBuilder AddAccountsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.AccountsService, Services.AccountsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAccountsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAccountsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.AccountsService, Services.AccountsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAccountService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName, IConfiguration config)
         {
             _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddAccountService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IAccountsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddAccountsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddAccountsService(projectName);
+            return services;
+        }
+        #endregion AccountsService
+        #region AddressesService
+        /// <summary>
+        /// Adds the <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAddressService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAddressesService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName)
+        {
             _ = services.AddBlockfrostService<IAddressService, AddressService>(projectName);
-            return services;
+            return services.AddBlockfrostService<Services.AddressesService, Services.AddressesService>(projectName);
         }
 
         /// <summary>
-        /// Adds a new <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAddressService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAddressService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAddressesService&gt;();
+        ///</code>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
         /// <returns></returns>
-        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName, int connectionLimit = Constants.CONNECTION_LIMIT)
+        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<ITransactionService, TransactionService>(projectName, connectionLimit);
+            _ = services.AddBlockfrostService<IAddressService, AddressService>(projectName);
+            return services.AddBlockfrostService<Services.AddressesService, Services.AddressesService>(projectName, connectionLimit);
         }
-
         /// <summary>
-        /// Adds a new <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAddressesService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
-        public static IServiceCollection AddTransactionService(this IServiceCollection services, string projectName, IConfiguration config)
+        public static IHttpClientBuilder AddAddressesService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.AddressesService, Services.AddressesService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAddressesService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAddressesService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.AddressesService, Services.AddressesService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAddressService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName, IConfiguration config)
         {
             _ = services.ConfigureBlockfrost(projectName, config);
-            _ = services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
+            return services.AddAddressService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IAddressesService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddAddressesService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddAddressesService(projectName);
             return services;
         }
-
+        #endregion AddressesService
+        #region AssetsService
         /// <summary>
-        /// Adds a new <see cref="IAssetService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// Adds the <see cref="IAssetService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAssetService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAssetsService&gt;();
+        ///</code>
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/></param>
         /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
         /// <returns></returns>
         public static IHttpClientBuilder AddAssetService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<IAssetService, AssetService>(projectName);
+            _ = services.AddBlockfrostService<IAssetService, AssetService>(projectName);
+            return services.AddBlockfrostService<Services.AssetsService, Services.AssetsService>(projectName);
         }
+
+        /// <summary>
+        /// Adds the <see cref="IAssetService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IAssetService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IAssetsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAssetService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<IAssetService, AssetService>(projectName);
+            return services.AddBlockfrostService<Services.AssetsService, Services.AssetsService>(projectName, connectionLimit);
+        }
+        /// <summary>
+        /// Adds the <see cref="IAssetsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAssetsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.AssetsService, Services.AssetsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAssetsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAssetsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.AssetsService, Services.AssetsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAssetService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddAssetService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddAssetService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IAssetsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddAssetsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddAssetsService(projectName);
+            return services;
+        }
+        #endregion AssetsService
+        #region BlocksService
+        /// <summary>
+        /// Adds the <see cref="IBlockService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IBlockService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IBlocksService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<IBlockService, BlockService>(projectName);
+            return services.AddBlockfrostService<Services.BlocksService, Services.BlocksService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IBlockService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IBlockService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IBlocksService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<IBlockService, BlockService>(projectName);
+            return services.AddBlockfrostService<Services.BlocksService, Services.BlocksService>(projectName, connectionLimit);
+        }
+        /// <summary>
+        /// Adds the <see cref="IBlocksService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddBlocksService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.BlocksService, Services.BlocksService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IBlocksService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddBlocksService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.BlocksService, Services.BlocksService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IBlockService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddBlockService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IBlocksService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddBlocksService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddBlocksService(projectName);
+            return services;
+        }
+        #endregion BlocksService
+        #region EpochsService
+        /// <summary>
+        /// Adds the <see cref="IEpochService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IEpochService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IEpochsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<IEpochService, EpochService>(projectName);
+            return services.AddBlockfrostService<Services.EpochsService, Services.EpochsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IEpochService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IEpochService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IEpochsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<IEpochService, EpochService>(projectName);
+            return services.AddBlockfrostService<Services.EpochsService, Services.EpochsService>(projectName, connectionLimit);
+        }
+        /// <summary>
+        /// Adds the <see cref="IEpochsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddEpochsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.EpochsService, Services.EpochsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IEpochsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddEpochsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.EpochsService, Services.EpochsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IEpochService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddEpochService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IEpochsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddEpochsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddEpochsService(projectName);
+            return services;
+        }
+        #endregion EpochsService
+        #region LedgerService
+        /// <summary>
+        /// Adds the <see cref="ILedgerService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;ILedgerService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;ILedgerService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<ILedgerService, LedgerService>(projectName);
+            return services.AddBlockfrostService<Services.LedgerService, Services.LedgerService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="ILedgerService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;ILedgerService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;ILedgerService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<ILedgerService, LedgerService>(projectName);
+            return services.AddBlockfrostService<Services.LedgerService, Services.LedgerService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="ILedgerService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddLedgerService(projectName);
+        }
+        #endregion LedgerService
+        #region MetadataService
+        /// <summary>
+        /// Adds the <see cref="IMetadataService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IMetadataService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IMetadataService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<IMetadataService, MetadataService>(projectName);
+            return services.AddBlockfrostService<Services.MetadataService, Services.MetadataService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IMetadataService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IMetadataService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IMetadataService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<IMetadataService, MetadataService>(projectName);
+            return services.AddBlockfrostService<Services.MetadataService, Services.MetadataService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IMetadataService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddMetadataService(projectName);
+        }
+        #endregion MetadataService
+        #region NetworkService
+        /// <summary>
+        /// Adds the <see cref="INetworkService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;INetworkService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;INetworkService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<INetworkService, NetworkService>(projectName);
+            return services.AddBlockfrostService<Services.NetworkService, Services.NetworkService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="INetworkService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;INetworkService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;INetworkService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<INetworkService, NetworkService>(projectName);
+            return services.AddBlockfrostService<Services.NetworkService, Services.NetworkService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="INetworkService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddNetworkService(projectName);
+        }
+        #endregion NetworkService
+        #region PoolsService
+        /// <summary>
+        /// Adds the <see cref="IPoolService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IPoolService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IPoolsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<IPoolService, PoolService>(projectName);
+            return services.AddBlockfrostService<Services.PoolsService, Services.PoolsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IPoolService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;IPoolService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;IPoolsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<IPoolService, PoolService>(projectName);
+            return services.AddBlockfrostService<Services.PoolsService, Services.PoolsService>(projectName, connectionLimit);
+        }
+        /// <summary>
+        /// Adds the <see cref="IPoolsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPoolsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.PoolsService, Services.PoolsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IPoolsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPoolsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.PoolsService, Services.PoolsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IPoolService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddPoolService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="IPoolsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddPoolsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddPoolsService(projectName);
+            return services;
+        }
+        #endregion PoolsService
+        #region ScriptsService
+        /// <summary>
+        /// Adds the <see cref="IScriptsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddScriptsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.ScriptsService, Services.ScriptsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IScriptsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddScriptsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.ScriptsService, Services.ScriptsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IScriptsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddScriptsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddScriptsService(projectName);
+        }
+        #endregion ScriptsService
+        #region TransactionsService
+        /// <summary>
+        /// Adds the <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;ITransactionService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;ITransactionsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
+            return services.AddBlockfrostService<Services.TransactionsService, Services.TransactionsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// A newer version of the service is available through
+        /// <code>
+        /// var newService = _services.GetRequiredService&lt;ITransactionService&gt;().V1;
+        /// // or
+        /// var newService = _services.GetRequiredService&lt;ITransactionsService&gt;();
+        ///</code>
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            _ = services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
+            return services.AddBlockfrostService<Services.TransactionsService, Services.TransactionsService>(projectName, connectionLimit);
+        }
+        /// <summary>
+        /// Adds the <see cref="ITransactionsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTransactionsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.TransactionsService, Services.TransactionsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="ITransactionsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddTransactionsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.TransactionsService, Services.TransactionsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="ITransactionService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddTransactionService(projectName);
+        }
+        /// <summary>
+        /// Adds the <see cref="ITransactionsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddTransactionsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            _ = services.AddTransactionsService(projectName);
+            return services;
+        }
+        #endregion TransactionsService
+        #region HealthService
+        /// <summary>
+        /// Adds the <see cref="IHealthService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddHealthService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.HealthService, Services.HealthService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IHealthService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddHealthService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.HealthService, Services.HealthService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IHealthService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddHealthService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddHealthService(projectName);
+        }
+        #endregion HealthService
+        #region AddService
+        /// <summary>
+        /// Adds the <see cref="IAddService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAddService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.AddService, Services.AddService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAddService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddAddService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.AddService, Services.AddService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IAddService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddAddService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddAddService(projectName);
+        }
+        #endregion AddService
+        #region GatewayService
+        /// <summary>
+        /// Adds the <see cref="IGatewayService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddGatewayService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.GatewayService, Services.GatewayService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IGatewayService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddGatewayService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.GatewayService, Services.GatewayService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IGatewayService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddGatewayService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddGatewayService(projectName);
+        }
+        #endregion GatewayService
+        #region PinsService
+        /// <summary>
+        /// Adds the <see cref="IPinsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPinsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.PinsService, Services.PinsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IPinsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddPinsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.PinsService, Services.PinsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IPinsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddPinsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddPinsService(projectName);
+        }
+        #endregion PinsService
+        #region MetricsService
+        /// <summary>
+        /// Adds the <see cref="IMetricsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddMetricsService(this IServiceCollection services, string projectName)
+        {
+            return services.AddBlockfrostService<Services.MetricsService, Services.MetricsService>(projectName);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IMetricsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="connectionLimit">The number of connections the servie will use</param>
+        /// <returns></returns>
+        public static IHttpClientBuilder AddMetricsService(this IServiceCollection services, string projectName, int connectionLimit)
+        {
+            return services.AddBlockfrostService<Services.MetricsService, Services.MetricsService>(projectName, connectionLimit);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="IMetricsService"/> and related services to the the service collection using the provided configuration
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/></param>
+        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
+        /// <param name="config">The <see cref="IConfiguration"/></param>
+        public static IHttpClientBuilder AddMetricsService(this IServiceCollection services, string projectName, IConfiguration config)
+        {
+            _ = services.ConfigureBlockfrost(projectName, config);
+            return services.AddMetricsService(projectName);
+        }
+        #endregion MetricsService
+
+        #region CardanoServices
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="network">The network the services will use</param>
+        /// <param name="apiKey">The ApiKey used to authenticate</param>
+        /// <returns></returns>
+        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName)
+        {
+            //services.TryAddSingleton(provider =>
+            //{
+            //    var options = provider.GetService<IOptions<BlockfrostOptions>>();
+            //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
+            //});
+            _ = services.AddHealthService(projectName);
+            _ = services.AddMetricsService(projectName);
+
+            _ = services.AddAccountService(projectName);
+            _ = services.AddAddressService(projectName);
+            _ = services.AddAssetService(projectName);
+            _ = services.AddBlockService(projectName);
+            _ = services.AddEpochService(projectName);
+            _ = services.AddLedgerService(projectName);
+            _ = services.AddMetadataService(projectName);
+            _ = services.AddNetworkService(projectName);
+            _ = services.AddPoolService(projectName);
+            _ = services.AddScriptsService(projectName);
+            _ = services.AddTransactionService(projectName);
+            _ = services.AddRootService(projectName);
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="network">The network the services will use</param>
+        /// <param name="apiKey">The ApiKey used to authenticate</param>
+        /// <returns></returns>
+        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
+        {
+            string projectName = $"Anonymous.Blockfrost.{network}.Project";
+
+            services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
+
+            _ = services.AddBasicBlockfrostService(projectName, connectionLimit);
+            _ = services.AddHealthService(projectName, connectionLimit);
+            _ = services.AddMetricsService(projectName, connectionLimit);
+
+            _ = services.AddAccountService(projectName, connectionLimit);
+            _ = services.AddAddressService(projectName, connectionLimit);
+            _ = services.AddAssetService(projectName, connectionLimit);
+            _ = services.AddBlockService(projectName, connectionLimit);
+            _ = services.AddEpochService(projectName, connectionLimit);
+            _ = services.AddLedgerService(projectName, connectionLimit);
+            _ = services.AddMetadataService(projectName, connectionLimit);
+            _ = services.AddNetworkService(projectName, connectionLimit);
+            _ = services.AddPoolService(projectName, connectionLimit);
+            _ = services.AddScriptsService(projectName, connectionLimit);
+            _ = services.AddTransactionService(projectName, connectionLimit);
+
+            return services;
+        }
+        #endregion CardanoServices
 
         /// <summary>
         /// Adds a new <see cref="IBlockfrostService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -130,7 +1088,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string network, string apiKey)
         {
-            return services.AddBlockfrost(network, apiKey, Constants.CONNECTION_LIMIT);
+            return _ = services.AddBlockfrost(network, apiKey, Constants.CONNECTION_LIMIT);
         }
 
         /// <summary>
@@ -157,8 +1115,6 @@ namespace Blockfrost.Api.Extensions
                 throw new ArgumentOutOfRangeException(nameof(connectionLimit), $"Connections are limited to {Constants.CONNECTION_LIMIT}");
             }
 
-            services.TryAddSingleton<BlockfrostAuthorizationHandler>();
-            services.TryAddSingleton<RequestThrottler>();
             services.TryAddSingleton(new BlockfrostProject()
             {
                 ApiKey = apiKey,
@@ -166,6 +1122,8 @@ namespace Blockfrost.Api.Extensions
                 Name = projectName,
                 Network = network
             });
+            services.TryAddSingleton<BlockfrostAuthorizationHandler>();
+            services.TryAddSingleton<RequestThrottler>();
 
             _ = services
                 .AddOptions<BlockfrostOptions>()
@@ -184,9 +1142,10 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
-
             _ = services.ConfigureBlockfrost(projectName, configuration);
             _ = services.AddCardanoServices(projectName);
+            //_ = services.AddIPFSServices(projectName);
+            //_ = services.AddNutlinkServices(projectName);
             return services;
         }
 
@@ -203,7 +1162,6 @@ namespace Blockfrost.Api.Extensions
             where TClient : class
             where TImplementation : class, TClient
         {
-
             return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", configureClient)
                 .AddBlockfrostMessageHandlers();
         }
@@ -222,8 +1180,25 @@ namespace Blockfrost.Api.Extensions
             return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", (client, provider) =>
             {
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
-                var service = ServiceFactory<TImplementation>(client, options.Value[name].Network, connectionLimit);
-                return service;
+                var migration = typeof(TClient).GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IServiceMigration", StringComparison.OrdinalIgnoreCase));
+
+                if (migration != null)
+                {
+                    var service = ServiceFactory<TImplementation>(
+                        provider.GetService(migration.GenericTypeArguments.FirstOrDefault()),
+                        client,
+                        options.Value[name].Network,
+                        connectionLimit);
+                    return service;
+                }
+                else
+                {
+                    var service = ServiceFactory<TImplementation>(
+                        client,
+                        options.Value[name].Network,
+                        connectionLimit);
+                    return service;
+                }
             }).AddBlockfrostMessageHandlers();
         }
 
@@ -234,145 +1209,6 @@ namespace Blockfrost.Api.Extensions
                 .SetHandlerLifetime(Timeout.InfiniteTimeSpan)
                 .AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(retries, _ => TimeSpan.FromMilliseconds(timeoutMilliseconds)));
             ;
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IBlockService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<IBlockService, BlockService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds Blockfrost Services to the service collection
-        /// </summary>
-        /// <param name="services">The IServiceCollection</param>
-        /// <param name="network">The network the services will use</param>
-        /// <param name="apiKey">The ApiKey used to authenticate</param>
-        /// <returns></returns>
-        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName)
-        {
-            //services.TryAddSingleton(provider =>
-            //{
-            //    var options = provider.GetService<IOptions<BlockfrostOptions>>();
-            //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
-            //});
-
-            _ = services.AddAccountService(projectName);
-
-            _ = services.AddAddressService(projectName);
-
-            _ = services.AddAssetService(projectName);
-
-            _ = services.AddAssetService(projectName);
-
-            _ = services.AddBlockService(projectName);
-
-            _ = services.AddEpochService(projectName);
-
-            _ = services.AddLedgerService(projectName);
-
-            _ = services.AddMetadataService(projectName);
-
-            _ = services.AddNetworkService(projectName);
-
-            _ = services.AddPoolService(projectName);
-
-            _ = services.AddRootService(projectName);
-
-            _ = services.AddTransactionService(projectName);
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds Blockfrost Services to the service collection
-        /// </summary>
-        /// <param name="services">The IServiceCollection</param>
-        /// <param name="network">The network the services will use</param>
-        /// <param name="apiKey">The ApiKey used to authenticate</param>
-        /// <returns></returns>
-        public static IServiceCollection AddCardanoServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
-        {
-            string projectName = $"Anonymous.Blockfrost.{network}.Project";
-
-            services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
-
-            _ = services.AddBasicBlockfrostService(projectName, connectionLimit);
-            _ = services.AddAddressService(projectName, connectionLimit);
-            _ = services.AddTransactionService(projectName, connectionLimit);
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IEpochService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<IEpochService, EpochService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="ILedgerService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<ILedgerService, LedgerService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IMetadataService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<IMetadataService, MetadataService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="INetworkService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<INetworkService, NetworkService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="IPoolService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<IPoolService, PoolService>(projectName);
-        }
-
-        /// <summary>
-        /// Adds a new <see cref="ITransactionService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/></param>
-        /// <param name="projectName">The name of the project for which to configure a HttpClient</param>
-        /// <returns></returns>
-        public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName)
-        {
-            return services.AddBlockfrostService<ITransactionService, TransactionService>(projectName);
         }
 
         /// <summary>
@@ -449,6 +1285,22 @@ namespace Blockfrost.Api.Extensions
         {
             ConfigureHttpClient(client, network, sockets);
             var blockfrostService = (TService)Activator.CreateInstance(typeof(TService), new object[] { client });
+            blockfrostService.Network = network;
+            return blockfrostService;
+        }
+
+        /// <summary>
+        /// Helper factory to configure the requested BlockfrostService
+        /// TODO: Extract to IBlockfrostHttpClientFactory
+        /// </summary>
+        /// <typeparam name="TService"></typeparam>
+        /// <param name="client"></param>
+        /// <param name="network"></param>
+        /// <returns></returns>
+        private static TService ServiceFactory<TService>(object migration, HttpClient client, string network, int sockets = Constants.CONNECTION_LIMIT) where TService : ABlockfrostService
+        {
+            ConfigureHttpClient(client, network, sockets);
+            var blockfrostService = (TService)Activator.CreateInstance(typeof(TService), new object[] { migration, client });
             blockfrostService.Network = network;
             return blockfrostService;
         }

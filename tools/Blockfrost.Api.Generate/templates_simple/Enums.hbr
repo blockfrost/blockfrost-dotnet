@@ -13,7 +13,7 @@ namespace Blockfrost.Api
     {
         [System.Runtime.Serialization.EnumMember(Value = @"application/cbor")]
         ApplicationCbor = 0,
-        
+
         [System.Runtime.Serialization.EnumMember(Value = @"application/json")]
         ApplicationJson = 1,
     }

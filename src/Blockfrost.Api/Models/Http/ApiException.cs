@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace Blockfrost.Api
 {
@@ -33,3 +33,4 @@ namespace Blockfrost.Api
         public TResult Result { get; private set; }
     }
 }
+

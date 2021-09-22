@@ -11,6 +11,12 @@ namespace Blockfrost.Api
         public BlockService(HttpClient httpClient) : base(httpClient)
         {
         }
+        public BlockService(Services.IBlocksService blocksService, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = blocksService;
+        }
+
+        public Services.IBlocksService V1 { get; set; }
 
         /// <summary>Specific block</summary>
         /// <param name="hash_or_number">Hash of the requested block.</param>

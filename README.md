@@ -15,6 +15,12 @@
 </p>
 <br>
 
+## Migration to v1
+
+The current release of blockfrost-dotnet introduced major API changes breaking existing implementations.
+
+See the [migration guide]() to resolve these issues.
+
 ## Getting started
 
 To use this SDK, you first need login into to [blockfrost.io](https://blockfrost.io) create your project to retrive your API token.
