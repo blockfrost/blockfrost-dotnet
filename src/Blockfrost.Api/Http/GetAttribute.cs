@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace Blockfrost.Api.Http
 {
@@ -6,8 +6,8 @@ namespace Blockfrost.Api.Http
     [AttributeUsage(AttributeTargets.Method)]
     public class GetAttribute : Attribute
     {
-        public string Route { get; }
-        public string Version { get; }
+        public string Route;
+        public string Version;
         /// <summar></summar>
         /// <param name="route">The OAS route</param>
         /// <param name="version">The OAS version</param>
@@ -18,4 +18,3 @@ namespace Blockfrost.Api.Http
         }
     }
 }
-

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text;
 
 namespace Blockfrost.Api.Extensions
@@ -17,8 +17,8 @@ namespace Blockfrost.Api.Extensions
 
         public static StringBuilder AppendQueryParameter(this StringBuilder builder, string name, object value)
         {
-            return value == null
-                ? builder
+            return name == null
+                ? throw new System.ArgumentNullException(nameof(name))
                 : builder
                 .Append(System.Uri.EscapeDataString(name))
                 .Append('=')
@@ -70,4 +70,3 @@ namespace Blockfrost.Api.Extensions
         }
     }
 }
-

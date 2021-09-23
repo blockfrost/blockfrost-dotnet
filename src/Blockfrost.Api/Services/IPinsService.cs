@@ -1,4 +1,5 @@
-﻿using System.Threading;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
 using Blockfrost.Api.Models;
@@ -65,12 +66,12 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1{IPFS_path}/get">/ipfs/pin/list/{IPFS_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="ipfsPath"></param>
+        /// <param name="IPFS_path"></param>
         /// <returns>Returns the pins pinned</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string ipfsPath);
+        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path);
 
         /// <summary>
         ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
@@ -78,12 +79,12 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1{IPFS_path}/get">/ipfs/pin/list/{IPFS_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="ipfsPath"></param>
+        /// <param name="IPFS_path"></param>
         /// <returns>Returns the pins pinned</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string ipfsPath, CancellationToken cancellationToken);
+        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken);
         /// <summary>
         ///      <c>/ipfs/pin/remove/{IPFS_path}</c>
         /// </summary>

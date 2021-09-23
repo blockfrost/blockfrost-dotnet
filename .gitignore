@@ -456,6 +456,7 @@ $RECYCLE.BIN/
 ## 
 ## devs
 ##
+launchSettings.json
 blockfrost-client/
 *.StyleCop
 /samples/client/client.sln
@@ -463,5 +464,3 @@ blockfrost-client/
 appsettings.test.json
 /samples/client
 src/Blockfrost.Api/Models.Generated.cs
-/tools/Blockfrost.Api.Generate/templates
-/tools/Blockfrost.Api.Generate/templates_oas

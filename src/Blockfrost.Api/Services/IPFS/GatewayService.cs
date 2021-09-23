@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -24,14 +25,14 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="ipfsPath"></param>
+        /// <param name="IPFS_path"></param>
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
-        public Task<object> GetGatewayAsync(string ipfsPath)
+        public Task<object> GetGatewayAsync(string IPFS_path)
         {
-            return GetGatewayAsync(ipfsPath, CancellationToken.None);
+            return GetGatewayAsync(IPFS_path, CancellationToken.None);
         }
 
         /// <summary>
@@ -40,20 +41,20 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="ipfsPath"></param>
+        /// <param name="IPFS_path"></param>
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
-        public async Task<object> GetGatewayAsync(string ipfsPath, CancellationToken cancellationToken)
+        public async Task<object> GetGatewayAsync(string IPFS_path, CancellationToken cancellationToken)
         {
-            if (ipfsPath == null)
+            if (IPFS_path == null)
             {
-                throw new System.ArgumentNullException(nameof(ipfsPath));
+                throw new System.ArgumentNullException(nameof(IPFS_path));
             }
 
             var builder = GetUrlBuilder("/ipfs/gateway/{IPFS_path}");
-            _ = builder.SetRouteParameter("{IPFS_path}", ipfsPath);
+            _ = builder.SetRouteParameter("{IPFS_path}", IPFS_path);
 
             return await SendGetRequestAsync<object>(builder, cancellationToken);
         }

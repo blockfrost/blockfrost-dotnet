@@ -1,14 +1,10 @@
-﻿{{>partial_header}}
+{{>partial_header}}
 {{#if IsArray}}
 using System.Collections.ObjectModel;
 using System.Text.Json;
 {{else}}
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Blockfrost.Api.Utils;

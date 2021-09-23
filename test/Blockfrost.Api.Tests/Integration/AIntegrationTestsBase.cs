@@ -37,9 +37,8 @@ namespace Blockfrost.Api.Tests.Integration
         {
             ApiVersion = apiVersion;
         }
-        public string BaseUrl { get; set; }
-        public static AccountService Accounts => (AccountService) Provider.GetRequiredService<IAccountService>();
-        public static AddressService Addresses =>  (AddressService) Provider.GetRequiredService<IAddressService>();
+        public static IAccountService Accounts => Provider.GetRequiredService<IAccountService>();
+        public static IAddressService Addresses => Provider.GetRequiredService<IAddressService>();
         public static IAssetService Assets => Provider.GetRequiredService<IAssetService>();
         public static IBlockService Blocks => Provider.GetRequiredService<IBlockService>();
         public static IEpochService Epochs => Provider.GetRequiredService<IEpochService>();
@@ -58,7 +57,7 @@ namespace Blockfrost.Api.Tests.Integration
         //Api.Services.IMetadataService IServiceMigration<Api.Services.IMetadataService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         //Api.Services.ITransactionsService IServiceMigration<Api.Services.ITransactionsService>.V1 { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
         //public IAssetsService AssetsV1 { get => Assets.V1; set => Assets.V1 = value; }
-        
+
         //private static IBlockfrostService GetService(string projectName)
         //{
         //    IServiceCollection services = new ServiceCollection();

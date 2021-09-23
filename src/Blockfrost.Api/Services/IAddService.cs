@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
