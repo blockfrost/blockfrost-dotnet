@@ -48,8 +48,6 @@ namespace Blockfrost.Api.Tests.Services
 
             // Act
             var utxos = await ServiceUnderTest.UtxosAllAsync(addr, count, page, order);
-            var service = ServiceUnderTest;
-            var health = service.GetHealthAsync();
 
             // Assert
             Assert.AreEqual(expected, utxos.Count);
