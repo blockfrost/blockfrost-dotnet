@@ -35,7 +35,7 @@ namespace Blockfrost.Console.Test
 
             return Task.Run(async () =>
             {
-                int? slot = 0;
+                long slot = 0;
                 while (true)
                 {
                     var latest = await _blocks.V1.GetLatestAsync();
