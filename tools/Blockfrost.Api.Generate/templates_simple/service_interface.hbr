@@ -1,4 +1,4 @@
-﻿{{>partial_header}}
+{{>partial_header}}
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,6 +9,11 @@ namespace Blockfrost.Api.Services
 {
     public partial interface I{{ServiceName}}Service : IBlockfrostService
     {
+        {{#if IsCommon}}
+        {{else}}
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
+        {{/if}}
         {{#each Operations}}
         {{#each GetOperations}}
         {{>partial_serviceInterfaceMethodGet}}

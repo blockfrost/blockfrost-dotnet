@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Epochs">Cardano » Epochs</seealso> on docs.blockfrost.io
         /// </remarks>
-        public EpochsService(HttpClient httpClient) : base(httpClient)
+        public EpochsService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Latest epoch <c>/epochs/latest</c>

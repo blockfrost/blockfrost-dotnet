@@ -11,7 +11,7 @@ namespace Blockfrost.Api.Tests
     [TestClass]
     public class ServiceTests
     {
-        IConfiguration configuration;
+        private IConfiguration _configuration;
 
         [TestInitialize]
         public void SetupTestEnvironment()
@@ -33,7 +33,7 @@ namespace Blockfrost.Api.Tests
                 _ = builder.AddUserSecrets<ServiceTests>();
             }
 
-            configuration = builder.Build();
+            _configuration = builder.Build();
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Blockfrost.Api.Tests
         {
             IServiceCollection services = new ServiceCollection();
 
-            _ = services.AddBlockfrost(projectName, configuration);
+            _ = services.AddBlockfrost(projectName, _configuration);
 
             //var provider = services.BuildServiceProvider();
             //IBlockfrostService service = provider.GetRequiredService<IBlockfrostService>();

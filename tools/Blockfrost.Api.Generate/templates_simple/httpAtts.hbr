@@ -7,7 +7,7 @@ namespace Blockfrost.Api.Http
     public class {{HttpMethod}}Attribute : Attribute
     {
         {{#Parameters}}
-        public {{Type}} {{pascal_case Name}};
+        public {{Type}} {{pascal_case Name}} { get; set; }
         {{/Parameters}}
         /// <summar></summar>
         /// <param name="route">The OAS route</param>

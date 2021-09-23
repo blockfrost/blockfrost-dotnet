@@ -16,6 +16,7 @@ namespace Blockfrost.Api.Generate.Contexts
         public string ServiceName { get; set; }
         public string GroupName { get; set; }
         public OpenApiTag Tag { get; }
+        public bool IsCommon { get; set; }
         public IEnumerable<ServiceOperationContext> Operations => ops.Select(o => new ServiceOperationContext(this, o));
 
         public ServiceContext(OpenApiDocument spec, OpenApiTag tag) : base(spec)
@@ -23,7 +24,15 @@ namespace Blockfrost.Api.Generate.Contexts
             ops = Initialize(spec, tag);
             Tag = tag;
             var matches = Regex.Matches(tag.Name, "[a-z0-9]+", RegexOptions.IgnoreCase);
-            GroupName = matches[0].Value;
+            var serviceName = tag.Name.Split(" ").Last();
+            var groupName = tag.Name.Split(" ").First();
+
+            if (groupName.Equals(serviceName))
+            {
+                IsCommon = true;
+                groupName = "Common";
+            }
+            GroupName = groupName;
             ServiceName = matches[^1].Value;
             DocsLink = new StringBuilder()
                     .Append("https://docs.blockfrost.io")

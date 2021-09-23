@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
@@ -7,6 +8,8 @@ namespace Blockfrost.Api.Services
 {
     public partial interface IBlocksService : IBlockfrostService
     {
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
         /// <summary>
         ///     Latest block <c>/blocks/latest</c>
         /// </summary>

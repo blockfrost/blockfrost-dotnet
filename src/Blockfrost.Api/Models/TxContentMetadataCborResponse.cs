@@ -39,6 +39,16 @@ namespace Blockfrost.Api.Models
         public string CborMetadata { get; set; }
 
         /// <summary>
+        /// Gets or sets the Metadata
+        /// </summary>
+        /// <returns>
+        /// Content of the CBOR metadata in hex
+        /// </returns>
+        [Required]
+        [JsonPropertyName("metadata")]
+        public string Metadata { get; set; }
+
+        /// <summary>
         ///     Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -64,7 +74,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Label == other.Label && CborMetadata == other.CborMetadata));
+                   || (Label == other.Label && CborMetadata == other.CborMetadata && Metadata == other.Metadata));
         }
 
         /// <summary>
@@ -84,6 +94,7 @@ namespace Blockfrost.Api.Models
             var hashCode = new BlockfrostHashCode();
             hashCode.Add(Label);
             hashCode.Add(CborMetadata);
+            hashCode.Add(Metadata);
             return hashCode.ToHashCode();
         }
 

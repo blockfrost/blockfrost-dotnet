@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Scripts">Cardano » Scripts</seealso> on docs.blockfrost.io
         /// </remarks>
-        public ScriptsService(HttpClient httpClient) : base(httpClient)
+        public ScriptsService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Scripts <c>/scripts</c>

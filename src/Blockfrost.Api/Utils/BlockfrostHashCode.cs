@@ -23,4 +23,3 @@ namespace Blockfrost.Api.Utils
         }
     }
 }
-

@@ -29,7 +29,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             try
             {
-                _ = Assert.ThrowsException<InvalidOperationException>(() => Provider.GetRequiredService<ITransactionService>());
+                _ = Assert.ThrowsException<InvalidOperationException>(() => Provider.GetRequiredService<ITransactionsService>());
                 Assert.Fail("The Provider could not get the required service");
             }
             catch (AssertFailedException)
@@ -40,7 +40,7 @@ namespace Blockfrost.Api.Tests.Services
             try
             {
                 // This does not work when registering the Handlers as Singleton
-                var addressService = Provider.GetRequiredService<IAddressService>();
+                var addressService = Provider.GetRequiredService<IAddressesService>();
             }
             catch (InvalidOperationException ex)
             {
@@ -54,10 +54,10 @@ namespace Blockfrost.Api.Tests.Services
             try
             {
                 //new
-                //var transactionService = Provider.GetRequiredService<ITransactionService>();
-                //var addressService = Provider.GetRequiredService<IAddressService>();
-                //_ = await transactionService.EndpointsAsync();
-                //_ = await addressService.EndpointsAsync();
+                var transactionService = Provider.GetRequiredService<ITransactionsService>();
+                var addressService = Provider.GetRequiredService<IAddressesService>();
+                _ = await transactionService.Metrics.GetEndpointsAsync();
+                //_ = await addressService.Metrics.GetEndpointsAsync();
 
                 //new
                 //var transactions = Provider.GetRequiredService<ITransactionsService>();

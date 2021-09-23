@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Metadata">Cardano » Metadata</seealso> on docs.blockfrost.io
         /// </remarks>
-        public MetadataService(HttpClient httpClient) : base(httpClient)
+        public MetadataService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Transaction metadata labels <c>/metadata/txs/labels</c>

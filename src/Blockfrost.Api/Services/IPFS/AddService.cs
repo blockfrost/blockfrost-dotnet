@@ -1,7 +1,9 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -13,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Add">IPFS » Add</seealso> on docs.blockfrost.io
         /// </remarks>
-        public AddService(HttpClient httpClient) : base(httpClient)
+        public AddService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Add a file to IPFS <c>/ipfs/add</c>

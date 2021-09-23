@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Blocks">Cardano » Blocks</seealso> on docs.blockfrost.io
         /// </remarks>
-        public BlocksService(HttpClient httpClient) : base(httpClient)
+        public BlocksService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Latest block <c>/blocks/latest</c>

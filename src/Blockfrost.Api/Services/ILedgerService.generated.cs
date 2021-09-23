@@ -8,6 +8,8 @@ namespace Blockfrost.Api.Services
 {
     public partial interface ILedgerService : IBlockfrostService
     {
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
         /// <summary>
         ///     Blockchain genesis <c>/genesis</c>
         /// </summary>

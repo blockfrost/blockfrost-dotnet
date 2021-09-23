@@ -8,6 +8,8 @@ namespace Blockfrost.Api.Services
 {
     public partial interface INetworkService : IBlockfrostService
     {
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
         /// <summary>
         ///     Network information <c>/network</c>
         /// </summary>

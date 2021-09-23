@@ -12,7 +12,7 @@ using Blockfrost.Api.Extensions;
 
 namespace Blockfrost.Api
 {
-    public abstract class ABlockfrostService : IBlockfrostService
+    public partial class ABlockfrostService : IBlockfrostService
     {
         public string Network { get; set; }
 
@@ -340,3 +340,4 @@ namespace Blockfrost.Api
         }
     }
 }
+

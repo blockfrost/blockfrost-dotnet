@@ -8,6 +8,8 @@ namespace Blockfrost.Api.Services
 {
     public partial interface IMetadataService : IBlockfrostService
     {
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
         /// <summary>
         ///     Transaction metadata labels <c>/metadata/txs/labels</c>
         /// </summary>

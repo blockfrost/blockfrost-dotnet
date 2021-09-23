@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Pools">Cardano » Pools</seealso> on docs.blockfrost.io
         /// </remarks>
-        public PoolsService(HttpClient httpClient) : base(httpClient)
+        public PoolsService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     List of stake pools <c>/pools</c>

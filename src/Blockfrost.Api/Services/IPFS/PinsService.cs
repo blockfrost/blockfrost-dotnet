@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins">IPFS » Pins</seealso> on docs.blockfrost.io
         /// </remarks>
-        public PinsService(HttpClient httpClient) : base(httpClient)
+        public PinsService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Pin an object <c>/ipfs/pin/add/{IPFS_path}</c>

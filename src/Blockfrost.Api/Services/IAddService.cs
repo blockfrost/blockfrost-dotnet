@@ -1,11 +1,15 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
     public partial interface IAddService : IBlockfrostService
     {
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
         /// <summary>
         ///     Add a file to IPFS <c>/ipfs/add</c>
         /// </summary>

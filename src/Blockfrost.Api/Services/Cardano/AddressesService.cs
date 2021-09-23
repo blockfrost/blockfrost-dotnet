@@ -15,9 +15,15 @@ namespace Blockfrost.Api.Services
         /// <remarks>
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses">Cardano » Addresses</seealso> on docs.blockfrost.io
         /// </remarks>
-        public AddressesService(HttpClient httpClient) : base(httpClient)
+        public AddressesService(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
         {
+            Health = health;
+            Metrics = metrics;
         }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
 
         /// <summary>
         ///     Specific address <c>/addresses/{address}</c>
