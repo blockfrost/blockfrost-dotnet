@@ -19,7 +19,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest", "0.1.27")]
-        Task<BlockContentResponse> GetLatestAsync();
+        Task<Models.BlockContentResponse> GetLatestAsync();
 
         /// <summary>
         ///     Latest block <c>/blocks/latest</c>
@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest", "0.1.27")]
-        Task<BlockContentResponse> GetLatestAsync(CancellationToken cancellationToken);
+        Task<Models.BlockContentResponse> GetLatestAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Latest block transactions <c>/blocks/latest/txs</c>
         /// </summary>
@@ -43,7 +43,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest/txs", "0.1.27")]
-        Task<StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Latest block transactions <c>/blocks/latest/txs</c>
@@ -57,7 +57,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest/txs", "0.1.27")]
-        Task<StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Specific block <c>/blocks/{hash_or_number}</c>
         /// </summary>
@@ -69,7 +69,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}", "0.1.27")]
-        Task<BlockContentResponse> GetBlocksAsync(string hash_or_number);
+        Task<Models.BlockContentResponse> GetBlocksAsync(string hash_or_number);
 
         /// <summary>
         ///     Specific block <c>/blocks/{hash_or_number}</c>
@@ -82,7 +82,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}", "0.1.27")]
-        Task<BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken);
+        Task<Models.BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken);
         /// <summary>
         ///     Specific block in a slot <c>/blocks/slot/{slot_number}</c>
         /// </summary>
@@ -93,7 +93,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/slot/{slot_number}", "0.1.27")]
-        Task<BlockContentResponse> GetSlotAsync(int slot_number);
+        Task<Models.BlockContentResponse> GetSlotAsync(int slot_number);
 
         /// <summary>
         ///     Specific block in a slot <c>/blocks/slot/{slot_number}</c>
@@ -105,7 +105,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/slot/{slot_number}", "0.1.27")]
-        Task<BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken);
+        Task<Models.BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken);
         /// <summary>
         ///     Specific block in a slot in an epoch <c>/blocks/epoch/{epoch_number}/slot/{slot_number}</c>
         /// </summary>
@@ -117,7 +117,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.27")]
-        Task<BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number);
+        Task<Models.BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number);
 
         /// <summary>
         ///     Specific block in a slot in an epoch <c>/blocks/epoch/{epoch_number}/slot/{slot_number}</c>
@@ -130,7 +130,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.27")]
-        Task<BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken);
+        Task<Models.BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken);
         /// <summary>
         ///     Listing of next blocks <c>/blocks/{hash_or_number}/next</c>
         /// </summary>
@@ -144,7 +144,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/next", "0.1.27")]
-        Task<BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page);
+        Task<Models.BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page);
 
         /// <summary>
         ///     Listing of next blocks <c>/blocks/{hash_or_number}/next</c>
@@ -159,7 +159,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/next", "0.1.27")]
-        Task<BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Listing of previous blocks <c>/blocks/{hash_or_number}/previous</c>
         /// </summary>
@@ -173,7 +173,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/previous", "0.1.27")]
-        Task<BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page);
+        Task<Models.BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page);
 
         /// <summary>
         ///     Listing of previous blocks <c>/blocks/{hash_or_number}/previous</c>
@@ -188,7 +188,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/previous", "0.1.27")]
-        Task<BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Block transactions <c>/blocks/{hash_or_number}/txs</c>
         /// </summary>
@@ -203,7 +203,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/txs", "0.1.27")]
-        Task<StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Block transactions <c>/blocks/{hash_or_number}/txs</c>
@@ -219,7 +219,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/txs", "0.1.27")]
-        Task<StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
     }
 }
 

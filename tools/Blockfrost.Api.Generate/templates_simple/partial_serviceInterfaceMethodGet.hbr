@@ -1,5 +1,5 @@
         {{>partial_docs}}
-        Task<{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}});
+        Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}});
 
         {{>partial_docs}}
-        Task<{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken);
+        Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken);

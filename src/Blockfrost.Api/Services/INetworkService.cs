@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Blockfrost.Api
 {
-    public partial interface INetworkService
+    public partial interface INetworkService : IServiceMigration<Services.INetworkService>
     {
         /// <summary>
         /// Use <see cref="IBlockfrostService.InserMethodName"/> instead

@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
-using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -36,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}", "0.1.27")]
-        public Task<AddressContentResponse> GetAddressesAsync(string address)
+        public Task<Models.AddressContentResponse> GetAddressesAsync(string address)
         {
             return GetAddressesAsync(address, CancellationToken.None);
         }
@@ -52,7 +51,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}", "0.1.27")]
-        public async Task<AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
+        public async Task<Models.AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
             {
@@ -62,7 +61,7 @@ namespace Blockfrost.Api.Services
             var builder = GetUrlBuilder("/addresses/{address}");
             _ = builder.SetRouteParameter("{address}", address);
 
-            return await SendGetRequestAsync<AddressContentResponse>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AddressContentResponse>(builder, cancellationToken);
         }
         /// <summary>
         ///     Address details <c>/addresses/{address}/total</c>
@@ -75,7 +74,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/total", "0.1.27")]
-        public Task<AddressContentTotalResponse> GetTotalAsync(string address)
+        public Task<Models.AddressContentTotalResponse> GetTotalAsync(string address)
         {
             return GetTotalAsync(address, CancellationToken.None);
         }
@@ -91,7 +90,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/total", "0.1.27")]
-        public async Task<AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
+        public async Task<Models.AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
             {
@@ -101,7 +100,7 @@ namespace Blockfrost.Api.Services
             var builder = GetUrlBuilder("/addresses/{address}/total");
             _ = builder.SetRouteParameter("{address}", address);
 
-            return await SendGetRequestAsync<AddressContentTotalResponse>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AddressContentTotalResponse>(builder, cancellationToken);
         }
         /// <summary>
         ///     Address UTXOs <c>/addresses/{address}/utxos</c>
@@ -117,7 +116,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/utxos", "0.1.27")]
-        public Task<AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order)
+        public Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetUtxosAsync(address, count, page, order, CancellationToken.None);
         }
@@ -136,7 +135,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/utxos", "0.1.27")]
-        public async Task<AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
             {
@@ -150,7 +149,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AddressUtxoContentResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AddressUtxoContentResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Address transactions <c>/addresses/{address}/txs</c>
@@ -166,7 +165,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/txs", "0.1.27")]
-        public Task<StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order)
+        public Task<Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(address, count, page, order, CancellationToken.None);
         }
@@ -185,7 +184,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/txs", "0.1.27")]
-        public async Task<StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
             {
@@ -199,7 +198,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.StringCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Address transactions <c>/addresses/{address}/transactions</c>
@@ -217,7 +216,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.27")]
-        public Task<AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
+        public Task<Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             return GetTransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
         }
@@ -238,7 +237,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.27")]
-        public async Task<AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
+        public async Task<Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             if (address == null)
             {
@@ -254,7 +253,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(to), to);
             builder.Length--;
 
-            return await SendGetRequestAsync<AddressTransactionsContentResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AddressTransactionsContentResponseCollection>(builder, cancellationToken);
         }
     }
 }

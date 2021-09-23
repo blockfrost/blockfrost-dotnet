@@ -22,7 +22,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the list of pools.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools", "0.1.27")]
-        Task<StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     List of stake pools <c>/pools</c>
@@ -36,7 +36,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the list of pools.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools", "0.1.27")]
-        Task<StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     List of retired stake pools <c>/pools/retired</c>
         /// </summary>
@@ -49,7 +49,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retired", "0.1.27")]
-        Task<PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order);
+        Task<Models.PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     List of retired stake pools <c>/pools/retired</c>
@@ -63,7 +63,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retired", "0.1.27")]
-        Task<PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     List of retiring stake pools <c>/pools/retiring</c>
         /// </summary>
@@ -76,7 +76,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retiring", "0.1.27")]
-        Task<PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order);
+        Task<Models.PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     List of retiring stake pools <c>/pools/retiring</c>
@@ -90,7 +90,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retiring", "0.1.27")]
-        Task<PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Specific stake pool <c>/pools/{pool_id}</c>
         /// </summary>
@@ -102,7 +102,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}", "0.1.27")]
-        Task<PoolResponse> GetPoolsAsync(string pool_id);
+        Task<Models.PoolResponse> GetPoolsAsync(string pool_id);
 
         /// <summary>
         ///     Specific stake pool <c>/pools/{pool_id}</c>
@@ -115,7 +115,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}", "0.1.27")]
-        Task<PoolResponse> GetPoolsAsync(string pool_id, CancellationToken cancellationToken);
+        Task<Models.PoolResponse> GetPoolsAsync(string pool_id, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool history <c>/pools/{pool_id}/history</c>
         /// </summary>
@@ -130,7 +130,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/history", "0.1.27")]
-        Task<PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order);
+        Task<Models.PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Stake pool history <c>/pools/{pool_id}/history</c>
@@ -146,7 +146,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/history", "0.1.27")]
-        Task<PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool metadata <c>/pools/{pool_id}/metadata</c>
         /// </summary>
@@ -158,7 +158,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/metadata", "0.1.27")]
-        Task<PoolMetadataResponse> GetMetadataAsync(string pool_id);
+        Task<Models.PoolMetadataResponse> GetMetadataAsync(string pool_id);
 
         /// <summary>
         ///     Stake pool metadata <c>/pools/{pool_id}/metadata</c>
@@ -171,7 +171,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/metadata", "0.1.27")]
-        Task<PoolMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken cancellationToken);
+        Task<Models.PoolMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool relays <c>/pools/{pool_id}/relays</c>
         /// </summary>
@@ -183,7 +183,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/relays", "0.1.27")]
-        Task<PoolRelaysResponseCollection> GetRelaysAsync(string pool_id);
+        Task<Models.PoolRelaysResponseCollection> GetRelaysAsync(string pool_id);
 
         /// <summary>
         ///     Stake pool relays <c>/pools/{pool_id}/relays</c>
@@ -196,7 +196,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/relays", "0.1.27")]
-        Task<PoolRelaysResponseCollection> GetRelaysAsync(string pool_id, CancellationToken cancellationToken);
+        Task<Models.PoolRelaysResponseCollection> GetRelaysAsync(string pool_id, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool delegators <c>/pools/{pool_id}/delegators</c>
         /// </summary>
@@ -211,7 +211,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/delegators", "0.1.27")]
-        Task<PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order);
+        Task<Models.PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Stake pool delegators <c>/pools/{pool_id}/delegators</c>
@@ -227,7 +227,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/delegators", "0.1.27")]
-        Task<PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool blocks <c>/pools/{pool_id}/blocks</c>
         /// </summary>
@@ -242,7 +242,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/blocks", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Stake pool blocks <c>/pools/{pool_id}/blocks</c>
@@ -258,7 +258,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/blocks", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake pool updates <c>/pools/{pool_id}/updates</c>
         /// </summary>
@@ -273,7 +273,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/updates", "0.1.27")]
-        Task<PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order);
+        Task<Models.PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Stake pool updates <c>/pools/{pool_id}/updates</c>
@@ -289,7 +289,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/updates", "0.1.27")]
-        Task<PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
     }
 }
 

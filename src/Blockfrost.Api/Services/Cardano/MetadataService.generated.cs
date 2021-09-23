@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
-using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -37,7 +36,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels", "0.1.27")]
-        public Task<TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order)
+        public Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(count, page, order, CancellationToken.None);
         }
@@ -54,7 +53,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels", "0.1.27")]
-        public async Task<TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/metadata/txs/labels");
             _ = builder.AppendQueryParameter(nameof(count), count);
@@ -62,7 +61,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<TxMetadataLabelsResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.TxMetadataLabelsResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Transaction metadata content in JSON <c>/metadata/txs/labels/{label}</c>
@@ -78,7 +77,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}", "0.1.27")]
-        public Task<TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order)
+        public Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(label, count, page, order, CancellationToken.None);
         }
@@ -97,7 +96,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}", "0.1.27")]
-        public async Task<TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
             {
@@ -111,7 +110,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<TxMetadataLabelJsonResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.TxMetadataLabelJsonResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Transaction metadata content in CBOR <c>/metadata/txs/labels/{label}/cbor</c>
@@ -127,7 +126,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
-        public Task<TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order)
+        public Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsCborAsync(label, count, page, order, CancellationToken.None);
         }
@@ -146,7 +145,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
-        public async Task<TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
             {
@@ -160,7 +159,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<TxMetadataLabelCborResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.TxMetadataLabelCborResponseCollection>(builder, cancellationToken);
         }
     }
 }

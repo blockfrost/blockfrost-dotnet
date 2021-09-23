@@ -38,14 +38,15 @@ namespace Blockfrost.Api.Generate.Contexts
             }
 
             ReturnType = Context.ServiceContext.Spec.GetReturnType(serviceOperationContext, operation);
+            ReturnModel = !(ReturnType == null || ReturnType.Equals("object") || ReturnType.Equals("string"));
             signature.Insert(0, HttpMethod.ToString());
             MethodName = string.Concat(signature.Distinct());
-
+            
             if (HttpMethod == OperationType.Post)
             {
                 var p = Parameters.FirstOrDefault();
                 ReturnType = "string";
-
+                ReturnModel = false;
                 if (p == null)
                 {
                     return;
@@ -55,8 +56,9 @@ namespace Blockfrost.Api.Generate.Contexts
                 p.Name = "content";
                 p.IsContent = true;
             }
-        }
 
+        }
+        public bool ReturnModel { get; set; }
         public bool HasNullCheck { get; set; }
 
         public ServiceOperationContext Context;

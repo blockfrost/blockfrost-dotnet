@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
-using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -37,7 +36,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return list of assets</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets", "0.1.27")]
-        public Task<AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order)
+        public Task<Models.AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetAssetsAsync(count, page, order, CancellationToken.None);
         }
@@ -54,7 +53,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return list of assets</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets", "0.1.27")]
-        public async Task<AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/assets");
             _ = builder.AppendQueryParameter(nameof(count), count);
@@ -62,7 +61,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AssetsResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetsResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Specific asset <c>/assets/{asset}</c>
@@ -75,7 +74,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.27")]
-        public Task<AssetResponse> GetAssetsAsync(string asset)
+        public Task<Models.AssetResponse> GetAssetsAsync(string asset)
         {
             return GetAssetsAsync(asset, CancellationToken.None);
         }
@@ -91,7 +90,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.27")]
-        public async Task<AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
+        public async Task<Models.AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -101,7 +100,7 @@ namespace Blockfrost.Api.Services
             var builder = GetUrlBuilder("/assets/{asset}");
             _ = builder.SetRouteParameter("{asset}", asset);
 
-            return await SendGetRequestAsync<AssetResponse>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetResponse>(builder, cancellationToken);
         }
         /// <summary>
         ///     Asset history <c>/assets/{asset}/history</c>
@@ -117,7 +116,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/history", "0.1.27")]
-        public Task<AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order)
+        public Task<Models.AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetHistoryAsync(asset, count, page, order, CancellationToken.None);
         }
@@ -136,7 +135,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/history", "0.1.27")]
-        public async Task<AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -150,7 +149,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AssetHistoryResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetHistoryResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Asset transactions <c>/assets/{asset}/txs</c>
@@ -166,7 +165,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/txs", "0.1.27")]
-        public Task<StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order)
+        public Task<Models.StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(asset, count, page, order, CancellationToken.None);
         }
@@ -185,7 +184,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/txs", "0.1.27")]
-        public async Task<StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -199,7 +198,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<StringCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.StringCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Asset transactions <c>/assets/{asset}/transactions</c>
@@ -215,7 +214,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/transactions", "0.1.27")]
-        public Task<AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order)
+        public Task<Models.AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetTransactionsAsync(asset, count, page, order, CancellationToken.None);
         }
@@ -234,7 +233,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/transactions", "0.1.27")]
-        public async Task<AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -248,7 +247,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AssetTransactionsResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetTransactionsResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Asset addresses <c>/assets/{asset}/addresses</c>
@@ -264,7 +263,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/addresses", "0.1.27")]
-        public Task<AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order)
+        public Task<Models.AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order)
         {
             return GetAddressesAsync(asset, count, page, order, CancellationToken.None);
         }
@@ -283,7 +282,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/addresses", "0.1.27")]
-        public async Task<AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -297,7 +296,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AssetAddressesResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetAddressesResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Assets of a specific policy <c>/assets/policy/{policy_id}</c>
@@ -313,7 +312,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/policy/{policy_id}", "0.1.27")]
-        public Task<AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order)
+        public Task<Models.AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order)
         {
             return GetPolicyAsync(policy_id, count, page, order, CancellationToken.None);
         }
@@ -332,7 +331,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/policy/{policy_id}", "0.1.27")]
-        public async Task<AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (policy_id == null)
             {
@@ -346,7 +345,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<AssetPolicyResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.AssetPolicyResponseCollection>(builder, cancellationToken);
         }
     }
 }

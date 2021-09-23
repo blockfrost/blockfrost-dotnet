@@ -19,7 +19,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest", "0.1.27")]
-        Task<EpochContentResponse> GetLatestAsync();
+        Task<Models.EpochContentResponse> GetLatestAsync();
 
         /// <summary>
         ///     Latest epoch <c>/epochs/latest</c>
@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest", "0.1.27")]
-        Task<EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken);
+        Task<Models.EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Latest epoch protocol parameters <c>/epochs/latest/parameters</c>
         /// </summary>
@@ -40,7 +40,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest/parameters", "0.1.27")]
-        Task<EpochParamContentResponse> GetLatestParametersAsync();
+        Task<Models.EpochParamContentResponse> GetLatestParametersAsync();
 
         /// <summary>
         ///     Latest epoch protocol parameters <c>/epochs/latest/parameters</c>
@@ -51,7 +51,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest/parameters", "0.1.27")]
-        Task<EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken);
+        Task<Models.EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Specific epoch <c>/epochs/{number}</c>
         /// </summary>
@@ -62,7 +62,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the epoch data.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}", "0.1.27")]
-        Task<EpochContentResponse> GetEpochsAsync(int number);
+        Task<Models.EpochContentResponse> GetEpochsAsync(int number);
 
         /// <summary>
         ///     Specific epoch <c>/epochs/{number}</c>
@@ -74,7 +74,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the epoch data.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}", "0.1.27")]
-        Task<EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken);
+        Task<Models.EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken);
         /// <summary>
         ///     Listing of next epochs <c>/epochs/{number}/next</c>
         /// </summary>
@@ -87,7 +87,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/next", "0.1.27")]
-        Task<EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page);
+        Task<Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page);
 
         /// <summary>
         ///     Listing of next epochs <c>/epochs/{number}/next</c>
@@ -101,7 +101,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/next", "0.1.27")]
-        Task<EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Listing of previous epochs <c>/epochs/{number}/previous</c>
         /// </summary>
@@ -114,7 +114,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/previous", "0.1.27")]
-        Task<EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page);
+        Task<Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page);
 
         /// <summary>
         ///     Listing of previous epochs <c>/epochs/{number}/previous</c>
@@ -128,7 +128,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/previous", "0.1.27")]
-        Task<EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake distribution <c>/epochs/{number}/stakes</c>
         /// </summary>
@@ -141,7 +141,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes", "0.1.27")]
-        Task<EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page);
+        Task<Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page);
 
         /// <summary>
         ///     Stake distribution <c>/epochs/{number}/stakes</c>
@@ -155,7 +155,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes", "0.1.27")]
-        Task<EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Stake distribution by pool <c>/epochs/{number}/stakes/{pool_id}</c>
         /// </summary>
@@ -170,7 +170,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
-        Task<EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page);
+        Task<Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page);
 
         /// <summary>
         ///     Stake distribution by pool <c>/epochs/{number}/stakes/{pool_id}</c>
@@ -186,7 +186,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
-        Task<EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken);
+        Task<Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken);
         /// <summary>
         ///     Block distribution <c>/epochs/{number}/blocks</c>
         /// </summary>
@@ -200,7 +200,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Block distribution <c>/epochs/{number}/blocks</c>
@@ -215,7 +215,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Block distribution by pool <c>/epochs/{number}/blocks/{pool_id}</c>
         /// </summary>
@@ -231,7 +231,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order);
+        Task<Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     Block distribution by pool <c>/epochs/{number}/blocks/{pool_id}</c>
@@ -248,7 +248,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
-        Task<StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Protocol parameters <c>/epochs/{number}/parameters</c>
         /// </summary>
@@ -259,7 +259,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/parameters", "0.1.27")]
-        Task<EpochParamContentResponse> GetParametersAsync(int number);
+        Task<Models.EpochParamContentResponse> GetParametersAsync(int number);
 
         /// <summary>
         ///     Protocol parameters <c>/epochs/{number}/parameters</c>
@@ -271,7 +271,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/parameters", "0.1.27")]
-        Task<EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken);
+        Task<Models.EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken);
     }
 }
 

@@ -47,7 +47,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.27")]
-        Task<IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order);
+        Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
         ///     List pinned objects <c>/ipfs/pin/list/</c>
@@ -61,7 +61,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.27")]
-        Task<IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
         /// </summary>
@@ -73,7 +73,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path);
+        Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path);
 
         /// <summary>
         ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
@@ -86,7 +86,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken);
+        Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken);
         /// <summary>
         ///      <c>/ipfs/pin/remove/{IPFS_path}</c>
         /// </summary>

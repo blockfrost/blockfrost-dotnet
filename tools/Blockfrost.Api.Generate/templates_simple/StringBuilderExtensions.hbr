@@ -19,8 +19,6 @@ namespace Blockfrost.Api.Extensions
         {
             return name == null
                 ? throw new System.ArgumentNullException(nameof(name)) 
-                : value == null
-                ? builder
                 : builder
                 .Append(System.Uri.EscapeDataString(name))
                 .Append('=')

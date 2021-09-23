@@ -53,17 +53,10 @@ namespace Blockfrost.Api.Tests.Services
         {
             try
             {
-                //new
                 var transactionService = Provider.GetRequiredService<ITransactionsService>();
                 var addressService = Provider.GetRequiredService<IAddressesService>();
                 _ = await transactionService.Metrics.GetEndpointsAsync();
-                //_ = await addressService.Metrics.GetEndpointsAsync();
-
-                //new
-                //var transactions = Provider.GetRequiredService<ITransactionsService>();
-                //var addresses = Provider.GetRequiredService<IAddressesService>();
-                //_ = await transactionService.Metrics.EndpointsAsync();
-                //_ = await addressService.Metrics.EndpointsAsync();
+                _ = await addressService.Metrics.GetEndpointsAsync();
             }
             catch (Exception ex)
             {

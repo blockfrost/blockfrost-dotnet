@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
-using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -34,7 +33,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/network", "0.1.27")]
-        public Task<NetworkResponse> GetNetworkAsync()
+        public Task<Models.NetworkResponse> GetNetworkAsync()
         {
             return GetNetworkAsync(CancellationToken.None);
         }
@@ -48,11 +47,11 @@ namespace Blockfrost.Api.Services
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/network", "0.1.27")]
-        public async Task<NetworkResponse> GetNetworkAsync(CancellationToken cancellationToken)
+        public async Task<Models.NetworkResponse> GetNetworkAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/network");
 
-            return await SendGetRequestAsync<NetworkResponse>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.NetworkResponse>(builder, cancellationToken);
         }
     }
 }

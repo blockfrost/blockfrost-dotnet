@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
-using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -71,7 +70,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.27")]
-        public Task<IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order)
+        public Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order)
         {
             return GetPinListAsync(count, page, order, CancellationToken.None);
         }
@@ -88,7 +87,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.27")]
-        public async Task<IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        public async Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/ipfs/pin/list/");
             _ = builder.AppendQueryParameter(nameof(count), count);
@@ -96,7 +95,7 @@ namespace Blockfrost.Api.Services
             _ = builder.AppendQueryParameter(nameof(order), order);
             builder.Length--;
 
-            return await SendGetRequestAsync<IpfsPinListResponseCollection>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.IpfsPinListResponseCollection>(builder, cancellationToken);
         }
         /// <summary>
         ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
@@ -109,7 +108,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        public Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path)
+        public Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path)
         {
             return GetPinListAsync(IPFS_path, CancellationToken.None);
         }
@@ -125,7 +124,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        public async Task<IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken)
+        public async Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken)
         {
             if (IPFS_path == null)
             {
@@ -135,7 +134,7 @@ namespace Blockfrost.Api.Services
             var builder = GetUrlBuilder("/ipfs/pin/list/{IPFS_path}");
             _ = builder.SetRouteParameter("{IPFS_path}", IPFS_path);
 
-            return await SendGetRequestAsync<IpfsPinListIPFSPathResponse>(builder, cancellationToken);
+            return await SendGetRequestAsync<Models.IpfsPinListIPFSPathResponse>(builder, cancellationToken);
         }
         /// <summary>
         ///      <c>/ipfs/pin/remove/{IPFS_path}</c>

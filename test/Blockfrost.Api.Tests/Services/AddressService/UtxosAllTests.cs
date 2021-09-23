@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blockfrost.Api.Tests.Attributes;
+using Blockfrost.Api.Migrate.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
@@ -47,6 +48,8 @@ namespace Blockfrost.Api.Tests.Services
 
             // Act
             var utxos = await ServiceUnderTest.UtxosAllAsync(addr, count, page, order);
+            var service = ServiceUnderTest;
+            var health = service.GetHealthAsync();
 
             // Assert
             Assert.AreEqual(expected, utxos.Count);

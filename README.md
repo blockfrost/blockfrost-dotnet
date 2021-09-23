@@ -19,7 +19,7 @@
 
 The current release of blockfrost-dotnet introduced major API changes breaking existing implementations.
 
-See the [migration guide]() to resolve these issues.
+See the [migration guide](https://github.com/blockfrost/blockfrost-dotnet/wiki/Migration-Guide) to resolve these issues.
 
 ## Getting started
 

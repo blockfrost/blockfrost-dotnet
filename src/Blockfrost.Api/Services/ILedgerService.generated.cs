@@ -19,7 +19,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/genesis", "0.1.27")]
-        Task<GenesisContentResponse> GetGenesisAsync();
+        Task<Models.GenesisContentResponse> GetGenesisAsync();
 
         /// <summary>
         ///     Blockchain genesis <c>/genesis</c>
@@ -30,7 +30,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/genesis", "0.1.27")]
-        Task<GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken);
+        Task<Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken);
     }
 }
 
