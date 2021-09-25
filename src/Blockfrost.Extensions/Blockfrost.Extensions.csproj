@@ -32,8 +32,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.5" />
-    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="5.0.9">
+    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.6" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -16,9 +16,8 @@ namespace Blockfrost.Extensions.CardanoSharp
                 .AddJsonFile(configPath);
 
             var config = configBuilder.Build();
-            services.Configure<CardanoSharpExtensionOptions>(config.GetSection("Blockfrost:Extensions:CardanoSharp"));
-
-            services.AddTransient<ICardanoSharpService, CardanoSharpService>();
+            _ = services.Configure<CardanoSharpExtensionOptions>(config.GetSection("Blockfrost:Extensions:CardanoSharp"));
+            _ = services.AddTransient<ICardanoSharpService, CardanoSharpService>();
             return services;
         }
     }

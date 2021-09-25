@@ -1,13 +1,10 @@
-using System;
-using System.Linq;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using BF = Blockfrost.Api;
-using BFO = Blockfrost.Api.Options;
 using CST = CardanoSharp.Wallet.Models.Transactions;
 using CSA = CardanoSharp.Wallet.Models.Addresses;
 using CSTB = CardanoSharp.Wallet.TransactionBuilding;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Blockfrost.Extensions.CardanoSharp.Utils;
 using CardanoSharp.Wallet.Extensions;
@@ -21,23 +18,16 @@ namespace Blockfrost.Extensions.CardanoSharp
 
     public class CardanoSharpService : ICardanoSharpService
     {
-        private BFO.BlockfrostOptions _project;
         private readonly BF.IAddressService _blockfrostAddressService;
-        private readonly IConfiguration _config;
-        private readonly IOptions<BFO.BlockfrostOptions> _blockfrostOptions;
         private readonly IOptionsMonitor<CardanoSharpExtensionOptions> _optionsMonitor;
 
         public CardanoSharpExtensionOptions Options => _optionsMonitor.CurrentValue;
 
         public CardanoSharpService(
             BF.IAddressService addressService,
-            IConfiguration config,
-            IOptions<BFO.BlockfrostOptions> blockfrostOptions,
             IOptionsMonitor<CardanoSharpExtensionOptions> optionsMonitor)
         {
             _blockfrostAddressService = addressService;
-            _config = config;
-            _blockfrostOptions = blockfrostOptions;
             _optionsMonitor = optionsMonitor;
         }
 
@@ -54,7 +44,7 @@ namespace Blockfrost.Extensions.CardanoSharp
                 throw new InvalidOperationException("Increase spending limit");
             }
 
-            if (utxos.SumAmounts(Options.Unit) < amount && Options.UtxoSpendLimit > utxos.Count())
+            if (utxos.SumAmounts(Options.Unit) < amount && Options.UtxoSpendLimit > utxos.Count)
             {
                 throw new InvalidOperationException("Not enough lovelace");
             }
@@ -67,10 +57,13 @@ namespace Blockfrost.Extensions.CardanoSharp
             {
                 change += utxo.ToUint32(Options.Unit);
                 txbody = txbody.AddInput(utxo.Tx_hash.HexToByteArray(), index++);
-                if ((change - fee) >= amount) break;
+                if ((change - fee) >= amount)
+                {
+                    break;
+                }
             }
 
-            change -= (amount + fee);
+            change -= amount + fee;
 
             var tx = CSTB.TransactionBuilder.Create.SetBody(txbody
                 .AddOutput(pay.GetBytes(), change)

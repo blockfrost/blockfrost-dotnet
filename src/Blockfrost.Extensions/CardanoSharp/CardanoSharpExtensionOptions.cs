@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Blockfrost.Extensions.CardanoSharp
 {
@@ -22,7 +17,7 @@ namespace Blockfrost.Extensions.CardanoSharp
         [JsonPropertyName("spendingLimit")]
         public uint SpendingLimit { get; set; }
         [JsonPropertyName("utxoSpendingLimit")]
-        public int UtxoSpendLimit { get;  set; }
+        public int UtxoSpendLimit { get; set; }
         [JsonPropertyName("unit")]
         public string Unit { get; internal set; } = "lovelace";
         //public string Mnemonic { get; set; }
