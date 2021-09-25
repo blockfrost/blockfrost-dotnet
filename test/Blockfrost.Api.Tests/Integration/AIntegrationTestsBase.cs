@@ -17,16 +17,16 @@ namespace Blockfrost.Api.Tests.Integration
     [TestCategory(nameof(Api))]
     [TestCategory(nameof(Integration))]
     public abstract class AIntegrationTestsBase : AServiceTestBase
-        //,
-        //IAccountService,
-        //IAddressService,
-        //IAssetService,
-        //IBlockService,
-        //IEpochService,
-        //IPoolService,
-        //ILedgerService,
-        //IMetadataService,
-        //ITransactionService
+    //,
+    //IAccountService,
+    //IAddressService,
+    //IAssetService,
+    //IBlockService,
+    //IEpochService,
+    //IPoolService,
+    //ILedgerService,
+    //IMetadataService,
+    //ITransactionService
     //,IIpfsService
     //,INutlinkService
     //,ICardanoService

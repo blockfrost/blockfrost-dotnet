@@ -35,10 +35,10 @@ namespace Blockfrost.Api.Extensions
         public static IHttpClientBuilder Add{{OldName}}(this IServiceCollection services, string projectName)
         {
             {{#if IsNew}}
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName);
             {{else}}
             _ = services.AddBlockfrostService<I{{OldName}}, {{OldName}}>(projectName);
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName);
             {{/if}}
         }
 
@@ -61,10 +61,10 @@ namespace Blockfrost.Api.Extensions
         public static IHttpClientBuilder Add{{OldName}}(this IServiceCollection services, string projectName, int connectionLimit)
         {
             {{#if IsNew}}
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName, connectionLimit);
             {{else}}
             _ = services.AddBlockfrostService<I{{OldName}}, {{OldName}}>(projectName);
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName, connectionLimit);
             {{/if}}
         }
         {{#if SameName}}
@@ -77,7 +77,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder Add{{NewName}}(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder Add{{NewName}}(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Services.I{{NewName}}, Services.{{NewName}}>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Api.Services.I{{NewName}}, Api.Services.{{NewName}}>(projectName, connectionLimit);
         }
         {{/if}}
 
@@ -345,7 +345,7 @@ namespace Blockfrost.Api.Extensions
                 }
                 else
                 {
-                    var types = new[] { typeof(Services.IHealthService), typeof(Services.IMetricsService), typeof(HttpClient) };
+                    var types = new[] { typeof(Api.Services.IHealthService), typeof(Api.Services.IMetricsService), typeof(HttpClient) };
                     var ctor = typeof(TImplementation).GetConstructor(types);
 
                     if (ctor == null)
@@ -359,8 +359,8 @@ namespace Blockfrost.Api.Extensions
                     else
                     {
                         ConfigureHttpClient(client, network, connectionLimit);
-                        var health = CreateClient<Services.IHealthService, Services.HealthService>(network, client);
-                        var metrics = CreateClient<Services.IMetricsService, Services.MetricsService>(network, client);
+                        var health = CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(network, client);
+                        var metrics = CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(network, client);
                         var blockfrostService = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] { health, metrics, client });
                         blockfrostService.Network = network;
                         return blockfrostService;

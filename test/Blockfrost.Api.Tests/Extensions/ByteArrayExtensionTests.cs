@@ -1,5 +1,4 @@
-﻿using Blockfrost.Api.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Extensions
 {
@@ -12,7 +11,7 @@ namespace Blockfrost.Api.Tests.Extensions
         public void LastBits_Returns_LastNBits()
         {
             byte b = 0x83;
-            int last = b.LastBits(4);
+            int last = b & ~(0xff >> 4 << 4);
             Assert.AreEqual(0x3, last);
         }
     }

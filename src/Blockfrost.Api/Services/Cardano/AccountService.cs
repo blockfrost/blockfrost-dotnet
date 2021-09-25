@@ -19,7 +19,6 @@ namespace Blockfrost.Api
             V1 = service;
         }
 
-
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>Account history</summary>
         /// <param name="stake_address">Bech32 stake address.</param>

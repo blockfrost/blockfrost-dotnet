@@ -41,7 +41,7 @@ namespace Blockfrost.Api.Generate
             }
             catch (KeyNotFoundException)
             {
-                StringBuilder usage = new StringBuilder();
+                StringBuilder usage = new();
                 usage.AppendLine("Blockfrost.Api.Generate.exe -s SOURCE -o OUTPUT_DIR -t TEMPLATE_DIR -g <[m]odels | [s]ervices | [a]ttributes | [v]arious>");
                 usage.AppendLine("");
                 usage.AppendLine("Parameters:");
@@ -94,7 +94,7 @@ namespace Blockfrost.Api.Generate
 
         private static void WriteInfo(OpenApiDocumentContext context)
         {
-            StringBuilder info = new StringBuilder();
+            StringBuilder info = new();
             info.AppendLine($"Blockfrost Specification: {context.Spec.Info.Version}");
             Console.WriteLine(info.ToString());
         }

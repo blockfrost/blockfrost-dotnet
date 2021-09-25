@@ -6,8 +6,8 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Services;
+using CardanoSharp.Wallet.Extensions;
 
 namespace Blockfrost.Api
 {
