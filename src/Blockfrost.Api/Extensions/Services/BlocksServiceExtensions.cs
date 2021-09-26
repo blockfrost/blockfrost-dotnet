@@ -7,33 +7,46 @@ namespace Blockfrost.Api.Services.Extensions
     public static class BlocksServiceExtensions
     {
         /// <summary>
-        /// 
+        /// Gets the current tip and awaits one more block before returning
         /// </summary>
-        /// <returns>Tip</returns>
-        public static Task<Models.BlockContentResponse> WaitOne(this IBlocksService service, TimeSpan queryInterval)
+        /// <param name="service">The <see cref="IBlocksService"/></param>
+        /// <param name="interval">The interval between queries</param>
+        /// <returns>The tip</returns>
+        public static Task<Models.BlockContentResponse> WaitOneAsync(this IBlocksService service, TimeSpan interval)
         {
-            return service.Wait(1, queryInterval);
+            return service.WaitAsync(1, interval);
         }
 
         /// <summary>
-        /// 
+        /// Gets the current tip and awaits two more blocks before returning
         /// </summary>
-        /// <returns>Tip</returns>
-        public static Task<Models.BlockContentResponse> WaitTwo(this IBlocksService service, TimeSpan queryInterval)
+        /// <param name="service">The <see cref="IBlocksService"/></param>
+        /// <param name="interval">The interval between wueries</param>
+        /// <returns>The tip</returns>
+        public static Task<Models.BlockContentResponse> WaitTwoAsync(this IBlocksService service, TimeSpan interval)
         {
-            return service.Wait(2, queryInterval);
-        }
-
-        public static Task<Models.BlockContentResponse> Wait(this IBlocksService service, int numberOfBlocks, TimeSpan timeout)
-        {
-            return service.Wait(numberOfBlocks, timeout, null, CancellationToken.None);
+            return service.WaitAsync(2, interval);
         }
 
         /// <summary>
-        /// 
+        /// Gets the current tip and awaits <paramref name="count"/> more blocks before returning
         /// </summary>
-        /// <returns>Tip</returns>
-        public static async Task<Models.BlockContentResponse> Wait(this IBlocksService service, int count, TimeSpan queryInterval, Action<Models.BlockContentResponse> inspectLatest, CancellationToken cancellationToken)
+        /// <param name="service">The <see cref="IBlocksService"/></param>
+        /// <returns>The tip</returns>
+        public static Task<Models.BlockContentResponse> WaitAsync(this IBlocksService service, int count, TimeSpan interval)
+        {
+            return service.WaitAsync(count, interval, null, CancellationToken.None);
+        }
+
+        /// <summary>
+        /// Gets the current tip and awaits <paramref name="count"/> more blocks before returning
+        /// </summary>
+        /// <param name="service">The <see cref="IBlocksService"/></param>
+        /// <param name="count">Number of blocks to wait for</param>
+        /// <param name="interval">The interval between wueries</param>
+        /// <param name="callback">Callback with the current tip</param>
+        /// <returns>The tip</returns>
+        public static async Task<Models.BlockContentResponse> WaitAsync(this IBlocksService service, int count, TimeSpan interval, Action<Models.BlockContentResponse> callback, CancellationToken cancellationToken)
         {
             if (count < 1)
             {
@@ -52,14 +65,14 @@ namespace Blockfrost.Api.Services.Extensions
                     count--;
                 }
 
-                inspectLatest?.Invoke(tip);
+                callback?.Invoke(tip);
 
                 if (count == 0 || cancellationToken.IsCancellationRequested)
                 {
                     return tip;
                 }
 
-                await Task.Delay(queryInterval, cancellationToken);
+                await Task.Delay(interval, cancellationToken);
             }
         }
     }

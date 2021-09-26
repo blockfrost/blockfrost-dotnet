@@ -56,10 +56,10 @@ System.Console.WriteLine($"https://explorer.cardano-{network}.iohkdev.io/en/tran
 /*
  * Wait two blocks
  */
-tip = await cardano.Blocks.Wait(
+tip = await cardano.Blocks.WaitAsync(
     count: 2,
-    queryInterval: System.TimeSpan.FromSeconds(3),
-    inspectLatest: latest => System.Console.WriteLine($"Tip: {tip.Slot}"),
+    interval: System.TimeSpan.FromSeconds(3),
+    callback: latest => System.Console.WriteLine($"Tip: {tip.Slot}"),
     cancellationToken: CancellationToken.None
 );
 System.Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
