@@ -1,0 +1,7 @@
+    /// <summary>
+    /// A collection of <see cref="{{ItemName}}"/>
+    /// </summary>
+    {{>partial_visibility}} partial class {{ClassName}} : Collection<{{ItemName}}>
+    {
+        {{>partial_modelSerialize}}
+    }

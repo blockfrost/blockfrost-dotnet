@@ -1,0 +1,911 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.26",
+    "title": "Blockfrost.io ~ API Documentation",
+    "x-logo": {
+      "url": "https://staging.blockfrost.io/images/logo.svg",
+      "altText": "Blockfrost"
+    },
+    "contact": {
+      "name": "Blockfrost Team",
+      "url": "https://blockfrost.io",
+      "email": "contact@blockfrost.io"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "termsOfService": "https://blockfrost.io/terms",
+    "description": "Blockfrost is an API as a service that allows users to interact with the Cardano blockchain and parts of its ecosystem.  ## Tokens  After signing up on https://blockfrost.io, a `project_id` token is automatically generated for each project. HTTP header of your request MUST include this `project_id` in order to authenticate against Blockfrost servers.  ## Available networks  At the moment, you can use the following networks. Please, note that each network has its own `project_id`.  <table>   <tr><td><b>Network</b></td><td><b>Endpoint</b></td></tr>   <tr><td>Cardano mainnet</td><td><tt>https://cardano-mainnet.blockfrost.io/api/v0</td></tt></tr>   <tr><td>Cardano testnet</td><td><tt>https://cardano-testnet.blockfrost.io/api/v0</tt></td></tr>   <tr><td>InterPlanetary File System</td><td><tt>https://ipfs.blockfrost.io/api/v0</tt></td></tr> </table>  ## Concepts  * All endpoints return either a JSON object or an array. * Data is returned in *ascending* (oldest first, newest last) order.   * You might use the `?order=desc` query parameter to reverse this order. * By default, we return 100 results at a time. You have to use `?page=2` to list through the results. * All time and timestamp related fields (except `server_time`) are in seconds of UNIX time. * All amounts are returned in Lovelaces, where 1 ADA = 1 000 000 Lovelaces. * Addresses, accounts and pool IDs are in Bech32 format. * All values are case sensitive. * All hex encoded values are lower case. * Examples are not based on real data. Any resemblance to actual events is purely coincidental. * We allow to upload files up to 100MB of size to IPFS. This might increase in the future.  ## Errors  ### HTTP Status codes  The following are HTTP status code your application might receive when reaching Blockfrost endpoints and it should handle all of these cases.  * HTTP `400` return code is used when the request is not valid. * HTTP `402` return code is used when the projects exceed their daily request limit. * HTTP `403` return code is used when the request is not authenticated. * HTTP `404` return code is used when the resource doesn't exist. * HTTP `418` return code is used when the user has been auto-banned for flooding too much after previously receiving error code `402` or `429`. * HTTP `429` return code is used when the user has sent too many requests in a given amount of time and therefore has been rate-limited. * HTTP `500` return code is used when our endpoints are having a problem.  ### Error codes  An internal error code number is used for better indication of the error in question. It is passed using the following payload.  ```json {   \"status_code\": 403,   \"error\": \"Forbidden\",   \"message\": \"Invalid project token.\" } ``` ## Limits   There are two types of limits we are enforcing:   The first depends on your plan and is the number of request we allow per day. We defined the day from midnight to midnight of UTC time.   The second is rate limiting. We limit an end user, distinguished by IP address, to 10 requests per second. On top of that, we allow  each user to send burst of 500 requests, which cools off at rate of 10 requests per second. In essence, a user is allowed to make another  whole burst after (currently) 500/10 = 50 seconds. E.g. if a user attemtps to make a call 3 seconds after whole burst, 30 requests will be processed.  We believe this should be sufficient for most of the use cases. If it is not and you have a specific use case, please get in touch with us, and  we will make sure to take it into account as much as we can.   ## SDKs  We support a number of SDKs that will help you in developing your application on top of Blockfrost.  <table>   <tr><td><b>Programming language</b></td><td><b>SDK</b></td></tr>   <tr><td>JavaScript</td><td><a href=\"https://github.com/blockfrost/blockfrost-js\">blockfrost-js</a></tr> </table>  # Authentication  <!-- ReDoc-Inject: <security-definitions> -->"
+  },
+  "servers": [
+    {
+      "url": "https://cardano-mainnet.blockfrost.io/api/v0/",
+      "description": "Cardano Mainnet network"
+    },
+    {
+      "url": "https://cardano-testnet.blockfrost.io/api/v0/",
+      "description": "Cardano Testnet network"
+    },
+    {
+      "url": "https://localhost:3000",
+      "description": "local"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health"
+    },
+    {
+      "name": "Cardano » Blocks"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Root endpoint",
+        "description": "Root endpoint has no other function than to point end users to documentation. ",
+        "responses": {
+          "200": {
+            "description": "Information pointing to the documentation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "example": "https://blockfrost.io/"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "0.1.0"
+                    }
+                  },
+                  "required": [
+                    "url",
+                    "version"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Backend health status",
+        "description": "Return backend status as a boolean. Your application     should handle situations when backend for the given chain is unavailable. ",
+        "responses": {
+          "200": {
+            "description": "Return the boolean indicating the health of the backend.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_healthy": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  },
+                  "required": [
+                    "is_healthy"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/health/clock": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Current backend time",
+        "description": "This endpoint provides the current UNIX time. Your application might use this to verify if the client clock is not out of sync. ",
+        "responses": {
+          "200": {
+            "description": "Return the current UNIX time in milliseconds.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "server_time": {
+                      "type": "integer",
+                      "example": 1603400958947
+                    }
+                  },
+                  "required": [
+                    "server_time"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/blocks/latest": {
+      "get": {
+        "tags": [
+          "Cardano » Blocks"
+        ],
+        "summary": "Latest block",
+        "description": "Return the latest block available to the backends, also known as the tip of the blockchain. ",
+        "responses": {
+          "200": {
+            "description": "Return the contents of the latest block.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/block_content"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/blocks/latest/txs": {
+      "get": {
+        "tags": [
+          "Cardano » Blocks"
+        ],
+        "summary": "Latest block transactions",
+        "description": "Return the transactions within the latest block.",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "default": 100
+            },
+            "description": "The number of results displayed on one page."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "The page number for listing the results."
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            },
+            "description": "Ordered by tx index in the block. The ordering of items from the point of view of the blockchain, not the page listing itself. By default, we return oldest first, newest last. "
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the transactions within the block.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/block_content_txs"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/blocks/{hash_or_number}": {
+      "get": {
+        "tags": [
+          "Cardano » Blocks"
+        ],
+        "summary": "Specific block",
+        "description": "Return the content of a requested block. ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hash_or_number",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "64-character case-sensitive hexadecimal string or block number."
+            },
+            "description": "Hash or number of the requested block.",
+            "example": "4ea1ba291e8eef538635a53e59fddba7810d1679631cc3aed7c8e6c4091a516a"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the contents of the block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/block_content"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/blocks/{hash_or_number}/next": {
+      "get": {
+        "tags": [
+          "Cardano » Blocks"
+        ],
+        "summary": "Listing of next blocks",
+        "description": "Return the list of blocks following a specific block. ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "hash_or_number",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "64-character case-sensitive hexadecimal string or block number."
+            },
+            "description": "Hash of the requested block.",
+            "example": "5ea1ba291e8eef538635a53e59fddba7810d1679631cc3aed7c8e6c4091a516a"
+          },
+          {
+            "in": "query",
+            "name": "count",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "default": 100
+            },
+            "description": "The number of results displayed on one page."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "The page number for listing the results."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the contents of the block.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/block_content_array"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    },
+    "/pools/{pool_id}/metadata": {
+      "get": {
+        "tags": [
+          "Cardano » Pools"
+        ],
+        "summary": "Stake pool metadata",
+        "description": "Stake pool registration metadata. ",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "pool_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Bech32 or hexadecimal pool ID.",
+            "example": "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return the pool metadata content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/pool_metadata"
+                    },
+                    {
+                      "$ref": "#/components/schemas/empty_object"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/bad_request"
+          },
+          "403": {
+            "$ref": "#/components/responses/unauthorized_error"
+          },
+          "404": {
+            "$ref": "#/components/responses/not_found"
+          },
+          "418": {
+            "$ref": "#/components/responses/autobanned"
+          },
+          "429": {
+            "$ref": "#/components/responses/overusage_limit"
+          },
+          "500": {
+            "$ref": "#/components/responses/internal_server_error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "overusage_limit": {
+        "description": "Usage limit reached",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 429
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Project Over Limit"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Usage is over limit."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      },
+      "autobanned": {
+        "description": "IP has been auto-banned for extensive sending of requests after usage limit has been reached",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 418
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Requested Banned"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "IP has been auto-banned for flooding."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      },
+      "not_found": {
+        "description": "Component not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Not Found"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The requested component has not been found."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      },
+      "internal_server_error": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Internal Server Error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "An unexpected response was received from the backend."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      },
+      "unauthorized_error": {
+        "description": "Authentication secret is missing or invalid",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Forbidden"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid project token."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      },
+      "bad_request": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_code": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "error": {
+                  "type": "string",
+                  "example": "Bad Request"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Backend did not understand your request."
+                }
+              },
+              "required": [
+                "status_code",
+                "error",
+                "message"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "project_id",
+        "description": "There are multiple token types available based on network you choose when creating a Blockfrost a project, for a list of token types see [Available networks](#section/Available-networks) "
+      }
+    },
+    "schemas": {
+      "block_content_array": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/block_content"
+        }
+      },
+      "block_content": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "integer",
+            "example": 1641338934,
+            "description": "Block creation time in UNIX time"
+          },
+          "height": {
+            "type": "integer",
+            "nullable": true,
+            "example": 15243593,
+            "description": "Block number"
+          },
+          "hash": {
+            "type": "string",
+            "example": "4ea1ba291e8eef538635a53e59fddba7810d1679631cc3aed7c8e6c4091a516a",
+            "description": "Hash of the block"
+          },
+          "slot": {
+            "type": "integer",
+            "nullable": true,
+            "example": 412162133,
+            "description": "Slot number"
+          },
+          "epoch": {
+            "type": "integer",
+            "nullable": true,
+            "example": 425,
+            "description": "Epoch number"
+          },
+          "epoch_slot": {
+            "type": "integer",
+            "nullable": true,
+            "example": 12,
+            "description": "Slot within the epoch"
+          },
+          "slot_leader": {
+            "type": "string",
+            "example": "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2qnikdy",
+            "description": "Bech32 ID of the slot leader or specific block description in case there is no slot leader"
+          },
+          "size": {
+            "type": "integer",
+            "example": 3,
+            "description": "Block size in Bytes"
+          },
+          "tx_count": {
+            "type": "integer",
+            "example": 1,
+            "description": "Number of transactions in the block"
+          },
+          "output": {
+            "type": "string",
+            "nullable": true,
+            "example": "128314491794",
+            "description": "Total output within the block in Lovelaces"
+          },
+          "fees": {
+            "type": "string",
+            "nullable": true,
+            "example": "592661",
+            "description": "Total fees within the block in Lovelaces"
+          },
+          "block_vrf": {
+            "type": "string",
+            "nullable": true,
+            "example": "vrf_vk1wf2k6lhujezqcfe00l6zetxpnmh9n6mwhpmhm0dvfh3fxgmdnrfqkms8ty",
+            "description": "VRF key of the block",
+            "minLength": 65,
+            "maxLength": 65
+          },
+          "previous_block": {
+            "type": "string",
+            "nullable": true,
+            "example": "43ebccb3ac72c7cebd0d9b755a4b08412c9f5dcb81b8a0ad1e3c197d29d47b05",
+            "description": "Hash of the previous block"
+          },
+          "next_block": {
+            "type": "string",
+            "nullable": true,
+            "example": "8367f026cf4b03e116ff8ee5daf149b55ba5a6ec6dec04803b8dc317721d15fa",
+            "description": "Hash of the next block"
+          },
+          "confirmations": {
+            "type": "integer",
+            "example": 4698,
+            "description": "Number of block confirmations"
+          }
+        },
+        "required": [
+          "time",
+          "height",
+          "hash",
+          "slot",
+          "epoch",
+          "epoch_slot",
+          "slot_leader",
+          "size",
+          "tx_count",
+          "output",
+          "fees",
+          "block_vrf",
+          "previous_block",
+          "next_block",
+          "confirmations"
+        ]
+      },
+      "block_content_txs": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Hash of the transaction"
+        },
+        "example": [
+          "8788591983aa73981fc92d6cddbbe643959f5a784e84b8bee0db15823f575a5b",
+          "4eef6bb7755d8afbeac526b799f3e32a624691d166657e9d862aaeb66682c036",
+          "52e748c4dec58b687b90b0b40d383b9fe1f24c1a833b7395cdf07dd67859f46f",
+          "e8073fd5318ff43eca18a852527166aa8008bee9ee9e891f585612b7e4ba700b"
+        ]
+      },
+      "genesis_content": {
+        "type": "object",
+        "properties": {
+          "active_slots_coefficient": {
+            "type": "number",
+            "example": 0.05,
+            "description": "The proportion of slots in which blocks should be issued"
+          },
+          "update_quorum": {
+            "type": "integer",
+            "example": 5,
+            "description": "Determines the quorum needed for votes on the protocol parameter updates"
+          },
+          "max_lovelace_supply": {
+            "type": "string",
+            "example": "45000000000000000",
+            "description": "The total number of lovelace in the system"
+          },
+          "network_magic": {
+            "type": "integer",
+            "example": 764824073,
+            "description": "Network identifier"
+          },
+          "epoch_length": {
+            "type": "integer",
+            "example": 432000,
+            "description": "Number of slots in an epoch"
+          },
+          "system_start": {
+            "type": "integer",
+            "example": 1506203091,
+            "description": "Time of slot 0 in UNIX time"
+          },
+          "slots_per_kes_period": {
+            "type": "integer",
+            "example": 129600,
+            "description": "Number of slots in an KES period"
+          },
+          "slot_length": {
+            "type": "integer",
+            "example": 1,
+            "description": "Duration of one slot in seconds"
+          },
+          "max_kes_evolutions": {
+            "type": "integer",
+            "example": 62,
+            "description": "The maximum number of time a KES key can be evolved before a pool operator must create a new operational certificate"
+          },
+          "security_param": {
+            "type": "integer",
+            "example": 2160,
+            "description": "Security parameter k"
+          }
+        },
+        "required": [
+          "active_slots_coefficient",
+          "update_quorum",
+          "max_lovelace_supply",
+          "network_magic",
+          "epoch_length",
+          "system_start",
+          "slots_per_kes_period",
+          "slot_length",
+          "max_kes_evolutions",
+          "security_param"
+        ]
+      },
+      "pool_metadata": {
+        "type": "object",
+        "properties": {
+          "pool_id": {
+            "type": "string",
+            "example": "pool1pu5jlj4q9w9jlxeu370a3c9myx47md5j5m2str0naunn2q3lkdy",
+            "description": "Bech32 pool ID"
+          },
+          "hex": {
+            "type": "string",
+            "example": "0f292fcaa02b8b2f9b3c8f9fd8e0bb21abedb692a6d5058df3ef2735",
+            "description": "Hexadecimal pool ID"
+          },
+          "url": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://stakenuts.com/mainnet.json",
+            "description": "URL to the stake pool metadata"
+          },
+          "hash": {
+            "type": "string",
+            "nullable": true,
+            "example": "47c0c68cb57f4a5b4a87bad896fc274678e7aea98e200fa14a1cb40c0cab1d8c",
+            "description": "Hash of the metadata file"
+          },
+          "ticker": {
+            "type": "string",
+            "nullable": true,
+            "example": "NUTS",
+            "description": "Ticker of the stake pool"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "example": "Stake Nuts",
+            "description": "Name of the stake pool"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "The best pool ever",
+            "description": "Description of the stake pool"
+          },
+          "homepage": {
+            "type": "string",
+            "nullable": true,
+            "example": "https://stakentus.com/",
+            "description": "Home page of the stake pool"
+          }
+        },
+        "required": [
+          "pool_id",
+          "hex",
+          "url",
+          "hash",
+          "ticker",
+          "name",
+          "description",
+          "homepage"
+        ]
+      },
+      "empty_object": {
+        "type": "object"
+      }
+    }
+  }
+}

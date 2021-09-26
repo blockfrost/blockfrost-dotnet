@@ -8,6 +8,9 @@ root = true
 indent_style = space
 # (Please don't specify an indent_size here; that has too many unintended consequences.)
 
+[*.{hbr}]
+insert_final_newline = false
+
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4

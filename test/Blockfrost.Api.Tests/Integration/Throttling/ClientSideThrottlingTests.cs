@@ -21,11 +21,11 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
         }
 
         [TestMethod]
-        public async Task RequestThrottling_550Requests_NoRequestRejectedByServer()
+        public async Task RequestThrottling_550Requests_CommonMethods()
         {
             // After 500 requests the burst limit is reached.
             // The next 50 requests need to be throttled, otherwise the server will return an error.
-            int requestCount = 550;
+            int requestCount = 550 / 2;
             var results = new Dictionary<int, bool>();
 
             foreach (int requestNr in Enumerable.Range(1, requestCount))
@@ -33,7 +33,8 @@ namespace Blockfrost.Api.Tests.Integration.Throttling
                 try
                 {
                     // If the rate limit is reached, this will throw an exception.
-                    _ = await Service.EndpointsAsync();
+                    _ = await AccountsService.Health.GetApiInfoAsync();
+                    _ = await AccountsService.Metrics.GetEndpointsAsync();
                     results.Add(requestNr, true);
                 }
                 catch (Exception)

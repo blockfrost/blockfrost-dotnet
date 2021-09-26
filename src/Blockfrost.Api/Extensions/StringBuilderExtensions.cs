@@ -1,4 +1,3 @@
-﻿using System;
 using System.Reflection;
 using System.Text;
 
@@ -6,12 +5,24 @@ namespace Blockfrost.Api.Extensions
 {
     public static class StringBuilderExtensions
     {
+        public static StringBuilder SetRouteTemplate(this StringBuilder builder, string baseUrl, string route)
+        {
+            return builder.Append(baseUrl != null ? baseUrl.TrimEnd('/') : "").Append($"{route}?");
+        }
+
+        public static StringBuilder SetRouteParameter(this StringBuilder builder, string name, object value)
+        {
+            return builder.Replace(name, System.Uri.EscapeDataString(ConvertToString(value, System.Globalization.CultureInfo.InvariantCulture)));
+        }
+
         public static StringBuilder AppendQueryParameter(this StringBuilder builder, string name, object value)
         {
-            return builder
-                .Append(Uri.EscapeDataString(name))
+            return name == null
+                ? throw new System.ArgumentNullException(nameof(name)) 
+                : builder
+                .Append(System.Uri.EscapeDataString(name))
                 .Append('=')
-                .Append(Uri.EscapeDataString(ConvertToString(value, System.Globalization.CultureInfo.InvariantCulture)))
+                .Append(System.Uri.EscapeDataString(ConvertToString(value, System.Globalization.CultureInfo.InvariantCulture)))
                 .Append('&');
         }
 
@@ -22,9 +33,9 @@ namespace Blockfrost.Api.Extensions
                 return "";
             }
 
-            if (value is Enum)
+            if (value is System.Enum)
             {
-                string name = Enum.GetName(value.GetType(), value);
+                string name = System.Enum.GetName(value.GetType(), value);
                 if (name != null)
                 {
                     var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
@@ -36,25 +47,25 @@ namespace Blockfrost.Api.Extensions
                         }
                     }
 
-                    string converted = Convert.ToString(Convert.ChangeType(value, Enum.GetUnderlyingType(value.GetType()), cultureInfo), cultureInfo);
+                    string converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo), cultureInfo);
                     return converted ?? string.Empty;
                 }
             }
             else if (value is bool boolean)
             {
-                return Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
+                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
             }
             else if (value is byte[] bytes)
             {
-                return Convert.ToBase64String(bytes);
+                return System.Convert.ToBase64String(bytes);
             }
             else if (value.GetType().IsArray)
             {
-                var array = System.Linq.Enumerable.OfType<object>((Array)value);
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
                 return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
             }
 
-            string result = Convert.ToString(value, cultureInfo);
+            string result = System.Convert.ToString(value, cultureInfo);
             return result ?? "";
         }
     }

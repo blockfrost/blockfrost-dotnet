@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Tests.Integration;
@@ -21,11 +20,12 @@ namespace Blockfrost.Api.Tests
 
         private static IServiceProvider s_provider;
 
-        protected static IBlockfrostService Service => Provider.GetRequiredService<IBlockfrostService>();
+        protected static Api.Services.IHealthService HealthService => Provider.GetRequiredService<Api.Services.IHealthService>();
+        protected static Api.Services.IAccountsService AccountsService => Provider.GetRequiredService<Api.Services.IAccountsService>();
 
         public static IEnumerable<Type> AvailableServiceTypes => Assembly.GetAssembly(typeof(IBlockfrostService)).GetTypes().Where(t => t == typeof(IBlockfrostService));
-        public static string BaseUrl => Constants.API_URL;
-        public string Network { get; private set; }
+        public string BaseUrl { get; set; } = Constants.API_URL;
+        public string Network { get; set; }
         public bool ReadResponseAsString { get; set; }
         protected static IServiceProvider Provider
         {
@@ -107,56 +107,6 @@ namespace Blockfrost.Api.Tests
             {
                 ConfigureServicesFromConfig(services, s_configureProjectName);
             }
-        }
-
-        public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync()
-        {
-            return Service.EndpointsAsync();
-        }
-
-        public virtual Task<ICollection<MetricsEndpointResponse>> EndpointsAsync(CancellationToken cancellationToken)
-        {
-            return Service.EndpointsAsync(cancellationToken);
-        }
-
-        public virtual Task<ClockResponse> GetClockAsync()
-        {
-            return Service.GetClockAsync();
-        }
-
-        public virtual Task<ClockResponse> GetClockAsync(CancellationToken cancellationToken)
-        {
-            return Service.GetClockAsync(cancellationToken);
-        }
-
-        public virtual Task<HealthResponse> GetHealthAsync()
-        {
-            return Service.GetHealthAsync();
-        }
-
-        public virtual Task<HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
-        {
-            return Service.GetHealthAsync(cancellationToken);
-        }
-
-        public virtual Task<InfoResponse> GetInfoAsync()
-        {
-            return Service.GetInfoAsync();
-        }
-
-        public virtual Task<InfoResponse> GetInfoAsync(CancellationToken cancellationToken)
-        {
-            return Service.GetInfoAsync(cancellationToken);
-        }
-
-        public virtual Task<ICollection<MetricResponse>> GetMetricsAsync()
-        {
-            return Service.GetMetricsAsync();
-        }
-
-        public virtual Task<ICollection<MetricResponse>> GetMetricsAsync(CancellationToken cancellationToken)
-        {
-            return Service.GetMetricsAsync(cancellationToken);
         }
 
         protected static void AssertServiceNetworkConfigured<TService>(string projectName, IConfiguration config, IServiceCollection services)

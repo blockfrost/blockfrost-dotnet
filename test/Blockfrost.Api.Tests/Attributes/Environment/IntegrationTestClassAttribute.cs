@@ -17,12 +17,9 @@ namespace Blockfrost.Api.Tests.Attributes
 
         public override TestMethodAttribute GetTestMethodAttribute(TestMethodAttribute testMethodAttribute)
         {
-            if (testMethodAttribute is IntegrationTestMethodAttribute)
-            {
-                return testMethodAttribute;
-            }
-
-            return new IntegrationTestMethodAttribute(IgnoreEnvironment);
+            return testMethodAttribute is IntegrationTestMethodAttribute
+                ? testMethodAttribute
+                : new IntegrationTestMethodAttribute(IgnoreEnvironment);
         }
     }
 }

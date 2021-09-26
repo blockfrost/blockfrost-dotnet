@@ -1,0 +1,182 @@
+﻿    /// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{itemname}}"/>{{/description}}
+    /// </summary>
+    {{>partial_visibility}} partial class {{itemname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{itemname}}>
+    {
+        {{#vars}}
+        {{#items.isEnum}}
+        {{#items}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/items}}
+        {{/items.isEnum}}
+        {{#isEnum}}
+        {{^complexType}}
+{{>modelInnerEnum}}
+        {{/complexType}}
+        {{/isEnum}}
+        {{#isEnum}}
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>
+        {{#description}}
+        /// <value>{{description}}</value>
+        {{/description}}
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]
+        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{datatypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}} {{name}} { get; set; }
+        {{/isEnum}}
+        {{/vars}}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{itemname}}" /> class.
+        /// </summary>
+        {{#vars}}
+        {{^isReadOnly}}
+        /// <param name="{{camel_case name}}">{{#description}}{{description}}{{/description}}{{^description}}{{camel_case name}}{{/description}}{{#required}} (required){{/required}}{{#defaultValue}} (default to {{defaultValue}}){{/defaultValue}}.</param>
+        {{/isReadOnly}}
+        {{/vars}}
+    {{#hasOnlyReadOnly}}
+        [JsonConstructorAttribute]
+    {{/hasOnlyReadOnly}}
+        public {{itemname}}({{#readWriteVars}}{{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}} {{camel_case name}} = {{#defaultValue}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}default({{{datatypeWithEnum}}}{{#isEnum}}{{^isContainer}}{{^required}}?{{/required}}{{/isContainer}}{{/isEnum}}){{/defaultValue}}{{^@last}}, {{/@last}}{{/readWriteVars}}){{#parent}} : base({{#parentVars}}{{camel_case name}}{{#hasMore}}, {{/hasMore}}{{/parentVars}}){{/parent}}
+        {
+            {{#vars}}
+            {{^isInherited}}
+            {{^isReadOnly}}
+            {{#required}}
+            {{^isEnum}}
+            // to ensure "{{camel_case name}}" is required (not null)
+            if ({{camel_case name}} == null)
+            {
+                throw new InvalidDataException("{{camel_case name}} is a required property for {{classname}} and cannot be null");
+            }
+            else
+            {
+                {{name}} = {{camel_case name}};
+            }
+            {{/isEnum}}
+            {{#isEnum}}
+            {{name}} = {{camel_case name}};
+            {{/isEnum}}
+            
+            {{/required}}
+            {{/isReadOnly}}
+            {{/isInherited}}
+            {{/vars}}
+            {{#vars}}
+            {{^isInherited}}
+            {{^isReadOnly}}
+            {{^required}}
+            {{#defaultValue}}// use default value if no "{{camel_case name}}" provided
+            if ({{camel_case name}} == null)
+            {
+                {{name}} = {{{defaultValue}}};
+            }
+            else
+            {
+                {{name}} = {{camel_case name}};
+            }
+            {{/defaultValue}}
+            {{^defaultValue}}
+{{name}} = {{camel_case name}};
+            {{/defaultValue}}
+            {{/required}}
+            {{/isReadOnly}}
+            {{/isInherited}}
+            {{/vars}}
+        }
+        
+        {{#vars}}
+        {{^isInherited}}
+        {{^isEnum}}
+        /// <summary>
+        /// {{^description}}Gets or Sets {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+        /// </summary>{{#description}}
+        /// <value>{{description}}</value>{{/description}}{{#required}}
+        [Required]{{/required}}   
+        [DataMember(Name="{{baseName}}", EmitDefaultValue={{emitDefaultValue}})]
+        [JsonPropertyName("{{baseName}}")]{{#isDate}}
+        //[JsonConverter(typeof(SwaggerDateConverter))]{{/isDate}}
+        public {{{datatype}}} {{name}} { get; {{#isReadOnly}}private {{/isReadOnly}}set; }
+        {{/isEnum}}
+        {{/isInherited}}
+
+        {{/vars}}
+        /// <summary>
+        /// Returns the string presentation of the object
+        /// </summary>
+        /// <returns>String presentation of the object</returns>
+        public override string ToString()
+        {
+            return ToJson();
+        }
+  
+        /// <summary>
+        /// Returns the JSON string presentation of the object
+        /// </summary>
+        /// <returns>JSON string presentation of the object</returns>
+        public string ToJson(JsonSerializerOptions options = null)
+        {
+            return JsonSerializer.Serialize(this, options);
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="obj">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as {{itemname}});
+        }
+
+        /// <summary>
+        /// Returns true if {{itemname}} instances are equal
+        /// </summary>
+        /// <param name="other">Instance of {{itemname}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{itemname}} other)
+        {
+            if (other == null)
+                return false;
+
+            return {{#vars}}{{#parent}}base.Equals(other) && {{/parent}}{{#isNotContainer}}
+                (
+                    {{name}} == other.{{name}} ||
+                    {{^isEnum}}({{name}} != null && {{/isEnum}}{{name}}.Equals(other.{{name}}){{^isEnum}}){{/isEnum}}
+                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{^isNotContainer}}
+                (
+                    {{name}} == other.{{name}} ||
+                    {{name}} != null &&
+                    other.{{name}} != null &&
+                    {{name}}.SequenceEqual(other.{{name}})
+                ){{#hasMore}} && {{/hasMore}}{{/isNotContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(other){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+        }
+
+        /// <summary>
+        /// Gets the hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                {{#parent}}
+                int hashCode = base.GetHashCode();
+                {{/parent}}
+                {{^parent}}
+                int hashCode = 41;
+                {{/parent}}
+                {{#vars}}
+                {{#isEnum}} 
+                hashCode = hashCode * 59 + {{name}}.GetHashCode();
+                {{/isEnum}} 
+                {{^isEnum}} 
+                if ({{name}} != null)
+                    hashCode = hashCode * 59 + {{name}}.GetHashCode();
+                {{/isEnum}}    
+                {{/vars}}
+                return hashCode;
+            }
+        }
+    }

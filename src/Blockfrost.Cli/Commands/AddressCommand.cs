@@ -2,14 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Cli.Commands
 {
     public class AddressCommand : ICommand
     {
-        private readonly IBlockfrostService _service;
+        private readonly IAddressesService _service;
 
-        public AddressCommand(IBlockfrostService service)
+        public AddressCommand(IAddressesService service)
         {
             _service = service;
         }
@@ -39,8 +40,8 @@ namespace Blockfrost.Cli.Commands
 
             try
             {
-                var response = await _service.GetHealthAsync(ct);
-                var result = CommandResult.Success($"{response.IsHealthy}");
+                var response = await _service.GetAddressesAsync(Address, ct);
+                var result = CommandResult.Success($"{response}");
                 return await ValueTask.FromResult(result);
             }
             catch (Exception ex)

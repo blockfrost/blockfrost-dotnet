@@ -1,0 +1,5 @@
+        {{>partial_docs}}
+        Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#if HasStreamContent}}System.IO.Stream content{{#if HasNonHeaderParameters}}, {{/if}}{{/if}}{{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}});
+
+        {{>partial_docs}}
+        Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#if HasStreamContent}}System.IO.Stream content, {{/if}}{{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken);

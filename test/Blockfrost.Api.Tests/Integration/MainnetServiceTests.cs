@@ -24,7 +24,7 @@ namespace Blockfrost.Api.Tests.Integration
         [TestMethod]
         public void Network_Is_Mainnet()
         {
-            Assert.AreEqual(Constants.NETWORK_MAINNET, Service.Network);
+            Assert.AreEqual(Constants.NETWORK_MAINNET, HealthService.Network);
         }
     }
 }

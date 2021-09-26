@@ -1,0 +1,22 @@
+using System;
+
+namespace Blockfrost.Api.Http
+{
+    /// <summary>Decorates a {{HttpMethod}} Method with the route</summary>
+    [AttributeUsage(AttributeTargets.Method)]
+    public class {{HttpMethod}}Attribute : Attribute
+    {
+        {{#Parameters}}
+        public {{Type}} {{pascal_case Name}} { get; set; }
+        {{/Parameters}}
+        /// <summar></summar>
+        /// <param name="route">The OAS route</param>
+        /// <param name="version">The OAS version</param>
+        public {{HttpMethod}}Attribute({{#Parameters}}{{Type}} {{Name}}{{#HasDefault}} = {{DefaultValue}}{{/HasDefault}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        {
+            {{#Parameters}}
+            {{pascal_case Name}} = {{Name}};
+            {{/Parameters}}
+        }
+    }
+}

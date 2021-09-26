@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="output\**" />
+    <Compile Remove="output_oas\**" />
+    <Compile Remove="output_simple\**" />
+    <Compile Remove="templates\**" />
+    <Compile Remove="templates_oas\**" />
+    <EmbeddedResource Remove="output\**" />
+    <EmbeddedResource Remove="output_oas\**" />
+    <EmbeddedResource Remove="output_simple\**" />
+    <EmbeddedResource Remove="templates\**" />
+    <EmbeddedResource Remove="templates_oas\**" />
+    <None Remove="output\**" />
+    <None Remove="output_oas\**" />
+    <None Remove="output_simple\**" />
+    <None Remove="templates\**" />
+    <None Remove="templates_oas\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.0.9" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.2.3" />
+  </ItemGroup>
+</Project>

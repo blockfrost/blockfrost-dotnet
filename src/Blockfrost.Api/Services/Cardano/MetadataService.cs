@@ -11,6 +11,12 @@ namespace Blockfrost.Api
         public MetadataService(HttpClient httpClient) : base(httpClient)
         {
         }
+        public MetadataService(Services.IMetadataService service, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = service;
+        }
+
+        public Services.IMetadataService V1 { get; set; }
 
         /// <summary>Transaction metadata content in CBOR</summary>
         /// <param name="label">Metadata label</param>

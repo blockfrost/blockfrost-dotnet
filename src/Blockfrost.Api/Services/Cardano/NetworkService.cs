@@ -10,6 +10,13 @@ namespace Blockfrost.Api
         {
         }
 
+        public NetworkService(Services.INetworkService service, HttpClient httpClient) : base(httpClient)
+        {
+            V1 = service;
+        }
+
+        public Services.INetworkService V1 { get; set; }
+
         /// <summary>Network information</summary>
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>

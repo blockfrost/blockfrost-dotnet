@@ -1,0 +1,72 @@
+using System.Reflection;
+using System.Text;
+
+namespace Blockfrost.Api.Extensions
+{
+    public static class StringBuilderExtensions
+    {
+        public static StringBuilder SetRouteTemplate(this StringBuilder builder, string baseUrl, string route)
+        {
+            return builder.Append(baseUrl != null ? baseUrl.TrimEnd('/') : "").Append($"{route}?");
+        }
+
+        public static StringBuilder SetRouteParameter(this StringBuilder builder, string name, object value)
+        {
+            return builder.Replace(name, System.Uri.EscapeDataString(ConvertToString(value, System.Globalization.CultureInfo.InvariantCulture)));
+        }
+
+        public static StringBuilder AppendQueryParameter(this StringBuilder builder, string name, object value)
+        {
+            return name == null
+                ? throw new System.ArgumentNullException(nameof(name)) 
+                : builder
+                .Append(System.Uri.EscapeDataString(name))
+                .Append('=')
+                .Append(System.Uri.EscapeDataString(ConvertToString(value, System.Globalization.CultureInfo.InvariantCulture)))
+                .Append('&');
+        }
+
+        private static string ConvertToString(object value, System.Globalization.CultureInfo cultureInfo)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            if (value is System.Enum)
+            {
+                string name = System.Enum.GetName(value.GetType(), value);
+                if (name != null)
+                {
+                    var field = IntrospectionExtensions.GetTypeInfo(value.GetType()).GetDeclaredField(name);
+                    if (field != null)
+                    {
+                        if (field.GetCustomAttribute(typeof(System.Runtime.Serialization.EnumMemberAttribute)) is System.Runtime.Serialization.EnumMemberAttribute attribute)
+                        {
+                            return attribute.Value ?? name;
+                        }
+                    }
+
+                    string converted = System.Convert.ToString(System.Convert.ChangeType(value, System.Enum.GetUnderlyingType(value.GetType()), cultureInfo), cultureInfo);
+                    return converted ?? string.Empty;
+                }
+            }
+            else if (value is bool boolean)
+            {
+                return System.Convert.ToString(boolean, cultureInfo).ToLowerInvariant();
+            }
+            else if (value is byte[] bytes)
+            {
+                return System.Convert.ToBase64String(bytes);
+            }
+            else if (value.GetType().IsArray)
+            {
+                var array = System.Linq.Enumerable.OfType<object>((System.Array)value);
+                return string.Join(",", System.Linq.Enumerable.Select(array, o => ConvertToString(o, cultureInfo)));
+            }
+
+            string result = System.Convert.ToString(value, cultureInfo);
+            return result ?? "";
+        }
+    }
+}

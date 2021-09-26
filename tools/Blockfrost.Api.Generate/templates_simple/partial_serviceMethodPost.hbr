@@ -1,0 +1,32 @@
+        {{>partial_docs}}
+        public Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#if HasStreamContent}}System.IO.Stream content{{#if HasNonHeaderParameters}}, {{/if}}{{/if}}{{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        {
+            return {{MethodName}}Async({{#if HasStreamContent}}content, {{/if}}{{#Parameters}}{{Name}}, {{/Parameters}}CancellationToken.None);
+        }
+
+        {{>partial_docs}}
+        public async Task<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#if HasStreamContent}}System.IO.Stream content, {{/if}}{{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken)
+        {
+            {{#Parameters}}
+            {{#if NullCheck}}
+            if ({{Name}} == null)
+            {
+                throw new System.ArgumentNullException(nameof({{Name}}));
+            }
+
+            {{/if}}
+            {{/Parameters}}
+            var builder = GetUrlBuilder("{{Context.Route}}");
+            {{#Parameters}}
+            {{#if IsRouteParameter}}
+            _ = builder.SetRouteParameter("{{curly Name}}", {{Name}});
+            {{else}}
+            _ = builder.AppendQueryParameter(nameof({{Name}}), {{Name}});
+            {{/if}}
+            {{/Parameters}}
+            {{#if HasQueryParameters}}
+            builder.Length--;
+            {{/if}}
+
+            return await Send{{HttpMethod}}RequestAsync<{{#if ReturnModel}}Models.{{/if}}{{{ReturnType}}}>({{#if HasStreamContent}}content, {{else}}default(System.IO.Stream), {{/if}}builder, cancellationToken);
+        }

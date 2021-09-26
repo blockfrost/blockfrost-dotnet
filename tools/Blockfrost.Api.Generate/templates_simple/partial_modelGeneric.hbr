@@ -1,0 +1,73 @@
+﻿    /// <summary>
+    /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{ClassName}}"/>{{/description}}
+    /// </summary>
+    {{>partial_visibility}} partial class {{ClassName}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{ClassName}}>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="{{ClassName}}" /> class.
+        /// </summary>
+        public {{ClassName}}()
+        {
+        }
+
+        {{#each Properties}}
+        /// <summary>
+        /// Gets or sets the {{Name}}
+        /// </summary>
+        {{#Format}}
+        /// <remarks>{{writeSafe .}}</remarks>
+        {{/Format}}
+        /// <returns>
+        /// {{#Description}}{{writeSafe .}}{{/Description}}{{^Description}}The {{Name}}{{/Description}}
+        /// </returns>
+        {{#required}}
+        [Required]
+        {{/required}}
+        [JsonPropertyName("{{BaseName}}")]
+        public {{#complexType}}{{{complexType}}}{{/complexType}}{{^complexType}}{{{DataTypeWithEnum}}}{{/complexType}}{{^isContainer}}{{^Required}}?{{/Required}}{{/isContainer}} {{name}} { get; set; }
+
+        {{/each}}
+        {{>partial_modelSerialize}}
+        /// <summary>
+        /// Returns true if {{ClassName}} instances are equal
+        /// </summary>
+        /// <param name="other">Instance of {{ClassName}} to be compared</param>
+        /// <returns>Boolean</returns>
+        public bool Equals({{ClassName}} other)
+        {
+            return other is not null
+                   && (ReferenceEquals(this, other)
+                   || ({{#each Properties}}{{#IsNotContainer}}{{name}} == other.{{name}}{{/IsNotContainer}}{{^IsNotContainer}}Equals({{name}},other.{{name}}){{/IsNotContainer}}{{#IsLast}}){{/IsLast}}{{^IsLast}} && {{/IsLast}}{{/each}});
+        }
+
+        /// <summary>
+        /// Returns true if objects are equal
+        /// </summary>
+        /// <param name="obj">Object to be compared</param>
+        /// <returns>Boolean</returns>
+        public override bool Equals(object obj)
+        {
+            return obj is not null
+                   && (ReferenceEquals(this, obj)
+                   || (obj.GetType() != GetType() && Equals(({{ClassName}})obj)));
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = new BlockfrostHashCode();
+            {{#each Properties}}
+            hashCode.Add({{Name}});
+            {{/each}}
+            return hashCode.ToHashCode();
+        }
+
+        public static bool operator ==({{ClassName}} left, {{ClassName}} right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=({{ClassName}} left, {{ClassName}} right)
+        {
+            return !Equals(left, right);
+        }
+    }

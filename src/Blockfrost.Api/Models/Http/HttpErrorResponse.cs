@@ -1,16 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
 {
-    public partial class BadRequestResponse : HttpErrorResponse
-    {
-    }
-
-    public partial class ForbiddenResponse : HttpErrorResponse
-    {
-    }
-
     public abstract class HttpErrorResponse
     {
         [JsonPropertyName("error")]
@@ -23,6 +15,14 @@ namespace Blockfrost.Api
 
         [JsonPropertyName("status_code")]
         public int Status_code { get; set; }
+    }
+
+    public partial class BadRequestResponse : HttpErrorResponse
+    {
+    }
+
+    public partial class ForbiddenResponse : HttpErrorResponse
+    {
     }
 
     public partial class InternalServerErrorResponse : HttpErrorResponse
@@ -41,3 +41,4 @@ namespace Blockfrost.Api
     {
     }
 }
+

@@ -12,12 +12,12 @@ namespace ConsoleApp2
     public class BlockfrostHostedService : IHostedService
     {
         private const int PATIENCE = 3;
-        private int? _latestSlot = 0;
-        private int _waitCount = 0;
+        private long? _latestSlot = 0;
+        private int _waitCount;
         private readonly ILogger _logger;
         private readonly IBlockService _blockService;
         private readonly IPoolService _poolService;
-        private static JsonSerializerOptions __options = new JsonSerializerOptions() { WriteIndented = true };
+        private static readonly JsonSerializerOptions s_options = new() { WriteIndented = true };
 
         public BlockfrostHostedService(
             IBlockService blockService,
@@ -25,6 +25,11 @@ namespace ConsoleApp2
             ILogger<BlockfrostHostedService> logger,
             IHostApplicationLifetime appLifetime)
         {
+            if (appLifetime is null)
+            {
+                throw new ArgumentNullException(nameof(appLifetime));
+            }
+
             _logger = logger;
             _blockService = blockService;
             _poolService = poolService;
@@ -36,22 +41,33 @@ namespace ConsoleApp2
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var latest = await _blockService.GetLatestBlockAsync(cancellationToken);
-                    if (_latestSlot != latest.Slot) WriteBlock(latest);
-                    else await NextBlock(latest, cancellationToken);
+                    var latest = await _blockService.V1.GetLatestAsync(cancellationToken);
+
+                    if (_latestSlot == latest.Slot)
+                    {
+                        await NextBlock(latest, cancellationToken);
+                    }
+                    else
+                    {
+                        WriteBlock(latest);
+                    }
                 }
             }, cancellationToken);
         }
 
-        private void WriteBlock(BlockContentResponse latest)
+        private void WriteBlock(Blockfrost.Api.Models.BlockContentResponse latest)
         {
-            if (_waitCount > Math.Pow(PATIENCE, 1.61803)) _logger.LogDebug("Finally! Behold the new TIP...");
+            if (_waitCount > Math.Pow(PATIENCE, 1.61803))
+            {
+                _logger.LogDebug("Finally! Behold the new TIP...");
+            }
+
             _waitCount = 0;
-            _logger.LogInformation(JsonSerializer.Serialize(latest, __options));
+            _logger.LogInformation(JsonSerializer.Serialize(latest, s_options));
             _latestSlot = latest.Slot;
         }
 
-        private async Task NextBlock(BlockContentResponse latest, CancellationToken cancellationToken)
+        private async Task NextBlock(Blockfrost.Api.Models.BlockContentResponse latest, CancellationToken cancellationToken)
         {
             _waitCount++;
             if (_waitCount < PATIENCE)
@@ -60,10 +76,10 @@ namespace ConsoleApp2
             }
             else if (_waitCount == PATIENCE)
             {
-                var pool = await _poolService.PoolsAsync(latest.SlotLeader, cancellationToken);
-                var metadata = await _poolService.MetadataAsync(latest.SlotLeader, cancellationToken);
-                var recent_blocks = await _poolService.BlocksAll3Async(latest.SlotLeader, 10, 1, ESortOrder.Desc, cancellationToken);
-                var json = JsonSerializer.Serialize(new { pool, metadata, recent_blocks }, __options);
+                var pool = await _poolService.V1.GetPoolsAsync(latest.SlotLeader, cancellationToken);
+                var metadata = await _poolService.V1.GetMetadataAsync(latest.SlotLeader, cancellationToken);
+                var recent_blocks = await _poolService.V1.GetBlocksAsync(latest.SlotLeader, 10, 1, ESortOrder.Desc, cancellationToken);
+                string json = JsonSerializer.Serialize(new { pool, metadata, recent_blocks }, s_options);
                 _logger.LogInformation("The latest block is brought to you by:\n      {json}", json);
             }
             else
@@ -71,13 +87,6 @@ namespace ConsoleApp2
                 _logger.LogDebug("Next block is coming soon...");
             }
             await Task.Delay(TimeSpan.FromSeconds(PATIENCE), cancellationToken);
-        }
-
-        private async Task WriteTx(BlockContentResponse latest, int txIx, CancellationToken cancellationToken)
-        {
-            var txs = await _blockService.TxsAll2Async(latest.Hash, 1, txIx, ESortOrder.Asc, cancellationToken);
-            string txid = txs.FirstOrDefault();
-            _logger.LogInformation(txid);
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

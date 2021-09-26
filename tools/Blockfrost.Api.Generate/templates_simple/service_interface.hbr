@@ -1,0 +1,26 @@
+{{>partial_header}}
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
+
+namespace Blockfrost.Api.Services
+{
+    public partial interface I{{ServiceName}}Service : IBlockfrostService
+    {
+        {{#if IsCommon}}
+        {{else}}
+        IHealthService Health { get; set; }
+        IMetricsService Metrics { get; set; }
+        {{/if}}
+        {{#each Operations}}
+        {{#each GetOperations}}
+        {{>partial_serviceInterfaceMethodGet}}
+        {{/each}}
+        {{#each PostOperations}}
+        {{>partial_serviceInterfaceMethodPost}}
+        {{/each}}
+        {{/each}}
+    }
+}

@@ -31,14 +31,14 @@ namespace Blockfrost.Console.Test
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("1. StartAsync has been called.");
+            _logger.LogInformation("StartAsync has been called.");
 
             return Task.Run(async () =>
             {
-                int? slot = 0;
+                long slot = 0;
                 while (true)
                 {
-                    var latest = await _blocks.GetLatestBlockAsync();
+                    var latest = await _blocks.V1.GetLatestAsync();
                     if (slot != latest.Slot)
                     {
                         slot = latest.Slot;
@@ -46,7 +46,7 @@ namespace Blockfrost.Console.Test
                     }
                     else
                     {
-                        _logger.LogDebug("No new block...");
+                        _logger.LogDebug("Waiting for next block...");
                     }
 
                     await Task.Delay(TimeSpan.FromSeconds(3));
@@ -56,19 +56,19 @@ namespace Blockfrost.Console.Test
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("4. StopAsync has been called.");
+            _logger.LogInformation("StopAsync has been called.");
 
             return Task.CompletedTask;
         }
 
         private void OnStarted()
         {
-            _logger.LogInformation("2. OnStarted has been called.");
+            _logger.LogInformation("OnStarted has been called.");
         }
 
         private void OnStopping()
         {
-            _logger.LogInformation("3. OnStopping has been called.");
+            _logger.LogInformation("OnStopping has been called.");
         }
 
         private void OnStopped()
