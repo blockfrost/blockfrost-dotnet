@@ -4,5 +4,34 @@
     "Blockfrost.Api": "../../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.csproj",
     "Blockfrost.Extensions": "../../blockfrost-dotnet/src/Blockfrost.Extensions/Blockfrost.Extensions.csproj"
   },
+  "restore": [
+    {
+      "name": "ConsoleApp1",
+      "packages": [
+        {
+          "packageName": "Blockfrost.Api",
+          "version": "0.1.1"
+        }
+      ]
+    },
+    {
+      "name": "lib",
+      "packages": [
+        {
+          "packageName": "Blockfrost.Api",
+          "version": "0.1.1"
+        }
+      ]
+    },
+    {
+      "name": "ConsoleApp2",
+      "packages": [
+        {
+          "packageName": "Blockfrost.Api",
+          "version": "0.1.1"
+        }
+      ]
+    }
+  ],
   "removeProjects": true
 }
