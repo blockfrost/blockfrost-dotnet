@@ -33,7 +33,7 @@ namespace Blockfrost.Api.Extensions.Services
                 //   we can assume it is either CDDL or JSON
                 try
                 {
-                    throw new NotSupportedException("We don't support CDDL for now");
+                    throw new NotSupportedException("We don't support CDDL for now"); 
                 }
                 catch
                 {
