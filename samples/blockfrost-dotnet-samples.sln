@@ -25,10 +25,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "net5\Console
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "net5\ConsoleApp1\ConsoleApp1.csproj", "{0E102E56-2529-41D4-8327-2CAC963367E7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api", "..\src\Blockfrost.Api\Blockfrost.Api.csproj", "{A907C784-B0FA-4B96-A28F-02B13922D550}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Extensions", "..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj", "{64E38FCD-2DED-4629-9767-37A0CDA98DFB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89E6885B-D709-43D7-A0A7-90395F75B7C8}"
 	ProjectSection(SolutionItems) = preProject
 		switcher.json = switcher.json
@@ -116,30 +112,6 @@ Global
 		{0E102E56-2529-41D4-8327-2CAC963367E7}.Release|x64.Build.0 = Release|Any CPU
 		{0E102E56-2529-41D4-8327-2CAC963367E7}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E102E56-2529-41D4-8327-2CAC963367E7}.Release|x86.Build.0 = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|x64.Build.0 = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Debug|x86.Build.0 = Debug|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|x64.ActiveCfg = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|x64.Build.0 = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|x86.ActiveCfg = Release|Any CPU
-		{A907C784-B0FA-4B96-A28F-02B13922D550}.Release|x86.Build.0 = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|x64.Build.0 = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Debug|x86.Build.0 = Debug|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|x64.ActiveCfg = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|x64.Build.0 = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|x86.ActiveCfg = Release|Any CPU
-		{64E38FCD-2DED-4629-9767-37A0CDA98DFB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
