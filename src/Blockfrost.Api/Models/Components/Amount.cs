@@ -5,6 +5,9 @@ using Blockfrost.Api.Utils;
 
 namespace Blockfrost.Api.Models
 {
+    /// <summary>
+    /// The amound of a UTxO
+    /// </summary>
     public partial class Amount : IEquatable<Amount>
     {
         /// <summary>The quantity of the unit</summary>

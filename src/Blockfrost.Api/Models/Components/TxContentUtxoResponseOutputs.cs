@@ -3,6 +3,9 @@ using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api.Models
 {
+    /// <summary>
+    /// UTxO Outputs
+    /// </summary>
     public partial class TxContentUtxoResponseOutputs
     {
         /// <summary>Output address</summary>
