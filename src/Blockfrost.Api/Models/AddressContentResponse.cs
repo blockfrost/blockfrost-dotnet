@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -36,7 +36,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("amount")]
-        public object Amount { get; set; }
+        public AmountCollection Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the StakeAddress

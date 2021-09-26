@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -166,7 +166,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("extra_entropy")]
-        public object ExtraEntropy { get; set; }
+        public JsonElement ExtraEntropy { get; set; }
 
         /// <summary>
         /// Gets or sets the ProtocolMajorVer

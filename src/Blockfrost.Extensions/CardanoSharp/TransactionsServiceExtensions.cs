@@ -2,7 +2,7 @@
 using CardanoSharp.Wallet.Extensions.Models.Transactions;
 using CardanoSharp.Wallet.Models.Transactions;
 using Blockfrost.Api.Services;
-using Blockfrost.Api.Extensions.Services;
+using Blockfrost.Api.Services.Extensions;
 using System.Threading;
 
 namespace Blockfrost.Extensions.CardanoSharp

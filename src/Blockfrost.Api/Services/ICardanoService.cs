@@ -1,4 +1,5 @@
-﻿namespace Blockfrost.Api
+﻿
+namespace Blockfrost.Api.Services
 {
     public partial interface ICardanoService :
         IBlockfrostService,
@@ -12,14 +13,14 @@
         IMetadataService,
         ITransactionService
     {
-        IAccountService Accounts { get; }
-        IAddressService Addresses { get; }
-        IAssetService Assets { get; }
-        IBlockService Blocks { get; }
-        IEpochService Epochs { get; }
+        IAccountsService Accounts { get; }
+        IAddressesService Addresses { get; }
+        IAssetsService Assets { get; }
+        IBlocksService Blocks { get; }
+        IEpochsService Epochs { get; }
         ILedgerService Ledger { get; }
         IMetadataService Metadata { get; }
-        IPoolService Pools { get; }
-        ITransactionService Transactions { get; }
+        IPoolsService Pools { get; }
+        ITransactionsService Transactions { get; }
     }
 }

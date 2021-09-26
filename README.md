@@ -15,11 +15,11 @@
 </p>
 <br>
 
-## Migration to v1
+### Migration to v1
 
-The current release of blockfrost-dotnet introduced major API changes breaking existing implementations.
+*The current release of blockfrost-dotnet introduced major API changes breaking existing implementations.*
 
-See the [migration guide](https://github.com/blockfrost/blockfrost-dotnet/wiki/Migration-Guide) to resolve these issues.
+*See the [migration guide](https://github.com/blockfrost/blockfrost-dotnet/wiki/Migration-Guide) to resolve these issues.*
 
 ## Getting started
 
@@ -38,7 +38,7 @@ The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api/l
 ```console
 $ dotnet new console -n blockfrost-client
 $ cd blockfrost-client
-$ dotnet add package Blockfrost.Api --version 0.0.4
+$ dotnet add package Blockfrost.Api --version 0.1.0
 ```
 
 🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
@@ -104,9 +104,9 @@ var receiver_address = "RECEIVER_ADDR";
 var signedTx = File.ReadAllText("path/to/your/signed/transaction");
 
 var provider = new ServiceCollection().AddBlockfrost(network, apiKey).BuildServiceProvider();
-var blockService = provider.GetRequiredService<IBlockService>();
-var addressService = provider.GetRequiredService<IAddressService>();
-var transactionService = provider.GetRequiredService<ITransactionService>();
+var blockService = provider.GetRequiredService<IBlocksService>();
+var addressService = provider.GetRequiredService<IAddressesService>();
+var transactionService = provider.GetRequiredService<ITransactionsService>();
 
 var utxoSender = await addressService.UtxosAllAsync(sender_address,100,0,ESortOrder.Asc).ConfigureAwait(false);
 int totalSender = utxoSender.Sum(m => m.Amount.Sum(a => int.Parse(a.Quantity)));

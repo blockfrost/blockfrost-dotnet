@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -176,7 +176,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("owners")]
-        public object Owners { get; set; }
+        public StringCollection Owners { get; set; }
 
         /// <summary>
         /// Gets or sets the Registration
@@ -186,7 +186,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("registration")]
-        public object Registration { get; set; }
+        public StringCollection Registration { get; set; }
 
         /// <summary>
         /// Gets or sets the Retirement
@@ -196,7 +196,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("retirement")]
-        public object Retirement { get; set; }
+        public StringCollection Retirement { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object

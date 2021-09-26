@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -36,7 +36,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("json_metadata")]
-        public object JsonMetadata { get; set; }
+        public JsonElement JsonMetadata { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object

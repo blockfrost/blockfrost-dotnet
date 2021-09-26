@@ -1,15 +1,12 @@
-﻿// Copyright (c) 2021 FIVE BINARIES OÜ. blockfrost-dotnet is licensed under the Apache License Version 2.0. See LICENSE in the project root for license information.
-
-using System;
+﻿using System;
 using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Blockfrost.Api.Services;
 using CardanoSharp.Wallet.Extensions;
 
-namespace Blockfrost.Api.Extensions.Services
+namespace Blockfrost.Api.Services.Extensions
 {
     public static class TransactionsServiceExtensions
     {
@@ -33,7 +30,7 @@ namespace Blockfrost.Api.Extensions.Services
                 //   we can assume it is either CDDL or JSON
                 try
                 {
-                    throw new NotSupportedException("We don't support CDDL for now"); 
+                    throw new NotSupportedException("CDDL is not supported");
                 }
                 catch
                 {

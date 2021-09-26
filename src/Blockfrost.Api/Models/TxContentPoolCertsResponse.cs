@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -96,7 +96,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("owners")]
-        public object Owners { get; set; }
+        public StringCollection Owners { get; set; }
 
         /// <summary>
         /// Gets or sets the Metadata
@@ -106,7 +106,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("metadata")]
-        public object Metadata { get; set; }
+        public TxContentPoolCertsResponseMetadata Metadata { get; set; }
 
         /// <summary>
         /// Gets or sets the Relays
@@ -116,7 +116,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("relays")]
-        public object Relays { get; set; }
+        public TxContentPoolCertsResponseRelays Relays { get; set; }
 
         /// <summary>
         /// Gets or sets the ActiveEpoch

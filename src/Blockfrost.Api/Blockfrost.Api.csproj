@@ -30,12 +30,6 @@
     <RootNamespace>Blockfrost.Api</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="Models\NewFolder\**" />
-    <EmbeddedResource Remove="Models\NewFolder\**" />
-    <None Remove="Models\NewFolder\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CardanoSharp.Wallet" Version="0.2.6" />

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 //namespace Blockfrost.Api.Models.Cardano.Accounts
@@ -24,7 +25,7 @@ namespace Blockfrost.Api
 
         /// <summary>Seed for extra entropy</summary>
         [JsonPropertyName("extra_entropy")]
-        public object Extra_entropy { get; set; }
+        public JsonElement Extra_entropy { get; set; }
 
         /// <summary>The amount of a key registration deposit in Lovelaces</summary>
         [JsonPropertyName("key_deposit")]
