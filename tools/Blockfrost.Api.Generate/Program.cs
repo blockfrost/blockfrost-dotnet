@@ -13,7 +13,8 @@ namespace Blockfrost.Api.Generate
         internal static string Source { get; set; }
         internal static DirectoryInfo TemplateDir { get; set; }
         internal static DirectoryInfo OutputDir { get; set; }
-        internal static char[] GeneratorSwitch { get; set; } = "smav".ToCharArray();
+        //internal static char[] GeneratorSwitch { get; set; } = "smav".ToCharArray();
+        internal static char[] GeneratorSwitch { get; set; } = "v".ToCharArray();
         internal static string[] PreservationFilters { get; set; } = Array.Empty<string>();
         internal static string[] PurgeFilters { get; set; } = new[] { "*.generated*" };
 
@@ -157,12 +158,18 @@ namespace Blockfrost.Api.Generate
             if (!ShouldWrite('v')) return;
 
             await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.hbr", "Extensions", "BlockfrostServiceExtensions.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Configure.hbr", "Extensions", "BlockfrostServiceExtensions.Configure.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Services.hbr", "Extensions", "BlockfrostServiceExtensions.Services.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Utility.hbr", "Extensions", "BlockfrostServiceExtensions.Utility.cs");
+            
             await WriteFile(null, "StringBuilderExtensions.hbr", "Extensions", "StringBuilderExtensions.cs");
 
             await WriteFile(null, "BlockfrostHashCode.hbr", "Utils", "BlockfrostHashCode.cs");
 
             await WriteFile(null, "Enums.hbr",  "Models", "Enums.cs");
+            
             await WriteFile(null, "ApiException.hbr",  "Models", "Http", "ApiException.cs");
+            
             await WriteFile(null, "HttpErrorResponse.hbr",  "Models", "Http", "HttpErrorResponse.cs");
 
             await WriteFile(null, "IBlockfrostService.hbr", "Services", "IBlockfrostService.cs");

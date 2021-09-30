@@ -7,7 +7,19 @@ namespace Blockfrost.Api.Extensions
     {
         public static BlockfrostProject GetProject(this IConfiguration config, string projectName)
         {
-            return config.GetSection($"Blockfrost:{projectName}").Get<BlockfrostProject>();
+            if (config is ConfigurationSection section)
+            {
+                if (section.Path == null)
+                {
+                    var project = config.GetSection($"Blockfrost:{projectName}").Get<BlockfrostProject>();
+                    project.Name = projectName;
+                    return project;
+                }
+            }
+
+            var blockfrostProject = config.GetSection($"{projectName}").Get<BlockfrostProject>();
+            blockfrostProject.Name = projectName;
+            return blockfrostProject;
         }
     }
 }

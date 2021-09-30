@@ -12,6 +12,7 @@ namespace Tests.Runtime
         [SetUp]
         public void Setup()
         {
+            var blocks = new BlockfrostService();
         }
 
         [TearDown]

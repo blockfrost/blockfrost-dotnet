@@ -1,3 +1,7 @@
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace Blockfrost.Api
 {
     /// <summary>
@@ -6,6 +10,7 @@ namespace Blockfrost.Api
     public partial interface IBlockfrostService
     {
         string Network { get; }
+        string Name { get; }
         string BaseUrl { get; set; }
         bool ReadResponseAsString { get; set; }
     }
