@@ -1,13 +1,19 @@
+﻿using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
-using System.Linq;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class AddressesServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -34,9 +40,19 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //Act
@@ -58,10 +74,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}", "0.1.28")]
-        private async Task<Api.Models.AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
-
+            sut.ReadResponseAsString = true;
             // address  has null check
             return await sut.GetAddressesAsync(address,  cancellationToken);
         }
@@ -83,9 +99,19 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //Act
@@ -107,10 +133,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/total", "0.1.28")]
-        private async Task<Api.Models.AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
-
+            sut.ReadResponseAsString = true;
             // address  has null check
             return await sut.GetTotalAsync(address,  cancellationToken);
         }
@@ -135,9 +161,19 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //Act
@@ -162,10 +198,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/utxos", "0.1.28")]
-        private async Task<Api.Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
-
+            sut.ReadResponseAsString = true;
             // address  has null check
             // count (optional) 
             // page (optional) 
@@ -193,9 +229,19 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //Act
@@ -220,10 +266,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/txs", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
-
+            sut.ReadResponseAsString = true;
             // address  has null check
             // count (optional) 
             // page (optional) 
@@ -246,16 +292,26 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.28")]
-        [TestMethod]
+        //[TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc, null, null)]
         public async Task GetTransactionsAsync_Not_Null(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             // Arrange
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             //Act
@@ -282,10 +338,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.28")]
-        private async Task<Api.Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
-
+            sut.ReadResponseAsString = true;
             // address  has null check
             // count (optional) 
             // page (optional) 

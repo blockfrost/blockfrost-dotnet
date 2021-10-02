@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class HealthServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -48,10 +54,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/", "0.1.28")]
-        private async Task<Api.Models.InfoResponse> GetApiInfoAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.InfoResponse> GetApiInfoAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetApiInfoAsync( cancellationToken);
         }
         /// <summary>
@@ -86,10 +92,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the boolean indicating the health of the backend.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/health", "0.1.28")]
-        private async Task<Api.Models.HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.HealthResponse> GetHealthAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetHealthAsync( cancellationToken);
         }
         /// <summary>
@@ -124,10 +130,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the current UNIX time in milliseconds.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/health/clock", "0.1.28")]
-        private async Task<Api.Models.HealthClockResponse> GetClockAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.HealthClockResponse> GetClockAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetClockAsync( cancellationToken);
         }
     }

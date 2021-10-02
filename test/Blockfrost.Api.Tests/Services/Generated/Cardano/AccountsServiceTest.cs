@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class AccountsServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -58,10 +64,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}", "0.1.28")]
-        private async Task<Api.Models.AccountContentResponse> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountContentResponse> GetAccountsAsync(string stake_address, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             return await sut.GetAccountsAsync(stake_address,  cancellationToken);
         }
@@ -113,10 +119,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/rewards", "0.1.28")]
-        private async Task<Api.Models.AccountRewardContentResponseCollection> GetRewardsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountRewardContentResponseCollection> GetRewardsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -171,10 +177,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/history", "0.1.28")]
-        private async Task<Api.Models.AccountHistoryContentResponseCollection> GetHistoryAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountHistoryContentResponseCollection> GetHistoryAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -229,10 +235,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/delegations", "0.1.28")]
-        private async Task<Api.Models.AccountDelegationContentResponseCollection> GetDelegationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountDelegationContentResponseCollection> GetDelegationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -287,10 +293,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/registrations", "0.1.28")]
-        private async Task<Api.Models.AccountRegistrationContentResponseCollection> GetRegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountRegistrationContentResponseCollection> GetRegistrationsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -345,10 +351,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/withdrawals", "0.1.28")]
-        private async Task<Api.Models.AccountWithdrawalContentResponseCollection> GetWithdrawalsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountWithdrawalContentResponseCollection> GetWithdrawalsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -403,10 +409,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/mirs", "0.1.28")]
-        private async Task<Api.Models.AccountMirContentResponseCollection> GetMirsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountMirContentResponseCollection> GetMirsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -461,10 +467,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/addresses", "0.1.28")]
-        private async Task<Api.Models.AccountAddressesContentResponseCollection> GetAddressesAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountAddressesContentResponseCollection> GetAddressesAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 
@@ -519,10 +525,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/addresses/assets", "0.1.28")]
-        private async Task<Api.Models.AccountAddressesAssetsResponseCollection> GetAddressesAssetsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AccountAddressesAssetsResponseCollection> GetAddressesAssetsAsync(string stake_address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
-
+            sut.ReadResponseAsString = true;
             // stake_address  has null check
             // count (optional) 
             // page (optional) 

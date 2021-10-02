@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class MetadataServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -54,10 +60,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels", "0.1.28")]
-        private async Task<Api.Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IMetadataService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -82,6 +88,10 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTxsLabelsAsync_Not_Null(string label, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(label))
+            {
+                label = "1990";
+            }
 
             //Act
             var actual = await GetTxsLabelsAsync(label, count, page, order, CancellationToken.None);
@@ -105,10 +115,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}", "0.1.28")]
-        private async Task<Api.Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IMetadataService>();
-
+            sut.ReadResponseAsString = true;
             // label  has null check
             // count (optional) 
             // page (optional) 
@@ -134,6 +144,10 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTxsLabelsCborAsync_Not_Null(string label, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(label))
+            {
+                label = "1990";
+            }
 
             //Act
             var actual = await GetTxsLabelsCborAsync(label, count, page, order, CancellationToken.None);
@@ -157,10 +171,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/metadata/txs/labels/{label}/cbor", "0.1.28")]
-        private async Task<Api.Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IMetadataService>();
-
+            sut.ReadResponseAsString = true;
             // label  has null check
             // count (optional) 
             // page (optional) 

@@ -14,12 +14,109 @@
                 stake_address = pool.RewardAccount;
             }
             {{/eq}}
+            {{#eq Name "pool_id"}}
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
+            {{/eq}}
+            {{#eq Name "script_hash"}}
+            if (string.IsNullOrEmpty(script_hash))
+            {
+                var scriptsService = Provider.GetRequiredService<Api.Services.IScriptsService>();
+                var script = await scriptsService.GetScriptsAsync(1, 1, ESortOrder.Asc);
+                script_hash = script.First().ScriptHash;
+            }
+            {{/eq}}
             {{#eq Name "address"}}
             if(string.IsNullOrEmpty(address))
             {
-                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
                 var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
+                //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            }
+            {{/eq}}
+            {{#eq Name "hash_or_number"}}
+            if (string.IsNullOrEmpty(hash_or_number))
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                hash_or_number = latest.Hash;
+            }
+            {{/eq}}
+            {{#eq Name "slot_number"}}
+            if (slot_number == 1)
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                slot_number = (int)latest.Slot;
+            }
+            {{/eq}}
+            {{#eq Name "epoch_number"}}
+            if (epoch_number == 1)
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                epoch_number = (int)latest.Epoch;
+            }
+            {{/eq}}
+            {{#eq Name "asset"}}
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
+            {{/eq}}
+            {{#eq Name "label"}}
+            if (string.IsNullOrEmpty(label))
+            {
+                label = "1990";
+            }
+            {{/eq}}
+            {{#eq Name "policy_id"}}
+            if (string.IsNullOrEmpty(policy_id))
+            {
+                var assetsService = Provider.GetRequiredService<Api.Services.IAssetsService>();
+                var assets = await assetsService.GetAssetsAsync(1, 1, ESortOrder.Desc);
+                var asset = await assetsService.GetAssetsAsync(assets.First().Asset);
+                policy_id = asset.PolicyId;
+            }
+            {{/eq}}
+            {{#eq Name "number"}}
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
+            {{/eq}}
+            {{#eq Name "hash"}}
+            if (string.IsNullOrEmpty(hash))
+            {
+                var transactionsService = Provider.GetRequiredService<Api.Services.ITransactionsService>();
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
+
+                while (latest.TxCount == 0)
+                {
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                }
+
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
+                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                hash = tx.Hash;
             }
             {{/eq}}
             {{/Parameters}}
@@ -34,10 +131,10 @@
 
         {{>partial_docs_test}}
         [{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]
-        private async Task<{{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken)
+        private static async Task<{{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.I{{Context.ServiceContext.ServiceName}}Service>();
-
+            sut.ReadResponseAsString = true;
             {{#Parameters}}
             // {{Name}} {{#if Optional}}(optional){{/if}} {{#if NullCheck}}has null check{{/if}}
             {{/Parameters}}

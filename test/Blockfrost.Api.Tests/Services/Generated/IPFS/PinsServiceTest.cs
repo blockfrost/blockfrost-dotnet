@@ -1,13 +1,19 @@
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class PinsServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -68,7 +74,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.28")]
-        [TestMethod]
+        //[TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
         public async Task GetPinListAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
@@ -94,10 +100,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.28")]
-        private async Task<Api.Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -114,7 +120,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
-        [TestMethod]
+        //[TestMethod]
         [DataRow(null)]
         public async Task GetPinListAsync_Not_Null(string IPFS_path)
         {
@@ -139,10 +145,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
-        private async Task<Api.Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken)
+        private static async Task<Api.Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
-
+            sut.ReadResponseAsString = true;
             // IPFS_path  has null check
             return await sut.GetPinListAsync(IPFS_path,  cancellationToken);
         }

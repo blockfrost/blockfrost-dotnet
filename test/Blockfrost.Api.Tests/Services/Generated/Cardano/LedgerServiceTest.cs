@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class LedgerServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -48,10 +54,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/genesis", "0.1.28")]
-        private async Task<Api.Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ILedgerService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetGenesisAsync( cancellationToken);
         }
     }

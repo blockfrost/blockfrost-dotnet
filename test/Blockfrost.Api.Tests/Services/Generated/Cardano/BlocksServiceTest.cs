@@ -1,13 +1,19 @@
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class BlocksServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -48,10 +54,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the contents of the latest block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponse> GetLatestAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponse> GetLatestAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetLatestAsync( cancellationToken);
         }
         /// <summary>
@@ -92,10 +98,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the transactions within the block.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/latest/txs", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetLatestTxsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -117,6 +123,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetBlocksAsync_Not_Null(string hash_or_number)
         {
             // Arrange
+            if (string.IsNullOrEmpty(hash_or_number))
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                hash_or_number = latest.Hash;
+            }
 
             //Act
             var actual = await GetBlocksAsync(hash_or_number, CancellationToken.None);
@@ -137,10 +149,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponse> GetBlocksAsync(string hash_or_number, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // hash_or_number  has null check
             return await sut.GetBlocksAsync(hash_or_number,  cancellationToken);
         }
@@ -159,6 +171,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetSlotAsync_Not_Null(int slot_number)
         {
             // Arrange
+            if (slot_number == 1)
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                slot_number = (int)latest.Slot;
+            }
 
             //Act
             var actual = await GetSlotAsync(slot_number, CancellationToken.None);
@@ -178,10 +196,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/slot/{slot_number}", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponse> GetSlotAsync(int slot_number, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // slot_number  
             return await sut.GetSlotAsync(slot_number,  cancellationToken);
         }
@@ -196,11 +214,23 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.28")]
-        [TestMethod]
+        //[TestMethod]
         [DataRow(1, 1)]
         public async Task GetEpochSlotAsync_Not_Null(int epoch_number, int slot_number)
         {
             // Arrange
+            if (epoch_number == 1)
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                epoch_number = (int)latest.Epoch;
+            }
+            if (slot_number == 1)
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                slot_number = (int)latest.Slot;
+            }
 
             //Act
             var actual = await GetEpochSlotAsync(epoch_number, slot_number, CancellationToken.None);
@@ -221,10 +251,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponse> GetEpochSlotAsync(int epoch_number, int slot_number, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // epoch_number  
             // slot_number  
             return await sut.GetEpochSlotAsync(epoch_number, slot_number,  cancellationToken);
@@ -247,6 +277,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetNextAsync_Not_Null(string hash_or_number, int? count, int? page)
         {
             // Arrange
+            if (string.IsNullOrEmpty(hash_or_number))
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                hash_or_number = latest.Hash;
+            }
 
             //Act
             var actual = await GetNextAsync(hash_or_number, count, page, CancellationToken.None);
@@ -269,10 +305,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/next", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponseCollection> GetNextAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // hash_or_number  has null check
             // count (optional) 
             // page (optional) 
@@ -296,6 +332,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetPreviousAsync_Not_Null(string hash_or_number, int? count, int? page)
         {
             // Arrange
+            if (string.IsNullOrEmpty(hash_or_number))
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                hash_or_number = latest.Hash;
+            }
 
             //Act
             var actual = await GetPreviousAsync(hash_or_number, count, page, CancellationToken.None);
@@ -318,10 +360,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/previous", "0.1.28")]
-        private async Task<Api.Models.BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.BlockContentResponseCollection> GetPreviousAsync(string hash_or_number, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // hash_or_number  has null check
             // count (optional) 
             // page (optional) 
@@ -346,6 +388,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTxsAsync_Not_Null(string hash_or_number, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(hash_or_number))
+            {
+                var blocksService = Provider.GetRequiredService<IBlockService>();
+                var latest = await blocksService.GetLatestBlockAsync();
+                hash_or_number = latest.Hash;
+            }
 
             //Act
             var actual = await GetTxsAsync(hash_or_number, count, page, order, CancellationToken.None);
@@ -369,10 +417,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/{hash_or_number}/txs", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetTxsAsync(string hash_or_number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
-
+            sut.ReadResponseAsString = true;
             // hash_or_number  has null check
             // count (optional) 
             // page (optional) 

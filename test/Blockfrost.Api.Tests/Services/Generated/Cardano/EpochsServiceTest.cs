@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class EpochsServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -48,10 +54,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest", "0.1.28")]
-        private async Task<Api.Models.EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetLatestAsync( cancellationToken);
         }
         /// <summary>
@@ -86,10 +92,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/latest/parameters", "0.1.28")]
-        private async Task<Api.Models.EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             return await sut.GetLatestParametersAsync( cancellationToken);
         }
         /// <summary>
@@ -107,6 +113,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetEpochsAsync_Not_Null(int number)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetEpochsAsync(number, CancellationToken.None);
@@ -126,10 +138,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the epoch data.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}", "0.1.28")]
-        private async Task<Api.Models.EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             return await sut.GetEpochsAsync(number,  cancellationToken);
         }
@@ -150,6 +162,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetNextAsync_Not_Null(int number, int? count, int? page)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetNextAsync(number, count, page, CancellationToken.None);
@@ -171,10 +189,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/next", "0.1.28")]
-        private async Task<Api.Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // count (optional) 
             // page (optional) 
@@ -197,6 +215,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetPreviousAsync_Not_Null(int number, int? count, int? page)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetPreviousAsync(number, count, page, CancellationToken.None);
@@ -218,10 +242,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/previous", "0.1.28")]
-        private async Task<Api.Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // count (optional) 
             // page (optional) 
@@ -244,6 +268,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetStakesAsync_Not_Null(int number, int? count, int? page)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetStakesAsync(number, count, page, CancellationToken.None);
@@ -265,10 +295,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes", "0.1.28")]
-        private async Task<Api.Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // count (optional) 
             // page (optional) 
@@ -293,6 +323,18 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetStakesAsync_Not_Null(int number, string pool_id, int? count, int? page)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetStakesAsync(number, pool_id, count, page, CancellationToken.None);
@@ -316,10 +358,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/stakes/{pool_id}", "0.1.28")]
-        private async Task<Api.Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // pool_id  has null check
             // count (optional) 
@@ -344,6 +386,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetBlocksAsync_Not_Null(int number, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetBlocksAsync(number, count, page, order, CancellationToken.None);
@@ -366,10 +414,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // count (optional) 
             // page (optional) 
@@ -396,6 +444,18 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetBlocksAsync_Not_Null(int number, string pool_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetBlocksAsync(number, pool_id, count, page, order, CancellationToken.None);
@@ -420,10 +480,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/blocks/{pool_id}", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             // pool_id  has null check
             // count (optional) 
@@ -446,6 +506,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetParametersAsync_Not_Null(int number)
         {
             // Arrange
+            if (number == 1)
+            {
+                var epochsService = Provider.GetRequiredService<Api.Services.IEpochsService>();
+                var latest = await epochsService.GetLatestAsync();
+                number = (int)latest.Epoch;
+            }
 
             //Act
             var actual = await GetParametersAsync(number, CancellationToken.None);
@@ -465,10 +531,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/epochs/{number}/parameters", "0.1.28")]
-        private async Task<Api.Models.EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken)
+        private static async Task<Api.Models.EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
-
+            sut.ReadResponseAsString = true;
             // number  
             return await sut.GetParametersAsync(number,  cancellationToken);
         }

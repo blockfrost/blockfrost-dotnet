@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class AssetsServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -54,10 +60,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return list of assets</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets", "0.1.28")]
-        private async Task<Api.Models.AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetsResponseCollection> GetAssetsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -79,6 +85,11 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetAssetsAsync_Not_Null(string asset)
         {
             // Arrange
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
 
             //Act
             var actual = await GetAssetsAsync(asset, CancellationToken.None);
@@ -99,10 +110,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.28")]
-        private async Task<Api.Models.AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // asset  has null check
             return await sut.GetAssetsAsync(asset,  cancellationToken);
         }
@@ -125,6 +136,11 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetHistoryAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
 
             //Act
             var actual = await GetHistoryAsync(asset, count, page, order, CancellationToken.None);
@@ -148,10 +164,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/history", "0.1.28")]
-        private async Task<Api.Models.AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetHistoryResponseCollection> GetHistoryAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // asset  has null check
             // count (optional) 
             // page (optional) 
@@ -177,6 +193,11 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTxsAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
 
             //Act
             var actual = await GetTxsAsync(asset, count, page, order, CancellationToken.None);
@@ -200,10 +221,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/txs", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetTxsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // asset  has null check
             // count (optional) 
             // page (optional) 
@@ -229,6 +250,11 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTransactionsAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
 
             //Act
             var actual = await GetTransactionsAsync(asset, count, page, order, CancellationToken.None);
@@ -252,10 +278,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/transactions", "0.1.28")]
-        private async Task<Api.Models.AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetTransactionsResponseCollection> GetTransactionsAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // asset  has null check
             // count (optional) 
             // page (optional) 
@@ -281,6 +307,11 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetAddressesAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(asset))
+            {
+                var assets = await Provider.GetRequiredService<Api.Services.IAssetsService>().GetAssetsAsync(1, 1, ESortOrder.Asc);
+                asset = assets.First().Asset;
+            }
 
             //Act
             var actual = await GetAddressesAsync(asset, count, page, order, CancellationToken.None);
@@ -304,10 +335,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}/addresses", "0.1.28")]
-        private async Task<Api.Models.AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetAddressesResponseCollection> GetAddressesAsync(string asset, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // asset  has null check
             // count (optional) 
             // page (optional) 
@@ -333,6 +364,13 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetPolicyAsync_Not_Null(string policy_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(policy_id))
+            {
+                var assetsService = Provider.GetRequiredService<Api.Services.IAssetsService>();
+                var assets = await assetsService.GetAssetsAsync(1, 1, ESortOrder.Desc);
+                var asset = await assetsService.GetAssetsAsync(assets.First().Asset);
+                policy_id = asset.PolicyId;
+            }
 
             //Act
             var actual = await GetPolicyAsync(policy_id, count, page, order, CancellationToken.None);
@@ -356,10 +394,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/policy/{policy_id}", "0.1.28")]
-        private async Task<Api.Models.AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetPolicyResponseCollection> GetPolicyAsync(string policy_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
-
+            sut.ReadResponseAsString = true;
             // policy_id  has null check
             // count (optional) 
             // page (optional) 

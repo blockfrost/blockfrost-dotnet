@@ -1,13 +1,19 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Tests.Attributes;
 
 namespace Blockfrost.Api.Tests.Services
 {
-    [TestClass]
+    [IntegrationTestClass(nameof(Environments.Staging))]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Integration))]
+    [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class PoolsServiceTest : AServiceTestBase
     {
         [ClassInitialize]
@@ -54,10 +60,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the list of pools.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetPoolsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -101,10 +107,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retired", "0.1.28")]
-        private async Task<Api.Models.PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolListRetireResponseCollection> GetRetiredAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -148,10 +154,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the pool information content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/retiring", "0.1.28")]
-        private async Task<Api.Models.PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolListRetireResponseCollection> GetRetiringAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // count (optional) 
             // page (optional) 
             // order (optional) 
@@ -173,6 +179,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetPoolsAsync_Not_Null(string pool_id)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetPoolsAsync(pool_id, CancellationToken.None);
@@ -193,10 +205,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}", "0.1.28")]
-        private async Task<Api.Models.PoolResponse> GetPoolsAsync(string pool_id, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolResponse> GetPoolsAsync(string pool_id, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             return await sut.GetPoolsAsync(pool_id,  cancellationToken);
         }
@@ -219,6 +231,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetHistoryAsync_Not_Null(string pool_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetHistoryAsync(pool_id, count, page, order, CancellationToken.None);
@@ -242,10 +260,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/history", "0.1.28")]
-        private async Task<Api.Models.PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolHistoryResponseCollection> GetHistoryAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             // count (optional) 
             // page (optional) 
@@ -268,6 +286,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetMetadataAsync_Not_Null(string pool_id)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetMetadataAsync(pool_id, CancellationToken.None);
@@ -288,10 +312,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/metadata", "0.1.28")]
-        private async Task<Api.Models.PoolMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolMetadataResponse> GetMetadataAsync(string pool_id, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             return await sut.GetMetadataAsync(pool_id,  cancellationToken);
         }
@@ -311,6 +335,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetRelaysAsync_Not_Null(string pool_id)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetRelaysAsync(pool_id, CancellationToken.None);
@@ -331,10 +361,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/relays", "0.1.28")]
-        private async Task<Api.Models.PoolRelaysResponseCollection> GetRelaysAsync(string pool_id, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolRelaysResponseCollection> GetRelaysAsync(string pool_id, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             return await sut.GetRelaysAsync(pool_id,  cancellationToken);
         }
@@ -357,6 +387,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetDelegatorsAsync_Not_Null(string pool_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetDelegatorsAsync(pool_id, count, page, order, CancellationToken.None);
@@ -380,10 +416,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/delegators", "0.1.28")]
-        private async Task<Api.Models.PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolDelegatorsResponseCollection> GetDelegatorsAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             // count (optional) 
             // page (optional) 
@@ -409,6 +445,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetBlocksAsync_Not_Null(string pool_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetBlocksAsync(pool_id, count, page, order, CancellationToken.None);
@@ -432,10 +474,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/blocks", "0.1.28")]
-        private async Task<Api.Models.StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.StringCollection> GetBlocksAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             // count (optional) 
             // page (optional) 
@@ -461,6 +503,12 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetUpdatesAsync_Not_Null(string pool_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange
+            if (string.IsNullOrEmpty(pool_id))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                pool_id = pool.PoolId;
+            }
 
             //Act
             var actual = await GetUpdatesAsync(pool_id, count, page, order, CancellationToken.None);
@@ -484,10 +532,10 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/pools/{pool_id}/updates", "0.1.28")]
-        private async Task<Api.Models.PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        private static async Task<Api.Models.PoolUpdatesResponseCollection> GetUpdatesAsync(string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
-
+            sut.ReadResponseAsString = true;
             // pool_id  has null check
             // count (optional) 
             // page (optional) 
