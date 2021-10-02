@@ -4,9 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Blockfrost.Api" Version="0.2.0" />
     <PackageReference Include="System.Text.Json" Version="5.0.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\Blockfrost.Api\Blockfrost.Api.csproj" />
   </ItemGroup>
 </Project>

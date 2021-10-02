@@ -5,6 +5,8 @@
     <UserSecretsId>8d368a40-e50f-478b-bb18-34bd40573fc7</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Blockfrost.Api" Version="0.2.0" />
+    <PackageReference Include="Blockfrost.Extensions" Version="0.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
   </ItemGroup>
@@ -12,9 +14,5 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Blockfrost.Api\Blockfrost.Api.csproj" />
-    <ProjectReference Include="..\..\..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj" />
   </ItemGroup>
 </Project>
