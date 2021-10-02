@@ -1,0 +1,45 @@
+        {{>partial_docs_test}}
+        [{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]
+        [TestMethod]
+        [DataRow({{#Parameters}}{{#eq Type "string"}}null{{/eq}}{{#eq Type "int"}}1{{/eq}}{{#eq Type "ESortOrder"}}ESortOrder.Asc{{/eq}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})]
+        public async Task {{MethodName}}Async_Not_Null({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        {
+            // Arrange
+            {{#Parameters}}
+            {{#eq Name "stake_address"}}
+            if (string.IsNullOrEmpty(stake_address))
+            {
+                var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
+                var pool = await Provider.GetRequiredService<Api.Services.IPoolsService>().GetPoolsAsync(block.SlotLeader);
+                stake_address = pool.RewardAccount;
+            }
+            {{/eq}}
+            {{#eq Name "address"}}
+            if(string.IsNullOrEmpty(address))
+            {
+                var txs = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestTxsAsync(10, 0, ESortOrder.Asc);
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                address = tx.Inputs.First().Address;
+            }
+            {{/eq}}
+            {{/Parameters}}
+
+            //Act
+            var actual = await {{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}}CancellationToken.None);
+
+            // Assert
+            Assert.IsNotNull(actual);
+            Assert.IsInstanceOfType(actual, typeof({{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}));
+        }
+
+        {{>partial_docs_test}}
+        [{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]
+        private async Task<{{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken)
+        {
+            var sut = Provider.GetRequiredService<Api.Services.I{{Context.ServiceContext.ServiceName}}Service>();
+
+            {{#Parameters}}
+            // {{Name}} {{#if Optional}}(optional){{/if}} {{#if NullCheck}}has null check{{/if}}
+            {{/Parameters}}
+            return await sut.{{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}} cancellationToken);
+        }

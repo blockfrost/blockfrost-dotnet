@@ -11,6 +11,10 @@
         {
           "packageName": "Blockfrost.Api",
           "version": "0.1.1"
+        },
+        {
+          "packageName": "Blockfrost.Extensions",
+          "version": "0.1.1"
         }
       ]
     },
@@ -28,6 +32,19 @@
       "packages": [
         {
           "packageName": "Blockfrost.Api",
+          "version": "0.1.1"
+        }
+      ]
+    },
+    {
+      "name": "BlockfrostWithAzure",
+      "packages": [
+        {
+          "packageName": "Blockfrost.Api",
+          "version": "0.1.1"
+        },
+        {
+          "packageName": "Blockfrost.Extensions",
           "version": "0.1.1"
         }
       ]

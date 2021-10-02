@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -14,6 +14,14 @@ namespace Blockfrost.Api
 {
     public partial class ABlockfrostService : IBlockfrostService
     {
+        private readonly Lazy<JsonSerializerOptions> _options;
+
+        private JsonSerializerOptions TextJsonSerializerSettings => _options.Value;
+
+        protected HttpClient HttpClient { get; set; }
+        
+        public string Name { get; internal set; }
+        
         public string Network { get; set; }
 
         public string BaseUrl
@@ -326,15 +334,12 @@ namespace Blockfrost.Api
             public string Text { get; }
         }
 
-        private readonly Lazy<JsonSerializerOptions> _options;
-
-        private JsonSerializerOptions TextJsonSerializerSettings => _options.Value;
-
-        protected HttpClient HttpClient { get; set; }
-
         private JsonSerializerOptions CreateSerializerOptions()
         {
-            var options = new JsonSerializerOptions();
+            var options = new JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+            };
             UpdateJsonSerializerOptions(options);
             return options;
         }

@@ -1,0 +1,22 @@
+        {{>partial_docs_test}}
+        //[{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]
+        //[TestMethod]
+        //[DataRow({{#Parameters}}""{{^IsLast}}, {{/IsLast}}{{/Parameters}})]
+        //public async Task {{MethodName}}Async_Not_Null({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}{{^IsLast}}, {{/IsLast}}{{/Parameters}})
+        //{
+        //    var actual = await {{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}}CancellationToken.None);
+        //    Assert.IsNotNull(actual);
+        //    Assert.IsInstanceOfType(actual, typeof({{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}));
+        //}
+
+        {{>partial_docs_test}}
+        //[{{HttpMethod}}("{{Context.Route}}", "{{Context.ServiceContext.Version}}")]
+        //private async Task<{{#if ReturnModel}}Api.Models.{{/if}}{{{ReturnType}}}> {{MethodName}}Async({{#Parameters}}{{Type}}{{#if Optional}}?{{/if}} {{Name}}, {{/Parameters}}CancellationToken cancellationToken)
+        //{
+        //    var sut = Provider.GetRequiredService<Api.Services.I{{Context.ServiceContext.ServiceName}}Service>();
+        //
+        //    {{#Parameters}}
+        //    // {{Name}} {{#if Optional}}(optional){{/if}} {{#if NullCheck}}has null check{{/if}}
+        //    {{/Parameters}}
+        //    return await sut.{{MethodName}}Async({{#Parameters}}{{Name}}, {{/Parameters}} cancellationToken);
+        //}

@@ -13,8 +13,10 @@ namespace Blockfrost.Api.Generate
         internal static string Source { get; set; }
         internal static DirectoryInfo TemplateDir { get; set; }
         internal static DirectoryInfo OutputDir { get; set; }
-        internal static char[] GeneratorSwitch { get; set; } = "smav".ToCharArray();
+        //internal static char[] GeneratorSwitch { get; set; } = "smav".ToCharArray();
+        internal static char[] GeneratorSwitch { get; set; } = "v".ToCharArray();
         internal static string[] PreservationFilters { get; set; } = Array.Empty<string>();
+        internal static string[] ExclusionFilters { get; set; } = Array.Empty<string>();
         internal static string[] PurgeFilters { get; set; } = new[] { "*.generated*" };
 
         internal static bool ShouldWrite(char flag)
@@ -49,6 +51,7 @@ namespace Blockfrost.Api.Generate
                 usage.Append("  -t").Append('\t').AppendLine("Local template directory");
                 usage.Append("  -o").Append('\t').AppendLine("Local output directory");
                 usage.Append("  -g").Append('\t').AppendLine("Generator switch (default '-g smav' = all");
+                usage.Append("  --exclude [searchPattern, ...]").Append('\t').AppendLine("Exclude all files containing one of the expressions (default '' = none')");
                 usage.Append("  --purge [searchPattern, ...]").Append('\t').AppendLine("Delete all files matching one of the expressions (default '*.generated*')");
                 usage.Append("  --preserve [searchPattern, ...]").Append('\t').AppendLine("Preserve all files matching one of the expressions (default '' = none");
                 System.Console.WriteLine(usage.ToString());
@@ -111,8 +114,8 @@ namespace Blockfrost.Api.Generate
                 {
                     opt.Add(list[0], list[1]);
                     list = list.Skip(2).ToList();
-                } 
-                else 
+                }
+                else
                 {
                     opt.Add(list[0], null);
                     list = list.Skip(1).ToList();
@@ -122,6 +125,13 @@ namespace Blockfrost.Api.Generate
             if (opt.ContainsKey("-g") && opt["-g"] != null)
             {
                 GeneratorSwitch = opt["-g"].ToCharArray();
+            }
+
+            //LoadFilters(PreservationFilters,"--preserve", opt);
+
+            if (opt.ContainsKey("--exclude") && opt["--exclude"] != null)
+            {
+                ExclusionFilters = opt["--exclude"].Split(",").Select(pattern => pattern.Trim()).ToArray();
             }
 
             if (opt.ContainsKey("--preserve") && opt["--preserve"] != null)
@@ -152,21 +162,35 @@ namespace Blockfrost.Api.Generate
             return context;
         }
 
+        private static void LoadFilters(string[] filter, string option, Dictionary<string, string> opt)
+        {
+            if (opt.ContainsKey(option) && opt[option] != null)
+            {
+                filter = opt[option].Split(",").Select(pattern => pattern.Trim()).ToArray();
+            }
+        }
+
         private static async Task WriteVarious(OpenApiDocumentContext context)
         {
             if (!ShouldWrite('v')) return;
 
-            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.hbr", "Extensions", "BlockfrostServiceExtensions.cs");
-            await WriteFile(null, "StringBuilderExtensions.hbr", "Extensions", "StringBuilderExtensions.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Configure.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Configure.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Services.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Services.cs");
+            await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Utility.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Utility.cs");
+            
+            await WriteFile(null, "StringBuilderExtensions.hbr", "src", "Blockfrost.Api", "Extensions", "StringBuilderExtensions.cs");
 
-            await WriteFile(null, "BlockfrostHashCode.hbr", "Utils", "BlockfrostHashCode.cs");
+            await WriteFile(null, "BlockfrostHashCode.hbr", "src", "Blockfrost.Api", "Utils", "BlockfrostHashCode.cs");
 
-            await WriteFile(null, "Enums.hbr",  "Models", "Enums.cs");
-            await WriteFile(null, "ApiException.hbr",  "Models", "Http", "ApiException.cs");
-            await WriteFile(null, "HttpErrorResponse.hbr",  "Models", "Http", "HttpErrorResponse.cs");
+            await WriteFile(null, "Enums.hbr", "src", "Blockfrost.Api", "Models", "Enums.cs");
+            
+            await WriteFile(null, "ApiException.hbr", "src", "Blockfrost.Api", "Models", "Http", "ApiException.cs");
+            
+            await WriteFile(null, "HttpErrorResponse.hbr", "src", "Blockfrost.Api", "Models", "Http", "HttpErrorResponse.cs");
 
-            await WriteFile(null, "IBlockfrostService.hbr", "Services", "IBlockfrostService.cs");
-            await WriteFile(null, "ABlockfrostService.hbr",  "Services", "ABlockfrostService.cs");
+            await WriteFile(null, "IBlockfrostService.hbr", "src", "Blockfrost.Api", "Services", "IBlockfrostService.cs");
+            await WriteFile(null, "ABlockfrostService.hbr", "src", "Blockfrost.Api", "Services", "ABlockfrostService.cs");
             Console.WriteLine();
         }
 
@@ -176,8 +200,9 @@ namespace Blockfrost.Api.Generate
 
             foreach (var serviceContext in context.Services)
             {
-                await WriteFile(serviceContext, "service_interface.hbr", "Services", $"I{TemplateHelper.PascalCase(serviceContext.ServiceName)}Service.cs");
-                await WriteFile(serviceContext, "service.hbr", "Services", serviceContext.GroupName, $"{TemplateHelper.PascalCase(serviceContext.ServiceName)}Service.cs");
+                await WriteFile(serviceContext, "service_interface.hbr", "src", "Blockfrost.Api", "Services", $"I{serviceContext.ClassName}Service.cs");
+                await WriteFile(serviceContext, "service.hbr", "src", "Blockfrost.Api", "Services", serviceContext.GroupName, $"{serviceContext.ClassName}Service.cs");
+                await WriteFile(serviceContext, "service_test.hbr", "test", "Blockfrost.Api.Tests", "Services", "Generated", serviceContext.GroupName, $"{serviceContext.ClassName}ServiceTest.cs");
             }
             Console.WriteLine();
         }
@@ -187,17 +212,17 @@ namespace Blockfrost.Api.Generate
             if (!ShouldWrite('m')) return;
 
             // Write StringCollection for untyped responses
-            await WriteFile(null, "StringCollection.hbr", "Models", "StringCollection.cs");
+            await WriteFile(null, "StringCollection.hbr", "src", "Blockfrost.Api", "Models", "StringCollection.cs");
 
             // write Models
             foreach (var modelContext in context.Models)
             {
-                await WriteFile(modelContext, "model.hbr", "Models", $"{TemplateHelper.PascalCase(modelContext.ClassName)}.cs");
+                await WriteFile(modelContext, "model.hbr", "src", "Blockfrost.Api", "Models", $"{TemplateHelper.PascalCase(modelContext.ClassName)}.cs");
 
                 // write items if any
                 if (modelContext.HasItem)
                 {
-                    await WriteFile(modelContext.ItemContext, "model.hbr", "Models", $"{TemplateHelper.PascalCase(modelContext.ItemContext.ClassName)}.cs");
+                    await WriteFile(modelContext.ItemContext, "model.hbr", "src", "Blockfrost.Api", "Models", $"{TemplateHelper.PascalCase(modelContext.ItemContext.ClassName)}.cs");
                 }
             }
             Console.WriteLine();
@@ -209,7 +234,7 @@ namespace Blockfrost.Api.Generate
 
             foreach (var attributeContext in context.HttpAttributes)
             {
-                await WriteFile(attributeContext, "httpAtts.hbr",  "Http", $"{TemplateHelper.PascalCase(attributeContext.HttpMethod)}Attribute.cs");
+                await WriteFile(attributeContext, "httpAtts.hbr", "src", "Blockfrost.Api", "Http", $"{TemplateHelper.PascalCase(attributeContext.HttpMethod)}Attribute.cs");
             }
             Console.WriteLine();
         }
@@ -217,6 +242,13 @@ namespace Blockfrost.Api.Generate
         internal static async Task WriteFile(object data, string templateFileName, params string[] filepath)
         {
             var file = new FileInfo(Path.Combine(OutputDir.FullName, Path.Combine(filepath)));
+            var excludeThis = ExclusionFilters.Any(f => file.FullName.Contains(f));
+
+            if (excludeThis)
+            {
+                Console.WriteLine($"Excluding\t{file.FullName}");
+                return;
+            }
 
             if (!file.Directory.Exists)
             {

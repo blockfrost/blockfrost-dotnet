@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -36,7 +37,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("inputs")]
-        public TxContentUtxoResponseInputs Inputs { get; set; }
+        public Collection<TxContentUtxoResponseInputs> Inputs { get; set; }
 
         /// <summary>
         /// Gets or sets the Outputs
@@ -46,7 +47,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("outputs")]
-        public TxContentUtxoResponseOutputs Outputs { get; set; }
+        public Collection<TxContentUtxoResponseOutputs> Outputs { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object

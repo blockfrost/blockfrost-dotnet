@@ -35,6 +35,8 @@ namespace Blockfrost.Api.Tests
 
         public static IConfiguration Configuration { get; set; }
 
+        public string Name { get; internal set; }
+
         private IServiceCollection _services;
 
         public static void InitializeEnvironment()

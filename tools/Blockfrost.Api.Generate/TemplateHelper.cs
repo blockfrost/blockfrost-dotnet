@@ -96,7 +96,6 @@ namespace Blockfrost.Api.Generate
             {
                 writer.WriteSafeString($"{{{parameters[0]}}}");
             });
-
             Handlebars.RegisterHelper("packageName", (writer, context, parameters) => { writer.WriteSafeString("Blockfrost.Api"); });
             Handlebars.RegisterHelper("servicePackage", (writer, context, parameters) => { writer.WriteSafeString("Services"); });
             Handlebars.RegisterHelper("modelPackage", (writer, context, parameters) => { writer.WriteSafeString("Models"); });
@@ -106,6 +105,34 @@ namespace Blockfrost.Api.Generate
             Handlebars.RegisterHelper("pascal_case", TemplateHelper.PascalCaseHelper);
             Handlebars.RegisterHelper("lower_case", TemplateHelper.LowerCaseHelper);
             Handlebars.RegisterHelper("required_ctor_params", TemplateHelper.RequiredCtorParamsHelper);
+
+            Handlebars.RegisterHelper("eq", (output, options, context, data) =>
+            {
+                if (data.Length != 2)
+                    options.Inverse(output, null);
+
+                if (data[0].Equals(data[1]))
+                    options.Template(output, null);
+                else
+                    options.Inverse(output, null);
+            });
+            //Handlebars.RegisterHelper("if_eq", (writer, context, parameters) => 
+            //{
+            //    if (parameters.Length != 2)
+            //    {
+            //        throw new InvalidOperationException("if_eq requires two");
+            //    }
+            //    else
+            //    {
+
+            //        var left = parameters.At<string>(0);
+            //        var right = parameters[1] as string;
+            //        if (left == right) writer.Template(writer, context);
+
+            //        if (left == right)  writer.Template();
+            //        else writer.Inverse(context);
+            //    }
+            //});
 
             Handlebars.RegisterHelper("is_array", (writer, context, parameters) =>
             {
