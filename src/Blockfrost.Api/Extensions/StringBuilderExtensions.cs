@@ -18,7 +18,7 @@ namespace Blockfrost.Api.Extensions
         public static StringBuilder AppendQueryParameter(this StringBuilder builder, string name, object value)
         {
             return name == null
-                ? throw new System.ArgumentNullException(nameof(name)) 
+                ? throw new System.ArgumentNullException(nameof(name))
                 : builder
                 .Append(System.Uri.EscapeDataString(name))
                 .Append('=')

@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.INetworkService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetNetworkAsync( cancellationToken);
+            return await sut.GetNetworkAsync(cancellationToken);
         }
     }
 }

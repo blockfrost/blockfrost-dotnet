@@ -67,7 +67,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetAssetsAsync(count, page, order,  cancellationToken);
+            return await sut.GetAssetsAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific asset <c>/assets/{asset}</c>
@@ -115,7 +115,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
             sut.ReadResponseAsString = true;
             // asset  has null check
-            return await sut.GetAssetsAsync(asset,  cancellationToken);
+            return await sut.GetAssetsAsync(asset, cancellationToken);
         }
         /// <summary>
         ///     Testing Asset history <c>/assets/{asset}/history</c>
@@ -172,7 +172,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetHistoryAsync(asset, count, page, order,  cancellationToken);
+            return await sut.GetHistoryAsync(asset, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Asset transactions <c>/assets/{asset}/txs</c>
@@ -229,7 +229,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsAsync(asset, count, page, order,  cancellationToken);
+            return await sut.GetTxsAsync(asset, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Asset transactions <c>/assets/{asset}/transactions</c>
@@ -286,7 +286,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTransactionsAsync(asset, count, page, order,  cancellationToken);
+            return await sut.GetTransactionsAsync(asset, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Asset addresses <c>/assets/{asset}/addresses</c>
@@ -343,7 +343,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetAddressesAsync(asset, count, page, order,  cancellationToken);
+            return await sut.GetAddressesAsync(asset, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Assets of a specific policy <c>/assets/policy/{policy_id}</c>
@@ -402,7 +402,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetPolicyAsync(policy_id, count, page, order,  cancellationToken);
+            return await sut.GetPolicyAsync(policy_id, count, page, order, cancellationToken);
         }
     }
 }

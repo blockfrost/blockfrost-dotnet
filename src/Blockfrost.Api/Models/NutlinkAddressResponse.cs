@@ -84,7 +84,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Address == other.Address && MetadataUrl == other.MetadataUrl && MetadataHash == other.MetadataHash && Equals(Metadata,other.Metadata)));
+                   || (Address == other.Address && MetadataUrl == other.MetadataUrl && MetadataHash == other.MetadataHash && Equals(Metadata, other.Metadata)));
         }
 
         /// <summary>

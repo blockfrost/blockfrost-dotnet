@@ -81,7 +81,7 @@ namespace Blockfrost.Api.Generate
             env = env.Replace("\n", "");
             env = env.Replace("\r\n", "");
             env = env.Replace("\r", "");
-            env = env.Replace("\t","");
+            env = env.Replace("\t", "");
             return env;
         }
         internal static void RegisterHelpers()
@@ -189,19 +189,20 @@ namespace Blockfrost.Api.Generate
 
         internal static void RequiredCtorParamsHelper(EncodedTextWriter output, Context context, Arguments arguments)
         {
-            if(context.Value is SchemaNode node)
+            if (context.Value is SchemaNode node)
             {
                 if (node.vars == null) return;
                 var sdict = node.vars.Where(v => v.required)
-                    .Select(x => new Tuple<string,string,string>(x.dataTypeWithEnum, CamelCase(x.name), x.defaultValue == null ? string.Empty : " = " + x.defaultValue.ToString()));
-                
+                    .Select(x => new Tuple<string, string, string>(x.dataTypeWithEnum, CamelCase(x.name), x.defaultValue == null ? string.Empty : " = " + x.defaultValue.ToString()));
+
                 output.WriteSafeString(string.Join(", ", sdict.Select(v => $"{v.Item1} {v.Item2}{v.Item3}")));
             }
-            
-            else if(context.Value is ModelContext ctx)
+
+            else if (context.Value is ModelContext ctx)
             {
                 output.WriteSafeString("/** todo **/");
-            } else 
+            }
+            else
             {
                 throw new NotSupportedException("not supported in the current context");
             }
@@ -258,12 +259,13 @@ namespace Blockfrost.Api.Generate
 
         public static void FirstBlockHelper(EncodedTextWriter output, BlockHelperOptions options, Context context, Arguments arguments)
         {
-            if(context.Value is ServiceContext ctx)
+            if (context.Value is ServiceContext ctx)
             {
                 var op = ctx.ops.FirstOrDefault();
                 //op.Value.Values.First().First().Description
                 options.Template(output, op);
-            }else
+            }
+            else
             {
                 options.Template(output, context);
             }
@@ -277,11 +279,11 @@ namespace Blockfrost.Api.Generate
 
         private static string ToStringSafe(object val)
         {
-            if(val == null)
+            if (val == null)
             {
-                val = "";    
+                val = "";
             }
-            
+
             var v = val.ToString();
             if (v.Equals("/")) v = "info";
             return v;
@@ -343,7 +345,7 @@ namespace Blockfrost.Api.Generate
             {
                 spec = File.ReadAllText(spec, encoding);
             }
-            
+
             using var stream = new MemoryStream(encoding.GetBytes(spec));
             var read = new Microsoft.OpenApi.Readers.OpenApiStreamReader(new Microsoft.OpenApi.Readers.OpenApiReaderSettings());
             var docs = read.Read(stream, out var diag);

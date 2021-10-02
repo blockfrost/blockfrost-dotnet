@@ -23,24 +23,24 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         /// <summary>
-        ///     Testing Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        ///     Testing Relay to an IPFS gateway <c>/ipfs/gateway/{ipfs_path}</c>
         /// </summary>
         /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{ipfs_path}/get">/ipfs/gateway/{ipfs_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="IPFS_path"></param>
+        /// <param name="ipfs_path"></param>
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/gateway/{IPFS_path}", "0.1.28")]
+        [Get("/ipfs/gateway/{ipfs_path}", "0.1.28")]
         //[TestMethod]
         [DataRow(null)]
-        public async Task GetGatewayAsync_Not_Null(string IPFS_path)
+        public async Task GetGatewayAsync_Not_Null(string ipfs_path)
         {
             // Arrange
 
             //Act
-            var actual = await GetGatewayAsync(IPFS_path, CancellationToken.None);
+            var actual = await GetGatewayAsync(ipfs_path, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -48,22 +48,22 @@ namespace Blockfrost.Api.Tests.Services
         }
 
         /// <summary>
-        ///     Testing Relay to an IPFS gateway <c>/ipfs/gateway/{IPFS_path}</c>
+        ///     Testing Relay to an IPFS gateway <c>/ipfs/gateway/{ipfs_path}</c>
         /// </summary>
         /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{IPFS_path}/get">/ipfs/gateway/{IPFS_path}</seealso> on docs.blockfrost.io
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Gateway/paths/~1ipfs~1gateway~1{ipfs_path}/get">/ipfs/gateway/{ipfs_path}</seealso> on docs.blockfrost.io
         /// </remarks>
-        /// <param name="IPFS_path"></param>
+        /// <param name="ipfs_path"></param>
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/gateway/{IPFS_path}", "0.1.28")]
-        private static async Task<object> GetGatewayAsync(string IPFS_path, CancellationToken cancellationToken)
+        [Get("/ipfs/gateway/{ipfs_path}", "0.1.28")]
+        private static async Task<object> GetGatewayAsync(string ipfs_path, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IGatewayService>();
             sut.ReadResponseAsString = true;
-            // IPFS_path  has null check
-            return await sut.GetGatewayAsync(IPFS_path,  cancellationToken);
+            // ipfs_path  has null check
+            return await sut.GetGatewayAsync(ipfs_path, cancellationToken);
         }
     }
 }

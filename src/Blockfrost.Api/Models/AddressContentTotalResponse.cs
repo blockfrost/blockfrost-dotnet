@@ -84,7 +84,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Address == other.Address && Equals(ReceivedSum,other.ReceivedSum) && Equals(SentSum,other.SentSum) && TxCount == other.TxCount));
+                   || (Address == other.Address && Equals(ReceivedSum, other.ReceivedSum) && Equals(SentSum, other.SentSum) && TxCount == other.TxCount));
         }
 
         /// <summary>

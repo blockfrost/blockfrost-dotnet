@@ -3,7 +3,7 @@
     /// <summary>
     /// Collection of UTxO output amounts
     /// </summary>
-    public partial class AmountCollection : System.Collections.ObjectModel.Collection<Amount>
+    public partial class OutputAmountCollection : System.Collections.ObjectModel.Collection<OutputAmount>
     {
     }
 }

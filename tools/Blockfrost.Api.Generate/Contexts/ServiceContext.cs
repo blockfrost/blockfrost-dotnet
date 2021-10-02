@@ -44,7 +44,7 @@ namespace Blockfrost.Api.Generate.Contexts
 
         public string DocsLink
         {
-            get;set;
+            get; set;
         }
 
         public object first => ops.FirstOrDefault();

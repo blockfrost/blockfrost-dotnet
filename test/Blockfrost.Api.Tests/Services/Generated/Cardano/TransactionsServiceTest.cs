@@ -78,7 +78,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsAsync(hash,  cancellationToken);
+            return await sut.GetTxsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction UTXOs <c>/txs/{hash}/utxos</c>
@@ -136,7 +136,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsUtxosAsync(hash,  cancellationToken);
+            return await sut.GetTxsUtxosAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake addresses certificates <c>/txs/{hash}/stakes</c>
@@ -194,7 +194,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsStakesAsync(hash,  cancellationToken);
+            return await sut.GetTxsStakesAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction delegation certificates <c>/txs/{hash}/delegations</c>
@@ -252,7 +252,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsDelegationsAsync(hash,  cancellationToken);
+            return await sut.GetTxsDelegationsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction withdrawal <c>/txs/{hash}/withdrawals</c>
@@ -310,7 +310,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsWithdrawalsAsync(hash,  cancellationToken);
+            return await sut.GetTxsWithdrawalsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction MIRs <c>/txs/{hash}/mirs</c>
@@ -368,7 +368,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMirsAsync(hash,  cancellationToken);
+            return await sut.GetTxsMirsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake pool registration and update certificates <c>/txs/{hash}/pool_updates</c>
@@ -426,7 +426,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsPoolUpdatesAsync(hash,  cancellationToken);
+            return await sut.GetTxsPoolUpdatesAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake pool retirement certificates <c>/txs/{hash}/pool_retires</c>
@@ -484,7 +484,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsPoolRetiresAsync(hash,  cancellationToken);
+            return await sut.GetTxsPoolRetiresAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata <c>/txs/{hash}/metadata</c>
@@ -542,7 +542,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMetadataAsync(hash,  cancellationToken);
+            return await sut.GetTxsMetadataAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata in CBOR <c>/txs/{hash}/metadata/cbor</c>
@@ -600,7 +600,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMetadataCborAsync(hash,  cancellationToken);
+            return await sut.GetTxsMetadataCborAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction redeemers <c>/txs/{hash}/redeemers</c>
@@ -658,7 +658,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsRedeemersAsync(hash,  cancellationToken);
+            return await sut.GetTxsRedeemersAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Submit a transaction <c>/tx/submit</c>

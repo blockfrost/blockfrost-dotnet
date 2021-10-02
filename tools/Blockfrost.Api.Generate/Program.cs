@@ -23,13 +23,13 @@ namespace Blockfrost.Api.Generate
         {
             return GeneratorSwitch.Contains(flag);
         }
-        
+
         internal static async Task Main(string[] args)
         {
             try
             {
                 var context = await SetupEnvironment(args);
-                
+
                 PurgeFiles();
 
                 Console.WriteLine("Generating blockfrost-dotnet boilerplate...");
@@ -65,7 +65,7 @@ namespace Blockfrost.Api.Generate
 
         private static void PurgeFiles()
         {
-            var purgeFiles = PurgeFilters.SelectMany(searchPattern => OutputDir.GetDirectories("*", SearchOption.AllDirectories).SelectMany(dir => dir.GetFiles(searchPattern, new EnumerationOptions() { MatchCasing = MatchCasing.CaseSensitive } ))).ToList();
+            var purgeFiles = PurgeFilters.SelectMany(searchPattern => OutputDir.GetDirectories("*", SearchOption.AllDirectories).SelectMany(dir => dir.GetFiles(searchPattern, new EnumerationOptions() { MatchCasing = MatchCasing.CaseSensitive }))).ToList();
             if (purgeFiles.Any())
             {
                 Console.WriteLine();
@@ -178,15 +178,15 @@ namespace Blockfrost.Api.Generate
             await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Configure.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Configure.cs");
             await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Services.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Services.cs");
             await WriteFile(context.ServiceExtension, "BlockfrostServiceExtensions.Utility.hbr", "src", "Blockfrost.Api", "Extensions", "BlockfrostServiceExtensions.Utility.cs");
-            
+
             await WriteFile(null, "StringBuilderExtensions.hbr", "src", "Blockfrost.Api", "Extensions", "StringBuilderExtensions.cs");
 
             await WriteFile(null, "BlockfrostHashCode.hbr", "src", "Blockfrost.Api", "Utils", "BlockfrostHashCode.cs");
 
             await WriteFile(null, "Enums.hbr", "src", "Blockfrost.Api", "Models", "Enums.cs");
-            
+
             await WriteFile(null, "ApiException.hbr", "src", "Blockfrost.Api", "Models", "Http", "ApiException.cs");
-            
+
             await WriteFile(null, "HttpErrorResponse.hbr", "src", "Blockfrost.Api", "Models", "Http", "HttpErrorResponse.cs");
 
             await WriteFile(null, "IBlockfrostService.hbr", "src", "Blockfrost.Api", "Services", "IBlockfrostService.cs");
@@ -270,16 +270,16 @@ namespace Blockfrost.Api.Generate
             using var fi = file.CreateText();
             var template = Handlebars.Compile(File.ReadAllText(Path.Combine(TemplateDir.FullName, templateFileName)));
             var bytes = fi.Encoding.GetBytes(template(data));
-            
+
             if (file.Exists)
             {
                 Console.WriteLine($"Overwriting\t{file.FullName}");
-            } 
+            }
             else
             {
                 Console.WriteLine($"Writing   \t{file.FullName}");
             }
-            
+
             await fi.WriteLineAsync(Encoding.UTF8.GetString(bytes));
             await fi.FlushAsync();
             fi.Close();

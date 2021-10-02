@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Net.Http;
 using Blockfrost.Api.Options;
@@ -1139,7 +1139,7 @@ namespace Blockfrost.Api.Extensions
                         var health = CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(name, network, client);
                         var metrics = CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(name, network, client);
                         var blockfrostService = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] { health, metrics, client });
-                        blockfrostService.Name = name; 
+                        blockfrostService.Name = name;
                         blockfrostService.Network = network;
                         return blockfrostService;
                     }

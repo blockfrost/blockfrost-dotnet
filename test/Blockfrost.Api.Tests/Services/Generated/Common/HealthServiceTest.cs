@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetApiInfoAsync( cancellationToken);
+            return await sut.GetApiInfoAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Backend health status <c>/health</c>
@@ -96,7 +96,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetHealthAsync( cancellationToken);
+            return await sut.GetHealthAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Current backend time <c>/health/clock</c>
@@ -134,7 +134,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IHealthService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetClockAsync( cancellationToken);
+            return await sut.GetClockAsync(cancellationToken);
         }
     }
 }

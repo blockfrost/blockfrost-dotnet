@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetLatestAsync( cancellationToken);
+            return await sut.GetLatestAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Latest epoch protocol parameters <c>/epochs/latest/parameters</c>
@@ -96,7 +96,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetLatestParametersAsync( cancellationToken);
+            return await sut.GetLatestParametersAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Specific epoch <c>/epochs/{number}</c>
@@ -143,7 +143,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
             sut.ReadResponseAsString = true;
             // number  
-            return await sut.GetEpochsAsync(number,  cancellationToken);
+            return await sut.GetEpochsAsync(number, cancellationToken);
         }
         /// <summary>
         ///     Testing Listing of next epochs <c>/epochs/{number}/next</c>
@@ -196,7 +196,7 @@ namespace Blockfrost.Api.Tests.Services
             // number  
             // count (optional) 
             // page (optional) 
-            return await sut.GetNextAsync(number, count, page,  cancellationToken);
+            return await sut.GetNextAsync(number, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Listing of previous epochs <c>/epochs/{number}/previous</c>
@@ -249,7 +249,7 @@ namespace Blockfrost.Api.Tests.Services
             // number  
             // count (optional) 
             // page (optional) 
-            return await sut.GetPreviousAsync(number, count, page,  cancellationToken);
+            return await sut.GetPreviousAsync(number, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake distribution <c>/epochs/{number}/stakes</c>
@@ -302,7 +302,7 @@ namespace Blockfrost.Api.Tests.Services
             // number  
             // count (optional) 
             // page (optional) 
-            return await sut.GetStakesAsync(number, count, page,  cancellationToken);
+            return await sut.GetStakesAsync(number, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake distribution by pool <c>/epochs/{number}/stakes/{pool_id}</c>
@@ -329,6 +329,7 @@ namespace Blockfrost.Api.Tests.Services
                 var latest = await epochsService.GetLatestAsync();
                 number = (int)latest.Epoch;
             }
+
             if (string.IsNullOrEmpty(pool_id))
             {
                 var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
@@ -366,7 +367,7 @@ namespace Blockfrost.Api.Tests.Services
             // pool_id  has null check
             // count (optional) 
             // page (optional) 
-            return await sut.GetStakesAsync(number, pool_id, count, page,  cancellationToken);
+            return await sut.GetStakesAsync(number, pool_id, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Block distribution <c>/epochs/{number}/blocks</c>
@@ -422,7 +423,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetBlocksAsync(number, count, page, order,  cancellationToken);
+            return await sut.GetBlocksAsync(number, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Block distribution by pool <c>/epochs/{number}/blocks/{pool_id}</c>
@@ -450,6 +451,7 @@ namespace Blockfrost.Api.Tests.Services
                 var latest = await epochsService.GetLatestAsync();
                 number = (int)latest.Epoch;
             }
+
             if (string.IsNullOrEmpty(pool_id))
             {
                 var block = await Provider.GetRequiredService<Api.Services.IBlocksService>().GetLatestAsync();
@@ -489,7 +491,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetBlocksAsync(number, pool_id, count, page, order,  cancellationToken);
+            return await sut.GetBlocksAsync(number, pool_id, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Protocol parameters <c>/epochs/{number}/parameters</c>
@@ -536,7 +538,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IEpochsService>();
             sut.ReadResponseAsString = true;
             // number  
-            return await sut.GetParametersAsync(number,  cancellationToken);
+            return await sut.GetParametersAsync(number, cancellationToken);
         }
     }
 }

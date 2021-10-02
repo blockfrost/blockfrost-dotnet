@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetLatestAsync( cancellationToken);
+            return await sut.GetLatestAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Latest block transactions <c>/blocks/latest/txs</c>
@@ -105,7 +105,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetLatestTxsAsync(count, page, order,  cancellationToken);
+            return await sut.GetLatestTxsAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific block <c>/blocks/{hash_or_number}</c>
@@ -154,7 +154,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
             sut.ReadResponseAsString = true;
             // hash_or_number  has null check
-            return await sut.GetBlocksAsync(hash_or_number,  cancellationToken);
+            return await sut.GetBlocksAsync(hash_or_number, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific block in a slot <c>/blocks/slot/{slot_number}</c>
@@ -201,7 +201,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IBlocksService>();
             sut.ReadResponseAsString = true;
             // slot_number  
-            return await sut.GetSlotAsync(slot_number,  cancellationToken);
+            return await sut.GetSlotAsync(slot_number, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific block in a slot in an epoch <c>/blocks/epoch/{epoch_number}/slot/{slot_number}</c>
@@ -225,6 +225,7 @@ namespace Blockfrost.Api.Tests.Services
                 var latest = await blocksService.GetLatestBlockAsync();
                 epoch_number = (int)latest.Epoch;
             }
+
             if (slot_number == 1)
             {
                 var blocksService = Provider.GetRequiredService<IBlockService>();
@@ -257,7 +258,7 @@ namespace Blockfrost.Api.Tests.Services
             sut.ReadResponseAsString = true;
             // epoch_number  
             // slot_number  
-            return await sut.GetEpochSlotAsync(epoch_number, slot_number,  cancellationToken);
+            return await sut.GetEpochSlotAsync(epoch_number, slot_number, cancellationToken);
         }
         /// <summary>
         ///     Testing Listing of next blocks <c>/blocks/{hash_or_number}/next</c>
@@ -312,7 +313,7 @@ namespace Blockfrost.Api.Tests.Services
             // hash_or_number  has null check
             // count (optional) 
             // page (optional) 
-            return await sut.GetNextAsync(hash_or_number, count, page,  cancellationToken);
+            return await sut.GetNextAsync(hash_or_number, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Listing of previous blocks <c>/blocks/{hash_or_number}/previous</c>
@@ -367,7 +368,7 @@ namespace Blockfrost.Api.Tests.Services
             // hash_or_number  has null check
             // count (optional) 
             // page (optional) 
-            return await sut.GetPreviousAsync(hash_or_number, count, page,  cancellationToken);
+            return await sut.GetPreviousAsync(hash_or_number, count, page, cancellationToken);
         }
         /// <summary>
         ///     Testing Block transactions <c>/blocks/{hash_or_number}/txs</c>
@@ -425,7 +426,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsAsync(hash_or_number, count, page, order,  cancellationToken);
+            return await sut.GetTxsAsync(hash_or_number, count, page, order, cancellationToken);
         }
     }
 }

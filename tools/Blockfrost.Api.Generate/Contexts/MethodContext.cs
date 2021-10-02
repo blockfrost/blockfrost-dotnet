@@ -20,7 +20,7 @@ namespace Blockfrost.Api.Generate.Contexts
             HasQueryParameters = Parameters.Any(p => p.Parameter.In == ParameterLocation.Query);
             HasHeaderParameters = Parameters.Any(p => p.Parameter.In == ParameterLocation.Header);
             HasPathParameters = Parameters.Any(p => p.Parameter.In == ParameterLocation.Path);
-            
+
             HasNullCheck = Parameters.Any(p => p.NullCheck);
 
             HasCborContent = Current.Parameters.Where(paramCtx => paramCtx.In == ParameterLocation.Header).Any(parameter => parameter.HasContentType("application/cbor"));
@@ -41,7 +41,7 @@ namespace Blockfrost.Api.Generate.Contexts
             ReturnModel = !(ReturnType == null || ReturnType.Equals("object") || ReturnType.Equals("string"));
             signature.Insert(0, HttpMethod.ToString());
             MethodName = string.Concat(signature.Distinct());
-            
+
             if (HttpMethod == OperationType.Post)
             {
                 var p = Parameters.FirstOrDefault();

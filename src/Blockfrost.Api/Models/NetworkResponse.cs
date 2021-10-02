@@ -64,7 +64,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Equals(Supply,other.Supply) && Equals(Stake,other.Stake)));
+                   || (Equals(Supply, other.Supply) && Equals(Stake, other.Stake)));
         }
 
         /// <summary>

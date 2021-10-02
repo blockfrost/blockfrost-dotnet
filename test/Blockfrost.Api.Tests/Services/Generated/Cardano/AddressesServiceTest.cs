@@ -38,7 +38,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetAddressesAsync_Not_Null(string address)
         {
             // Arrange
-            if(string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address))
             {
                 var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
                 var latest = await blocksService.GetLatestAsync();
@@ -79,7 +79,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
             sut.ReadResponseAsString = true;
             // address  has null check
-            return await sut.GetAddressesAsync(address,  cancellationToken);
+            return await sut.GetAddressesAsync(address, cancellationToken);
         }
         /// <summary>
         ///     Testing Address details <c>/addresses/{address}/total</c>
@@ -97,7 +97,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTotalAsync_Not_Null(string address)
         {
             // Arrange
-            if(string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address))
             {
                 var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
                 var latest = await blocksService.GetLatestAsync();
@@ -138,7 +138,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
             sut.ReadResponseAsString = true;
             // address  has null check
-            return await sut.GetTotalAsync(address,  cancellationToken);
+            return await sut.GetTotalAsync(address, cancellationToken);
         }
         /// <summary>
         ///     Testing Address UTXOs <c>/addresses/{address}/utxos</c>
@@ -159,7 +159,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetUtxosAsync_Not_Null(string address, int? count, int? page, ESortOrder? order)
         {
             // Arrange
-            if(string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address))
             {
                 var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
                 var latest = await blocksService.GetLatestAsync();
@@ -206,7 +206,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetUtxosAsync(address, count, page, order,  cancellationToken);
+            return await sut.GetUtxosAsync(address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Address transactions <c>/addresses/{address}/txs</c>
@@ -227,7 +227,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTxsAsync_Not_Null(string address, int? count, int? page, ESortOrder? order)
         {
             // Arrange
-            if(string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address))
             {
                 var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
                 var latest = await blocksService.GetLatestAsync();
@@ -274,7 +274,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsAsync(address, count, page, order,  cancellationToken);
+            return await sut.GetTxsAsync(address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Address transactions <c>/addresses/{address}/transactions</c>
@@ -297,7 +297,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetTransactionsAsync_Not_Null(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             // Arrange
-            if(string.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(address))
             {
                 var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
                 var latest = await blocksService.GetLatestAsync();
@@ -348,7 +348,7 @@ namespace Blockfrost.Api.Tests.Services
             // order (optional) 
             // from  
             // to  
-            return await sut.GetTransactionsAsync(address, count, page, order, from, to,  cancellationToken);
+            return await sut.GetTransactionsAsync(address, count, page, order, from, to, cancellationToken);
         }
     }
 }

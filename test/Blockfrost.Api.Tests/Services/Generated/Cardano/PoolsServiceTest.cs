@@ -67,7 +67,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetPoolsAsync(count, page, order,  cancellationToken);
+            return await sut.GetPoolsAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing List of retired stake pools <c>/pools/retired</c>
@@ -114,7 +114,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetRetiredAsync(count, page, order,  cancellationToken);
+            return await sut.GetRetiredAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing List of retiring stake pools <c>/pools/retiring</c>
@@ -161,7 +161,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetRetiringAsync(count, page, order,  cancellationToken);
+            return await sut.GetRetiringAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific stake pool <c>/pools/{pool_id}</c>
@@ -210,7 +210,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
             sut.ReadResponseAsString = true;
             // pool_id  has null check
-            return await sut.GetPoolsAsync(pool_id,  cancellationToken);
+            return await sut.GetPoolsAsync(pool_id, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool history <c>/pools/{pool_id}/history</c>
@@ -268,7 +268,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetHistoryAsync(pool_id, count, page, order,  cancellationToken);
+            return await sut.GetHistoryAsync(pool_id, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool metadata <c>/pools/{pool_id}/metadata</c>
@@ -317,7 +317,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
             sut.ReadResponseAsString = true;
             // pool_id  has null check
-            return await sut.GetMetadataAsync(pool_id,  cancellationToken);
+            return await sut.GetMetadataAsync(pool_id, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool relays <c>/pools/{pool_id}/relays</c>
@@ -366,7 +366,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IPoolsService>();
             sut.ReadResponseAsString = true;
             // pool_id  has null check
-            return await sut.GetRelaysAsync(pool_id,  cancellationToken);
+            return await sut.GetRelaysAsync(pool_id, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool delegators <c>/pools/{pool_id}/delegators</c>
@@ -424,7 +424,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetDelegatorsAsync(pool_id, count, page, order,  cancellationToken);
+            return await sut.GetDelegatorsAsync(pool_id, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool blocks <c>/pools/{pool_id}/blocks</c>
@@ -482,7 +482,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetBlocksAsync(pool_id, count, page, order,  cancellationToken);
+            return await sut.GetBlocksAsync(pool_id, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Stake pool updates <c>/pools/{pool_id}/updates</c>
@@ -540,7 +540,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetUpdatesAsync(pool_id, count, page, order,  cancellationToken);
+            return await sut.GetUpdatesAsync(pool_id, count, page, order, cancellationToken);
         }
     }
 }

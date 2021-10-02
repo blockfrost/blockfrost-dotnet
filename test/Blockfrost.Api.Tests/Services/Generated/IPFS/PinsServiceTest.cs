@@ -107,7 +107,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetPinListAsync(count, page, order,  cancellationToken);
+            return await sut.GetPinListAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
@@ -150,7 +150,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
             sut.ReadResponseAsString = true;
             // IPFS_path  has null check
-            return await sut.GetPinListAsync(IPFS_path,  cancellationToken);
+            return await sut.GetPinListAsync(IPFS_path, cancellationToken);
         }
         /// <summary>
         ///     Testing  <c>/ipfs/pin/remove/{IPFS_path}</c>

@@ -67,7 +67,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetScriptsAsync(count, page, order,  cancellationToken);
+            return await sut.GetScriptsAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Specific script <c>/scripts/{script_hash}</c>
@@ -116,7 +116,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IScriptsService>();
             sut.ReadResponseAsString = true;
             // script_hash  has null check
-            return await sut.GetScriptsAsync(script_hash,  cancellationToken);
+            return await sut.GetScriptsAsync(script_hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Redeemers of a specific script <c>/scripts/{script_hash}/redeemers</c>
@@ -174,7 +174,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetRedeemersAsync(script_hash, count, page, order,  cancellationToken);
+            return await sut.GetRedeemersAsync(script_hash, count, page, order, cancellationToken);
         }
     }
 }

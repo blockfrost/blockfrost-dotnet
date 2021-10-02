@@ -134,7 +134,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Asset == other.Asset && PolicyId == other.PolicyId && AssetName == other.AssetName && Fingerprint == other.Fingerprint && Quantity == other.Quantity && InitialMintTxHash == other.InitialMintTxHash && MintOrBurnCount == other.MintOrBurnCount && Equals(OnchainMetadata,other.OnchainMetadata) && Equals(Metadata,other.Metadata)));
+                   || (Asset == other.Asset && PolicyId == other.PolicyId && AssetName == other.AssetName && Fingerprint == other.Fingerprint && Quantity == other.Quantity && InitialMintTxHash == other.InitialMintTxHash && MintOrBurnCount == other.MintOrBurnCount && Equals(OnchainMetadata, other.OnchainMetadata) && Equals(Metadata, other.Metadata)));
         }
 
         /// <summary>

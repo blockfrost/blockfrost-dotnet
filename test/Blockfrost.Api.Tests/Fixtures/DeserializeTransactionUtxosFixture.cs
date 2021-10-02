@@ -96,9 +96,8 @@ namespace Blockfrost.Api.Tests.Fixtures
     ""collateral"": false,
     ""data_hash"": ""cad5702913dcda8e084a06550ba82d00e986426203757f7a1aeb8833a07e330f"",
 }";
-            var model = JsonSerializer.Deserialize<Api.Models.TxContentUtxoResponseInputs>(json,  new JsonSerializerOptions() { AllowTrailingCommas = true });
+            var model = JsonSerializer.Deserialize<Api.Models.TxContentUtxoResponseInputs>(json, new JsonSerializerOptions() { AllowTrailingCommas = true });
             Assert.IsNotNull(model);
         }
-
     }
 }

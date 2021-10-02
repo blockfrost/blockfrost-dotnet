@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -62,7 +62,7 @@ namespace Blockfrost.Api.Models
         /// Gets or sets the State
         /// </summary>
         /// <returns>
-        /// State of the pinned object. We define 5 states: `queued`, `pinned`, `unpinned`, `failed`, `gc`.When the object is pending retrieval (i.e. after `/ipfs/pin/add/{IPFS_path}`), the state is `queued`.If the object is already successfully retrieved, state is changed to `pinned` or `failed` otherwise.When object is unpinned (i.e. after `/ipfs/pin/remove/{IPFS_path}`) it is marked for garbage collection.State `gc` means that a previously `unpinned` item has been garbage collected due to account being over storage quota.
+        /// State of the pinned object. We define 5 states: `queued`, `pinned`, `unpinned`, `failed`, `gc`.When the object is pending retrieval (i.e. after `/ipfs/pin/add/{ipfs_path}`), the state is `queued`.If the object is already successfully retrieved, state is changed to `pinned` or `failed` otherwise.When object is unpinned (i.e. after `/ipfs/pin/remove/{ipfs_path}`) it is marked for garbage collection.State `gc` means that a previously `unpinned` item has been garbage collected due to account being over storage quota.
         /// </returns>
         [Required]
         [JsonPropertyName("state")]

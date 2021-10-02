@@ -154,7 +154,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (CertIndex == other.CertIndex && PoolId == other.PoolId && VrfKey == other.VrfKey && Pledge == other.Pledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners,other.Owners) && Equals(Metadata,other.Metadata) && Equals(Relays,other.Relays) && ActiveEpoch == other.ActiveEpoch));
+                   || (CertIndex == other.CertIndex && PoolId == other.PoolId && VrfKey == other.VrfKey && Pledge == other.Pledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners, other.Owners) && Equals(Metadata, other.Metadata) && Equals(Relays, other.Relays) && ActiveEpoch == other.ActiveEpoch));
         }
 
         /// <summary>

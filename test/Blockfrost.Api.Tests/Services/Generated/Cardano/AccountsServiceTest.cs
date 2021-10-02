@@ -69,7 +69,7 @@ namespace Blockfrost.Api.Tests.Services
             var sut = Provider.GetRequiredService<Api.Services.IAccountsService>();
             sut.ReadResponseAsString = true;
             // stake_address  has null check
-            return await sut.GetAccountsAsync(stake_address,  cancellationToken);
+            return await sut.GetAccountsAsync(stake_address, cancellationToken);
         }
         /// <summary>
         ///     Testing Account reward history <c>/accounts/{stake_address}/rewards</c>
@@ -127,7 +127,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetRewardsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetRewardsAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account history <c>/accounts/{stake_address}/history</c>
@@ -185,7 +185,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetHistoryAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetHistoryAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account delegation history <c>/accounts/{stake_address}/delegations</c>
@@ -243,7 +243,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetDelegationsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetDelegationsAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account registration history <c>/accounts/{stake_address}/registrations</c>
@@ -301,7 +301,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetRegistrationsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetRegistrationsAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account withdrawal history <c>/accounts/{stake_address}/withdrawals</c>
@@ -359,7 +359,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetWithdrawalsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetWithdrawalsAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account MIR history <c>/accounts/{stake_address}/mirs</c>
@@ -417,7 +417,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetMirsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetMirsAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Account associated addresses <c>/accounts/{stake_address}/addresses</c>
@@ -475,7 +475,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetAddressesAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetAddressesAsync(stake_address, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Assets associated with the account addresses <c>/accounts/{stake_address}/addresses/assets</c>
@@ -533,7 +533,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetAddressesAssetsAsync(stake_address, count, page, order,  cancellationToken);
+            return await sut.GetAddressesAssetsAsync(stake_address, count, page, order, cancellationToken);
         }
     }
 }

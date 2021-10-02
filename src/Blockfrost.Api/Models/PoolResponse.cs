@@ -224,7 +224,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (PoolId == other.PoolId && Hex == other.Hex && VrfKey == other.VrfKey && BlocksMinted == other.BlocksMinted && LiveStake == other.LiveStake && LiveSize == other.LiveSize && LiveSaturation == other.LiveSaturation && LiveDelegators == other.LiveDelegators && ActiveStake == other.ActiveStake && ActiveSize == other.ActiveSize && DeclaredPledge == other.DeclaredPledge && LivePledge == other.LivePledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners,other.Owners) && Equals(Registration,other.Registration) && Equals(Retirement,other.Retirement)));
+                   || (PoolId == other.PoolId && Hex == other.Hex && VrfKey == other.VrfKey && BlocksMinted == other.BlocksMinted && LiveStake == other.LiveStake && LiveSize == other.LiveSize && LiveSaturation == other.LiveSaturation && LiveDelegators == other.LiveDelegators && ActiveStake == other.ActiveStake && ActiveSize == other.ActiveSize && DeclaredPledge == other.DeclaredPledge && LivePledge == other.LivePledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners, other.Owners) && Equals(Registration, other.Registration) && Equals(Retirement, other.Retirement)));
         }
 
         /// <summary>

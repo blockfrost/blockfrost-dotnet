@@ -67,7 +67,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsLabelsAsync(count, page, order,  cancellationToken);
+            return await sut.GetTxsLabelsAsync(count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata content in JSON <c>/metadata/txs/labels/{label}</c>
@@ -123,7 +123,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsLabelsAsync(label, count, page, order,  cancellationToken);
+            return await sut.GetTxsLabelsAsync(label, count, page, order, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata content in CBOR <c>/metadata/txs/labels/{label}/cbor</c>
@@ -179,7 +179,7 @@ namespace Blockfrost.Api.Tests.Services
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            return await sut.GetTxsLabelsCborAsync(label, count, page, order,  cancellationToken);
+            return await sut.GetTxsLabelsCborAsync(label, count, page, order, cancellationToken);
         }
     }
 }

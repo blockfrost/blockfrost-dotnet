@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IMetricsService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetMetricsAsync( cancellationToken);
+            return await sut.GetMetricsAsync(cancellationToken);
         }
         /// <summary>
         ///     Testing Blockfrost endpoint usage metrics <c>/metrics/endpoints</c>
@@ -96,7 +96,7 @@ namespace Blockfrost.Api.Tests.Services
         {
             var sut = Provider.GetRequiredService<Api.Services.IMetricsService>();
             sut.ReadResponseAsString = true;
-            return await sut.GetEndpointsAsync( cancellationToken);
+            return await sut.GetEndpointsAsync(cancellationToken);
         }
     }
 }

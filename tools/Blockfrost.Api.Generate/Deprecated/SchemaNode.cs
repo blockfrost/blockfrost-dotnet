@@ -64,13 +64,13 @@ namespace Blockfrost.Api.Generate
             name = TemplateHelper.PascalCase(key);
             schema = node;
         }
-        public SchemaNode(KeyValuePair<string, OpenApiMediaType> node) 
+        public SchemaNode(KeyValuePair<string, OpenApiMediaType> node)
         {
-            if (node.Value.Schema == null) 
+            if (node.Value.Schema == null)
             {
                 baseName = node.Key;
                 schema = new OpenApiSchema();
-            } 
+            }
             else
             {
                 baseName = node.Value.Schema.Reference.Id.Split('/').Last();
@@ -78,21 +78,21 @@ namespace Blockfrost.Api.Generate
             }
 
             name = TemplateHelper.PascalCase(baseName);
-            
+
         }
         public SchemaNode(OpenApiMediaType mediaType)
         {
-            
+
         }
 
         private List<SchemaNode> _vars;
 
         public List<SchemaNode> GetVars()
         {
-            if(_vars == null)
+            if (_vars == null)
             {
                 if (items == null) return null;
-                
+
                 _vars = items.Properties.Select(p => new SchemaNode(p.Key, p.Value)
                 {
                     required = items.Required.Contains(p.Key, StringComparer.OrdinalIgnoreCase),
@@ -100,7 +100,7 @@ namespace Blockfrost.Api.Generate
                     hasMore = true
                 }).ToList();
 
-                if(_vars.Any())
+                if (_vars.Any())
                 {
                     _vars.Last().hasMore = false;
                 }

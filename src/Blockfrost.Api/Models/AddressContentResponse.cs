@@ -94,7 +94,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Address == other.Address && Equals(Amount,other.Amount) && StakeAddress == other.StakeAddress && Type == other.Type && Script == other.Script));
+                   || (Address == other.Address && Equals(Amount, other.Amount) && StakeAddress == other.StakeAddress && Type == other.Type && Script == other.Script));
         }
 
         /// <summary>
