@@ -8,7 +8,7 @@ namespace Blockfrost.Api.Models.Extensions
     {
         public static long SumAmounts(this AddressUtxoContentResponse model, string unit = "lovelace")
         {
-            return model.Amount.Where(m => m.Unit.Equals(unit, StringComparison.OrdinalIgnoreCase)).Sum(a => long.Parse(a.Quantity, System.Globalization.NumberStyles.Integer, CultureInfo.InvariantCulture));
+            return model.Amount.Where(m => m.Unit.Equals(unit, StringComparison.OrdinalIgnoreCase)).Sum(a => long.Parse(a.Quantity, NumberStyles.Integer, CultureInfo.InvariantCulture));
         }
     }
 

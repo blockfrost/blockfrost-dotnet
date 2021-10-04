@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("amount")]
-        public object Amount { get; set; }
+        public AmountCollection Amount { get; set; }
 
         /// <summary>
         /// Gets or sets the Block
@@ -104,7 +104,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (TxHash == other.TxHash && TxIndex == other.TxIndex && OutputIndex == other.OutputIndex && Equals(Amount,other.Amount) && Block == other.Block && DataHash == other.DataHash));
+                   || (TxHash == other.TxHash && TxIndex == other.TxIndex && OutputIndex == other.OutputIndex && Equals(Amount, other.Amount) && Block == other.Block && DataHash == other.DataHash));
         }
 
         /// <summary>
