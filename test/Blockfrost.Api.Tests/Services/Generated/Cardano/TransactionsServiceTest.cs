@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsAsync_Not_Null(string hash)
+        public async Task GetAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -50,12 +50,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsAsync(hash, CancellationToken.None);
+            var actual = await GetAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -73,12 +73,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}", "0.1.28")]
-        private static async Task<Api.Models.TxContentResponse> GetTxsAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentResponse> GetAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsAsync(hash, cancellationToken);
+            return await sut.GetAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction UTXOs <c>/txs/{hash}/utxos</c>
@@ -93,7 +93,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/utxos", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsUtxosAsync_Not_Null(string hash)
+        public async Task GetUtxosAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -108,12 +108,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsUtxosAsync(hash, CancellationToken.None);
+            var actual = await GetUtxosAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -131,12 +131,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/utxos", "0.1.28")]
-        private static async Task<Api.Models.TxContentUtxoResponse> GetTxsUtxosAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentUtxoResponse> GetUtxosAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsUtxosAsync(hash, cancellationToken);
+            return await sut.GetUtxosAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake addresses certificates <c>/txs/{hash}/stakes</c>
@@ -151,7 +151,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/stakes", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsStakesAsync_Not_Null(string hash)
+        public async Task GetStakesAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -166,12 +166,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsStakesAsync(hash, CancellationToken.None);
+            var actual = await GetStakesAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -189,12 +189,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/stakes", "0.1.28")]
-        private static async Task<Api.Models.TxContentStakeAddrResponseCollection> GetTxsStakesAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentStakeAddrResponseCollection> GetStakesAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsStakesAsync(hash, cancellationToken);
+            return await sut.GetStakesAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction delegation certificates <c>/txs/{hash}/delegations</c>
@@ -209,7 +209,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/delegations", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsDelegationsAsync_Not_Null(string hash)
+        public async Task GetDelegationsAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -224,12 +224,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsDelegationsAsync(hash, CancellationToken.None);
+            var actual = await GetDelegationsAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -247,12 +247,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/delegations", "0.1.28")]
-        private static async Task<Api.Models.TxContentDelegationsResponseCollection> GetTxsDelegationsAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentDelegationsResponseCollection> GetDelegationsAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsDelegationsAsync(hash, cancellationToken);
+            return await sut.GetDelegationsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction withdrawal <c>/txs/{hash}/withdrawals</c>
@@ -267,7 +267,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/withdrawals", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsWithdrawalsAsync_Not_Null(string hash)
+        public async Task GetWithdrawalsAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -282,12 +282,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsWithdrawalsAsync(hash, CancellationToken.None);
+            var actual = await GetWithdrawalsAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -305,12 +305,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/withdrawals", "0.1.28")]
-        private static async Task<Api.Models.TxContentWithdrawalsResponseCollection> GetTxsWithdrawalsAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentWithdrawalsResponseCollection> GetWithdrawalsAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsWithdrawalsAsync(hash, cancellationToken);
+            return await sut.GetWithdrawalsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction MIRs <c>/txs/{hash}/mirs</c>
@@ -325,7 +325,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/mirs", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsMirsAsync_Not_Null(string hash)
+        public async Task GetMirsAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -340,12 +340,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsMirsAsync(hash, CancellationToken.None);
+            var actual = await GetMirsAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -363,12 +363,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/mirs", "0.1.28")]
-        private static async Task<Api.Models.TxContentMirsResponseCollection> GetTxsMirsAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentMirsResponseCollection> GetMirsAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMirsAsync(hash, cancellationToken);
+            return await sut.GetMirsAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake pool registration and update certificates <c>/txs/{hash}/pool_updates</c>
@@ -383,7 +383,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/pool_updates", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsPoolUpdatesAsync_Not_Null(string hash)
+        public async Task GetPoolUpdatesAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -398,12 +398,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsPoolUpdatesAsync(hash, CancellationToken.None);
+            var actual = await GetPoolUpdatesAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -421,12 +421,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/pool_updates", "0.1.28")]
-        private static async Task<Api.Models.TxContentPoolCertsResponseCollection> GetTxsPoolUpdatesAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentPoolCertsResponseCollection> GetPoolUpdatesAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsPoolUpdatesAsync(hash, cancellationToken);
+            return await sut.GetPoolUpdatesAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction stake pool retirement certificates <c>/txs/{hash}/pool_retires</c>
@@ -441,7 +441,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/pool_retires", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsPoolRetiresAsync_Not_Null(string hash)
+        public async Task GetPoolRetiresAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -456,12 +456,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsPoolRetiresAsync(hash, CancellationToken.None);
+            var actual = await GetPoolRetiresAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -479,12 +479,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/pool_retires", "0.1.28")]
-        private static async Task<Api.Models.TxContentPoolRetiresResponseCollection> GetTxsPoolRetiresAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentPoolRetiresResponseCollection> GetPoolRetiresAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsPoolRetiresAsync(hash, cancellationToken);
+            return await sut.GetPoolRetiresAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata <c>/txs/{hash}/metadata</c>
@@ -499,7 +499,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/metadata", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsMetadataAsync_Not_Null(string hash)
+        public async Task GetMetadataAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -514,12 +514,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsMetadataAsync(hash, CancellationToken.None);
+            var actual = await GetMetadataAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -537,12 +537,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/metadata", "0.1.28")]
-        private static async Task<Api.Models.TxContentMetadataResponseCollection> GetTxsMetadataAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentMetadataResponseCollection> GetMetadataAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMetadataAsync(hash, cancellationToken);
+            return await sut.GetMetadataAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction metadata in CBOR <c>/txs/{hash}/metadata/cbor</c>
@@ -557,7 +557,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/metadata/cbor", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsMetadataCborAsync_Not_Null(string hash)
+        public async Task GetMetadataCborAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -572,12 +572,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsMetadataCborAsync(hash, CancellationToken.None);
+            var actual = await GetMetadataCborAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -595,12 +595,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/metadata/cbor", "0.1.28")]
-        private static async Task<Api.Models.TxContentMetadataCborResponseCollection> GetTxsMetadataCborAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentMetadataCborResponseCollection> GetMetadataCborAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsMetadataCborAsync(hash, cancellationToken);
+            return await sut.GetMetadataCborAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Transaction redeemers <c>/txs/{hash}/redeemers</c>
@@ -615,7 +615,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/txs/{hash}/redeemers", "0.1.28")]
         [TestMethod]
         [DataRow(null)]
-        public async Task GetTxsRedeemersAsync_Not_Null(string hash)
+        public async Task GetRedeemersAsync_Not_Null(string hash)
         {
             // Arrange
             if (string.IsNullOrEmpty(hash))
@@ -630,12 +630,12 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var tx = await transactionsService.GetUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
             //Act
-            var actual = await GetTxsRedeemersAsync(hash, CancellationToken.None);
+            var actual = await GetRedeemersAsync(hash, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -653,12 +653,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/redeemers", "0.1.28")]
-        private static async Task<Api.Models.TxContentRedeemersResponseCollection> GetTxsRedeemersAsync(string hash, CancellationToken cancellationToken)
+        private static async Task<Api.Models.TxContentRedeemersResponseCollection> GetRedeemersAsync(string hash, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
             sut.ReadResponseAsString = true;
             // hash  has null check
-            return await sut.GetTxsRedeemersAsync(hash, cancellationToken);
+            return await sut.GetRedeemersAsync(hash, cancellationToken);
         }
         /// <summary>
         ///     Testing Submit a transaction <c>/tx/submit</c>

@@ -48,8 +48,8 @@ namespace Blockfrost.Api.Tests.Services
                     latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
                 }
 
-                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                var txs = await blocksService.GetTxsAsync(latest.Hash);
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
                 //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -108,7 +108,7 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
                 //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -170,7 +170,7 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
                 //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -238,7 +238,7 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
                 //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -309,7 +309,7 @@ namespace Blockfrost.Api.Tests.Services
                 }
 
                 var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetTxsUtxosAsync(txs.First());
+                var tx = await Provider.GetRequiredService<Api.Services.ITransactionsService>().GetUtxosAsync(txs.First());
                 address = tx.Inputs.First().Address;
                 //from = (latest.Slot - 100).ToString(System.Globalization.CultureInfo.InvariantCulture);
                 //to = latest.Slot.ToString(System.Globalization.CultureInfo.InvariantCulture);
