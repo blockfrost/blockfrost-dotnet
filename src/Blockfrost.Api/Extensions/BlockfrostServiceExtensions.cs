@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Blockfrost.Api.Options;
 using Microsoft.Extensions.Configuration;

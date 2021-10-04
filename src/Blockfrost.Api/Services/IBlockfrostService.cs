@@ -1,4 +1,4 @@
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     /// <summary>
     /// Specifies basic functionality for services interacting with the Blockfrost API

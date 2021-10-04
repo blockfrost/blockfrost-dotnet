@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -19,9 +19,9 @@ namespace Blockfrost.Api
         private JsonSerializerOptions TextJsonSerializerSettings => _options.Value;
 
         protected HttpClient HttpClient { get; set; }
-        
+
         public string Name { get; set; }
-        
+
         public string Network { get; set; }
 
         public string BaseUrl

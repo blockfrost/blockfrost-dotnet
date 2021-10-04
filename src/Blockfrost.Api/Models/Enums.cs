@@ -1,4 +1,4 @@
-namespace Blockfrost.Api
+﻿namespace Blockfrost.Api
 {
     public enum ESortOrder
     {
