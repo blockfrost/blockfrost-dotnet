@@ -1,4 +1,4 @@
-﻿    /// <summary>
+    /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}The <see cref="{{ClassName}}"/>{{/description}}
     /// </summary>
     {{>partial_visibility}} partial class {{ClassName}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{ClassName}}>
@@ -37,7 +37,7 @@
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || ({{#each Properties}}{{#IsNotContainer}}{{name}} == other.{{name}}{{/IsNotContainer}}{{^IsNotContainer}}Equals({{name}},other.{{name}}){{/IsNotContainer}}{{#IsLast}}){{/IsLast}}{{^IsLast}} && {{/IsLast}}{{/each}});
+                   || ({{#each Properties}}{{#IsNotContainer}}{{name}} == other.{{name}}{{/IsNotContainer}}{{^IsNotContainer}}Equals({{name}}, other.{{name}}){{/IsNotContainer}}{{#IsLast}}){{/IsLast}}{{^IsLast}} && {{/IsLast}}{{/each}});
         }
 
         /// <summary>

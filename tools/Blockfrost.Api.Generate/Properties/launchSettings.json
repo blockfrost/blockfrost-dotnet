@@ -2,7 +2,7 @@
   "profiles": {
     "Blockfrost.Api.Generate": {
       "commandName": "Project",
-      "commandLineArgs": "-s https://raw.githubusercontent.com/blockfrost/openapi/master/swagger.yaml -o C:\\dev\\blockfrost\\blockfrost-dotnet\\ -t C:\\dev\\blockfrost\\blockfrost-dotnet\\tools\\Blockfrost.Api.Generate\\templates_simple\\ -g va --preserve *LedgerService.cs,*MetadataService.cs,*NetworkService.cs"
+      "commandLineArgs": "-s https://raw.githubusercontent.com/blockfrost/openapi/master/swagger.yaml -o C:\\dev\\blockfrost\\blockfrost-dotnet\\ -t C:\\dev\\blockfrost\\blockfrost-dotnet\\tools\\Blockfrost.Api.Generate\\templates_simple\\ -g m --preserve *LedgerService.cs,*MetadataService.cs,*NetworkService.cs"
     }
   }
 }
