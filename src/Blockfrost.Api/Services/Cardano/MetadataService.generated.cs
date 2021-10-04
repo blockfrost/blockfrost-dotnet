@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels", "0.1.27")]
+        [Get("/metadata/txs/labels", "0.1.28")]
         public Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(count, page, order, CancellationToken.None);
@@ -52,7 +52,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels", "0.1.27")]
+        [Get("/metadata/txs/labels", "0.1.28")]
         public async Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/metadata/txs/labels");
@@ -76,7 +76,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}", "0.1.28")]
         public Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsAsync(label, count, page, order, CancellationToken.None);
@@ -95,7 +95,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}", "0.1.28")]
         public async Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)
@@ -125,7 +125,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.28")]
         public Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order)
         {
             return GetTxsLabelsCborAsync(label, count, page, order, CancellationToken.None);
@@ -144,7 +144,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.28")]
         public async Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (label == null)

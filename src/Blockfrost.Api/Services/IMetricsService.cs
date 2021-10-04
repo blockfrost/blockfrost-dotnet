@@ -14,7 +14,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metrics/", "0.1.27")]
+        [Get("/metrics/", "0.1.28")]
         Task<Models.MetricsResponseCollection> GetMetricsAsync();
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metrics/", "0.1.27")]
+        [Get("/metrics/", "0.1.28")]
         Task<Models.MetricsResponseCollection> GetMetricsAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Blockfrost endpoint usage metrics <c>/metrics/endpoints</c>
@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metrics/endpoints", "0.1.27")]
+        [Get("/metrics/endpoints", "0.1.28")]
         Task<Models.MetricsEndpointsResponseCollection> GetEndpointsAsync();
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the last 30 days of metrics</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metrics/endpoints", "0.1.27")]
+        [Get("/metrics/endpoints", "0.1.28")]
         Task<Models.MetricsEndpointsResponseCollection> GetEndpointsAsync(CancellationToken cancellationToken);
     }
 }

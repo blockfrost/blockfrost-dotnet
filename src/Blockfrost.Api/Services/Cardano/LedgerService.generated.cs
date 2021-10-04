@@ -32,7 +32,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/genesis", "0.1.27")]
+        [Get("/genesis", "0.1.28")]
         public Task<Models.GenesisContentResponse> GetGenesisAsync()
         {
             return GetGenesisAsync(CancellationToken.None);
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/genesis", "0.1.27")]
+        [Get("/genesis", "0.1.28")]
         public async Task<Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/genesis");

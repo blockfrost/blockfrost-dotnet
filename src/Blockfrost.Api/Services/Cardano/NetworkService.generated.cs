@@ -32,7 +32,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/network", "0.1.27")]
+        [Get("/network", "0.1.28")]
         public Task<Models.NetworkResponse> GetNetworkAsync()
         {
             return GetNetworkAsync(CancellationToken.None);
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return detailed network information.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/network", "0.1.27")]
+        [Get("/network", "0.1.28")]
         public async Task<Models.NetworkResponse> GetNetworkAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/network");

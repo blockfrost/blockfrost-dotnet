@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return list of scripts</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts", "0.1.27")]
+        [Get("/scripts", "0.1.28")]
         public Task<Models.ScriptsResponseCollection> GetScriptsAsync(int? count, int? page, ESortOrder? order)
         {
             return GetScriptsAsync(count, page, order, CancellationToken.None);
@@ -52,7 +52,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return list of scripts</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts", "0.1.27")]
+        [Get("/scripts", "0.1.28")]
         public async Task<Models.ScriptsResponseCollection> GetScriptsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/scripts");
@@ -73,7 +73,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the information about a specific script</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts/{script_hash}", "0.1.27")]
+        [Get("/scripts/{script_hash}", "0.1.28")]
         public Task<Models.ScriptResponse> GetScriptsAsync(string script_hash)
         {
             return GetScriptsAsync(script_hash, CancellationToken.None);
@@ -89,7 +89,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the information about a specific script</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts/{script_hash}", "0.1.27")]
+        [Get("/scripts/{script_hash}", "0.1.28")]
         public async Task<Models.ScriptResponse> GetScriptsAsync(string script_hash, CancellationToken cancellationToken)
         {
             if (script_hash == null)
@@ -115,7 +115,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the information about redeemers of a specific script</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts/{script_hash}/redeemers", "0.1.27")]
+        [Get("/scripts/{script_hash}/redeemers", "0.1.28")]
         public Task<Models.ScriptRedeemersResponseCollection> GetRedeemersAsync(string script_hash, int? count, int? page, ESortOrder? order)
         {
             return GetRedeemersAsync(script_hash, count, page, order, CancellationToken.None);
@@ -134,7 +134,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the information about redeemers of a specific script</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/scripts/{script_hash}/redeemers", "0.1.27")]
+        [Get("/scripts/{script_hash}/redeemers", "0.1.28")]
         public async Task<Models.ScriptRedeemersResponseCollection> GetRedeemersAsync(string script_hash, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (script_hash == null)

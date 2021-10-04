@@ -18,7 +18,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.28")]
         Task<object> GetGatewayAsync(string IPFS_path);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the object content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/gateway/{IPFS_path}", "0.1.27")]
+        [Get("/ipfs/gateway/{IPFS_path}", "0.1.28")]
         Task<object> GetGatewayAsync(string IPFS_path, CancellationToken cancellationToken);
     }
 }

@@ -14,7 +14,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/", "0.1.27")]
+        [Get("/", "0.1.28")]
         Task<Models.InfoResponse> GetApiInfoAsync();
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Information pointing to the documentation.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/", "0.1.27")]
+        [Get("/", "0.1.28")]
         Task<Models.InfoResponse> GetApiInfoAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Backend health status <c>/health</c>
@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/health", "0.1.27")]
+        [Get("/health", "0.1.28")]
         Task<Models.HealthResponse> GetHealthAsync();
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the boolean indicating the health of the backend.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/health", "0.1.27")]
+        [Get("/health", "0.1.28")]
         Task<Models.HealthResponse> GetHealthAsync(CancellationToken cancellationToken);
         /// <summary>
         ///     Current backend time <c>/health/clock</c>
@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/health/clock", "0.1.27")]
+        [Get("/health/clock", "0.1.28")]
         Task<Models.HealthClockResponse> GetClockAsync();
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the current UNIX time in milliseconds.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/health/clock", "0.1.27")]
+        [Get("/health/clock", "0.1.28")]
         Task<Models.HealthClockResponse> GetClockAsync(CancellationToken cancellationToken);
     }
 }

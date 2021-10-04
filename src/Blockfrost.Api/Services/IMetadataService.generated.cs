@@ -21,7 +21,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels", "0.1.27")]
+        [Get("/metadata/txs/labels", "0.1.28")]
         Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order);
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels", "0.1.27")]
+        [Get("/metadata/txs/labels", "0.1.28")]
         Task<Models.TxMetadataLabelsResponseCollection> GetTxsLabelsAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Transaction metadata content in JSON <c>/metadata/txs/labels/{label}</c>
@@ -50,7 +50,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}", "0.1.28")]
         Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order);
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}", "0.1.28")]
         Task<Models.TxMetadataLabelJsonResponseCollection> GetTxsLabelsAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
         /// <summary>
         ///     Transaction metadata content in CBOR <c>/metadata/txs/labels/{label}/cbor</c>
@@ -81,7 +81,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.28")]
         Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order);
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the account delegations content in CBOR</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/metadata/txs/labels/{label}/cbor", "0.1.27")]
+        [Get("/metadata/txs/labels/{label}/cbor", "0.1.28")]
         Task<Models.TxMetadataLabelCborResponseCollection> GetTxsLabelsCborAsync(string label, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
     }
 }

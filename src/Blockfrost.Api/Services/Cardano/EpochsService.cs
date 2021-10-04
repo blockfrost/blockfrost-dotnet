@@ -32,7 +32,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/latest", "0.1.27")]
+        [Get("/epochs/latest", "0.1.28")]
         public Task<Models.EpochContentResponse> GetLatestAsync()
         {
             return GetLatestAsync(CancellationToken.None);
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/latest", "0.1.27")]
+        [Get("/epochs/latest", "0.1.28")]
         public async Task<Models.EpochContentResponse> GetLatestAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/latest");
@@ -61,7 +61,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/latest/parameters", "0.1.27")]
+        [Get("/epochs/latest/parameters", "0.1.28")]
         public Task<Models.EpochParamContentResponse> GetLatestParametersAsync()
         {
             return GetLatestParametersAsync(CancellationToken.None);
@@ -75,7 +75,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/latest/parameters", "0.1.27")]
+        [Get("/epochs/latest/parameters", "0.1.28")]
         public async Task<Models.EpochParamContentResponse> GetLatestParametersAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/latest/parameters");
@@ -91,7 +91,7 @@ namespace Blockfrost.Api.Services
         /// <param name="number">Number of the epoch</param>
         /// <returns>Return the epoch data.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}", "0.1.27")]
+        [Get("/epochs/{number}", "0.1.28")]
         public Task<Models.EpochContentResponse> GetEpochsAsync(int number)
         {
             return GetEpochsAsync(number, CancellationToken.None);
@@ -106,7 +106,7 @@ namespace Blockfrost.Api.Services
         /// <param name="number">Number of the epoch</param>
         /// <returns>Return the epoch data.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}", "0.1.27")]
+        [Get("/epochs/{number}", "0.1.28")]
         public async Task<Models.EpochContentResponse> GetEpochsAsync(int number, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}");
@@ -125,7 +125,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/next", "0.1.27")]
+        [Get("/epochs/{number}/next", "0.1.28")]
         public Task<Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page)
         {
             return GetNextAsync(number, count, page, CancellationToken.None);
@@ -142,7 +142,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/next", "0.1.27")]
+        [Get("/epochs/{number}/next", "0.1.28")]
         public async Task<Models.EpochContentResponseCollection> GetNextAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}/next");
@@ -164,7 +164,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results</param>
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/previous", "0.1.27")]
+        [Get("/epochs/{number}/previous", "0.1.28")]
         public Task<Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page)
         {
             return GetPreviousAsync(number, count, page, CancellationToken.None);
@@ -181,7 +181,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results</param>
         /// <returns>Return the epoch data</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/previous", "0.1.27")]
+        [Get("/epochs/{number}/previous", "0.1.28")]
         public async Task<Models.EpochContentResponseCollection> GetPreviousAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}/previous");
@@ -203,7 +203,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/stakes", "0.1.27")]
+        [Get("/epochs/{number}/stakes", "0.1.28")]
         public Task<Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page)
         {
             return GetStakesAsync(number, count, page, CancellationToken.None);
@@ -220,7 +220,7 @@ namespace Blockfrost.Api.Services
         /// <param name="page">The page number for listing the results.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/stakes", "0.1.27")]
+        [Get("/epochs/{number}/stakes", "0.1.28")]
         public async Task<Models.EpochStakeContentResponseCollection> GetStakesAsync(int number, int? count, int? page, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}/stakes");
@@ -244,7 +244,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
+        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.28")]
         public Task<Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page)
         {
             return GetStakesAsync(number, pool_id, count, page, CancellationToken.None);
@@ -263,7 +263,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.27")]
+        [Get("/epochs/{number}/stakes/{pool_id}", "0.1.28")]
         public async Task<Models.EpochStakePoolContentResponseCollection> GetStakesAsync(int number, string pool_id, int? count, int? page, CancellationToken cancellationToken)
         {
             if (pool_id == null)
@@ -292,7 +292,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/blocks", "0.1.27")]
+        [Get("/epochs/{number}/blocks", "0.1.28")]
         public Task<Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order)
         {
             return GetBlocksAsync(number, count, page, order, CancellationToken.None);
@@ -310,7 +310,7 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/blocks", "0.1.27")]
+        [Get("/epochs/{number}/blocks", "0.1.28")]
         public async Task<Models.StringCollection> GetBlocksAsync(int number, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}/blocks");
@@ -336,7 +336,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
+        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.28")]
         public Task<Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order)
         {
             return GetBlocksAsync(number, pool_id, count, page, order, CancellationToken.None);
@@ -356,7 +356,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.27")]
+        [Get("/epochs/{number}/blocks/{pool_id}", "0.1.28")]
         public async Task<Models.StringCollection> GetBlocksAsync(int number, string pool_id, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (pool_id == null)
@@ -383,7 +383,7 @@ namespace Blockfrost.Api.Services
         /// <param name="number">Number of the epoch</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/parameters", "0.1.27")]
+        [Get("/epochs/{number}/parameters", "0.1.28")]
         public Task<Models.EpochParamContentResponse> GetParametersAsync(int number)
         {
             return GetParametersAsync(number, CancellationToken.None);
@@ -398,7 +398,7 @@ namespace Blockfrost.Api.Services
         /// <param name="number">Number of the epoch</param>
         /// <returns>Return the data about the epoch</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/epochs/{number}/parameters", "0.1.27")]
+        [Get("/epochs/{number}/parameters", "0.1.28")]
         public async Task<Models.EpochParamContentResponse> GetParametersAsync(int number, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/epochs/{number}/parameters");

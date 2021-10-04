@@ -34,7 +34,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content.</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}", "0.1.27")]
+        [Get("/addresses/{address}", "0.1.28")]
         public Task<Models.AddressContentResponse> GetAddressesAsync(string address)
         {
             return GetAddressesAsync(address, CancellationToken.None);
@@ -50,7 +50,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content.</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}", "0.1.27")]
+        [Get("/addresses/{address}", "0.1.28")]
         public async Task<Models.AddressContentResponse> GetAddressesAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
@@ -73,7 +73,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the Address details.</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/total", "0.1.27")]
+        [Get("/addresses/{address}/total", "0.1.28")]
         public Task<Models.AddressContentTotalResponse> GetTotalAsync(string address)
         {
             return GetTotalAsync(address, CancellationToken.None);
@@ -89,7 +89,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the Address details.</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/total", "0.1.27")]
+        [Get("/addresses/{address}/total", "0.1.28")]
         public async Task<Models.AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken)
         {
             if (address == null)
@@ -115,7 +115,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/utxos", "0.1.27")]
+        [Get("/addresses/{address}/utxos", "0.1.28")]
         public Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetUtxosAsync(address, count, page, order, CancellationToken.None);
@@ -134,7 +134,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/utxos", "0.1.27")]
+        [Get("/addresses/{address}/utxos", "0.1.28")]
         public async Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count = 100, int? page = 1, ESortOrder? order = ESortOrder.Asc, CancellationToken cancellationToken = default)
         {
             if (address == null)
@@ -164,7 +164,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/txs", "0.1.27")]
+        [Get("/addresses/{address}/txs", "0.1.28")]
         public Task<Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order)
         {
             return GetTxsAsync(address, count, page, order, CancellationToken.None);
@@ -183,7 +183,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/txs", "0.1.27")]
+        [Get("/addresses/{address}/txs", "0.1.28")]
         public async Task<Models.StringCollection> GetTxsAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             if (address == null)
@@ -215,7 +215,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/transactions", "0.1.27")]
+        [Get("/addresses/{address}/transactions", "0.1.28")]
         public Task<Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to)
         {
             return GetTransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
@@ -236,7 +236,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/addresses/{address}/transactions", "0.1.27")]
+        [Get("/addresses/{address}/transactions", "0.1.28")]
         public async Task<Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
         {
             if (address == null)
