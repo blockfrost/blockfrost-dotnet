@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetNetworkAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetNetworkAsync(CancellationToken.None);
 

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetLatestAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetLatestAsync(CancellationToken.None);
 
@@ -77,7 +76,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetLatestTxsAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetLatestTxsAsync(count, page, order, CancellationToken.None);
 
@@ -214,7 +212,8 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Return the contents of the block</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/blocks/epoch/{epoch_number}/slot/{slot_number}", "0.1.28")]
-        //[TestMethod]
+        [TestMethod]
+        [Ignore("Needs specific input")]
         [DataRow(1, 1)]
         public async Task GetEpochSlotAsync_Not_Null(int epoch_number, int slot_number)
         {

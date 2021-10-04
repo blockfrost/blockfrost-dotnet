@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -283,18 +283,19 @@ namespace Blockfrost.Api.Tests.Services
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1transactions/get">/addresses/{address}/transactions</seealso> on docs.blockfrost.io
         /// </remarks>
         /// <param name="address">Bech32 address.</param>
+        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
+        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <param name="count">The numbers of pools per page.</param>
         /// <param name="page">The page number for listing the results.</param>
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
-        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
-        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.28")]
-        //[TestMethod]
-        [DataRow(null, 1, 1, ESortOrder.Asc, null, null)]
-        public async Task GetTransactionsAsync_Not_Null(string address, int? count, int? page, ESortOrder? order, string from, string to)
+        [TestMethod]
+        [Ignore("Needs specific input")]
+        [DataRow(null, null, null, 1, 1, ESortOrder.Asc)]
+        public async Task GetTransactionsAsync_Not_Null(string address, string from, string to, int? count, int? page, ESortOrder? order)
         {
             // Arrange
             if (string.IsNullOrEmpty(address))
@@ -315,7 +316,7 @@ namespace Blockfrost.Api.Tests.Services
             }
 
             //Act
-            var actual = await GetTransactionsAsync(address, count, page, order, from, to, CancellationToken.None);
+            var actual = await GetTransactionsAsync(address, from, to, count, page, order, CancellationToken.None);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -329,26 +330,26 @@ namespace Blockfrost.Api.Tests.Services
         ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1transactions/get">/addresses/{address}/transactions</seealso> on docs.blockfrost.io
         /// </remarks>
         /// <param name="address">Bech32 address.</param>
+        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
+        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <param name="count">The numbers of pools per page.</param>
         /// <param name="page">The page number for listing the results.</param>
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
-        /// <param name="from">The block number and optionally also index from which (inclusive) to start search for results, concatenated using colon.Has to be lower than or equal to `to` parameter.</param>
-        /// <param name="to">The block number and optionally also index where (inclusive) to end the search for results, concatenated using colon.Has to be higher than or equal to `from` parameter.</param>
         /// <returns>Return the address content</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/transactions", "0.1.28")]
-        private static async Task<Api.Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, int? count, int? page, ESortOrder? order, string from, string to, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AddressTransactionsContentResponseCollection> GetTransactionsAsync(string address, string from, string to, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAddressesService>();
             sut.ReadResponseAsString = true;
             // address  has null check
+            // from  
+            // to  
             // count (optional) 
             // page (optional) 
             // order (optional) 
-            // from  
-            // to  
-            return await sut.GetTransactionsAsync(address, count, page, order, from, to, cancellationToken);
+            return await sut.GetTransactionsAsync(address, from, to, count, page, order, cancellationToken);
         }
     }
 }

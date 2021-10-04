@@ -32,15 +32,16 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
-        //[TestMethod]
-        //[DataRow("")]
-        //public async Task PostPinAddAsync_Not_Null(System.IO.Stream content)
-        //{
-        //    var actual = await PostPinAddAsync(content, CancellationToken.None);
-        //    Assert.IsNotNull(actual);
-        //    Assert.IsInstanceOfType(actual, typeof(string));
-        //}
+            [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
+            [TestMethod]
+            [Ignore("Needs specific input")]
+            [DataRow("")]
+            public async Task PostPinAddAsync_Not_Null(System.IO.Stream content)
+            {
+                var actual = await PostPinAddAsync(content, CancellationToken.None);
+                Assert.IsNotNull(actual);
+                Assert.IsInstanceOfType(actual, typeof(string));
+            }
 
         /// <summary>
         ///     Testing Pin an object <c>/ipfs/pin/add/{IPFS_path}</c>
@@ -52,16 +53,14 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
-        //private async Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken)
-        //{
-        //    var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
-        //
-        //    
-        //    // content  
-        //    
-        //    return await sut.PostPinAddAsync(content,  cancellationToken);
-        //}
+        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
+        private async Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken)
+        {
+            var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
+            
+            // content  
+            return await sut.PostPinAddAsync(content,  cancellationToken);
+        }
         /// <summary>
         ///     Testing List pinned objects <c>/ipfs/pin/list/</c>
         /// </summary>
@@ -74,12 +73,12 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/", "0.1.28")]
-        //[TestMethod]
+        [TestMethod]
+        [Ignore("Needs specific input")]
         [DataRow(1, 1, ESortOrder.Asc)]
         public async Task GetPinListAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetPinListAsync(count, page, order, CancellationToken.None);
 
@@ -120,12 +119,11 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
-        //[TestMethod]
+        [TestMethod]
         [DataRow(null)]
         public async Task GetPinListAsync_Not_Null(string IPFS_path)
         {
             // Arrange
-
             //Act
             var actual = await GetPinListAsync(IPFS_path, CancellationToken.None);
 
@@ -162,15 +160,16 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
-        //[TestMethod]
-        //[DataRow("")]
-        //public async Task PostPinRemoveAsync_Not_Null(System.IO.Stream content)
-        //{
-        //    var actual = await PostPinRemoveAsync(content, CancellationToken.None);
-        //    Assert.IsNotNull(actual);
-        //    Assert.IsInstanceOfType(actual, typeof(string));
-        //}
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
+        [TestMethod]
+        [Ignore("Needs specific input")]
+        [DataRow("")]
+        public async Task PostPinRemoveAsync_Not_Null(System.IO.Stream content)
+        {
+            var actual = await PostPinRemoveAsync(content, CancellationToken.None);
+            Assert.IsNotNull(actual);
+            Assert.IsInstanceOfType(actual, typeof(string));
+        }
 
         /// <summary>
         ///     Testing  <c>/ipfs/pin/remove/{IPFS_path}</c>
@@ -182,16 +181,14 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
-        //private async Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken)
-        //{
-        //    var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
-        //
-        //    
-        //    // content  
-        //    
-        //    return await sut.PostPinRemoveAsync(content,  cancellationToken);
-        //}
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
+        private async Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken)
+        {
+            var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
+            
+            // content  
+            return await sut.PostPinRemoveAsync(content,  cancellationToken);
+        }
     }
 }
 

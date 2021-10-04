@@ -39,7 +39,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetAssetsAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetAssetsAsync(count, page, order, CancellationToken.None);
 

@@ -98,17 +98,17 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash))
             {
-                var cardano = Provider.GetRequiredService<Api.Services.ICardanoService>();
-
-                var latest = await cardano.Blocks.GetLatestAsync();
+                var transactionsService = Provider.GetRequiredService<Api.Services.ITransactionsService>();
+                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
 
                 while (latest.TxCount == 0)
                 {
-                    latest = await cardano.Blocks.GetBlocksAsync(latest.PreviousBlock);
+                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
                 }
 
-                var txs = await cardano.Blocks.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await cardano.Transactions.GetTxsUtxosAsync(txs.First());
+                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
+                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
@@ -668,15 +668,16 @@ namespace Blockfrost.Api.Tests.Services
         /// </remarks>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/tx/submit", "0.1.28")]
-        //[TestMethod]
-        //[DataRow()]
-        //public async Task PostTxSubmitAsync_Not_Null()
-        //{
-        //    var actual = await PostTxSubmitAsync(CancellationToken.None);
-        //    Assert.IsNotNull(actual);
-        //    Assert.IsInstanceOfType(actual, typeof(string));
-        //}
+        [Post("/tx/submit", "0.1.28")]
+        [TestMethod]
+        [Ignore("Needs specific input")]
+        [DataRow()]
+        public async Task PostTxSubmitAsync_Not_Null()
+        {
+            var actual = await PostTxSubmitAsync(CancellationToken.None);
+            Assert.IsNotNull(actual);
+            Assert.IsInstanceOfType(actual, typeof(string));
+        }
 
         /// <summary>
         ///     Testing Submit a transaction <c>/tx/submit</c>
@@ -686,14 +687,13 @@ namespace Blockfrost.Api.Tests.Services
         /// </remarks>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        //[Post("/tx/submit", "0.1.28")]
-        //private async Task<string> PostTxSubmitAsync(CancellationToken cancellationToken)
-        //{
-        //    var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
-        //
-        //    
-        //    return await sut.PostTxSubmitAsync( cancellationToken);
-        //}
+        [Post("/tx/submit", "0.1.28")]
+        private async Task<string> PostTxSubmitAsync(CancellationToken cancellationToken)
+        {
+            var sut = Provider.GetRequiredService<Api.Services.ITransactionsService>();
+            var stream = new System.IO.MemoryStream();
+            return await sut.PostTxSubmitAsync(stream, cancellationToken);
+        }
     }
 }
 

@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetGenesisAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetGenesisAsync(CancellationToken.None);
 

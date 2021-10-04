@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetMetricsAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetMetricsAsync(CancellationToken.None);
 
@@ -74,7 +73,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetEndpointsAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetEndpointsAsync(CancellationToken.None);
 

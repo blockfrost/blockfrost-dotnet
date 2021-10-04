@@ -39,7 +39,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetScriptsAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetScriptsAsync(count, page, order, CancellationToken.None);
 

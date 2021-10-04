@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -202,7 +202,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/accounts/{stake_address}/delegations", "0.1.28")]
         [TestMethod]
-        [DataRow(null, 100, 1, ESortOrder.Asc)]
+        [DataRow(null, 1, 1, ESortOrder.Asc)]
         public async Task GetDelegationsAsync_Not_Null(string stake_address, int? count, int? page, ESortOrder? order)
         {
             // Arrange

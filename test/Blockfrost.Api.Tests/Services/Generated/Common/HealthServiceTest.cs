@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetApiInfoAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetApiInfoAsync(CancellationToken.None);
 
@@ -74,7 +73,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetHealthAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetHealthAsync(CancellationToken.None);
 
@@ -112,7 +110,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetClockAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetClockAsync(CancellationToken.None);
 

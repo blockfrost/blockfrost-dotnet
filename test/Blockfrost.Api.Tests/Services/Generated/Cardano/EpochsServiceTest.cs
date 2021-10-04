@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +36,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetLatestAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetLatestAsync(CancellationToken.None);
 
@@ -74,7 +73,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetLatestParametersAsync_Not_Null()
         {
             // Arrange
-
             //Act
             var actual = await GetLatestParametersAsync(CancellationToken.None);
 

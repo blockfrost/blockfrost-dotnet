@@ -39,7 +39,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetPoolsAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetPoolsAsync(count, page, order, CancellationToken.None);
 
@@ -86,7 +85,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetRetiredAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetRetiredAsync(count, page, order, CancellationToken.None);
 
@@ -133,7 +131,6 @@ namespace Blockfrost.Api.Tests.Services
         public async Task GetRetiringAsync_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
-
             //Act
             var actual = await GetRetiringAsync(count, page, order, CancellationToken.None);
 
