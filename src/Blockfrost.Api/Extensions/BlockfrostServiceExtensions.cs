@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Blockfrost.Api.Options;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +22,13 @@ namespace Blockfrost.Api.Extensions
             return services.AddBlockfrost(config["BFCLI_NETWORK"], config["BFCLI_API_KEY"]);
         }
 
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection and configures the specified projectName using the provided configuration
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="projectName">The project name to use from the config</param>
+        /// <param name="configuration">The configuration</param>
+        /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
             _ = services.ConfigureBlockfrost(projectName, configuration);
@@ -31,6 +38,13 @@ namespace Blockfrost.Api.Extensions
             return services;
         }
 
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection and configures the services for the project from the provided configuration
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="projectName">The project name to use from the config</param>
+        /// <param name="configuration">The configuration</param>
+        /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, IConfiguration config)
         {
             var blockfrostConfig = config.GetSection("Blockfrost");
@@ -51,10 +65,12 @@ namespace Blockfrost.Api.Extensions
                 return services.AddBlockfrost(project.Name, config);
             }
         }
+
         /// <summary>
-        /// Adds Blockfrost Services to the service collection
+        /// Adds Blockfrost Services to the service collection and configures the services using the provided project
         /// </summary>
         /// <param name="services">The IServiceCollection</param>
+        /// <param name="project">The project to use</param>
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, BlockfrostProject project)
         {

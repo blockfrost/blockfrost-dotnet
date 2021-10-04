@@ -128,8 +128,6 @@ namespace Blockfrost.Api.Extensions
         /// Adds Blockfrost Services to the service collection
         /// </summary>
         /// <param name="services">The IServiceCollection</param>
-        /// <param name="network">The network the services will use</param>
-        /// <param name="apiKey">The ApiKey used to authenticate</param>
         /// <returns></returns>
         public static IServiceCollection AddCardanoServices(this IServiceCollection services, string projectName)
         {

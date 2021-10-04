@@ -336,7 +336,10 @@ namespace Blockfrost.Api
 
         private JsonSerializerOptions CreateSerializerOptions()
         {
-            var options = new JsonSerializerOptions();
+            var options = new JsonSerializerOptions
+            {
+                AllowTrailingCommas = true,
+            };
             UpdateJsonSerializerOptions(options);
             return options;
         }

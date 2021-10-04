@@ -30,10 +30,9 @@ namespace Blockfrost.Api.Extensions
 
                 var project = blockfrostSection.Get<BlockfrostProject>();
 
-                if (project == null)
+                if (string.IsNullOrEmpty(project.Name))
                 {
-                    // try dictionary
-                    project = blockfrostSection.GetSection($"{projectName}").Get<BlockfrostProject>();
+                    project = blockfrostSection.GetProject(projectName);
                 }
 
                 if (!projectName.Equals(project.Name, StringComparison.Ordinal))

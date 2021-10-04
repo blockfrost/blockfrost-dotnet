@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net.Http;
 using Blockfrost.Api.Options;
@@ -986,7 +986,6 @@ namespace Blockfrost.Api.Extensions
             //    var options = provider.GetService<IOptions<BlockfrostOptions>>();
             //    return new BlockfrostAuthorizationHandler(options.Value[projectName].ApiKey);
             //});
-
             _ = services.AddHealthService(projectName);
             _ = services.AddMetricsService(projectName);
 
@@ -1021,7 +1020,6 @@ namespace Blockfrost.Api.Extensions
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
 
             _ = services.AddBasicBlockfrostService(projectName, connectionLimit);
-
             _ = services.AddHealthService(projectName, connectionLimit);
             _ = services.AddMetricsService(projectName, connectionLimit);
 
@@ -1228,4 +1226,3 @@ namespace Blockfrost.Api.Extensions
         }
     }
 }
-
