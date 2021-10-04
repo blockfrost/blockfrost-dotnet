@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using Blockfrost.Api.Options;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +12,16 @@ namespace Blockfrost.Api.Extensions
         /// Adds Blockfrost Services to the service collection
         /// </summary>
         /// <param name="services">The IServiceCollection</param>
-        /// <param name="network">The network the services will use</param>
-        /// <param name="apiKey">The ApiKey used to authenticate</param>
         /// <returns></returns>
+        public static IServiceCollection AddBlockfrost(this IServiceCollection services)
+        {
+            var config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+
+            return services.AddBlockfrost(config["BFCLI_NETWORK"], config["BFCLI_API_KEY"]);
+        }
+
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, string projectName, IConfiguration configuration)
         {
             _ = services.ConfigureBlockfrost(projectName, configuration);
@@ -48,8 +55,6 @@ namespace Blockfrost.Api.Extensions
         /// Adds Blockfrost Services to the service collection
         /// </summary>
         /// <param name="services">The IServiceCollection</param>
-        /// <param name="network">The network the services will use</param>
-        /// <param name="apiKey">The ApiKey used to authenticate</param>
         /// <returns></returns>
         public static IServiceCollection AddBlockfrost(this IServiceCollection services, BlockfrostProject project)
         {

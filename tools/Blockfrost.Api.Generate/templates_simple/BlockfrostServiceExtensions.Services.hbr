@@ -155,6 +155,7 @@ namespace Blockfrost.Api.Extensions
             {{/each}}
             _ = services.AddRootService(projectName);
 
+            _ = services.AddBlockfrostService<Services.ICardanoService, CardanoService>(projectName);
             return services;
         }
 
@@ -188,6 +189,7 @@ namespace Blockfrost.Api.Extensions
             {{/if}}
             {{/each}}
 
+            _ = services.AddBlockfrostService<Services.ICardanoService, CardanoService>(projectName);
             return services;
         }
         #endregion CardanoServices
@@ -252,56 +254,80 @@ namespace Blockfrost.Api.Extensions
         /// <param name="services">The IServiceCollection.</param>
         /// <param name="name">The logical name of the HttpClient to configure.</param>
         public static IHttpClientBuilder AddBlockfrostService<TClient, TImplementation>(this IServiceCollection services, string name, int connectionLimit = Constants.CONNECTION_LIMIT)
-            where TClient : class
-            where TImplementation : ABlockfrostService, TClient
+            where TClient : class, IBlockfrostService
+            where TImplementation : class, TClient
         {
             return services.AddHttpClient<TClient, TImplementation>($"{name}:{typeof(TImplementation).Name}", (client, provider) =>
             {
+                TImplementation service = default;
+
                 var options = provider.GetService<IOptions<BlockfrostOptions>>();
                 var migration = typeof(TClient).GetInterfaces().FirstOrDefault(i => i.Name.StartsWith("IServiceMigration", StringComparison.OrdinalIgnoreCase));
                 string network = options.Value[name].Network;
 
                 if (migration != null)
                 {
-                    var service = ServiceFactory<TImplementation>(
+                    service = ServiceFactory<TImplementation>(
                         provider.GetService(migration.GenericTypeArguments.FirstOrDefault()),
                         client,
                         name,
                         network,
                         connectionLimit);
-                    return service;
                 }
                 else
                 {
-                    var types = new[] { typeof(Api.Services.IHealthService), typeof(Api.Services.IMetricsService), typeof(HttpClient) };
-                    var ctor = typeof(TImplementation).GetConstructor(types);
-
-                    if (ctor == null)
-                    {
-                        var service = ServiceFactory<TImplementation>(
-                            client,
-                            name,
-                            network,
-                            connectionLimit);
-                        return service;
-                    }
-                    else
+                    if (typeof(TClient) == typeof(Services.ICardanoService))
                     {
                         ConfigureHttpClient(client, network, connectionLimit);
                         var health = CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(name, network, client);
                         var metrics = CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(name, network, client);
-                        var blockfrostService = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] { health, metrics, client });
-                        blockfrostService.Name = name; 
-                        blockfrostService.Network = network;
-                        return blockfrostService;
+                        service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] { 
+                            health,
+                            metrics,
+                            CreateClient<Api.Services.IAccountsService, Api.Services.AccountsService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IAddressesService, Api.Services.AddressesService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IAssetsService, Api.Services.AssetsService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IBlocksService, Api.Services.BlocksService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IEpochsService, Api.Services.EpochsService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.ILedgerService, Api.Services.LedgerService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IMetadataService, Api.Services.MetadataService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.IPoolsService, Api.Services.PoolsService>(name, network, health, metrics, client),
+                            CreateClient<Api.Services.ITransactionsService, Api.Services.TransactionsService>(name, network, health, metrics, client)
+                        });
+
+                    }
+                    else
+                    {
+                        var types = new[] { typeof(Api.Services.IHealthService), typeof(Api.Services.IMetricsService), typeof(HttpClient) };
+                        var ctor = typeof(TImplementation).GetConstructor(types);
+
+                        if (ctor == null)
+                        {
+                            service = ServiceFactory<TImplementation>(
+                                client,
+                                name,
+                                network,
+                                connectionLimit);
+                        }
+                        else
+                        {
+                            ConfigureHttpClient(client, network, connectionLimit);
+                            service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] {
+                                        CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(name, network, client),
+                                        CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(name, network, client),
+                                        client });
+                        }
                     }
                 }
+                service.Name = name;
+                service.Network = network;
+                return service;
             }).AddBlockfrostMessageHandlers();
         }
 
         public static TClient CreateClient<TClient, TImplementation>(string name, string network, params object[] args)
             where TClient : class
-            where TImplementation : ABlockfrostService
+            where TImplementation : class, IBlockfrostService
         {
             object service = Activator.CreateInstance(typeof(TImplementation), args);
             ((TImplementation)service).Name = name;
@@ -326,7 +352,8 @@ namespace Blockfrost.Api.Extensions
         /// <param name="client"></param>
         /// <param name="network"></param>
         /// <returns></returns>
-        private static TService ServiceFactory<TService>(HttpClient client, string name, string network, int sockets = Constants.CONNECTION_LIMIT) where TService : ABlockfrostService
+        private static TService ServiceFactory<TService>(HttpClient client, string name, string network, int sockets = Constants.CONNECTION_LIMIT)
+            where TService : class, IBlockfrostService
         {
             ConfigureHttpClient(client, network, sockets);
             var blockfrostService = (TService)Activator.CreateInstance(typeof(TService), new object[] { client });
@@ -343,7 +370,7 @@ namespace Blockfrost.Api.Extensions
         /// <param name="client"></param>
         /// <param name="network"></param>
         /// <returns></returns>
-        private static TService ServiceFactory<TService>(object migration, HttpClient client, string name, string network, int sockets = Constants.CONNECTION_LIMIT) where TService : ABlockfrostService
+        private static TService ServiceFactory<TService>(object migration, HttpClient client, string name, string network, int sockets = Constants.CONNECTION_LIMIT) where TService : class, IBlockfrostService
         {
             ConfigureHttpClient(client, network, sockets);
             var blockfrostService = (TService)Activator.CreateInstance(typeof(TService), new object[] { migration, client });

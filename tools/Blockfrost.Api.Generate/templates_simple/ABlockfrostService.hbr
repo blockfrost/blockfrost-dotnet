@@ -20,7 +20,7 @@ namespace Blockfrost.Api
 
         protected HttpClient HttpClient { get; set; }
         
-        public string Name { get; internal set; }
+        public string Name { get; set; }
         
         public string Network { get; set; }
 

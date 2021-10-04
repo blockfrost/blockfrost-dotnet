@@ -5,7 +5,6 @@
     <UserSecretsId>e4b04c6d-2256-4eec-a45e-bfe2bb724686</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Blockfrost.Api" Version="0.2.0" />
     <PackageReference Include="CardanoSharp.CBOR" Version="0.1.0" />
     <PackageReference Include="CardanoSharp.Wallet" Version="0.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
@@ -15,5 +14,8 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Blockfrost.Api\Blockfrost.Api.csproj" />
   </ItemGroup>
 </Project>

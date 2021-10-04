@@ -23,25 +23,147 @@
 
 ## Getting started
 
-To use this SDK, you first need login into to [blockfrost.io](https://blockfrost.io) create your project to retrive your API token.
+To use this SDK, first go to [blockfrost.io](https://blockfrost.io) and create your project to retrive your API token.
 
 <img src="https://i.imgur.com/smY12ro.png">
 
 <br/>
 
-## Installation
+### Configure environment variables (optional)
 
-###  Add package
+`blocfrost-dotnet` supports two environment variables.
+
+```ps
+$> $env:BFCLI_NETWORK
+testnet
+
+$> $env:BFCLI_API_KEY
+yourawesomeapikeyforblockfrostio
+```
+
+> Make sure you have configured them if you add `blockfrost-dotnet` using `services.AddBlockfrost();`
+>
+> There are other extension methods to configure `blockfrost-dotnet` where the environment variables are not required. We will look at one of them in the sample below.
+
+### Setup
 
 The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api/latest), so you can directly import it using your favorite package manager.
 
-```console
-$ dotnet new console -n blockfrost-client
-$ cd blockfrost-client
-$ dotnet add package Blockfrost.Api --version 0.1.0
+```sh
+$> dotnet new console -n blockfrost-client
+$> cd blockfrost-client
+$> dotnet add package Blockfrost.Api --version 0.2.1
+$> dotnet add package Blockfrost.Extensions --version 0.2.1
 ```
 
 🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
+
+### Usage
+
+Using the SDK is pretty straight-forward as you can see from the following example.
+
+#### Cardano Services
+
+```cs
+using System.IO;
+using Blockfrost.Api;
+using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Models.Extensions;
+using Blockfrost.Api.Services;
+using Blockfrost.Api.Services.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+
+/*
+ * Parameters
+ */
+string apiKey = "YOUR_BLOCKFROST_PROJECT_ID";
+string network = "NETWORK_OF_THE_PROJECT_ID";
+string sender_address = "SENDER_ADDR";
+string receiver_address = "RECEIVER_ADDR";
+string signedTx = File.ReadAllText("path/to/your/signed/transaction");
+
+/*
+ * Init Services using apiKey and network
+ */
+var cardano = new ServiceCollection()
+    .AddBlockfrost(network, apiKey)
+    .BuildServiceProvider()
+    .GetRequiredService<ICardanoService>();
+
+/*
+ * Show metrics for your account
+ */
+var metrics = await cardano.Metrics.GetMetricsAsync();
+var opt = new System.Text.Json.JsonSerializerOptions() { WriteIndented = true };
+System.Console.WriteLine($"Metrics: {metrics.ToJson(opt)}");
+
+/*
+ * Show sender UTxO
+ */
+var utxoSender = await cardano.Addresses.GetUtxosAsync(sender_address, 100, 0, ESortOrder.Asc);
+long totalSender = utxoSender.SumAmounts("lovelace");
+System.Console.WriteLine($"Sender Total: {totalSender} lovelace");
+
+/*
+ * Sum receiver UTxO
+ */
+var utxoReceiver = await cardano.Addresses.GetUtxosAsync(receiver_address, 100, 0, ESortOrder.Asc);
+long totalReceiver = utxoReceiver.SumAmounts("lovelace");
+System.Console.WriteLine($"Receiver Total: {totalReceiver} lovelace");
+
+/*
+ * Query tip
+ */
+var tip = await cardano.Blocks.GetLatestAsync();
+long? latestSlot = tip.Slot;
+
+System.Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
+
+/*
+ * Send submit tx
+ */
+System.Console.WriteLine(signedTx);
+string txid = await cardano.Transactions.PostTxSubmitAsync(signedTx);
+
+System.Console.WriteLine($"Your Transaction was transmitted to the {network}");
+System.Console.WriteLine($"https://explorer.cardano-{network}.iohkdev.io/en/transaction?id={txid}");
+
+/*
+ * Wait two blocks
+ */
+tip = await cardano.Blocks.WaitAsync(
+    count: 2,
+    interval: System.TimeSpan.FromSeconds(5),
+    callback: latest => System.Console.WriteLine(latest.Slot),
+    cancellationToken: System.Threading.CancellationToken.None
+);
+System.Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
+```
+
+### Run the sample
+
+```sh
+$ dotnet run
+Metrics: [
+  {
+    "time": 1631750400,
+    "calls": 3
+  },
+  ...
+]
+Sender Total: 988258310 lovelace
+Receiver Total: 10000000 lovelace
+Tip now at Epoch 160 Slot 38978334 Block 2965005
+
+Your Transaction was transmitted to the testnet
+https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=2b1ca81b94c5dd737fe939444264046c6fbbe96ff403e49ee99e8022b0e512bb
+Tip: 38978334
+Tip: 38978334
+Tip: 38978334
+Tip: 38978334
+Tip: 38978334
+Tip now at Epoch 160 Slot 38978436 Block 2965007
+```
 
 ### Command line tool
 
@@ -61,12 +183,11 @@ yourawesomeapikeyforblockfrostio
 $> pwd
 {$SolutionDir}\src\Blockfrost.Cli
 
-$> dotnet tool install bfcli --add-source nupkg --version 0.0.xyz
-<!-- $> dotnet tool install bfcli --version 0.0.4 -->
-Tool 'bfcli' (version '0.0.xyz') was successfully installed.
+$> dotnet tool install bfcli --add-source nupkg --version 0.2.1
+Tool 'bfcli' (version '0.2.1') was successfully installed.
 
 $> dotnet bfcli -v
-bfcli v0.0.xyz
+bfcli v0.2.1
 A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
 
 USAGE: bfcli (OPTION | COMMAND)
@@ -83,77 +204,6 @@ $> dotnet bfcli health | ConvertFrom-Json
 is_healthy
 ----------
       True
-```
-
-## Usage
-
-Using the SDK is pretty straight-forward as you can see from the following example.
-
-### Cardano
-
-```cs
-using System.IO;
-using Blockfrost.Api;
-using Blockfrost.Api.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-
-var apiKey = "YOUR_BLOCKFROST_PROJECT_ID";
-var network = "NETWORK_OF_THE_PROJECT_ID"; 
-var sender_address = "SENDER_ADDR";
-var receiver_address = "RECEIVER_ADDR";
-var signedTx = File.ReadAllText("path/to/your/signed/transaction");
-
-var provider = new ServiceCollection().AddBlockfrost(network, apiKey).BuildServiceProvider();
-var blockService = provider.GetRequiredService<IBlocksService>();
-var addressService = provider.GetRequiredService<IAddressesService>();
-var transactionService = provider.GetRequiredService<ITransactionsService>();
-
-var utxoSender = await addressService.UtxosAllAsync(sender_address,100,0,ESortOrder.Asc).ConfigureAwait(false);
-int totalSender = utxoSender.Sum(m => m.Amount.Sum(a => int.Parse(a.Quantity)));
-System.Console.WriteLine($"Sender Total: {totalSender} lovelace");
-
-var utxoReceiver = await addressService.UtxosAllAsync(receiver_address,100,0,ESortOrder.Asc).ConfigureAwait(false);
-int totalReceiver = utxoReceiver.Sum(m => m.Amount.Sum(a => int.Parse(a.Quantity)));
-System.Console.WriteLine($"Receiver Total: {totalReceiver} lovelace");
-
-var tip = await blockService.GetLatestBlockAsync();
-int? slot = tip.Slot;
-
-Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
-Console.WriteLine(signedTx);
-
-var txid = await transactionService.SubmitAsync(signedTx);
-
-Console.WriteLine($"Your Transaction was transmitted to the {network}");
-Console.WriteLine($"https://explorer.cardano-{network}.iohkdev.io/en/transaction?id={txid}");
-
-while(slot == tip.Slot)
-{
-    Console.WriteLine("Waiting for next block...");
-    await Task.Delay(TimeSpan.FromSeconds(3));
-    tip = await blockService.GetLatestBlockAsync();
-}
-
-Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");
-```
-
-
-```sh
-$ dotnet run
-Sender Total: 988258310 lovelace
-Receiver Total: 10000000 lovelace
-Tip now at Epoch 152 Slot 35399692 Block 2855047
-{
-    "type": "Tx MaryEra",
-    "description": "",
-    "cborHex": "83a3008182582002ffae369...c14003ce7b54b487197c40df6"
-}
-Your Transaction was transmitted to the testnet
-https://explorer.cardano-testnet.iohkdev.io/en/transaction?id=2b1ca81b94c5dd737fe939444264046c6fbbe96ff403e49ee99e8022b0e512bb
-Waiting for next block...
-Waiting for next block...
-Waiting for next block...
-Tip now at Epoch 152 Slot 35399711 Block 2855048
 ```
 
 <!--

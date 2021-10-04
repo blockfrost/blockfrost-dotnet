@@ -4,8 +4,10 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Blockfrost.Api" Version="0.2.0" />
-    <PackageReference Include="Blockfrost.Extensions" Version="0.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Blockfrost.Api\Blockfrost.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj" />
   </ItemGroup>
 </Project>

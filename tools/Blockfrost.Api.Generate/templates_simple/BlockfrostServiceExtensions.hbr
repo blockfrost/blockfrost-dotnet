@@ -12,6 +12,20 @@ namespace Blockfrost.Api.Extensions
         /// Adds Blockfrost Services to the service collection
         /// </summary>
         /// <param name="services">The IServiceCollection</param>
+        /// <returns></returns>
+        public static IServiceCollection AddBlockfrost(this IServiceCollection services)
+        {
+            var config = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+
+            return services.AddBlockfrost(config["BFCLI_NETWORK"], config["BFCLI_API_KEY"]);
+        }
+
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
         /// <param name="network">The network the services will use</param>
         /// <param name="apiKey">The ApiKey used to authenticate</param>
         /// <returns></returns>

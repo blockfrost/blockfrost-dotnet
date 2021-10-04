@@ -1,4 +1,4 @@
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
 
@@ -58,6 +58,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/total", "0.1.27")]
         Task<Models.AddressContentTotalResponse> GetTotalAsync(string address, CancellationToken cancellationToken);
+
         /// <summary>
         ///     Address UTXOs <c>/addresses/{address}/utxos</c>
         /// </summary>
@@ -88,7 +89,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/addresses/{address}/utxos", "0.1.27")]
-        Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        Task<Models.AddressUtxoContentResponseCollection> GetUtxosAsync(string address, int? count = 100, int? page = 1, ESortOrder? order = ESortOrder.Asc, CancellationToken cancellationToken = default);
         /// <summary>
         ///     Address transactions <c>/addresses/{address}/txs</c>
         /// </summary>

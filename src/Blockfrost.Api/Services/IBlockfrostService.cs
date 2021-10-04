@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,8 +9,8 @@ namespace Blockfrost.Api
     /// </summary>
     public partial interface IBlockfrostService
     {
-        string Network { get; }
-        string Name { get; }
+        string Network { get; set; }
+        string Name { get; set; }
         string BaseUrl { get; set; }
         bool ReadResponseAsString { get; set; }
     }

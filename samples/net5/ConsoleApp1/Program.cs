@@ -5,13 +5,12 @@ using Blockfrost.Api.Models.Extensions;
 using Blockfrost.Api.Services;
 using Blockfrost.Api.Services.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using System.Threading;
 
 /*
  * Parameters
  */
-string apiKey = "YOUR_BLOCKFROST_PROJECT_ID";
-string network = "NETWORK_OF_THE_PROJECT_ID";
+string apiKey = "kL2vAF27FpfuzrnhSofc1JawdlL0BNkh";
+string network = "testnet";
 string sender_address = "SENDER_ADDR";
 string receiver_address = "RECEIVER_ADDR";
 string signedTx = File.ReadAllText("path/to/your/signed/transaction");
@@ -19,20 +18,29 @@ string signedTx = File.ReadAllText("path/to/your/signed/transaction");
 /*
  * Init Services
  */
-var provider = new ServiceCollection().AddBlockfrost(network, apiKey).BuildServiceProvider();
-var cardano = provider.GetRequiredService<ICardanoService>();
+var cardano = new ServiceCollection()
+    .AddBlockfrost(network, apiKey)
+    .BuildServiceProvider()
+    .GetRequiredService<ICardanoService>();
+
+/*
+ * Show metrics for your account
+ */
+var metrics = await cardano.Metrics.GetMetricsAsync();
+var opt = new System.Text.Json.JsonSerializerOptions() { WriteIndented = true };
+System.Console.WriteLine($"Metrics: {metrics.ToJson(opt)}");
 
 /*
  * Show sender UTxO
  */
-var utxoSender = await cardano.Addresses.GetUtxosAsync(sender_address, 100, 0, ESortOrder.Asc);
+var utxoSender = await cardano.Addresses.GetUtxosAsync(sender_address);
 long totalSender = utxoSender.SumAmounts("lovelace");
 System.Console.WriteLine($"Sender Total: {totalSender} lovelace");
 
 /*
  * Sum receiver UTxO
  */
-var utxoReceiver = await cardano.Addresses.GetUtxosAsync(receiver_address, 100, 0, ESortOrder.Asc);
+var utxoReceiver = await cardano.Addresses.GetUtxosAsync(receiver_address);
 long totalReceiver = utxoReceiver.SumAmounts("lovelace");
 System.Console.WriteLine($"Receiver Total: {totalReceiver} lovelace");
 
@@ -56,10 +64,10 @@ System.Console.WriteLine($"https://explorer.cardano-{network}.iohkdev.io/en/tran
 /*
  * Wait two blocks
  */
-//tip = await cardano.Blocks.Wait(
-//    count: 2,
-//    interval: System.TimeSpan.FromSeconds(3),
-//    callback: latest => System.Console.WriteLine($"Tip: {tip.Slot}"),
-//    cancellationToken: CancellationToken.None
-//);
+tip = await cardano.Blocks.WaitAsync(
+    count: 2,
+    interval: System.TimeSpan.FromSeconds(5),
+    callback: latest => System.Console.WriteLine(latest.Slot),
+    cancellationToken: System.Threading.CancellationToken.None
+);
 System.Console.WriteLine($"Tip now at Epoch {tip.Epoch} Slot {tip.Slot} Block {tip.Height}");

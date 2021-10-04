@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,17 +98,17 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash))
             {
-                var transactionsService = Provider.GetRequiredService<Api.Services.ITransactionsService>();
-                var blocksService = Provider.GetRequiredService<Api.Services.IBlocksService>();
-                var latest = await blocksService.GetLatestAsync();
+                var cardano = Provider.GetRequiredService<Api.Services.ICardanoService>();
+
+                var latest = await cardano.Blocks.GetLatestAsync();
 
                 while (latest.TxCount == 0)
                 {
-                    latest = await blocksService.GetBlocksAsync(latest.PreviousBlock);
+                    latest = await cardano.Blocks.GetBlocksAsync(latest.PreviousBlock);
                 }
 
-                var txs = await blocksService.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
-                var tx = await transactionsService.GetTxsUtxosAsync(txs.First());
+                var txs = await cardano.Blocks.GetTxsAsync(latest.Hash, 1, 1, ESortOrder.Desc);
+                var tx = await cardano.Transactions.GetTxsUtxosAsync(txs.First());
                 hash = tx.Hash;
             }
 
