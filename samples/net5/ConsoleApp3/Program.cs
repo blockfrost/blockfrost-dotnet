@@ -4,7 +4,7 @@ using Blockfrost.Api.Services.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 ICardanoService cardano = new ServiceCollection()
-    .AddBlockfrost("testnet", "kL2vAF27FpfuzrnhSofc1JawdlL0BNkh")
+    .AddBlockfrost("NETWORK", "PROJECT_ID")
     .BuildServiceProvider()
     .GetRequiredService<ICardanoService>();
 

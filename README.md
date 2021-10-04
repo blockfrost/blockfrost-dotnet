@@ -52,8 +52,8 @@ The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api/l
 ```sh
 $> dotnet new console -n blockfrost-client
 $> cd blockfrost-client
-$> dotnet add package Blockfrost.Api --version 0.2.1
-$> dotnet add package Blockfrost.Extensions --version 0.2.1
+$> dotnet add package Blockfrost.Api --version 0.3.0
+$> dotnet add package Blockfrost.Extensions --version 0.3.0
 ```
 
 🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
@@ -66,7 +66,6 @@ Using the SDK is pretty straight-forward as you can see from the following examp
 
 ```cs
 using System.IO;
-using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Models.Extensions;
 using Blockfrost.Api.Services;
@@ -100,14 +99,14 @@ System.Console.WriteLine($"Metrics: {metrics.ToJson(opt)}");
 /*
  * Show sender UTxO
  */
-var utxoSender = await cardano.Addresses.GetUtxosAsync(sender_address, 100, 0, ESortOrder.Asc);
+var utxoSender = await cardano.Addresses.GetUtxosAsync(sender_address);
 long totalSender = utxoSender.SumAmounts("lovelace");
 System.Console.WriteLine($"Sender Total: {totalSender} lovelace");
 
 /*
  * Sum receiver UTxO
  */
-var utxoReceiver = await cardano.Addresses.GetUtxosAsync(receiver_address, 100, 0, ESortOrder.Asc);
+var utxoReceiver = await cardano.Addresses.GetUtxosAsync(receiver_address);
 long totalReceiver = utxoReceiver.SumAmounts("lovelace");
 System.Console.WriteLine($"Receiver Total: {totalReceiver} lovelace");
 

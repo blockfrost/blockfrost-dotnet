@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Models.Extensions;
 using Blockfrost.Api.Services;
@@ -9,14 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 /*
  * Parameters
  */
-string apiKey = "kL2vAF27FpfuzrnhSofc1JawdlL0BNkh";
-string network = "testnet";
+string apiKey = "YOUR_BLOCKFROST_PROJECT_ID";
+string network = "NETWORK_OF_THE_PROJECT_ID";
 string sender_address = "SENDER_ADDR";
 string receiver_address = "RECEIVER_ADDR";
 string signedTx = File.ReadAllText("path/to/your/signed/transaction");
 
 /*
- * Init Services
+ * Init Services using apiKey and network
  */
 var cardano = new ServiceCollection()
     .AddBlockfrost(network, apiKey)
