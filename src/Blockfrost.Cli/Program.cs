@@ -14,7 +14,8 @@ namespace Blockfrost.Cli
         {
             var cts = SetupUserInputCancellationTokenSource();
             var command = CommandParser.ParseArgsToCommand(args);
-            var commandResult = await command.ExecuteAsync(cts.Token).ConfigureAwait(false);
+
+            var commandResult = await command.ExecuteAsync(cts.Token);
             if (commandResult.Outcome == CommandOutcome.Success)
             {
                 await Console.Out.WriteLineAsync(commandResult.Result);

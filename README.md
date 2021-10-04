@@ -182,7 +182,7 @@ yourawesomeapikeyforblockfrostio
 $> pwd
 {$SolutionDir}\src\Blockfrost.Cli
 
-$> dotnet tool install bfcli --add-source nupkg --version 0.2.1
+$> dotnet tool install bfcli --add-source nupkg --version 0.3.0
 Tool 'bfcli' (version '0.2.1') was successfully installed.
 
 $> dotnet bfcli -v

@@ -15,5 +15,12 @@ namespace Blockfrost.Cli.Tests.Commands
             var command = new ShowVersionCommand();
             Assert.IsNotNull(command);
         }
+
+        [TestMethod]
+        public void TestOtherMethod()
+        {
+            var command = new ShowVersionCommand();
+            Assert.IsNotNull(command);
+        }
     }
 }

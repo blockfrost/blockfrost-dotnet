@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
+using Blockfrost.Cli.Commands.Cardano.Addresses;
+using Blockfrost.Cli.Commands.Cardano.Transactions;
+using Blockfrost.Cli.Commands.Common.Health;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +16,8 @@ namespace Blockfrost.Cli.Commands
 
     public static class CommandParser
     {
+        private const StringComparison OIC = StringComparison.OrdinalIgnoreCase;
+
         public static ICommand ParseArgsToCommand(string[] args)
         {
             if (args.Length == 0 || IsHelpOption(args[0]))
@@ -23,23 +31,30 @@ namespace Blockfrost.Cli.Commands
             }
 
             string flattenedArgs = string.Join(' ', args);
-            return flattenedArgs.StartsWith("address", StringComparison.OrdinalIgnoreCase)
-                ? BuildCommand<AddressCommand>(args)
-                : flattenedArgs.StartsWith("health", StringComparison.OrdinalIgnoreCase)
-                ? BuildCommand<HealthCommand>(args)
+
+            return flattenedArgs.StartsWith("addresses", OIC)
+                ? BuildCommand<IAddressesService, AddressesCommand>(args, AddressesCommand.SwitchMappings)
+                : flattenedArgs.StartsWith("transactions", OIC)
+                ? BuildCommand<ITransactionsService, TransactionsCommand>(args, TransactionsCommand.SwitchMappings)
+                : flattenedArgs.StartsWith("health", OIC)
+                ? BuildCommand<IHealthService, HealthCommand>(args, null)
                 : new ShowInvalidArgumentCommand(flattenedArgs);
         }
 
-        private static ICommand BuildCommand<T>(string[] args)
-            where T : class, ICommand
+        private static TCommand BuildCommand<TService, TCommand>(string[] args, Dictionary<string, string> switchMappings = null)
+            where TService : IBlockfrostService
+            where TCommand : BlockfrostServiceCommand<TService>
         {
-            string env = Environment.GetEnvironmentVariable("NETCORE_ENVIRONMENT");
+            string env = Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT");
             bool isDevelopment = string.IsNullOrEmpty(env) || env.ToLower(System.Globalization.CultureInfo.InvariantCulture) == "development";
 
             var builder = new ConfigurationBuilder();
-            _ = builder.AddEnvironmentVariables().AddCommandLine(args);
+            _ = builder.AddEnvironmentVariables();
 
-            //only add secrets in development
+            _ = switchMappings == null
+                ? builder.AddCommandLine(args)
+                : builder.AddCommandLine(args, switchMappings);
+
             if (isDevelopment)
             {
                 _ = builder.AddUserSecrets<CliSettings>();
@@ -56,12 +71,19 @@ namespace Blockfrost.Cli.Commands
             }
 
             var provider = new ServiceCollection()
-                .AddSingleton(_ => new JsonSerializerOptions() { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
-                .AddSingleton<T>()
                 .AddBlockfrost(network, apikey)
+                .AddSingleton(_ => new JsonSerializerOptions() { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
+                .AddSingleton(provider =>
+                {
+                    var cmd = config.Get<TCommand>();
+                    cmd.Args = args;
+                    cmd.Options = provider.GetRequiredService<JsonSerializerOptions>();
+                    cmd.Service = provider.GetRequiredService<TService>();
+                    return cmd;
+                })
                 .BuildServiceProvider();
 
-            return provider.GetRequiredService<T>();
+            return provider.GetRequiredService<TCommand>();
         }
 
         private static bool IsHelpOption(string arg)

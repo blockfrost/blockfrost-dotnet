@@ -38,6 +38,7 @@ namespace Blockfrost.Api.Generate
                 await WriteAttributes(context);
                 await WriteModels(context);
                 await WriteServices(context);
+                await WriteCommands(context);
 
                 Console.WriteLine("done!");
             }
@@ -50,7 +51,7 @@ namespace Blockfrost.Api.Generate
                 usage.Append("  -s").Append('\t').AppendLine("Local path or Uri of Blockfrost OpenApi Specification. Supported formats: [json, yaml]");
                 usage.Append("  -t").Append('\t').AppendLine("Local template directory");
                 usage.Append("  -o").Append('\t').AppendLine("Local output directory");
-                usage.Append("  -g").Append('\t').AppendLine("Generator switch (default '-g smav' = all");
+                usage.Append("  -g").Append('\t').AppendLine("Generator switch (default '-g acmsv' = all");
                 usage.Append("  --exclude [searchPattern, ...]").Append('\t').AppendLine("Exclude all files containing one of the expressions (default '' = none')");
                 usage.Append("  --purge [searchPattern, ...]").Append('\t').AppendLine("Delete all files matching one of the expressions (default '*.generated*')");
                 usage.Append("  --preserve [searchPattern, ...]").Append('\t').AppendLine("Preserve all files matching one of the expressions (default '' = none");
@@ -194,6 +195,17 @@ namespace Blockfrost.Api.Generate
             Console.WriteLine();
         }
 
+        private static async Task WriteCommands(OpenApiDocumentContext context)
+        {
+            if (!ShouldWrite('c')) return;
+
+            foreach (var serviceContext in context.Services)
+            {
+                await WriteFile(serviceContext, "command.hbr", "src", "Blockfrost.Cli", "Commands", serviceContext.GroupName, $"{serviceContext.ClassName}Service.cs");
+                await WriteFile(serviceContext, "command_test.hbr", "test", "Blockfrost.Cli.Tests", "Commands", "Generated", serviceContext.GroupName, $"{serviceContext.ClassName}ServiceTest.cs");
+            }
+            Console.WriteLine();
+        }
         private static async Task WriteServices(OpenApiDocumentContext context)
         {
             if (!ShouldWrite('s')) return;
