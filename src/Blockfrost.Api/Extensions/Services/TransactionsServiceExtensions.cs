@@ -1,15 +1,41 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 using CardanoSharp.Wallet.Extensions;
 
 namespace Blockfrost.Api.Services.Extensions
 {
     public static class TransactionsServiceExtensions
     {
+        /// <summary>
+        ///     Transaction UTXOs <c>/txs/{hash}/utxos</c>
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Transactions/paths/~1txs~1{hash}~1utxos/get">/txs/{hash}/utxos</seealso> on docs.blockfrost.io
+        /// </remarks>
+        /// <param name="hash">Hash of the requested transaction</param>
+        /// <returns>Return the contents of all the transactions in <paramref name="hashes"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        [Get("/txs/{hash}/utxos", "0.1.28")]
+        public static async Task<IEnumerable<Models.TxContentUtxoResponse>> GetUtxosAsync(this ITransactionsService service, StringCollection hashes, CancellationToken cancellationToken = default)
+        {
+            var responses = new List<Models.TxContentUtxoResponse>();
+
+            foreach (string hash in hashes)
+            {
+                responses.Add(await service.GetUtxosAsync(hash, cancellationToken));
+            }
+            return responses;
+        }
+
         /// <summary>Submit a transaction</summary>
         /// <returns>Return the ID of the submitted transaction.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>

@@ -26,11 +26,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		switcher.json = switcher.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockfrostWithAzure", "net5\BlockfrostWithAzure\BlockfrostWithAzure.csproj", "{ED16C384-A0CE-46FB-A487-6B27E6AC7B38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlockfrostWithAzure", "net5\BlockfrostWithAzure\BlockfrostWithAzure.csproj", "{ED16C384-A0CE-46FB-A487-6B27E6AC7B38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Api", "..\src\Blockfrost.Api\Blockfrost.Api.csproj", "{D3036EF5-8B6E-48BD-B4BB-72F79568B1AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Api", "..\src\Blockfrost.Api\Blockfrost.Api.csproj", "{D3036EF5-8B6E-48BD-B4BB-72F79568B1AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockfrost.Extensions", "..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj", "{9066973E-5274-4321-8E58-1564DA5702ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockfrost.Extensions", "..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj", "{9066973E-5274-4321-8E58-1564DA5702ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp3", "net5\ConsoleApp3\ConsoleApp3.csproj", "{407DB107-7626-4B5C-8A96-60C2D0984975}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,6 +140,18 @@ Global
 		{9066973E-5274-4321-8E58-1564DA5702ED}.Release|x64.Build.0 = Release|Any CPU
 		{9066973E-5274-4321-8E58-1564DA5702ED}.Release|x86.ActiveCfg = Release|Any CPU
 		{9066973E-5274-4321-8E58-1564DA5702ED}.Release|x86.Build.0 = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|x64.Build.0 = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Debug|x86.Build.0 = Debug|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|x64.ActiveCfg = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|x64.Build.0 = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|x86.ActiveCfg = Release|Any CPU
+		{407DB107-7626-4B5C-8A96-60C2D0984975}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +163,7 @@ Global
 		{043493AB-CB6B-4A2E-97FA-245B57512068} = {932CEC78-4C1C-4C60-A513-0FAFFBE736ED}
 		{0E102E56-2529-41D4-8327-2CAC963367E7} = {932CEC78-4C1C-4C60-A513-0FAFFBE736ED}
 		{ED16C384-A0CE-46FB-A487-6B27E6AC7B38} = {932CEC78-4C1C-4C60-A513-0FAFFBE736ED}
+		{407DB107-7626-4B5C-8A96-60C2D0984975} = {932CEC78-4C1C-4C60-A513-0FAFFBE736ED}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1712CD06-8E84-4B5F-BC51-F0DCAD33A545}

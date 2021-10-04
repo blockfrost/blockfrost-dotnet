@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}", "0.1.28")]
-        public async Task<Models.TxContentResponse> GetTxsAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentResponse> GetAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -58,7 +58,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/utxos", "0.1.28")]
-        public async Task<Models.TxContentUtxoResponse> GetTxsUtxosAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentUtxoResponse> GetUtxosAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -81,7 +81,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/stakes", "0.1.28")]
-        public async Task<Models.TxContentStakeAddrResponseCollection> GetTxsStakesAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentStakeAddrResponseCollection> GetStakesAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -104,7 +104,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/delegations", "0.1.28")]
-        public async Task<Models.TxContentDelegationsResponseCollection> GetTxsDelegationsAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentDelegationsResponseCollection> GetDelegationsAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -127,7 +127,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/withdrawals", "0.1.28")]
-        public async Task<Models.TxContentWithdrawalsResponseCollection> GetTxsWithdrawalsAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentWithdrawalsResponseCollection> GetWithdrawalsAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -150,7 +150,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/mirs", "0.1.28")]
-        public async Task<Models.TxContentMirsResponseCollection> GetTxsMirsAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentMirsResponseCollection> GetMirsAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -173,7 +173,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/pool_updates", "0.1.28")]
-        public async Task<Models.TxContentPoolCertsResponseCollection> GetTxsPoolUpdatesAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentPoolCertsResponseCollection> GetPoolUpdatesAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -196,7 +196,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/pool_retires", "0.1.28")]
-        public async Task<Models.TxContentPoolRetiresResponseCollection> GetTxsPoolRetiresAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentPoolRetiresResponseCollection> GetPoolRetiresAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -219,7 +219,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/metadata", "0.1.28")]
-        public async Task<Models.TxContentMetadataResponseCollection> GetTxsMetadataAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentMetadataResponseCollection> GetMetadataAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -242,7 +242,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/metadata/cbor", "0.1.28")]
-        public async Task<Models.TxContentMetadataCborResponseCollection> GetTxsMetadataCborAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentMetadataCborResponseCollection> GetMetadataCborAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
@@ -265,7 +265,7 @@ namespace Blockfrost.Api.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/redeemers", "0.1.28")]
-        public async Task<Models.TxContentRedeemersResponseCollection> GetTxsRedeemersAsync(string hash, CancellationToken cancellationToken = default)
+        public async Task<Models.TxContentRedeemersResponseCollection> GetRedeemersAsync(string hash, CancellationToken cancellationToken = default)
         {
             if (hash == null)
             {
