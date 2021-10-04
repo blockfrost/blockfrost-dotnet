@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("metadata")]
-        public object Metadata { get; set; }
+        public JsonElement Metadata { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -84,7 +84,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Address == other.Address && MetadataUrl == other.MetadataUrl && MetadataHash == other.MetadataHash && Equals(Metadata,other.Metadata)));
+                   || (Address == other.Address && MetadataUrl == other.MetadataUrl && MetadataHash == other.MetadataHash && Equals(Metadata, other.Metadata)));
         }
 
         /// <summary>

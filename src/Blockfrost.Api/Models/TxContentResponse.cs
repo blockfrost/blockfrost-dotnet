@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -76,7 +76,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("output_amount")]
-        public object OutputAmount { get; set; }
+        public AmountCollection OutputAmount { get; set; }
 
         /// <summary>
         /// Gets or sets the Fees
@@ -244,7 +244,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Hash == other.Hash && Block == other.Block && BlockHeight == other.BlockHeight && Slot == other.Slot && Index == other.Index && Equals(OutputAmount,other.OutputAmount) && Fees == other.Fees && Deposit == other.Deposit && Size == other.Size && InvalidBefore == other.InvalidBefore && InvalidHereafter == other.InvalidHereafter && UtxoCount == other.UtxoCount && WithdrawalCount == other.WithdrawalCount && MirCertCount == other.MirCertCount && DelegationCount == other.DelegationCount && StakeCertCount == other.StakeCertCount && PoolUpdateCount == other.PoolUpdateCount && PoolRetireCount == other.PoolRetireCount && AssetMintOrBurnCount == other.AssetMintOrBurnCount && RedeemerCount == other.RedeemerCount));
+                   || (Hash == other.Hash && Block == other.Block && BlockHeight == other.BlockHeight && Slot == other.Slot && Index == other.Index && Equals(OutputAmount, other.OutputAmount) && Fees == other.Fees && Deposit == other.Deposit && Size == other.Size && InvalidBefore == other.InvalidBefore && InvalidHereafter == other.InvalidHereafter && UtxoCount == other.UtxoCount && WithdrawalCount == other.WithdrawalCount && MirCertCount == other.MirCertCount && DelegationCount == other.DelegationCount && StakeCertCount == other.StakeCertCount && PoolUpdateCount == other.PoolUpdateCount && PoolRetireCount == other.PoolRetireCount && AssetMintOrBurnCount == other.AssetMintOrBurnCount && RedeemerCount == other.RedeemerCount));
         }
 
         /// <summary>

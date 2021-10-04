@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -96,7 +96,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("onchain_metadata")]
-        public object OnchainMetadata { get; set; }
+        public JsonElement OnchainMetadata { get; set; }
 
         /// <summary>
         /// Gets or sets the Metadata
@@ -106,7 +106,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("metadata")]
-        public object Metadata { get; set; }
+        public Metadata Metadata { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -134,7 +134,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Asset == other.Asset && PolicyId == other.PolicyId && AssetName == other.AssetName && Fingerprint == other.Fingerprint && Quantity == other.Quantity && InitialMintTxHash == other.InitialMintTxHash && MintOrBurnCount == other.MintOrBurnCount && Equals(OnchainMetadata,other.OnchainMetadata) && Equals(Metadata,other.Metadata)));
+                   || (Asset == other.Asset && PolicyId == other.PolicyId && AssetName == other.AssetName && Fingerprint == other.Fingerprint && Quantity == other.Quantity && InitialMintTxHash == other.InitialMintTxHash && MintOrBurnCount == other.MintOrBurnCount && Equals(OnchainMetadata, other.OnchainMetadata) && Equals(Metadata, other.Metadata)));
         }
 
         /// <summary>

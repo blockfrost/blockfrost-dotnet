@@ -14,6 +14,7 @@ namespace Blockfrost.Api.Generate.Contexts
         public Dictionary<KeyValuePair<string, OpenApiPathItem>, Dictionary<OperationType, OpenApiOperation[]>> ops;
         public int test { get; set; } = 1;
         public string ServiceName { get; set; }
+        public string ClassName => TemplateHelper.PascalCase(ServiceName);
         public string GroupName { get; set; }
         public OpenApiTag Tag { get; }
         public bool IsCommon { get; set; }
@@ -43,7 +44,7 @@ namespace Blockfrost.Api.Generate.Contexts
 
         public string DocsLink
         {
-            get;set;
+            get; set;
         }
 
         public object first => ops.FirstOrDefault();

@@ -1,3 +1,4 @@
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
@@ -18,7 +19,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
         Task<string> PostPinAddAsync(System.IO.Stream content);
 
         /// <summary>
@@ -31,7 +32,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
         Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken);
         /// <summary>
         ///     List pinned objects <c>/ipfs/pin/list/</c>
@@ -44,22 +45,8 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/", "0.1.27")]
-        Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order);
-
-        /// <summary>
-        ///     List pinned objects <c>/ipfs/pin/list/</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1/get">/ipfs/pin/list/</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <param name="count">The number of results displayed on one page.</param>
-        /// <param name="page">The page number for listing the results.</param>
-        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
-        /// <returns>Returns pinned objects</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/", "0.1.27")]
-        Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken);
+        [Get("/ipfs/pin/list/", "0.1.28")]
+        Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count = 100, int? page = 1, ESortOrder? order = ESortOrder.Asc, CancellationToken cancellationToken = default);
         /// <summary>
         ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
         /// </summary>
@@ -70,21 +57,8 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins pinned</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path);
-
-        /// <summary>
-        ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1{IPFS_path}/get">/ipfs/pin/list/{IPFS_path}</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <param name="IPFS_path"></param>
-        /// <returns>Returns the pins pinned</returns>
-        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken);
+        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
+        Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken = default);
         /// <summary>
         ///      <c>/ipfs/pin/remove/{IPFS_path}</c>
         /// </summary>
@@ -95,7 +69,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
         Task<string> PostPinRemoveAsync(System.IO.Stream content);
 
         /// <summary>
@@ -108,7 +82,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
         Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken);
     }
 }

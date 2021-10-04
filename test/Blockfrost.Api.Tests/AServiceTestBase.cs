@@ -19,23 +19,23 @@ namespace Blockfrost.Api.Tests
         private static string s_configureProjectName = "";
 
         private static IServiceProvider s_provider;
+        private IServiceCollection _services;
 
         protected static Api.Services.IHealthService HealthService => Provider.GetRequiredService<Api.Services.IHealthService>();
         protected static Api.Services.IAccountsService AccountsService => Provider.GetRequiredService<Api.Services.IAccountsService>();
 
         public static IEnumerable<Type> AvailableServiceTypes => Assembly.GetAssembly(typeof(IBlockfrostService)).GetTypes().Where(t => t == typeof(IBlockfrostService));
+        public static IConfiguration Configuration { get; set; }
         public string BaseUrl { get; set; } = Constants.API_URL;
         public string Network { get; set; }
         public bool ReadResponseAsString { get; set; }
+        public string Name { get; set; }
+
         protected static IServiceProvider Provider
         {
             get => s_provider ?? throw new InvalidOperationException(s_providerNotConfiguredErrorMessage);
             set => s_provider = value;
         }
-
-        public static IConfiguration Configuration { get; set; }
-
-        private IServiceCollection _services;
 
         public static void InitializeEnvironment()
         {

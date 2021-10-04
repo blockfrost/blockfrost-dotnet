@@ -1,0 +1,11 @@
+{
+  "name": "Unity.io.blockfrost.Editor.Tests",
+  "references": [
+    "Unity.io.blockfrost"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": []
+}

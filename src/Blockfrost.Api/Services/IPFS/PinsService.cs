@@ -1,4 +1,4 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
@@ -34,7 +34,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
         public Task<string> PostPinAddAsync(System.IO.Stream content)
         {
             return PostPinAddAsync(content, CancellationToken.None);
@@ -50,7 +50,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
         public async Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/ipfs/pin/add/{IPFS_path}");
@@ -69,25 +69,8 @@ namespace Blockfrost.Api.Services
         /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
         /// <returns>Returns pinned objects</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/", "0.1.27")]
-        public Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order)
-        {
-            return GetPinListAsync(count, page, order, CancellationToken.None);
-        }
-
-        /// <summary>
-        ///     List pinned objects <c>/ipfs/pin/list/</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1/get">/ipfs/pin/list/</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <param name="count">The number of results displayed on one page.</param>
-        /// <param name="page">The page number for listing the results.</param>
-        /// <param name="order">The ordering of items from the point of view of the blockchain,not the page listing itself. By default, we return oldest first, newest last.</param>
-        /// <returns>Returns pinned objects</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/", "0.1.27")]
-        public async Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count, int? page, ESortOrder? order, CancellationToken cancellationToken)
+        [Get("/ipfs/pin/list/", "0.1.28")]
+        public async Task<Models.IpfsPinListResponseCollection> GetPinListAsync(int? count = 100, int? page = 1, ESortOrder? order = ESortOrder.Asc, CancellationToken cancellationToken = default)
         {
             var builder = GetUrlBuilder("/ipfs/pin/list/");
             _ = builder.AppendQueryParameter(nameof(count), count);
@@ -107,24 +90,8 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins pinned</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        public Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path)
-        {
-            return GetPinListAsync(IPFS_path, CancellationToken.None);
-        }
-
-        /// <summary>
-        ///     Get details about pinned object <c>/ipfs/pin/list/{IPFS_path}</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Pins/paths/~1ipfs~1pin~1list~1{IPFS_path}/get">/ipfs/pin/list/{IPFS_path}</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <param name="IPFS_path"></param>
-        /// <returns>Returns the pins pinned</returns>
-        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.27")]
-        public async Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken)
+        [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
+        public async Task<Models.IpfsPinListIPFSPathResponse> GetPinListAsync(string IPFS_path, CancellationToken cancellationToken = default)
         {
             if (IPFS_path == null)
             {
@@ -146,7 +113,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
         public Task<string> PostPinRemoveAsync(System.IO.Stream content)
         {
             return PostPinRemoveAsync(content, CancellationToken.None);
@@ -162,7 +129,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.27")]
+        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
         public async Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/ipfs/pin/remove/{IPFS_path}");

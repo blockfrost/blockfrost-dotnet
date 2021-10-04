@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -56,7 +56,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("payload")]
-        public object Payload { get; set; }
+        public JsonElement Payload { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -84,7 +84,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (TxHash == other.TxHash && BlockHeight == other.BlockHeight && TxIndex == other.TxIndex && Equals(Payload,other.Payload)));
+                   || (TxHash == other.TxHash && BlockHeight == other.BlockHeight && TxIndex == other.TxIndex && Equals(Payload, other.Payload)));
         }
 
         /// <summary>

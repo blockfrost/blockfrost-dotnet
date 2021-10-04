@@ -1,6 +1,7 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
 
 namespace Blockfrost.Api.Services
@@ -31,7 +32,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/add", "0.1.27")]
+        [Post("/ipfs/add", "0.1.28")]
         public Task<string> PostAddAsync()
         {
             return PostAddAsync(CancellationToken.None);
@@ -45,7 +46,7 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/add", "0.1.27")]
+        [Post("/ipfs/add", "0.1.28")]
         public async Task<string> PostAddAsync(CancellationToken cancellationToken)
         {
             var builder = GetUrlBuilder("/ipfs/add");

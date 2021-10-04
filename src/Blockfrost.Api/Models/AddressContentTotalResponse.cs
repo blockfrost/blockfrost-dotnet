@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -36,7 +36,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("received_sum")]
-        public object ReceivedSum { get; set; }
+        public AmountCollection ReceivedSum { get; set; }
 
         /// <summary>
         /// Gets or sets the SentSum
@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("sent_sum")]
-        public object SentSum { get; set; }
+        public AmountCollection SentSum { get; set; }
 
         /// <summary>
         /// Gets or sets the TxCount
@@ -84,7 +84,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Address == other.Address && Equals(ReceivedSum,other.ReceivedSum) && Equals(SentSum,other.SentSum) && TxCount == other.TxCount));
+                   || (Address == other.Address && Equals(ReceivedSum, other.ReceivedSum) && Equals(SentSum, other.SentSum) && TxCount == other.TxCount));
         }
 
         /// <summary>

@@ -20,11 +20,11 @@ namespace Blockfrost.Api.Generate.Contexts
                     Type = "ESortOrder";
                 }
             }
-            
+
             if (HasDefault)
             {
                 DefaultValue = Parameter.Schema.Default.GetType().GetProperty("Value").GetValue(Parameter.Schema.Default).ToString();
-                if(IsEnum)
+                if (IsEnum)
                 {
                     DefaultValue = $"{Type}.{TemplateHelper.PascalCase(DefaultValue)}";
                 }
@@ -35,7 +35,7 @@ namespace Blockfrost.Api.Generate.Contexts
 
         public ParameterContext(KeyValuePair<string, string> kvp)
         {
-            _context = kvp;        
+            _context = kvp;
             Type = _context.Key.Equals("long") ? "int" : _context.Key;
             Name = _context.Value;
         }

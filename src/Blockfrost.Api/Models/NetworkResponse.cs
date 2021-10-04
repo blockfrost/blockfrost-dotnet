@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -26,7 +26,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("supply")]
-        public object Supply { get; set; }
+        public NetworkResponseSupply Supply { get; set; }
 
         /// <summary>
         /// Gets or sets the Stake
@@ -36,7 +36,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("stake")]
-        public object Stake { get; set; }
+        public NetworkResponseStake Stake { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -64,7 +64,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Equals(Supply,other.Supply) && Equals(Stake,other.Stake)));
+                   || (Equals(Supply, other.Supply) && Equals(Stake, other.Stake)));
         }
 
         /// <summary>

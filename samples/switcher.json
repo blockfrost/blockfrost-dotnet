@@ -1,0 +1,8 @@
+{
+  "solution": "blockfrost-dotnet-samples.sln",
+  "mappings": {
+    "Blockfrost.Api": "../../blockfrost-dotnet/src/Blockfrost.Api/Blockfrost.Api.csproj",
+    "Blockfrost.Extensions": "../../blockfrost-dotnet/src/Blockfrost.Extensions/Blockfrost.Extensions.csproj"
+  },
+  "removeProjects": true
+}

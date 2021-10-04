@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -166,7 +166,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("extra_entropy")]
-        public object ExtraEntropy { get; set; }
+        public JsonElement ExtraEntropy { get; set; }
 
         /// <summary>
         /// Gets or sets the ProtocolMajorVer
@@ -344,7 +344,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Epoch == other.Epoch && MinFeeA == other.MinFeeA && MinFeeB == other.MinFeeB && MaxBlockSize == other.MaxBlockSize && MaxTxSize == other.MaxTxSize && MaxBlockHeaderSize == other.MaxBlockHeaderSize && KeyDeposit == other.KeyDeposit && PoolDeposit == other.PoolDeposit && EMax == other.EMax && NOpt == other.NOpt && A0 == other.A0 && Rho == other.Rho && Tau == other.Tau && DecentralisationParam == other.DecentralisationParam && Equals(ExtraEntropy,other.ExtraEntropy) && ProtocolMajorVer == other.ProtocolMajorVer && ProtocolMinorVer == other.ProtocolMinorVer && MinUtxo == other.MinUtxo && MinPoolCost == other.MinPoolCost && Nonce == other.Nonce && PriceMem == other.PriceMem && PriceStep == other.PriceStep && MaxTxExMem == other.MaxTxExMem && MaxTxExSteps == other.MaxTxExSteps && MaxBlockExMem == other.MaxBlockExMem && MaxBlockExSteps == other.MaxBlockExSteps && MaxValSize == other.MaxValSize && CollateralPercent == other.CollateralPercent && MaxCollateralInputs == other.MaxCollateralInputs && CoinsPerUtxoWord == other.CoinsPerUtxoWord));
+                   || (Epoch == other.Epoch && MinFeeA == other.MinFeeA && MinFeeB == other.MinFeeB && MaxBlockSize == other.MaxBlockSize && MaxTxSize == other.MaxTxSize && MaxBlockHeaderSize == other.MaxBlockHeaderSize && KeyDeposit == other.KeyDeposit && PoolDeposit == other.PoolDeposit && EMax == other.EMax && NOpt == other.NOpt && A0 == other.A0 && Rho == other.Rho && Tau == other.Tau && DecentralisationParam == other.DecentralisationParam && Equals(ExtraEntropy, other.ExtraEntropy) && ProtocolMajorVer == other.ProtocolMajorVer && ProtocolMinorVer == other.ProtocolMinorVer && MinUtxo == other.MinUtxo && MinPoolCost == other.MinPoolCost && Nonce == other.Nonce && PriceMem == other.PriceMem && PriceStep == other.PriceStep && MaxTxExMem == other.MaxTxExMem && MaxTxExSteps == other.MaxTxExSteps && MaxBlockExMem == other.MaxBlockExMem && MaxBlockExSteps == other.MaxBlockExSteps && MaxValSize == other.MaxValSize && CollateralPercent == other.CollateralPercent && MaxCollateralInputs == other.MaxCollateralInputs && CoinsPerUtxoWord == other.CoinsPerUtxoWord));
         }
 
         /// <summary>

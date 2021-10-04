@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -176,7 +176,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("owners")]
-        public object Owners { get; set; }
+        public StringCollection Owners { get; set; }
 
         /// <summary>
         /// Gets or sets the Registration
@@ -186,7 +186,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("registration")]
-        public object Registration { get; set; }
+        public StringCollection Registration { get; set; }
 
         /// <summary>
         /// Gets or sets the Retirement
@@ -196,7 +196,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("retirement")]
-        public object Retirement { get; set; }
+        public StringCollection Retirement { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -224,7 +224,7 @@ namespace Blockfrost.Api.Models
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (PoolId == other.PoolId && Hex == other.Hex && VrfKey == other.VrfKey && BlocksMinted == other.BlocksMinted && LiveStake == other.LiveStake && LiveSize == other.LiveSize && LiveSaturation == other.LiveSaturation && LiveDelegators == other.LiveDelegators && ActiveStake == other.ActiveStake && ActiveSize == other.ActiveSize && DeclaredPledge == other.DeclaredPledge && LivePledge == other.LivePledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners,other.Owners) && Equals(Registration,other.Registration) && Equals(Retirement,other.Retirement)));
+                   || (PoolId == other.PoolId && Hex == other.Hex && VrfKey == other.VrfKey && BlocksMinted == other.BlocksMinted && LiveStake == other.LiveStake && LiveSize == other.LiveSize && LiveSaturation == other.LiveSaturation && LiveDelegators == other.LiveDelegators && ActiveStake == other.ActiveStake && ActiveSize == other.ActiveSize && DeclaredPledge == other.DeclaredPledge && LivePledge == other.LivePledge && MarginCost == other.MarginCost && FixedCost == other.FixedCost && RewardAccount == other.RewardAccount && Equals(Owners, other.Owners) && Equals(Registration, other.Registration) && Equals(Retirement, other.Retirement)));
         }
 
         /// <summary>

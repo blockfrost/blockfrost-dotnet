@@ -13,7 +13,7 @@ namespace Blockfrost.Api.Generate
         {
             OpenApiString str => str.Value.Equals(contentType, System.StringComparison.OrdinalIgnoreCase),
             _ => false,
-        }; 
+        };
 
         public static bool HasContentType(this OpenApiParameter parameter, string contentType)
         {
