@@ -53,14 +53,14 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns pinned object</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
-        private async Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken)
-        {
-            var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
+            [Post("/ipfs/pin/add/{IPFS_path}", "0.1.28")]
+            private async Task<string> PostPinAddAsync(System.IO.Stream content, CancellationToken cancellationToken)
+            {
+                var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
             
-            // content  
-            return await sut.PostPinAddAsync(content,  cancellationToken);
-        }
+                // content  
+                return await sut.PostPinAddAsync(content,  cancellationToken);
+            }
         /// <summary>
         ///     Testing List pinned objects <c>/ipfs/pin/list/</c>
         /// </summary>
@@ -160,16 +160,16 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
-        [TestMethod]
-        [Ignore("Needs specific input")]
-        [DataRow("")]
-        public async Task PostPinRemoveAsync_Not_Null(System.IO.Stream content)
-        {
-            var actual = await PostPinRemoveAsync(content, CancellationToken.None);
-            Assert.IsNotNull(actual);
-            Assert.IsInstanceOfType(actual, typeof(string));
-        }
+            [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
+            [TestMethod]
+            [Ignore("Needs specific input")]
+            [DataRow("")]
+            public async Task PostPinRemoveAsync_Not_Null(System.IO.Stream content)
+            {
+                var actual = await PostPinRemoveAsync(content, CancellationToken.None);
+                Assert.IsNotNull(actual);
+                Assert.IsInstanceOfType(actual, typeof(string));
+            }
 
         /// <summary>
         ///     Testing  <c>/ipfs/pin/remove/{IPFS_path}</c>
@@ -181,14 +181,14 @@ namespace Blockfrost.Api.Tests.Services
         /// <returns>Returns the pins removed</returns>
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
-        private async Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken)
-        {
-            var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
+            [Post("/ipfs/pin/remove/{IPFS_path}", "0.1.28")]
+            private async Task<string> PostPinRemoveAsync(System.IO.Stream content, CancellationToken cancellationToken)
+            {
+                var sut = Provider.GetRequiredService<Api.Services.IPinsService>();
             
-            // content  
-            return await sut.PostPinRemoveAsync(content,  cancellationToken);
-        }
+                // content  
+                return await sut.PostPinRemoveAsync(content,  cancellationToken);
+            }
     }
 }
 

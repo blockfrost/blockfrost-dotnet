@@ -267,7 +267,7 @@ namespace Blockfrost.Api.Generate
                 return;
             }
 
-            using var fi = new StreamWriter(file.Create(), new System.Text.UTF8Encoding(false));
+            using var fi = new StreamWriter(file.Create(), System.Text.Encoding.UTF8);
             var template = Handlebars.Compile(File.ReadAllText(Path.Combine(TemplateDir.FullName, templateFileName)));
             var bytes = fi.Encoding.GetBytes(template(data));
 
