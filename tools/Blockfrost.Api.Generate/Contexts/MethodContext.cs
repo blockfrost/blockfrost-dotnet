@@ -15,7 +15,7 @@ namespace Blockfrost.Api.Generate.Contexts
             HttpMethod = type;
             Current = operation;
 
-            Parameters = Current.Parameters.Where(p => p.In.HasValue && (p.In.Value == ParameterLocation.Query || p.In.Value == ParameterLocation.Path)).Select(p => new ParameterContext(p)).ToList();
+            Parameters = Current.Parameters.Where(p => p.In.HasValue && (p.In.Value == ParameterLocation.Query || p.In.Value == ParameterLocation.Path)).Select(p => new ParameterContext(p)).OrderBy(b => b.HasDefault == true).ToList();
 
             HasQueryParameters = Parameters.Any(p => p.Parameter.In == ParameterLocation.Query);
             HasHeaderParameters = Parameters.Any(p => p.Parameter.In == ParameterLocation.Header);
