@@ -2,7 +2,8 @@
   "profiles": {
     "Blockfrost.Cli": {
       "commandName": "Project",
-      "commandLineArgs": "addresses --addr addr_test1vpf8knz7v9yaz35hjcxhuzu6fh5fgr3mpk7waufk0dcv6ygvetsnm txs ",
+      //"commandLineArgs": "tx 01c5501974c16459bebe735a61c745e13656c14716a9cb2d5a89f2ba8e0efe9a",
+      "commandLineArgs": "addr addr_test1qzegv8fdurgx9jaxswganhtwx3put90m6j85klfh83ull0gxu2hyfhlkwuxupa9d5085eunq2qywy7hvmvej456flknsjvawxy",
       "environmentVariables": {
         "BFCLI_NETWORK": "testnet",
         "ASPNET_ENVIRONMENT": "development"

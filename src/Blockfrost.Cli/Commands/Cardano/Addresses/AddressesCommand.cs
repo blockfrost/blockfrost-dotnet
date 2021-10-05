@@ -6,7 +6,7 @@ using Blockfrost.Api.Services;
 
 namespace Blockfrost.Cli.Commands.Cardano.Addresses
 {
-
+    [Command(Name = "addresses", Description = "Information related to cardano addresses.")]
     public class AddressesCommand : BlockfrostServiceCommand<IAddressesService>
     {
         public static readonly Dictionary<string, string> SwitchMappings = new()
@@ -14,28 +14,32 @@ namespace Blockfrost.Cli.Commands.Cardano.Addresses
             { "--addr", "address" }
         };
 
+        [Parameter(Position = 1, Description = "The address hash.", Required = true)]
         public string Address { get; set; }
+
+        [Switch(Position = 2, Description = "A specific subcommand [--total|--utxos|--txs|--transactions]", Required = false)]
+        public string Subcommand { get; set; }
 
         public override async ValueTask<CommandResult> ExecuteAsync(CancellationToken ct)
         {
             try
             {
-                if (IsSubcommand("total"))
+                if (IsSubcommand("--total"))
                 {
                     var total = await Service.GetAddressesAsync(Address, ct);
                     return await Success(total);
                 }
-                else if (IsSubcommand("utxos"))
+                else if (IsSubcommand("--utxos"))
                 {
                     var utxos = await Service.GetUtxosAsync(Address, Count, Page, Order, ct);
                     return await Success(utxos);
                 }
-                else if (IsSubcommand("txs"))
+                else if (IsSubcommand("--txs"))
                 {
                     var txs = await Service.GetTxsAsync(Address, Count, Page, Order, ct);
                     return await Success(txs);
                 }
-                else if (IsSubcommand("transactions"))
+                else if (IsSubcommand("--transactions"))
                 {
                     var transactions = await Service.GetTransactionsAsync(Address, From, To, Count, Page, Order, ct);
                     return await Success(transactions);
@@ -46,11 +50,6 @@ namespace Blockfrost.Cli.Commands.Cardano.Addresses
                     return await Success(response);
                 }
             }
-            //catch (CommandParametersException ex)
-            //{
-            //    return await ValueTask.FromResult(
-            //        CommandResult.FailureInvalidOptions(ex.Message));
-            //}
             catch (Exception ex)
             {
                 return await ValueTask.FromResult(

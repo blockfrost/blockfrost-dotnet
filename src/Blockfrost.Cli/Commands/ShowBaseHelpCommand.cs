@@ -22,7 +22,12 @@ Available options:
     -h, --help      Show this help text
 
 Available commands:
-    health";
+    addresses <hash> (--total | --utxos | --txs | --transactions)
+    blocks <slot_or_number> --()
+    health (--clock)
+    transactions 
+";
+
             return ValueTask.FromResult(CommandResult.Success(helpText));
         }
     }

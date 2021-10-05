@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Services;
 using Blockfrost.Cli.Commands.Cardano.Addresses;
+using Blockfrost.Cli.Commands.Cardano.Blocks;
 using Blockfrost.Cli.Commands.Cardano.Transactions;
 using Blockfrost.Cli.Commands.Common.Health;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +20,7 @@ namespace Blockfrost.Cli.Commands
     {
         private const StringComparison OIC = StringComparison.OrdinalIgnoreCase;
 
-        public static ICommand ParseArgsToCommand(string[] args)
+        public static ICommand Parse(string[] args)
         {
             if (args.Length == 0 || IsHelpOption(args[0]))
             {
@@ -30,15 +32,29 @@ namespace Blockfrost.Cli.Commands
                 return new ShowVersionCommand();
             }
 
-            string flattenedArgs = string.Join(' ', args);
+            string input = string.Join(' ', args);
 
-            return flattenedArgs.StartsWith("addresses", OIC)
-                ? BuildCommand<IAddressesService, AddressesCommand>(args, AddressesCommand.SwitchMappings)
-                : flattenedArgs.StartsWith("transactions", OIC)
-                ? BuildCommand<ITransactionsService, TransactionsCommand>(args, TransactionsCommand.SwitchMappings)
-                : flattenedArgs.StartsWith("health", OIC)
-                ? BuildCommand<IHealthService, HealthCommand>(args, null)
-                : new ShowInvalidArgumentCommand(flattenedArgs);
+            if (Regex.IsMatch(input, @"^addr(ess)?(es)?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IAddressesService, AddressesCommand>(args, AddressesCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^t(ransaction|x)s?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<ITransactionsService, TransactionsCommand>(args, TransactionsCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^bl(ock|k)s?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IBlocksService, BlocksCommand>(args, BlocksCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^(health|<3)\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IHealthService, HealthCommand>(args, null);
+            }
+
+            return new ShowInvalidArgumentCommand(input);
         }
 
         private static TCommand BuildCommand<TService, TCommand>(string[] args, Dictionary<string, string> switchMappings = null)
@@ -76,9 +92,9 @@ namespace Blockfrost.Cli.Commands
                 .AddSingleton(provider =>
                 {
                     var cmd = config.Get<TCommand>();
-                    cmd.Args = args;
                     cmd.Options = provider.GetRequiredService<JsonSerializerOptions>();
                     cmd.Service = provider.GetRequiredService<TService>();
+                    cmd.SetCommandLineArguments(args);
                     return cmd;
                 })
                 .BuildServiceProvider();
