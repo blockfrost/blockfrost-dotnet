@@ -211,12 +211,12 @@ namespace Blockfrost.Api.Tests.Integration
             return Accounts.AssetsAllAsync(stake_address, count, page, order, cancellationToken);
         }
 
-        public Task<AssetResponse> AssetsAsync(string asset)
+        public Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset)
         {
             return Assets.AssetsAsync(asset);
         }
 
-        public Task<AssetResponse> AssetsAsync(string asset, CancellationToken cancellationToken)
+        public Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset, CancellationToken cancellationToken)
         {
             return Assets.AssetsAsync(asset, cancellationToken);
         }

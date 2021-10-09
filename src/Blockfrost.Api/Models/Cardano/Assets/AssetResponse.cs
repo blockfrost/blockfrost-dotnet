@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 //namespace Blockfrost.Api.Models.Cardano.Assets
 namespace Blockfrost.Api
 {
-    public partial class AssetResponse
+    public partial class AssetResponse<TMetadata>
     {
         /// <summary>Hex-encoded asset name of the asset</summary>
         [JsonPropertyName("asset_name")]
@@ -36,7 +36,7 @@ namespace Blockfrost.Api
         /// <br/>community discussion around the standard ongoing at https://github.com/cardano-foundation/CIPs/pull/85
         /// <br/></summary>
         [JsonPropertyName("onchain_metadata")]
-        public Onchain_metadata Onchain_metadata { get; set; }
+        public TMetadata Onchain_metadata { get; set; }
 
         /// <summary>Policy ID of the asset</summary>
         [JsonPropertyName("policy_id")]

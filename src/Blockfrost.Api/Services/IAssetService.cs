@@ -25,13 +25,25 @@ namespace Blockfrost.Api
         /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
         /// </summary>
         //[System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<AssetResponse> AssetsAsync(string asset);
+        Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset);
 
         /// <summary>
         /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
         /// </summary>
         //[System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
-        Task<AssetResponse> AssetsAsync(string asset, CancellationToken cancellationToken);
+        Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
+        /// </summary>
+        //[System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
+        Task<AssetResponse<TMetadata>> AssetsAsync<TMetadata>(string asset);
+
+        /// <summary>
+        /// Use <see cref="IBlockfrostService.InserMethodName"/> instead
+        /// </summary>
+        //[System.Obsolete("Service methods without 'Get' prefix will be no longer supported. See comments for details.")]
+        Task<AssetResponse<TMetadata>> AssetsAsync<TMetadata>(string asset, CancellationToken cancellationToken);
 
         /// <summary>
         /// Use <see cref="IBlockfrostService.InserMethodName"/> instead

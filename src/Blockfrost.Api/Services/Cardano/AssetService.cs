@@ -66,17 +66,36 @@ namespace Blockfrost.Api
         /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <returns>Return the information about a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public Task<AssetResponse> AssetsAsync(string asset)
+        public Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset)
         {
-            return AssetsAsync(asset, CancellationToken.None);
+            return AssetsAsync<Onchain_metadata>(asset, CancellationToken.None);
         }
 
+        /// <summary>Specific asset</summary>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Return the information about a specific asset</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public Task<AssetResponse<Onchain_metadata>> AssetsAsync(string asset, CancellationToken cancellationToken)
+        {
+            return AssetsAsync<Onchain_metadata>(asset, cancellationToken);
+        }
+
         /// <summary>Specific asset</summary>
         /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
         /// <returns>Return the information about a specific asset</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public async Task<AssetResponse> AssetsAsync(string asset, CancellationToken cancellationToken)
+        public Task<AssetResponse<TMetadata>> AssetsAsync<TMetadata>(string asset)
+        {
+            return AssetsAsync<TMetadata>(asset, CancellationToken.None);
+        }
+
+        /// <summary>Specific asset</summary>
+        /// <param name="asset">Concatenation of the policy_id and hex-encoded asset_name</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Return the information about a specific asset</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public async Task<AssetResponse<TMetadata>> AssetsAsync<TMetadata>(string asset, CancellationToken cancellationToken)
         {
             if (asset == null)
             {
@@ -87,7 +106,7 @@ namespace Blockfrost.Api
             _ = urlBuilder_.Append(BaseUrl != null ? BaseUrl.TrimEnd('/') : "").Append("/assets/{asset}");
             _ = urlBuilder_.Replace("{asset}", System.Uri.EscapeDataString(ConvertToString(asset, System.Globalization.CultureInfo.InvariantCulture)));
 
-            return await SendGetRequestAsync<AssetResponse>(urlBuilder_, cancellationToken);
+            return await SendGetRequestAsync<AssetResponse<TMetadata>>(urlBuilder_, cancellationToken);
         }
 
         /// <summary>Asset addresses</summary>
