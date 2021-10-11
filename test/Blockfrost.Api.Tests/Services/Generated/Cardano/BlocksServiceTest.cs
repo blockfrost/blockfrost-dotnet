@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
 using Blockfrost.Api.Tests.Attributes;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api.Tests.Services
 {
@@ -123,8 +124,8 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash_or_number))
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 hash_or_number = latest.Hash;
             }
 
@@ -171,8 +172,8 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (slot_number == 1)
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 slot_number = (int)latest.Slot;
             }
 
@@ -220,15 +221,15 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (epoch_number == 1)
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 epoch_number = (int)latest.Epoch;
             }
 
             if (slot_number == 1)
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 slot_number = (int)latest.Slot;
             }
 
@@ -279,8 +280,8 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash_or_number))
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 hash_or_number = latest.Hash;
             }
 
@@ -334,8 +335,8 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash_or_number))
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 hash_or_number = latest.Hash;
             }
 
@@ -390,8 +391,8 @@ namespace Blockfrost.Api.Tests.Services
             // Arrange
             if (string.IsNullOrEmpty(hash_or_number))
             {
-                var blocksService = Provider.GetRequiredService<IBlockService>();
-                var latest = await blocksService.GetLatestBlockAsync();
+                var blocksService = Provider.GetRequiredService<IBlocksService>();
+                var latest = await blocksService.GetLatestAsync();
                 hash_or_number = latest.Hash;
             }
 

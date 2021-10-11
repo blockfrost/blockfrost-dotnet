@@ -8,6 +8,7 @@ using CSTB = CardanoSharp.Wallet.TransactionBuilding;
 using Microsoft.Extensions.Options;
 using Blockfrost.Extensions.CardanoSharp.Utils;
 using CardanoSharp.Wallet.Extensions;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Extensions.CardanoSharp
 {
@@ -18,13 +19,13 @@ namespace Blockfrost.Extensions.CardanoSharp
 
     public class CardanoSharpService : ICardanoSharpService
     {
-        private readonly BF.IAddressService _blockfrostAddressService;
+        private readonly IAddressesService _blockfrostAddressService;
         private readonly IOptionsMonitor<CardanoSharpExtensionOptions> _optionsMonitor;
 
         public CardanoSharpExtensionOptions Options => _optionsMonitor.CurrentValue;
 
         public CardanoSharpService(
-            BF.IAddressService addressService,
+            IAddressesService addressService,
             IOptionsMonitor<CardanoSharpExtensionOptions> optionsMonitor)
         {
             _blockfrostAddressService = addressService;
@@ -37,7 +38,7 @@ namespace Blockfrost.Extensions.CardanoSharp
             uint amount = Options.Amount;
             var pay = new CSA.Address(Options.Sender);
             var rcv = new CSA.Address(Options.Receiver);
-            var utxos = await _blockfrostAddressService.AddressUtxoAsync(Options.Sender, Options.UtxoSpendLimit, 0, BF.ESortOrder.Desc, CancellationToken.None);
+            var utxos = await _blockfrostAddressService.GetUtxosAsync(Options.Sender, Options.UtxoSpendLimit, 0, BF.ESortOrder.Desc, CancellationToken.None);
 
             if (amount > Options.SpendingLimit)
             {
@@ -56,7 +57,7 @@ namespace Blockfrost.Extensions.CardanoSharp
             foreach (var utxo in utxos)
             {
                 change += utxo.ToUint32(Options.Unit);
-                txbody = txbody.AddInput(utxo.Tx_hash.HexToByteArray(), index++);
+                txbody = txbody.AddInput(utxo.TxHash.HexToByteArray(), index++);
                 if ((change - fee) >= amount)
                 {
                     break;

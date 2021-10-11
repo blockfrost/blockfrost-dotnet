@@ -1,14 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blockfrost.Api.Models;
+using Blockfrost.Api.Services;
 using Blockfrost.Api.Tests.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Api.Tests.Services
 {
     [TestClass]
-    public class UtxosAllTests : AddressServiceMethodTestBase<ICollection<AddressUTxOResponse>>
+    public class UtxosAllTests : AddressServiceMethodTestBase<AddressUtxoContentResponseCollection>
     {
-        public UtxosAllTests() : base(nameof(IAddressService.UtxosAllAsync)) { }
+        public UtxosAllTests() : base(nameof(IAddressesService.GetUtxosAsync)) { }
 
         public override ICollection<AddressUTxOResponse> Content => new List<AddressUTxOResponse>() { new AddressUTxOResponse() };
 
@@ -46,7 +48,7 @@ namespace Blockfrost.Api.Tests.Services
             string addr = "addr_test1vrgvgwfx4xyu3r2sf8nphh4l92y84jsslg5yhyr8xul29rczf3alu";
 
             // Act
-            var utxos = await ServiceUnderTest.UtxosAllAsync(addr, count, page, order);
+            var utxos = await ServiceUnderTest.GetUtxosAsync(addr, count, page, order);
 
             // Assert
             Assert.AreEqual(expected, utxos.Count);

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -45,8 +46,8 @@ namespace Blockfrost.Api.Tests.Extensions
             _ = services.AddAddressService(projectName, CreateTestSpecificConfiguration());
 
             // Assert
-            AssertServiceNetworkConfigured<IAddressService>(projectName, CreateTestSpecificConfiguration(), services);
-            foreach (var serviceType in AvailableServiceTypes.Except(new[] { typeof(IAddressService) }))
+            AssertServiceNetworkConfigured<IAddressesService>(projectName, CreateTestSpecificConfiguration(), services);
+            foreach (var serviceType in AvailableServiceTypes.Except(new[] { typeof(IAddressesService) }))
             {
                 AssertServiceNotConfigured(services, serviceType);
             }
