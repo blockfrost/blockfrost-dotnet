@@ -24,6 +24,24 @@ namespace Blockfrost.Cli.Commands.Cardano.Addresses
         {
             try
             {
+                //if (string.IsNullOrEmpty(Address))
+                //{
+                //    var usage = new ShowCommandHelpCommand<AddressesCommand>();
+                //    return await usage.ExecuteAsync(ct);
+                //}
+
+                if (Count < 0)
+                {
+                    return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
+                        $"Invalid option --count. '{Count}' must positive integer"));
+                }
+
+                //if (!Enum.TryParse<EContentType>(AddressType, out _))
+                //{
+                //    return await ValueTask.FromResult(CommandResult.FailureInvalidOptions(
+                //        $"Invalid option --type {AddressType} is not supported"));
+                //}
+
                 if (IsSubcommand("--total"))
                 {
                     var total = await Service.GetAddressesAsync(Address, ct);

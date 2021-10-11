@@ -28,7 +28,16 @@ namespace Blockfrost.Cli.Commands.Cardano.Blocks
                     var result = await Service.GetLatestAsync(ct);
                     return await Success(result);
                 }
-
+                if (string.IsNullOrEmpty(HashOrNumber))
+                {
+                    return await ValueTask.FromResult(
+                        CommandResult.FailureInvalidOptions(@"Usage: blocks <hash_or_number> 
+    [ 
+      --latest-txs 
+    |
+      --next 
+    ]"));
+                }
                 if (IsSubcommand("--latest-txs"))
                 {
                     var result = await Service.GetLatestTxsAsync(Count, Page, Order, ct);
@@ -72,11 +81,6 @@ namespace Blockfrost.Cli.Commands.Cardano.Blocks
                 var response = await Service.GetBlocksAsync(HashOrNumber, ct);
                 return await Success(response);
             }
-            //catch (CommandParametersException ex)
-            //{
-            //    return await ValueTask.FromResult(
-            //        CommandResult.FailureInvalidOptions(ex.Message));
-            //}
             catch (Exception ex)
             {
                 return await ValueTask.FromResult(

@@ -20,12 +20,29 @@ USAGE: bfcli (OPTION | COMMAND)
 Available options:
     -v, --version   Show the bfcli version
     -h, --help      Show this help text
+   
+Cardano commands:
+    accounts <hash> (--total | --utxos | --txs | --transactions)
+    addresses <address> (--total | --utxos | --txs | --transactions)
+    assets <asset> (--total | --utxos | --txs | --transactions)
+    blocks <hash_or_number> (--total | --utxos | --txs | --transactions)
+    epochs <number> (--total | --utxos | --txs | --transactions)
+    ledger 
+    metadata <hash> (--total | --utxos | --txs | --transactions)
+    network <slot_or_number> --()
+    pools <pool_id> --()
+    scripts <script_hash> --()
+    transactions <txId>
 
-Available commands:
-    addresses <hash> (--total | --utxos | --txs | --transactions)
-    blocks <slot_or_number> --()
+Ipfs commands:
+    add <slot_or_number> --()
+    ipfs <slot_or_number> --()
+    gateway <slot_or_number> --()
+    
+General commands:
+    metrics <slot_or_number> --()
     health (--clock)
-    transactions 
+
 ";
 
             return ValueTask.FromResult(CommandResult.Success(helpText));

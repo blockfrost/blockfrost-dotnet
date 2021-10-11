@@ -6,10 +6,19 @@ using System.Text.RegularExpressions;
 using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Services;
+using Blockfrost.Cli.Commands.Cardano.Accounts;
 using Blockfrost.Cli.Commands.Cardano.Addresses;
+using Blockfrost.Cli.Commands.Cardano.Assets;
 using Blockfrost.Cli.Commands.Cardano.Blocks;
+using Blockfrost.Cli.Commands.Cardano.Epochs;
+using Blockfrost.Cli.Commands.Cardano.Ledger;
+using Blockfrost.Cli.Commands.Cardano.Metadata;
+using Blockfrost.Cli.Commands.Cardano.Network;
+using Blockfrost.Cli.Commands.Cardano.Pools;
+using Blockfrost.Cli.Commands.Cardano.Scripts;
 using Blockfrost.Cli.Commands.Cardano.Transactions;
 using Blockfrost.Cli.Commands.Common.Health;
+using Blockfrost.Cli.Commands.Common.Metrics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -34,19 +43,59 @@ namespace Blockfrost.Cli.Commands
 
             string input = string.Join(' ', args);
 
+            if (Regex.IsMatch(input, @"^acc(oun)?ts?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IAccountsService, AccountsCommand>(args, AccountsCommand.SwitchMappings);
+            }
+
             if (Regex.IsMatch(input, @"^addr(ess)?(es)?\b", RegexOptions.IgnoreCase))
             {
                 return BuildCommand<IAddressesService, AddressesCommand>(args, AddressesCommand.SwitchMappings);
             }
 
-            if (Regex.IsMatch(input, @"^t(ransaction|x)s?\b", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(input, @"^assets?\b", RegexOptions.IgnoreCase))
             {
-                return BuildCommand<ITransactionsService, TransactionsCommand>(args, TransactionsCommand.SwitchMappings);
+                return BuildCommand<IAssetsService, AssetsCommand>(args, AssetsCommand.SwitchMappings);
             }
 
-            if (Regex.IsMatch(input, @"^bl(ock|k)s?\b", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(input, @"^(bl(ock|k)s?|🧊)\b", RegexOptions.IgnoreCase))
             {
                 return BuildCommand<IBlocksService, BlocksCommand>(args, BlocksCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^epochs?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IEpochsService, EpochsCommand>(args, EpochsCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^le?dge?r?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<ILedgerService, LedgerCommand>(args, LedgerCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^meta(data)?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IMetadataService, MetadataCommand>(args, MetadataCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^network\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<INetworkService, NetworkCommand>(args, NetworkCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^pools?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IPoolsService, PoolsCommand>(args, PoolsCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^scripts?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IScriptsService, ScriptsCommand>(args, ScriptsCommand.SwitchMappings);
+            }
+
+            if (Regex.IsMatch(input, @"^t(ransaction|r?xn?)s?\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<ITransactionsService, TransactionsCommand>(args, TransactionsCommand.SwitchMappings);
             }
 
             if (Regex.IsMatch(input, @"^(health|<3)\b", RegexOptions.IgnoreCase))
@@ -54,10 +103,15 @@ namespace Blockfrost.Cli.Commands
                 return BuildCommand<IHealthService, HealthCommand>(args, null);
             }
 
+            if (Regex.IsMatch(input, @"^(metric|stat)s\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IMetricsService, MetricsCommand>(args, null);
+            }
+
             return new ShowInvalidArgumentCommand(input);
         }
 
-        private static TCommand BuildCommand<TService, TCommand>(string[] args, Dictionary<string, string> switchMappings = null)
+        private static ICommand BuildCommand<TService, TCommand>(string[] args, Dictionary<string, string> switchMappings = null)
             where TService : IBlockfrostService
             where TCommand : BlockfrostServiceCommand<TService>
         {
@@ -77,7 +131,7 @@ namespace Blockfrost.Cli.Commands
             }
 
             string network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
-            string apikey = Environment.GetEnvironmentVariable("BFCLI_APIKEY");
+            string apikey = Environment.GetEnvironmentVariable("BFCLI_API_KEY");
 
             var config = builder.Build();
 
@@ -99,7 +153,15 @@ namespace Blockfrost.Cli.Commands
                 })
                 .BuildServiceProvider();
 
-            return provider.GetRequiredService<TCommand>();
+            try
+            {
+                return provider.GetRequiredService<TCommand>();
+            }
+            catch (Exception)
+            {
+                // invalid arguments
+                return new ShowCommandHelpCommand<TCommand>();
+            }
         }
 
         private static bool IsHelpOption(string arg)
