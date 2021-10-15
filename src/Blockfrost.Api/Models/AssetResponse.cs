@@ -6,10 +6,14 @@ using Blockfrost.Api.Utils;
 
 namespace Blockfrost.Api.Models
 {
+    public partial class AssetResponse : AssetResponse<JsonElement>
+    {
+    }
+
     /// <summary>
     /// The <see cref="AssetResponse"/>
     /// </summary>
-    public partial class AssetResponse : IEquatable<AssetResponse>
+    public partial class AssetResponse<TOnchainMetadata> : IEquatable<AssetResponse>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AssetResponse" /> class.
@@ -96,7 +100,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("onchain_metadata")]
-        public JsonElement OnchainMetadata { get; set; }
+        public TOnchainMetadata OnchainMetadata { get; set; }
 
         /// <summary>
         /// Gets or sets the Metadata
@@ -164,12 +168,12 @@ namespace Blockfrost.Api.Models
             return hashCode.ToHashCode();
         }
 
-        public static bool operator ==(AssetResponse left, AssetResponse right)
+        public static bool operator ==(AssetResponse<TOnchainMetadata> left, AssetResponse<TOnchainMetadata> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(AssetResponse left, AssetResponse right)
+        public static bool operator !=(AssetResponse<TOnchainMetadata> left, AssetResponse<TOnchainMetadata> right)
         {
             return !Equals(left, right);
         }

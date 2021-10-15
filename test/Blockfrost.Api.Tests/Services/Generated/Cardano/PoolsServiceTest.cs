@@ -37,7 +37,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/pools", "0.1.28")]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetPoolsAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetPoolsAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act
@@ -83,7 +83,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/pools/retired", "0.1.28")]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetRetiredAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetRetiredAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act
@@ -129,7 +129,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/pools/retiring", "0.1.28")]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetRetiringAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetRetiringAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act

@@ -78,7 +78,7 @@ namespace Blockfrost.Api.Tests.Services
         [Priority(2)]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetPinListAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetPinListAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act
@@ -123,6 +123,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/ipfs/pin/list/{IPFS_path}", "0.1.28")]
         [Priority(3)]
         [TestMethod]
+        [Ignore("TODO: force test priority explicitly")]
         [DataRow("QmR8x7pEQUr1CGxstkd48ZPKi2y1bBBtq7ozZRJWLpbA1M")]
         public async Task GetPinListAsyncPath_Not_Null(string IPFS_path)
         {

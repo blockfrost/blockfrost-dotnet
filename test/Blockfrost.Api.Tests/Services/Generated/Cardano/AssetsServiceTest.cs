@@ -37,7 +37,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets", "0.1.28")]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetAssetsAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetAssetsAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act
@@ -81,7 +81,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.28")]
         [TestMethod]
-        [DataRow(null)]
+        [DataRow("asset1vtzumpl3wtw93wkj5dha9pqw6ns7c7w5rzdk5z")]
         public async Task GetAssetsAsync_Not_Null(string asset)
         {
             // Arrange

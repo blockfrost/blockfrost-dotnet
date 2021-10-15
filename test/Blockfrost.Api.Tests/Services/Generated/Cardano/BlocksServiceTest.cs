@@ -75,7 +75,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/blocks/latest/txs", "0.1.28")]
         [TestMethod]
         [DataRow(1, 1, ESortOrder.Asc)]
-        public async Task GetLatestTxsAsync_Not_Null(int? count, int? page, ESortOrder? order)
+        public async Task GetLatestTxsAsync_Pagination_Not_Null(int? count, int? page, ESortOrder? order)
         {
             // Arrange
             //Act
