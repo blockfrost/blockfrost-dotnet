@@ -7,46 +7,46 @@ using Blockfrost.Api.Utils;
 namespace Blockfrost.Api.Models
 {
     /// <summary>
-    /// The <see cref="NutlinkAddressTickersResponse"/>
+    /// The <see cref="ScriptResponse"/>
     /// </summary>
-    public partial class NutlinkAddressTickersResponse : IEquatable<NutlinkAddressTickersResponse>
+    public partial class ScriptResponse : IEquatable<ScriptResponse>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="NutlinkAddressTickersResponse" /> class.
+        /// Initializes a new instance of the <see cref="ScriptResponse" /> class.
         /// </summary>
-        public NutlinkAddressTickersResponse()
+        public ScriptResponse()
         {
         }
 
         /// <summary>
-        /// Gets or sets the Name
+        /// Gets or sets the ScriptHash
         /// </summary>
         /// <returns>
-        /// Name of the ticker
+        /// Script hash
         /// </returns>
         [Required]
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
+        [JsonPropertyName("script_hash")]
+        public string ScriptHash { get; set; }
 
         /// <summary>
-        /// Gets or sets the Count
+        /// Gets or sets the Type
         /// </summary>
         /// <returns>
-        /// Number of ticker records
+        /// Type of the script language
         /// </returns>
         [Required]
-        [JsonPropertyName("count")]
-        public long Count { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the LatestBlock
+        /// Gets or sets the SerialisedSize
         /// </summary>
         /// <returns>
-        /// Block height of the latest record
+        /// The size of the CBOR serialised script, if a Plutus script
         /// </returns>
         [Required]
-        [JsonPropertyName("latest_block")]
-        public long LatestBlock { get; set; }
+        [JsonPropertyName("serialised_size")]
+        public long? SerialisedSize { get; set; }
 
         /// <summary>
         ///     Returns the string presentation of the object
@@ -66,15 +66,15 @@ namespace Blockfrost.Api.Models
             return JsonSerializer.Serialize(this, options);
         }
         /// <summary>
-        /// Returns true if NutlinkAddressTickersResponse instances are equal
+        /// Returns true if ScriptResponse instances are equal
         /// </summary>
-        /// <param name="other">Instance of NutlinkAddressTickersResponse to be compared</param>
+        /// <param name="other">Instance of ScriptResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(NutlinkAddressTickersResponse other)
+        public bool Equals(ScriptResponse other)
         {
             return other is not null
                    && (ReferenceEquals(this, other)
-                   || (Name == other.Name && Count == other.Count && LatestBlock == other.LatestBlock));
+                   || (ScriptHash == other.ScriptHash && Type == other.Type && SerialisedSize == other.SerialisedSize));
         }
 
         /// <summary>
@@ -86,24 +86,24 @@ namespace Blockfrost.Api.Models
         {
             return obj is not null
                    && (ReferenceEquals(this, obj)
-                   || (obj.GetType() != GetType() && Equals((NutlinkAddressTickersResponse)obj)));
+                   || (obj.GetType() != GetType() && Equals((ScriptResponse)obj)));
         }
 
         public override int GetHashCode()
         {
             var hashCode = new BlockfrostHashCode();
-            hashCode.Add(Name);
-            hashCode.Add(Count);
-            hashCode.Add(LatestBlock);
+            hashCode.Add(ScriptHash);
+            hashCode.Add(Type);
+            hashCode.Add(SerialisedSize);
             return hashCode.ToHashCode();
         }
 
-        public static bool operator ==(NutlinkAddressTickersResponse left, NutlinkAddressTickersResponse right)
+        public static bool operator ==(ScriptResponse left, ScriptResponse right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(NutlinkAddressTickersResponse left, NutlinkAddressTickersResponse right)
+        public static bool operator !=(ScriptResponse left, ScriptResponse right)
         {
             return !Equals(left, right);
         }

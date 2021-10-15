@@ -14,7 +14,7 @@ namespace Blockfrost.Api.Tests.Services
     {
         public UtxosAllTests() : base(nameof(IAddressesService.GetUtxosAsync)) { }
 
-        public override ICollection<AddressUTxOResponse> Content => new List<AddressUTxOResponse>() { new AddressUTxOResponse() };
+        public override ICollection<Api.Models.AddressUtxoContentResponse> Content => new List<Api.Models.AddressUtxoContentResponse>() { new Api.Models.AddressUtxoContentResponse() };
 
         [ClassInitialize]
         public static void Setup(TestContext context)

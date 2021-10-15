@@ -17,6 +17,10 @@ namespace Blockfrost.Api.Tests.Services
     [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class AssetsServiceTest : AServiceTestBase
     {
+        private const string AnimalToken = "7b86ad10fe08e47857e77d4830bef2770e721c5867b8191cc7317a0c43617264616e6f416e696d616c546f6b656e";
+        private const string HydrogenToken = "7b86ad10fe08e47857e77d4830bef2770e721c5867b8191cc7317a0c43617264616e6f487964726f67656e546f6b656e";
+        private const string Policy = "7b86ad10fe08e47857e77d4830bef2770e721c5867b8191cc7317a0c";
+
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
@@ -81,7 +85,9 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.28")]
         [TestMethod]
-        [DataRow("asset1vtzumpl3wtw93wkj5dha9pqw6ns7c7w5rzdk5z")]
+        [DataRow(null)]
+        [DataRow(AnimalToken)]
+        [DataRow(HydrogenToken)]
         public async Task GetAssetsAsync_Not_Null(string asset)
         {
             // Arrange
@@ -110,7 +116,7 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/assets/{asset}", "0.1.28")]
-        private static async Task<Api.Models.AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken)
+        private static async Task<Api.Models.AssetResponse> GetAssetsAsync(string asset, CancellationToken cancellationToken = default)
         {
             var sut = Provider.GetRequiredService<Api.Services.IAssetsService>();
             sut.ReadResponseAsString = true;
@@ -133,6 +139,8 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets/{asset}/history", "0.1.28")]
         [TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc)]
+        [DataRow(AnimalToken, 1, 1, ESortOrder.Asc)]
+        [DataRow(HydrogenToken, 1, 1, ESortOrder.Asc)]
         public async Task GetHistoryAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
@@ -190,6 +198,8 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets/{asset}/txs", "0.1.28")]
         [TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc)]
+        [DataRow(AnimalToken, 1, 1, ESortOrder.Asc)]
+        [DataRow(HydrogenToken, 1, 1, ESortOrder.Asc)]
         public async Task GetTxsAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
@@ -247,6 +257,8 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets/{asset}/transactions", "0.1.28")]
         [TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc)]
+        [DataRow(AnimalToken, 1, 1, ESortOrder.Asc)]
+        [DataRow(HydrogenToken, 1, 1, ESortOrder.Asc)]
         public async Task GetTransactionsAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
@@ -304,6 +316,8 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets/{asset}/addresses", "0.1.28")]
         [TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc)]
+        [DataRow(AnimalToken, 1, 1, ESortOrder.Asc)]
+        [DataRow(HydrogenToken, 1, 1, ESortOrder.Asc)]
         public async Task GetAddressesAsync_Not_Null(string asset, int? count, int? page, ESortOrder? order)
         {
             // Arrange
@@ -361,6 +375,7 @@ namespace Blockfrost.Api.Tests.Services
         [Get("/assets/policy/{policy_id}", "0.1.28")]
         [TestMethod]
         [DataRow(null, 1, 1, ESortOrder.Asc)]
+        [DataRow(Policy, 1, 1, ESortOrder.Asc)]
         public async Task GetPolicyAsync_Not_Null(string policy_id, int? count, int? page, ESortOrder? order)
         {
             // Arrange

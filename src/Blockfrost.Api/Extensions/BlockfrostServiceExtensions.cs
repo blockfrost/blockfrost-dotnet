@@ -105,6 +105,7 @@ namespace Blockfrost.Api.Extensions
 
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
             _ = services.AddCardanoServices(projectName);
+            _ = services.AddIPFSServices(projectName);
             return services;
         }
     }

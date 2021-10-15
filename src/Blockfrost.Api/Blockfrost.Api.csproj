@@ -99,6 +99,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <Folder Include="Models\IPFS\Gateway\" />
     <Folder Include="nupkg\" />
   </ItemGroup>
 

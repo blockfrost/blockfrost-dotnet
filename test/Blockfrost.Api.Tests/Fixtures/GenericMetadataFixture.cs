@@ -10,5 +10,10 @@ namespace Blockfrost.Api.Tests.Fixtures
 {
     public class GenericMetadataFixture
     {
+        public void Test()
+        {
+            
+            
+        }
     }
 }
