@@ -7,19 +7,23 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Blockfrost.Api.Http;
 using Blockfrost.Api.Tests.Attributes;
+using System.IO;
+using Blockfrost.Api.Models;
+using Blockfrost.Api.Services;
 
 namespace Blockfrost.Api.Tests.Services
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
     [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
     [TestCategory(nameof(Integration))]
-    [TestCategory(Constants.NETWORK_TESTNET)]
+    [TestCategory(Constants.NETWORK_IPFS)]
     public partial class AddServiceTest : AServiceTestBase
     {
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
+            ConfigureEnvironment(Constants.PROJECT_NAME_IPFS, context);
         }
 
         /// <summary>
@@ -30,16 +34,16 @@ namespace Blockfrost.Api.Tests.Services
         /// </remarks>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-            [Post("/ipfs/add", "0.1.28")]
-            [TestMethod]
-            [Ignore("Needs specific input")]
-            [DataRow()]
-            public async Task PostAddAsync_Not_Null()
-            {
-                var actual = await PostAddAsync(CancellationToken.None);
-                Assert.IsNotNull(actual);
-                Assert.IsInstanceOfType(actual, typeof(string));
-            }
+        [Post("/ipfs/add", "0.1.28")]
+        [VectorTestMethod("99", "sunset.jpg")]
+        public async Task PostAddAsync_Not_Null(FileInfo info)
+        {
+            using var stream = info.OpenRead();
+            var response = await PostAddAsync(stream, CancellationToken.None);
+            Assert.IsNotNull(response);
+            Assert.IsInstanceOfType(response, typeof(AddContentResponse));
+            Assert.AreEqual(response.IpfsHash, "QmR8x7pEQUr1CGxstkd48ZPKi2y1bBBtq7ozZRJWLpbA1M");
+        }
 
         /// <summary>
         ///     Testing Add a file to IPFS <c>/ipfs/add</c>
@@ -49,13 +53,13 @@ namespace Blockfrost.Api.Tests.Services
         /// </remarks>
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-            [Post("/ipfs/add", "0.1.28")]
-            private async Task<string> PostAddAsync(CancellationToken cancellationToken)
-            {
-                var sut = Provider.GetRequiredService<Api.Services.IAddService>();
-            
-                return await sut.PostAddAsync( cancellationToken);
-            }
+        [Post("/ipfs/add", "0.1.28")]
+        private async Task<AddContentResponse> PostAddAsync(FileStream stream, CancellationToken cancellationToken)
+        {
+            var sut = Provider.GetRequiredService<IIPFSService>();
+            sut.ReadResponseAsString = true;
+            return await sut.Add.PostAddAsync(stream, cancellationToken);
+        }
     }
 }
 

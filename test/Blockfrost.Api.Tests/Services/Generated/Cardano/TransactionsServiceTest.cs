@@ -11,6 +11,7 @@ namespace Blockfrost.Api.Tests.Services
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
     [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
     [TestCategory(nameof(Integration))]
     [TestCategory(Constants.NETWORK_TESTNET)]
     public partial class TransactionsServiceTest : AServiceTestBase

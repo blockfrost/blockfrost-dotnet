@@ -22,12 +22,12 @@ namespace Blockfrost.Api.Services.Extensions
         /// </remarks>
         /// <param name="hash">Hash of the requested transaction</param>
         /// <returns>Return the contents of all the transactions in <paramref name="hashes"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
+        /// <exception cref="ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/txs/{hash}/utxos", "0.1.28")]
-        public static async Task<IEnumerable<Models.TxContentUtxoResponse>> GetUtxosAsync(this ITransactionsService service, StringCollection hashes, CancellationToken cancellationToken = default)
+        public static async Task<IEnumerable<TxContentUtxoResponse>> GetUtxosAsync(this ITransactionsService service, StringCollection hashes, CancellationToken cancellationToken = default)
         {
-            var responses = new List<Models.TxContentUtxoResponse>();
+            var responses = new List<TxContentUtxoResponse>();
 
             foreach (string hash in hashes)
             {

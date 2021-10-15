@@ -8,6 +8,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Blockfrost.Api.Tests.Services
 {
     [TestClass]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
     public class CardanoServiceTest : AServiceTestBase
     {
         [ClassInitialize]

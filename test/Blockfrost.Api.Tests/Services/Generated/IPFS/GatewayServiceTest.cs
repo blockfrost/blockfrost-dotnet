@@ -12,14 +12,15 @@ namespace Blockfrost.Api.Tests.Services
 {
     [IntegrationTestClass(nameof(Environments.Staging))]
     [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
     [TestCategory(nameof(Integration))]
-    [TestCategory(Constants.NETWORK_TESTNET)]
+    [TestCategory(Constants.NETWORK_IPFS)]
     public partial class GatewayServiceTest : AServiceTestBase
     {
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
-            ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
+            ConfigureEnvironment(Constants.PROJECT_NAME_IPFS, context);
         }
 
         /// <summary>
@@ -33,9 +34,9 @@ namespace Blockfrost.Api.Tests.Services
         /// <exception cref="System.ArgumentNullException">Null referemce parameter is not accepted.</exception>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Get("/ipfs/gateway/{IPFS_path}", "0.1.28")]
-        [TestMethod]
-        [Ignore("Needs specific input")]
-        [DataRow(null)]
+        //[TestMethod]
+        [Ignore("TODO: support stream response")]
+        [DataRow("QmR8x7pEQUr1CGxstkd48ZPKi2y1bBBtq7ozZRJWLpbA1M")]
         public async Task GetGatewayAsync_Not_Null(string IPFS_path)
         {
             // Arrange

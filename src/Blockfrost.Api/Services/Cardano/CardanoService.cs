@@ -17,8 +17,8 @@ namespace Blockfrost.Api
             IAssetsService assets,
             IBlocksService blocks,
             IEpochsService epochs,
-            Services.ILedgerService ledger,
-            Services.IMetadataService metadata,
+            ILedgerService ledger,
+            IMetadataService metadata,
             IPoolsService pools,
             ITransactionsService transactions)
         {
@@ -40,8 +40,8 @@ namespace Blockfrost.Api
         public IAssetsService Assets { get; }
         public IBlocksService Blocks { get; }
         public IEpochsService Epochs { get; }
-        public Services.ILedgerService Ledger { get; }
-        public Services.IMetadataService Metadata { get; }
+        public ILedgerService Ledger { get; }
+        public IMetadataService Metadata { get; }
         public IPoolsService Pools { get; }
         public ITransactionsService Transactions { get; }
         public IHealthService Health { get; }

@@ -182,11 +182,22 @@ namespace Blockfrost.Api
             return await SendPostRequestAsync<TResponse>(new StringContent(content, Encoding.UTF8, "application/cbor"), builder, cancellationToken).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Prepares the HttpContent by loading the stream and setting application/cbor
+        /// </summary>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        protected virtual HttpContent PrepareHttpContent(Stream stream)
+        {
+            var content = new StreamContent(stream);
+            content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/cbor");
+            return content;
+        }
+
         protected async Task<TResponse> SendPostRequestAsync<TResponse>(Stream content, StringBuilder builder, CancellationToken cancellationToken)
         {
-            var streamContent = new StreamContent(content);
-            streamContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/cbor");
-            return await SendPostRequestAsync<TResponse>(streamContent, builder, cancellationToken).ConfigureAwait(false);
+            var httpContent = PrepareHttpContent(content);
+            return await SendPostRequestAsync<TResponse>(httpContent, builder, cancellationToken).ConfigureAwait(false);
         }
 
         protected async Task<TResponse> SendPostRequestAsync<TResponse>(HttpContent content, StringBuilder builder, CancellationToken cancellationToken)

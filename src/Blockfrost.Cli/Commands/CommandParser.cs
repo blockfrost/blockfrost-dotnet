@@ -19,6 +19,7 @@ using Blockfrost.Cli.Commands.Cardano.Scripts;
 using Blockfrost.Cli.Commands.Cardano.Transactions;
 using Blockfrost.Cli.Commands.Common.Health;
 using Blockfrost.Cli.Commands.Common.Metrics;
+using Blockfrost.Cli.Commands.Ipfs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -63,7 +64,7 @@ namespace Blockfrost.Cli.Commands
                 return BuildCommand<IBlocksService, BlocksCommand>(args, BlocksCommand.SwitchMappings);
             }
 
-            if (Regex.IsMatch(input, @"^epochs?\b", RegexOptions.IgnoreCase))
+            if (Regex.IsMatch(input, @"^ep(och)?s?\b", RegexOptions.IgnoreCase))
             {
                 return BuildCommand<IEpochsService, EpochsCommand>(args, EpochsCommand.SwitchMappings);
             }
@@ -106,6 +107,11 @@ namespace Blockfrost.Cli.Commands
             if (Regex.IsMatch(input, @"^(metric|stat)s\b", RegexOptions.IgnoreCase))
             {
                 return BuildCommand<IMetricsService, MetricsCommand>(args, null);
+            }
+
+            if (Regex.IsMatch(input, @"^ipfs\b", RegexOptions.IgnoreCase))
+            {
+                return BuildCommand<IIPFSService, IpfsCommand>(args, null);
             }
 
             return new ShowInvalidArgumentCommand(input);

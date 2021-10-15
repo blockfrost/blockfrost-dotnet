@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Http;
+using Blockfrost.Api.Models;
 
 namespace Blockfrost.Api.Services
 {
@@ -9,16 +10,6 @@ namespace Blockfrost.Api.Services
     {
         IHealthService Health { get; set; }
         IMetricsService Metrics { get; set; }
-        /// <summary>
-        ///     Add a file to IPFS <c>/ipfs/add</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/IPFS-Add/paths/~1ipfs~1add/post">/ipfs/add</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <returns>Returns information about added IPFS object</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Post("/ipfs/add", "0.1.28")]
-        Task<string> PostAddAsync();
 
         /// <summary>
         ///     Add a file to IPFS <c>/ipfs/add</c>
@@ -29,7 +20,7 @@ namespace Blockfrost.Api.Services
         /// <returns>Returns information about added IPFS object</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         [Post("/ipfs/add", "0.1.28")]
-        Task<string> PostAddAsync(CancellationToken cancellationToken);
+        Task<AddContentResponse> PostAddAsync(FileStream stream, CancellationToken cancellationToken = default);
     }
 }
 

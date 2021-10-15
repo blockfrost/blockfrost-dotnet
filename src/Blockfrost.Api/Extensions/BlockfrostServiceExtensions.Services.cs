@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using Blockfrost.Api.Options;
+using Blockfrost.Api.Services.IPFS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -26,7 +27,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAccountsService, Api.Services.AccountsService>(projectName);
+            return services.AddBlockfrostService<Services.IAccountsService, Services.AccountsService>(projectName);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAccountService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAccountsService, Api.Services.AccountsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAccountsService, Services.AccountsService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IAccountsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -54,7 +55,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAccountsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAccountsService, Api.Services.AccountsService>(projectName);
+            return services.AddBlockfrostService<Services.IAccountsService, Services.AccountsService>(projectName);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAccountsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAccountsService, Api.Services.AccountsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAccountsService, Services.AccountsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -109,7 +110,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAddressesService, Api.Services.AddressesService>(projectName);
+            return services.AddBlockfrostService<Services.IAddressesService, Services.AddressesService>(projectName);
         }
 
         /// <summary>
@@ -127,7 +128,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddressService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAddressesService, Api.Services.AddressesService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAddressesService, Services.AddressesService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IAddressesService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -137,7 +138,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddressesService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAddressesService, Api.Services.AddressesService>(projectName);
+            return services.AddBlockfrostService<Services.IAddressesService, Services.AddressesService>(projectName);
         }
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddressesService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAddressesService, Api.Services.AddressesService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAddressesService, Services.AddressesService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -192,7 +193,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAssetService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAssetsService, Api.Services.AssetsService>(projectName);
+            return services.AddBlockfrostService<Services.IAssetsService, Services.AssetsService>(projectName);
         }
 
         /// <summary>
@@ -210,7 +211,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAssetService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAssetsService, Api.Services.AssetsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAssetsService, Services.AssetsService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IAssetsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -220,7 +221,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAssetsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAssetsService, Api.Services.AssetsService>(projectName);
+            return services.AddBlockfrostService<Services.IAssetsService, Services.AssetsService>(projectName);
         }
 
         /// <summary>
@@ -232,7 +233,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAssetsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAssetsService, Api.Services.AssetsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAssetsService, Services.AssetsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -275,7 +276,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IBlocksService, Api.Services.BlocksService>(projectName);
+            return services.AddBlockfrostService<Services.IBlocksService, Services.BlocksService>(projectName);
         }
 
         /// <summary>
@@ -293,7 +294,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBlockService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IBlocksService, Api.Services.BlocksService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IBlocksService, Services.BlocksService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IBlocksService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -303,7 +304,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBlocksService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IBlocksService, Api.Services.BlocksService>(projectName);
+            return services.AddBlockfrostService<Services.IBlocksService, Services.BlocksService>(projectName);
         }
 
         /// <summary>
@@ -315,7 +316,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddBlocksService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IBlocksService, Api.Services.BlocksService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IBlocksService, Services.BlocksService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -358,7 +359,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IEpochsService, Api.Services.EpochsService>(projectName);
+            return services.AddBlockfrostService<Services.IEpochsService, Services.EpochsService>(projectName);
         }
 
         /// <summary>
@@ -376,7 +377,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddEpochService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IEpochsService, Api.Services.EpochsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IEpochsService, Services.EpochsService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IEpochsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -386,7 +387,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddEpochsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IEpochsService, Api.Services.EpochsService>(projectName);
+            return services.AddBlockfrostService<Services.IEpochsService, Services.EpochsService>(projectName);
         }
 
         /// <summary>
@@ -398,7 +399,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddEpochsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IEpochsService, Api.Services.EpochsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IEpochsService, Services.EpochsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -441,7 +442,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.ILedgerService, Api.Services.LedgerService>(projectName);
+            return services.AddBlockfrostService<Services.ILedgerService, Services.LedgerService>(projectName);
         }
 
         /// <summary>
@@ -459,7 +460,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddLedgerService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.ILedgerService, Api.Services.LedgerService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.ILedgerService, Services.LedgerService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -489,7 +490,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IMetadataService, Api.Services.MetadataService>(projectName);
+            return services.AddBlockfrostService<Services.IMetadataService, Services.MetadataService>(projectName);
         }
 
         /// <summary>
@@ -507,7 +508,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddMetadataService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IMetadataService, Api.Services.MetadataService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IMetadataService, Services.MetadataService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -537,7 +538,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.INetworkService, Api.Services.NetworkService>(projectName);
+            return services.AddBlockfrostService<Services.INetworkService, Services.NetworkService>(projectName);
         }
 
         /// <summary>
@@ -555,7 +556,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddNetworkService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.INetworkService, Api.Services.NetworkService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.INetworkService, Services.NetworkService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -585,7 +586,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IPoolsService, Api.Services.PoolsService>(projectName);
+            return services.AddBlockfrostService<Services.IPoolsService, Services.PoolsService>(projectName);
         }
 
         /// <summary>
@@ -603,7 +604,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPoolService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IPoolsService, Api.Services.PoolsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IPoolsService, Services.PoolsService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="IPoolsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -613,7 +614,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPoolsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IPoolsService, Api.Services.PoolsService>(projectName);
+            return services.AddBlockfrostService<Services.IPoolsService, Services.PoolsService>(projectName);
         }
 
         /// <summary>
@@ -625,7 +626,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPoolsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IPoolsService, Api.Services.PoolsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IPoolsService, Services.PoolsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -662,7 +663,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddScriptsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IScriptsService, Api.Services.ScriptsService>(projectName);
+            return services.AddBlockfrostService<Services.IScriptsService, Services.ScriptsService>(projectName);
         }
 
         /// <summary>
@@ -674,7 +675,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddScriptsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IScriptsService, Api.Services.ScriptsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IScriptsService, Services.ScriptsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -704,7 +705,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.ITransactionsService, Api.Services.TransactionsService>(projectName);
+            return services.AddBlockfrostService<Services.ITransactionsService, Services.TransactionsService>(projectName);
         }
 
         /// <summary>
@@ -722,7 +723,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddTransactionService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.ITransactionsService, Api.Services.TransactionsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.ITransactionsService, Services.TransactionsService>(projectName, connectionLimit);
         }
         /// <summary>
         /// Adds the <see cref="ITransactionsService"/> and related services to the the service collection and configures a named <see cref="HttpClient"/> for this project
@@ -732,7 +733,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddTransactionsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.ITransactionsService, Api.Services.TransactionsService>(projectName);
+            return services.AddBlockfrostService<Services.ITransactionsService, Services.TransactionsService>(projectName);
         }
 
         /// <summary>
@@ -744,7 +745,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddTransactionsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.ITransactionsService, Api.Services.TransactionsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.ITransactionsService, Services.TransactionsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -781,7 +782,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddHealthService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IHealthService, Api.Services.HealthService>(projectName);
+            return services.AddBlockfrostService<Services.IHealthService, Services.HealthService>(projectName);
         }
 
         /// <summary>
@@ -793,7 +794,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddHealthService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IHealthService, Api.Services.HealthService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IHealthService, Services.HealthService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -817,7 +818,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IAddService, Api.Services.AddService>(projectName);
+            return services.AddBlockfrostService<Services.IAddService, AddService>(projectName);
         }
 
         /// <summary>
@@ -829,7 +830,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddAddService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IAddService, Api.Services.AddService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IAddService, AddService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -853,7 +854,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddGatewayService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IGatewayService, Api.Services.GatewayService>(projectName);
+            return services.AddBlockfrostService<Services.IGatewayService, GatewayService>(projectName);
         }
 
         /// <summary>
@@ -865,7 +866,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddGatewayService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IGatewayService, Api.Services.GatewayService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IGatewayService, GatewayService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -889,7 +890,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPinsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IPinsService, Api.Services.PinsService>(projectName);
+            return services.AddBlockfrostService<Services.IPinsService, PinsService>(projectName);
         }
 
         /// <summary>
@@ -901,7 +902,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddPinsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IPinsService, Api.Services.PinsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IPinsService, PinsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -925,7 +926,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddMetricsService(this IServiceCollection services, string projectName)
         {
-            return services.AddBlockfrostService<Api.Services.IMetricsService, Api.Services.MetricsService>(projectName);
+            return services.AddBlockfrostService<Services.IMetricsService, Services.MetricsService>(projectName);
         }
 
         /// <summary>
@@ -937,7 +938,7 @@ namespace Blockfrost.Api.Extensions
         /// <returns></returns>
         public static IHttpClientBuilder AddMetricsService(this IServiceCollection services, string projectName, int connectionLimit)
         {
-            return services.AddBlockfrostService<Api.Services.IMetricsService, Api.Services.MetricsService>(projectName, connectionLimit);
+            return services.AddBlockfrostService<Services.IMetricsService, Services.MetricsService>(projectName, connectionLimit);
         }
 
         /// <summary>
@@ -953,6 +954,49 @@ namespace Blockfrost.Api.Extensions
         }
         #endregion MetricsService
 
+        #region IPFSServices
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <returns></returns>
+        public static IServiceCollection AddIPFSServices(this IServiceCollection services, string projectName)
+        {
+            _ = services.AddHealthService(projectName);
+            _ = services.AddMetricsService(projectName);
+
+            _ = services.AddAddService(projectName);
+            _ = services.AddPinsService(projectName);
+            _ = services.AddGatewayService(projectName);
+
+            _ = services.AddBlockfrostService<Services.IIPFSService, IPFSService>(projectName);
+            return services;
+        }
+
+        /// <summary>
+        /// Adds Blockfrost Services to the service collection
+        /// </summary>
+        /// <param name="services">The IServiceCollection</param>
+        /// <param name="network">The network the services will use</param>
+        /// <param name="apiKey">The ApiKey used to authenticate</param>
+        /// <returns></returns>
+        public static IServiceCollection AddIPFSServices(this IServiceCollection services, string network, string apiKey, int connectionLimit = Constants.CONNECTION_LIMIT)
+        {
+            string projectName = $"Anonymous.Blockfrost.{network}.Project";
+
+            services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
+
+            _ = services.AddHealthService(projectName, connectionLimit);
+            _ = services.AddMetricsService(projectName, connectionLimit);
+
+            _ = services.AddAddService(projectName, connectionLimit);
+            _ = services.AddPinsService(projectName, connectionLimit);
+            _ = services.AddGatewayService(projectName, connectionLimit);
+
+            _ = services.AddBlockfrostService<Services.IIPFSService, IPFSService>(projectName);
+            return services;
+        }
+        #endregion IPFSServices
         #region CardanoServices
         /// <summary>
         /// Adds Blockfrost Services to the service collection
@@ -999,7 +1043,6 @@ namespace Blockfrost.Api.Extensions
 
             services.ConfigureBlockfrost(network, apiKey, projectName, connectionLimit);
 
-            _ = services.AddBasicBlockfrostService(projectName, connectionLimit);
             _ = services.AddHealthService(projectName, connectionLimit);
             _ = services.AddMetricsService(projectName, connectionLimit);
 
@@ -1105,26 +1148,39 @@ namespace Blockfrost.Api.Extensions
                     if (typeof(TClient) == typeof(Services.ICardanoService))
                     {
                         ConfigureHttpClient(client, network, connectionLimit);
-                        var health = CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(name, network, client);
-                        var metrics = CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(name, network, client);
-                        service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] { 
+                        var health = CreateClient<Services.IHealthService, Services.HealthService>(name, network, client);
+                        var metrics = CreateClient<Services.IMetricsService, Services.MetricsService>(name, network, client);
+                        service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] {
                             health,
                             metrics,
-                            CreateClient<Api.Services.IAccountsService, Api.Services.AccountsService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IAddressesService, Api.Services.AddressesService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IAssetsService, Api.Services.AssetsService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IBlocksService, Api.Services.BlocksService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IEpochsService, Api.Services.EpochsService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.ILedgerService, Api.Services.LedgerService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IMetadataService, Api.Services.MetadataService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.IPoolsService, Api.Services.PoolsService>(name, network, health, metrics, client),
-                            CreateClient<Api.Services.ITransactionsService, Api.Services.TransactionsService>(name, network, health, metrics, client)
+                            CreateClient<Services.IAccountsService, Services.AccountsService>(name, network, health, metrics, client),
+                            CreateClient<Services.IAddressesService, Services.AddressesService>(name, network, health, metrics, client),
+                            CreateClient<Services.IAssetsService, Services.AssetsService>(name, network, health, metrics, client),
+                            CreateClient<Services.IBlocksService, Services.BlocksService>(name, network, health, metrics, client),
+                            CreateClient<Services.IEpochsService, Services.EpochsService>(name, network, health, metrics, client),
+                            CreateClient<Services.ILedgerService, Services.LedgerService>(name, network, health, metrics, client),
+                            CreateClient<Services.IMetadataService, Services.MetadataService>(name, network, health, metrics, client),
+                            CreateClient<Services.IPoolsService, Services.PoolsService>(name, network, health, metrics, client),
+                            CreateClient<Services.ITransactionsService, Services.TransactionsService>(name, network, health, metrics, client)
                         });
 
                     }
+                    else if (typeof(TClient) == typeof(Services.IIPFSService))
+                    {
+                        ConfigureHttpClient(client, network, connectionLimit);
+                        var health = CreateClient<Services.IHealthService, Services.HealthService>(name, network, client);
+                        var metrics = CreateClient<Services.IMetricsService, Services.MetricsService>(name, network, client);
+                        service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] {
+                            health,
+                            metrics,
+                            CreateClient<Services.IAddService, AddService>(name, network, health, metrics, client),
+                            CreateClient<Services.IPinsService, PinsService>(name, network, health, metrics, client),
+                            CreateClient<Services.IGatewayService, GatewayService>(name, network, health, metrics, client)
+                        });
+                    }
                     else
                     {
-                        var types = new[] { typeof(Api.Services.IHealthService), typeof(Api.Services.IMetricsService), typeof(HttpClient) };
+                        var types = new[] { typeof(Services.IHealthService), typeof(Services.IMetricsService), typeof(HttpClient) };
                         var ctor = typeof(TImplementation).GetConstructor(types);
 
                         if (ctor == null)
@@ -1139,8 +1195,8 @@ namespace Blockfrost.Api.Extensions
                         {
                             ConfigureHttpClient(client, network, connectionLimit);
                             service = (TImplementation)Activator.CreateInstance(typeof(TImplementation), new object[] {
-                                        CreateClient<Api.Services.IHealthService, Api.Services.HealthService>(name, network, client),
-                                        CreateClient<Api.Services.IMetricsService, Api.Services.MetricsService>(name, network, client),
+                                        CreateClient<Services.IHealthService, Services.HealthService>(name, network, client),
+                                        CreateClient<Services.IMetricsService, Services.MetricsService>(name, network, client),
                                         client });
                         }
                     }

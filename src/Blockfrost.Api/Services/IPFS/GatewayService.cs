@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
 using Blockfrost.Api.Http;
 
-namespace Blockfrost.Api.Services
+namespace Blockfrost.Api.Services.IPFS
 {
     public partial class GatewayService : ABlockfrostService, IGatewayService
     {

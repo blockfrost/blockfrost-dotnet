@@ -33,7 +33,7 @@ namespace Blockfrost.Api.Extensions
         {
             _ = services.ConfigureBlockfrost(projectName, configuration);
             _ = services.AddCardanoServices(projectName);
-            //_ = services.AddIPFSServices(projectName);
+            _ = services.AddIPFSServices(projectName);
             //_ = services.AddNutlinkServices(projectName);
             return services;
         }

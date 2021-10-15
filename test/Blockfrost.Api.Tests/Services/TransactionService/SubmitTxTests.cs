@@ -12,6 +12,8 @@ namespace Blockfrost.Api.Tests.Services
 {
 
     [TestClass]
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
     public class SubmitTxTests : AServiceMethodTestBase<ITransactionsService, string>
     {
         public SubmitTxTests() : base(nameof(ITransactionsService.PostTxSubmitAsync), HttpStatusCode.Accepted)

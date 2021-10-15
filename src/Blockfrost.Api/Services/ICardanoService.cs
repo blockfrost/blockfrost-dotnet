@@ -10,8 +10,8 @@ namespace Blockfrost.Api.Services
         IAssetsService Assets { get; }
         IBlocksService Blocks { get; }
         IEpochsService Epochs { get; }
-        Services.ILedgerService Ledger { get; }
-        Services.IMetadataService Metadata { get; }
+        ILedgerService Ledger { get; }
+        IMetadataService Metadata { get; }
         IPoolsService Pools { get; }
         ITransactionsService Transactions { get; }
     }
