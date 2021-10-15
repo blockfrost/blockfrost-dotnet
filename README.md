@@ -15,12 +15,6 @@
 </p>
 <br>
 
-### Migration to v1
-
-*The current release of blockfrost-dotnet introduced major API changes breaking existing implementations.*
-
-*See the [migration guide](https://github.com/blockfrost/blockfrost-dotnet/wiki/Migration-Guide) to resolve these issues.*
-
 ## Getting started
 
 To use this SDK, first go to [blockfrost.io](https://blockfrost.io) and create your project to retrive your API token.
@@ -29,9 +23,9 @@ To use this SDK, first go to [blockfrost.io](https://blockfrost.io) and create y
 
 <br/>
 
-### Configure environment variables (optional)
+### Setup environment
 
-`blocfrost-dotnet` supports two environment variables.
+`blocfrost-dotnet` supports the following environment variables.
 
 ```ps
 $> $env:BFCLI_NETWORK
@@ -43,7 +37,7 @@ yourawesomeapikeyforblockfrostio
 
 > Make sure you have configured them if you add `blockfrost-dotnet` using `services.AddBlockfrost();`
 >
-> There are other extension methods to configure `blockfrost-dotnet` where the environment variables are not required. We will look at one of them in the sample below.
+> There are other extension methods to configure `blockfrost-dotnet` where the environment variables are not required. One of them is shown in the sample below.
 
 ### Setup
 
@@ -52,11 +46,9 @@ The SDK is hosted on [nuget.org](https://www.nuget.org/packages/Blockfrost.Api/l
 ```sh
 $> dotnet new console -n blockfrost-client
 $> cd blockfrost-client
-$> dotnet add package Blockfrost.Api --version 0.3.0
-$> dotnet add package Blockfrost.Extensions --version 0.3.0
+$> dotnet add package Blockfrost.Api
+$> dotnet add package Blockfrost.Extensions
 ```
-
-🚧🚧🚧 ***Please report any issues you find [here](https://github.com/blockfrost/blockfrost-dotnet/issues/new)*** 👍
 
 ### Usage
 
@@ -176,17 +168,17 @@ $> $env:BFCLI_API_KEY
 yourawesomeapikeyforblockfrostio
 ```
 
-#### Install the command line tool
+#### Install the command line tool (preview)
 
 ```ps
 $> pwd
 {$SolutionDir}\src\Blockfrost.Cli
 
 $> dotnet tool install bfcli --add-source nupkg --version 0.3.0
-Tool 'bfcli' (version '0.2.1') was successfully installed.
+Tool 'bfcli' (version '0.3.0') was successfully installed.
 
 $> dotnet bfcli -v
-bfcli v0.2.1
+bfcli v0.3.0
 A .NET Cross Platform Tool / Console App for interacting with Blockfrost API.
 
 USAGE: bfcli (OPTION | COMMAND)
