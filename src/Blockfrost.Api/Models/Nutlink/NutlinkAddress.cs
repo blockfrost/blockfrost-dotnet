@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Blockfrost.Api
@@ -12,7 +13,7 @@ namespace Blockfrost.Api
 
         /// <summary>The cached metadata of the `metadata_url` file.</summary>
         [JsonPropertyName("metadata")]
-        public object Metadata { get; set; }
+        public JsonElement Metadata { get; set; }
 
         /// <summary>Hash of the metadata file</summary>
         [JsonPropertyName("metadata_hash")]

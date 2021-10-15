@@ -9,7 +9,7 @@ namespace Blockfrost.Api.Generate.Contexts
     {
         private OperationType _item;
 
-        public HttpAttributeContext(OpenApiDocument spec, OperationType item, List<KeyValuePair<string,string>> parameters) : base(spec)
+        public HttpAttributeContext(OpenApiDocument spec, OperationType item, List<KeyValuePair<string, string>> parameters) : base(spec)
         {
             _item = item;
             Parameters = parameters.Select(kvp => new ParameterContext(kvp)).ToList();

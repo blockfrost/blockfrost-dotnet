@@ -1,8 +1,10 @@
-﻿namespace Blockfrost.Cli
+﻿using System.Collections.Generic;
+
+namespace Blockfrost.Cli
 {
     public class CliSettings
     {
-        public string ApiKey { get; set; }
+        public Dictionary<string,string> ApiKey { get; set; }
         public string Name { get; set; }
     }
 }

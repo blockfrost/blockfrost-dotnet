@@ -1,4 +1,4 @@
-namespace Blockfrost.Api.Utils
+﻿namespace Blockfrost.Api.Utils
 {
     internal struct BlockfrostHashCode
     {

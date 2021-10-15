@@ -1,0 +1,49 @@
+{{>partial_header}}
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Http;
+
+namespace Blockfrost.Api.Services
+{
+    public partial class {{ServiceName}}Service : ABlockfrostService, I{{ServiceName}}Service
+    {
+        {{#if IsCommon}}
+        /// <summary> 
+        ///     Initializes a new <see cref="{{ServiceName}}Service"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="{{DocsLink}}">{{writeSafe Tag.Name}}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public {{ServiceName}}Service(HttpClient httpClient) : base(httpClient)
+        {
+        }
+        {{else}}
+        /// <summary> 
+        ///     Initializes a new <see cref="{{ServiceName}}Service"></see> with the specified <see cref="HttpClient"></see> 
+        /// </summary>
+        /// <remarks>
+        ///     See also <seealso href="{{DocsLink}}">{{writeSafe Tag.Name}}</seealso> on docs.blockfrost.io
+        /// </remarks>
+        public {{ServiceName}}Service(IHealthService health, IMetricsService metrics, HttpClient httpClient) : base(httpClient)
+        {
+            Health = health;
+            Metrics = metrics;
+        }
+
+        public IHealthService Health { get; set; }
+
+        public IMetricsService Metrics { get; set; }
+        {{/if}}
+
+        {{#each Operations}}
+        {{#each GetOperations}}
+        {{>partial_serviceMethodGet}}
+        {{/each}}
+        {{#each PostOperations}}
+        {{>partial_serviceMethodPost}}
+        {{/each}}
+        {{/each}}
+    }
+}

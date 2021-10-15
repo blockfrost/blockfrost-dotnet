@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,10 +16,10 @@ namespace Blockfrost.Console.Test
         private static readonly JsonSerializerOptions s_options = new() { WriteIndented = true };
 
         private readonly ILogger _logger;
-        private readonly IBlockService _blocks;
+        private readonly IBlocksService _blocks;
 
         public BlockfrostHostedService(
-            IBlockService blockService,
+            IBlocksService blockService,
             ILogger<BlockfrostHostedService> logger,
             IHostApplicationLifetime appLifetime)
         {
@@ -38,7 +39,7 @@ namespace Blockfrost.Console.Test
                 long slot = 0;
                 while (true)
                 {
-                    var latest = await _blocks.V1.GetLatestAsync();
+                    var latest = await _blocks.GetLatestAsync();
                     if (slot != latest.Slot)
                     {
                         slot = latest.Slot;

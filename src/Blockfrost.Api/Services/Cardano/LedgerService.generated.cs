@@ -1,4 +1,4 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Blockfrost.Api.Extensions;
@@ -32,22 +32,8 @@ namespace Blockfrost.Api.Services
         /// </remarks>
         /// <returns>Return the genesis parameters.</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/genesis", "0.1.27")]
-        public Task<Models.GenesisContentResponse> GetGenesisAsync()
-        {
-            return GetGenesisAsync(CancellationToken.None);
-        }
-
-        /// <summary>
-        ///     Blockchain genesis <c>/genesis</c>
-        /// </summary>
-        /// <remarks>
-        ///     See also <seealso href="https://docs.blockfrost.io/#tag/Cardano-Ledger/paths/~1genesis/get">/genesis</seealso> on docs.blockfrost.io
-        /// </remarks>
-        /// <returns>Return the genesis parameters.</returns>
-        /// <exception cref="ApiException">A server side error occurred.</exception>
-        [Get("/genesis", "0.1.27")]
-        public async Task<Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken)
+        [Get("/genesis", "0.1.28")]
+        public async Task<Models.GenesisContentResponse> GetGenesisAsync(CancellationToken cancellationToken = default)
         {
             var builder = GetUrlBuilder("/genesis");
 

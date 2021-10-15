@@ -18,8 +18,8 @@ namespace Blockfrost.Api.Generate.Contexts
         public OpenApiSchema Schema => PropertyNode.Value;
         public string Format => Schema.Format;
 
-        public bool IsEnum 
-            => Schema.Type.Equals("integer", System.StringComparison.OrdinalIgnoreCase) 
+        public bool IsEnum
+            => Schema.Type.Equals("integer", System.StringComparison.OrdinalIgnoreCase)
             || Schema.Type.Equals("number", System.StringComparison.OrdinalIgnoreCase);
 
         public string Default => Schema.Default.ToString();
@@ -29,7 +29,7 @@ namespace Blockfrost.Api.Generate.Contexts
         public ModelContext ModelContext { get; }
         public KeyValuePair<string, OpenApiSchema> PropertyNode { get; }
         public bool IsLast { get; internal set; }
-        public bool IsNotContainer => Schema.Type != null 
+        public bool IsNotContainer => Schema.Type != null
             ? !(Schema.Type.Equals("array") || Schema.Type.Equals("object"))
             : !Schema.AnyOf.Any(t => t.Type.Equals("array") || t.Type.Equals("object"));
     }
