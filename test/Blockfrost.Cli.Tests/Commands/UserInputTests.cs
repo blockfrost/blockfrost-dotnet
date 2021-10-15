@@ -129,6 +129,7 @@ namespace Blockfrost.Cli.Tests.Commands
         [UserInput("ipfs")]
         public void IpfsCommand_Invalid(string[] args)
         {
+            CommandParser.Network = "ipfs";
             var command = CommandParser.Parse(args);
             Assert.AreEqual(typeof(ShowCommandHelpCommand<IpfsCommand>), command.GetType());
         }

@@ -32,6 +32,7 @@ namespace Blockfrost.Cli.Tests.Commands
         [TestMethod]
         public async Task IpfsCommand_Execute_Pins_With_CID()
         {
+            CommandParser.Network = "ipfs";
             var command = CommandParser.Parse(new[] { "ipfs", "pins", "--cid", " " });
             Assert.IsNotNull(command);
             Assert.AreEqual(typeof(IpfsCommand), command.GetType());
