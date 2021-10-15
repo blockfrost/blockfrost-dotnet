@@ -29,6 +29,8 @@ namespace Blockfrost.Cli.Commands
     public static class CommandParser
     {
         private const StringComparison OIC = StringComparison.OrdinalIgnoreCase;
+        public static string Network { get; set; } = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
+        public static string ApiKey { get; set; } = Environment.GetEnvironmentVariable("BFCLI_API_KEY");
 
         public static ICommand Parse(string[] args)
         {
@@ -111,7 +113,9 @@ namespace Blockfrost.Cli.Commands
 
             if (Regex.IsMatch(input, @"^ipfs\b", RegexOptions.IgnoreCase))
             {
-                return BuildCommand<IIPFSService, IpfsCommand>(args, null);
+                return Network.Equals("ipfs", StringComparison.OrdinalIgnoreCase)
+                    ? BuildCommand<IIPFSService, IpfsCommand>(args, IpfsCommand.SwitchMappings)
+                    : throw new InvalidOperationException($"Set Network and ApiKey to ipfs");
             }
 
             return new ShowInvalidArgumentCommand(input);
@@ -126,28 +130,25 @@ namespace Blockfrost.Cli.Commands
 
             var builder = new ConfigurationBuilder();
             _ = builder.AddEnvironmentVariables();
-
             _ = switchMappings == null
                 ? builder.AddCommandLine(args)
                 : builder.AddCommandLine(args, switchMappings);
 
             if (isDevelopment)
             {
-                _ = builder.AddUserSecrets<CliSettings>();
+                _ = builder.AddUserSecrets("f8c41451-ff2e-4834-af6f-5a563a133d25");
             }
-
-            string network = Environment.GetEnvironmentVariable("BFCLI_NETWORK");
-            string apikey = Environment.GetEnvironmentVariable("BFCLI_API_KEY");
 
             var config = builder.Build();
 
             if (isDevelopment)
             {
-                apikey ??= config["CliSettings:ApiKey"];
+                // managed in Blockfrost.Cli secret store
+                ApiKey = config[$"CliSettings:ApiKey:{Network}"];
             }
 
             var provider = new ServiceCollection()
-                .AddBlockfrost(network, apikey)
+                .AddBlockfrost(Network, ApiKey)
                 .AddSingleton(_ => new JsonSerializerOptions() { WriteIndented = true, DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault })
                 .AddSingleton(provider =>
                 {

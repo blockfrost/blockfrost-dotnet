@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Blockfrost.Cli.Commands;
+using Blockfrost.Cli.Commands.Ipfs;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Blockfrost.Cli.Tests.Commands
@@ -18,10 +19,22 @@ namespace Blockfrost.Cli.Tests.Commands
         }
 
         [TestMethod]
-        public async Task IpfsCommand_Execute()
+        public async Task IpfsCommand_Execute_Without_CID()
         {
-            var command = new Cli.Commands.Ipfs.IpfsCommand();
+            CommandParser.Network = "ipfs";
+            var command = CommandParser.Parse(new[] { "ipfs", "pins" });
             Assert.IsNotNull(command);
+            Assert.AreEqual(typeof(IpfsCommand), command.GetType());
+            var result = await command.ExecuteAsync(System.Threading.CancellationToken.None);
+            Assert.AreEqual(CommandOutcome.Success, result.Outcome);
+        }
+
+        [TestMethod]
+        public async Task IpfsCommand_Execute_Pins_With_CID()
+        {
+            var command = CommandParser.Parse(new[] { "ipfs", "pins", "--cid", " " });
+            Assert.IsNotNull(command);
+            Assert.AreEqual(typeof(IpfsCommand), command.GetType());
             var result = await command.ExecuteAsync(System.Threading.CancellationToken.None);
             Assert.AreEqual(CommandOutcome.Success, result.Outcome);
         }

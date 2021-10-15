@@ -30,8 +30,18 @@ namespace Blockfrost.Cli.Commands
             Args = args;
             foreach (var (prop, att) in UnassignedParameters)
             {
-                string item = _args.ElementAt(att.Position);
-                prop.SetValue(this, item);
+                try
+                {
+                    string item = _args.ElementAt(att.Position);
+                    prop.SetValue(this, item);
+                }
+                catch (Exception)
+                {
+                    if (att.Required)
+                    {
+                        throw;
+                    }
+                }
             }
         }
 
