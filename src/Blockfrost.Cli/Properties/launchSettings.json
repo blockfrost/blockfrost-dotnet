@@ -5,7 +5,7 @@
             "commandLineArgs": "health",
             "environmentVariables": {
                 "ASPNET_ENVIRONMENT": "development",
-                "BFCLI_NETWORK": "testnet"
+                "BFCLI_NETWORK": "preprod"
                     //"BFCLI_APIKEY": set using user secrets
             }
         }
