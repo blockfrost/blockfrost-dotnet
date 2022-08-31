@@ -1290,6 +1290,8 @@ namespace Blockfrost.Api.Extensions
 
             client.BaseAddress = network switch
             {
+                "preview" => new Uri(Constants.API_URL_PREVIEW),
+                "preprod" => new Uri(Constants.API_URL_PREPROD),
                 "testnet" => new Uri(Constants.API_URL_TESTNET),
                 "mainnet" => new Uri(Constants.API_URL_MAINNET),
                 "ipfs" => new Uri(Constants.API_URL_IPFS),

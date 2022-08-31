@@ -33,6 +33,8 @@
         public const int BURST_COOLDOWN = 10;
         public const int BURST_COOLDOWN_INTERVAL = 1000;
 
+        public const string API_URL_PREVIEW = "https://cardano-preview.blockfrost.io/api/v0/";
+        public const string API_URL_PREPROD = "https://cardano-preprod.blockfrost.io/api/v0/";
         public const string API_URL_TESTNET = "https://cardano-testnet.blockfrost.io/api/v0/";
         public const string API_URL_MAINNET = "https://cardano-mainnet.blockfrost.io/api/v0/";
         public const string API_URL_IPFS = "https://ipfs.blockfrost.io/api/v0/";
