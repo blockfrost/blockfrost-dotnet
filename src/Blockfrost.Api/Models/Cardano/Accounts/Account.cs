@@ -12,7 +12,7 @@ namespace Blockfrost.Api
 
         /// <summary>Epoch of the most recent action - registration or deregistration</summary>
         [JsonPropertyName("active_epoch")]
-        public int Active_epoch { get; set; }
+        public int? Active_epoch { get; set; }
 
         /// <summary>Balance of the account in Lovelaces</summary>
         [JsonPropertyName("controlled_amount")]
