@@ -83,6 +83,8 @@ namespace Blockfrost.Api.Extensions
             {
                 "testnet" => new Uri(Constants.API_URL_TESTNET),
                 "mainnet" => new Uri(Constants.API_URL_MAINNET),
+                "preprod" => new Uri(Constants.API_URL_PREPROD),
+                "preview" => new Uri(Constants.API_URL_PREVIEW),
                 "ipfs" => new Uri(Constants.API_URL_IPFS),
                 _ => throw new NotSupportedException($"The specified network '{network}' is not supported"),
             };
