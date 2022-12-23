@@ -156,7 +156,7 @@ Tip: 38978334
 Tip now at Epoch 160 Slot 38978436 Block 2965007
 ```
 
-### Command line tool
+<!-- ### Command line tool
 
 Before you install the command line tool, make sure the environment variables `BFCLI_API_KEY` and `BFCLI_NETWORK` exist.
 
@@ -197,7 +197,7 @@ $> dotnet bfcli health | ConvertFrom-Json
 is_healthy
 ----------
       True
-```
+``` -->
 
 <!--
 
