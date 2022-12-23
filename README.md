@@ -160,6 +160,8 @@ Tip now at Epoch 160 Slot 38978436 Block 2965007
 
 Before you install the command line tool, make sure the environment variables `BFCLI_API_KEY` and `BFCLI_NETWORK` exist.
 
+_Note: In DEV environment the api key is managed in Blockfrost.Cli secret store._
+
 ```ps
 $> $env:BFCLI_NETWORK
 testnet
