@@ -12,9 +12,9 @@ namespace Blockfrost.Cli
     {
         private static async Task<int> Main(string[] args)
         {
-            var cts = SetupUserInputCancellationTokenSource();
-            var command = CommandParser.ParseArgsToCommand(args);
-            var commandResult = await command.ExecuteAsync(cts.Token).ConfigureAwait(false);
+            var command = CommandParser.Parse(args);
+
+            var commandResult = await command.ExecuteAsync(SetupCTS().Token);
             if (commandResult.Outcome == CommandOutcome.Success)
             {
                 await Console.Out.WriteLineAsync(commandResult.Result);
@@ -28,7 +28,7 @@ namespace Blockfrost.Cli
             return 0;
         }
 
-        private static CancellationTokenSource SetupUserInputCancellationTokenSource()
+        private static CancellationTokenSource SetupCTS()
         {
             var cts = new CancellationTokenSource();
             Console.CancelKeyPress += (s, e) =>

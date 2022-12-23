@@ -1,6 +1,6 @@
 ﻿namespace Blockfrost.Api.Options
 {
-    public class BlockfrostProject
+    public class BlockfrostProject : IBlockfrostProject
     {
         public string ApiKey { get; set; }
         public string Name { get; set; }

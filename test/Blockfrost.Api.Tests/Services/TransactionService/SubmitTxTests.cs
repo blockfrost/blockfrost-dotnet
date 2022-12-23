@@ -2,6 +2,8 @@
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Blockfrost.Api.Services;
+using Blockfrost.Api.Services.Extensions;
 using Blockfrost.Api.Tests.Attributes;
 using CardanoSharp.Wallet.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,9 +12,11 @@ namespace Blockfrost.Api.Tests.Services
 {
 
     [TestClass]
-    public class SubmitTxTests : AServiceMethodTestBase<ITransactionService, string>
+    [TestCategory(nameof(Api))]
+    [TestCategory(nameof(Services))]
+    public class SubmitTxTests : AServiceMethodTestBase<ITransactionsService, string>
     {
-        public SubmitTxTests() : base(nameof(ITransactionService.SubmitAsync), HttpStatusCode.Accepted)
+        public SubmitTxTests() : base(nameof(ITransactionsService.PostTxSubmitAsync), HttpStatusCode.Accepted)
         {
         }
 
@@ -44,7 +48,7 @@ namespace Blockfrost.Api.Tests.Services
             string cbroHex = bytes.ToStringHex();
 
             // Act
-            string txId = await ServiceUnderTest.SubmitAsync(bytes);
+            string txId = await ServiceUnderTest.PostTxSubmitAsync(bytes);
 
             // Assert
             Assert.AreEqual(TestVector.DummyHash, txId);
@@ -54,10 +58,10 @@ namespace Blockfrost.Api.Tests.Services
         public async Task SubmitAsync_Cbor_Hex(string content)
         {
             // Arrange
-            ((TransactionService)ServiceUnderTest).ReadResponseAsString = true;
+            ((TransactionsService)ServiceUnderTest).ReadResponseAsString = true;
 
             // Act
-            string txId = await ServiceUnderTest.SubmitAsync(content);
+            string txId = await ServiceUnderTest.PostTxSubmitAsync(content);
 
             // Assert
             Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
@@ -67,7 +71,7 @@ namespace Blockfrost.Api.Tests.Services
         public async Task SubmitAsync_Cbor_Raw(byte[] cborRaw)
         {
             // Act
-            string txId = await ServiceUnderTest.SubmitAsync(cborRaw);
+            string txId = await ServiceUnderTest.PostTxSubmitAsync(cborRaw);
             // Assert
             Assert.AreEqual(SHA256.HashData(new byte[] { 0x00 }).ToStringHex().Length, txId.Length);
         }

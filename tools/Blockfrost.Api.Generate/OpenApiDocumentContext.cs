@@ -53,7 +53,7 @@ namespace Blockfrost.Api.Generate
                 new("string", "version")
             };
 
-            return Spec.Paths.SelectMany(p => p.Value.Operations.Select(m => new HttpAttributeContext(Spec,m.Key,parameters))).ToList();
+            return Spec.Paths.SelectMany(p => p.Value.Operations.Select(m => new HttpAttributeContext(Spec, m.Key, parameters))).ToList();
         }
 
         private IEnumerable<ServiceContext> LoadServices()

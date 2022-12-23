@@ -74,6 +74,7 @@ In order to ensure consitant test results we define the following keys and addre
 |-----------|:---------------:|:--------------------------------|-|
 | [01](#01) | Transactions    | Serialize `Transaction` to CBOR | |
 | [02](#02) | ...             | ...                             | |
+| [99](#99) | IPFS (Add)      | Add IPFS object                 | |
 
 
 ### 01
@@ -156,6 +157,25 @@ git rev e99393d10bb8f01ad43065627c21a33aa2a024c9
 
 ```cddl
 
+```
+
+### 99
+
+#### Generate reference
+
+```bash
+QmR8x7pEQUr1CGxstkd48ZPKi2y1bBBtq7ozZRJWLpbA1M
+```
+
+#### JSON
+
+```json
+
+```
+
+#### CDDL
+
+```cddl
 ```
 
 ## Appendix C

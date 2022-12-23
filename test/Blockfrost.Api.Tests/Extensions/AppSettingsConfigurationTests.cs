@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Blockfrost.Api.Extensions;
+using Blockfrost.Api.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,11 +12,25 @@ namespace Blockfrost.Api.Tests.Extensions
     [TestCategory(nameof(Extensions))]
     public class AppSettingsConfigurationTests : AServiceTestBase
     {
-
         [ClassInitialize]
         public static void Setup(TestContext context)
         {
             ConfigureEnvironment(Constants.PROJECT_NAME_TESTNET, context);
+        }
+
+        [TestMethod]
+        public void BlockfrostConfigSection_WithoutDictionary()
+        {
+            var config = new ConfigurationBuilder()
+                            .AddJsonFile($"appsettings.single.json", optional: false, reloadOnChange: true)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .Build();
+
+            IServiceCollection services = new ServiceCollection();
+            var provider = services.AddBlockfrost(config).BuildServiceProvider();
+            var ledgerService = provider.GetRequiredService<ILedgerService>();
+            Assert.IsNotNull(ledgerService);
+            Assert.AreEqual("testnet", ledgerService.Network);
         }
 
         [TestMethod]
@@ -31,8 +46,8 @@ namespace Blockfrost.Api.Tests.Extensions
             _ = services.AddAddressService(projectName, CreateTestSpecificConfiguration());
 
             // Assert
-            AssertServiceNetworkConfigured<IAddressService>(projectName, CreateTestSpecificConfiguration(), services);
-            foreach (var serviceType in AvailableServiceTypes.Except(new[] { typeof(IAddressService) }))
+            AssertServiceNetworkConfigured<IAddressesService>(projectName, CreateTestSpecificConfiguration(), services);
+            foreach (var serviceType in AvailableServiceTypes.Except(new[] { typeof(IAddressesService) }))
             {
                 AssertServiceNotConfigured(services, serviceType);
             }

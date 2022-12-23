@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Blockfrost.Api\Blockfrost.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\Blockfrost.Extensions\Blockfrost.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

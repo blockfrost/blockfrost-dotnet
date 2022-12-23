@@ -1,0 +1,43 @@
+using System;
+using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Blockfrost.Api.Extensions
+{
+    public static partial class BlockfrostServiceExtensions
+    {
+        #region Resolve IHealthService
+        public static Services.IHealthService GetHealthService(this IServiceProvider provider)
+        {
+            return provider.GetRequiredService<Services.IHealthService>();
+        }
+        #endregion Resolve IHealthService
+
+        #region Resolve ITransactionService
+        /// <summary>
+        /// Gets service of type <see cref="ITransactionService"/> from the <see cref="IServiceProvider"/>
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <returns></returns>
+        public static Services.ITransactionsService GetTransactionsService(this IServiceProvider provider)
+        {
+            return provider.GetRequiredService<Services.ITransactionsService>();
+        }
+        /// <summary>
+        /// Gets first service of type <see cref="ITransactionService"/> from the <see cref="IServiceProvider"/>
+        /// where <paramref name="nameOrNetwork"/> matches the Name (case-sensitive) or Network (case-insensitive). 
+        /// Name has precedence over Network. Returns null if no service matches the search criteria.
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="nameOrNetwork"></param>
+        /// <returns></returns>
+        public static Services.ITransactionsService GetTransactionsService(this IServiceProvider provider, string nameOrNetwork)
+        {
+            return provider.GetServices<Services.ITransactionsService>()
+                .FirstOrDefault(s =>
+                    s.Name.Equals(nameOrNetwork, StringComparison.Ordinal) ||
+                    s.Network.Equals(nameOrNetwork, StringComparison.OrdinalIgnoreCase));
+        }
+        #endregion Resolve ITransactionService
+    }
+}

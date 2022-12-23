@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.6" />
+    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
 
@@ -33,6 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.single.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

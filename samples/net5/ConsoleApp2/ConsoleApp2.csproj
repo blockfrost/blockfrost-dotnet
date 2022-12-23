@@ -1,23 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>e4b04c6d-2256-4eec-a45e-bfe2bb724686</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Blockfrost.Api" Version="0.1.0" />
+    <PackageReference Include="Blockfrost.Api" Version="0.3.0" />
     <PackageReference Include="CardanoSharp.CBOR" Version="0.1.0" />
-    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.6" />
+    <PackageReference Include="CardanoSharp.Wallet" Version="0.2.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
 </Project>
