@@ -46,7 +46,7 @@ namespace Blockfrost.Api.Models
         /// </returns>
         [Required]
         [JsonPropertyName("active_epoch")]
-        public long ActiveEpoch { get; set; }
+        public long? ActiveEpoch { get; set; }
 
         /// <summary>
         /// Gets or sets the ControlledAmount
